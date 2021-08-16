@@ -1,0 +1,550 @@
+\section{A Review of Linear Algebra and Bayesian Statistics}\label{Chapter1}
+The aim of this chapter is to study the structure of the Hecke algebra and elucidate its significance in the representation theory of $G$.
+
+In Section \ref{Section1.1}, we introduce $(\Fun(G),\star)$, the convolution algebra of functions from $G$ to $\CC$.
+In Section \ref{Section1.2}, we present and discuss the induced representation $\Ind_K^G\1$ and its underlying vector space, $W$.
+In Section \ref{Section1.3}, we introduce the Hecke algebra, $\calH(G,K)$.
+This is the space of functions that are constant on $K$-double cosets.
+In Section \ref{Section1.4}, we present the group algebra $\CC[G]$, which is isomorphic to $\Fun(G)$, and describe the copies of $W$ and $\calH(G,K)$ that lie inside of $\CC[G]$.
+In Section \ref{Section1.5}, we make the fundamental observation that $\calH(G,K)\cong\End_G(W)$, the endomorphism algebra of $G$-intertwiners on $W$.
+This is crucial for the final section, Section \ref{Section1.6}, where we prove that a representation $V$ is multiplicity-free if and only if $\End_G(V)$ is commutative.
+This lets us conclude that the induced representation $W$ is multiplicity-free if and only if its associated Hecke algebra is commutative.
+
+The purpose of Section \ref{Section1.7} is to develop a tool to expedite the process of proving $\calH(G,K)$ is commutative.
+This tool comes in the form of Gelfand's Trick, which transforms the task of proving commutativity into the task of writing down an involutive anti-automorphism of $G$ that preserves $K$-double cosets.
+We will see that this is a much easier task to perform.
+To prove Gelfand's Trick, we investigate the behavior of anti-automorphisms on $G$ and $\Fun(G)$.
+As we do this, the required conditions for Gelfand's Trick reveal themselves, leading to a natural statement and proof.
+We conclude with some examples of applications of the main theorem in Section \ref{Section1.8}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The convolution algebra of functions $\Fun(G)$}\label{Section1.1}
+Let $X$ be a finite set.
+Denote the vector space of complex-valued maps on $X$ by $\Fun(X) := \{f\colon X\to \CC\}$.
+It has a basis of delta functions $\{\delta_x\}_{x\in X}$ defined by $\delta_x(x)=1$ and $\delta_x(y)=0$ for $y\neq x$.
+Note that $\Fun(X)$ is a commutative unital associative algebra under pointwise multiplication of functions.
+Also note that if a group $G$ acts on $X$, then $G$ also acts on $\Fun(X)$ by $(g\cdot f)(x) := f(g^{-1}\cdot x)$.
+Thus, $\Fun(X)$ is a representation of $G$.
+
+Now suppose that $X=G$ is a finite group.
+The group structure on $G$ yields a second algebra structure on $\Fun(G)$.
+Specifically, it has the convolution product defined by
+\[
+	(f\star f')(x) := \sum_{yz = x} f(y)f'(z) = \sum_{g\in G} f(xg)f'(g^{-1}).
+\]
+One can show that $\star$ is associative with identity $\delta_{1_G}$, so $(\Fun(G),\star)$ is a unital associative algebra.
+It is easy to see that this algebra is commutative if and only if $G$ is commutative.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The induced representation $\Ind_K^G \1$}\label{Section1.2}
+Consider the space of functions in $\Fun(G)$ that are invariant under right-multiplication by elements of $K$.
+Explicitly, this space is defined by
+\[
+	W: = \{f\colon G\to \CC\ |\ f(gk) = f(g),\ \forall g\in G, \forall k \in K\} \subseteq \Fun(G).
+\]
+Note that the action of $G$ on $\Fun(G)$ leaves $W$ invariant.
+The resulting action of $G$ on $W$ is called the \emph{induced representation} and denoted $\Ind_K^G \1$.
+When $K=\{1\}$, the representation $\Ind_{\{1\}}^G\1=\Fun(G)$ is the \emph{left regular} representation of $G$.
+For future use, we prove the following lemma.
+\begin{lem}\label{lemma: W_left_ideal}
+	The space $W$ is a left ideal of $(\Fun(G),\star)$.
+\end{lem}
+\begin{proof}
+	We verify that $f\star w\in W$ whenever $w\in W$ and $f\in\Fun(G)$.
+	Let $g\in G$ and $k\in K$.
+	Then
+	\begin{multline*}
+		(f\star w)(gk) = \sum_{xy=gk} f(x)w(y) = \sum_{x\in G} f(x)w(x^{-1}gk) \\
+		= \sum_{x\in G} f(x)w(x^{-1}g) = \sum_{xy=g} f(x)w(y) = (f\star w)(g).\qedhere
+	\end{multline*}
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The Hecke algebra of a finite group $\calH(G,K)$}\label{Section1.3}
+Consider the space of functions in $\Fun(G)$ that are invariant under right- and left-multiplication by elements of $K$.
+Explicitly, this space is defined by
+\[
+	\calH(G,K) := \{f\colon G\to \CC\ |\ f(k_1gk_2) = f(g),\ \forall g\in G,\ \forall k_1,k_2\in K\} \subseteq \Fun(G).
+\]
+This is the \emph{Hecke algebra} associated to $G$ and $K$ and we will write $\calH$ to mean $\calH(G,K)$ when there is no ambiguity.
+The proof of Lemma \ref{lemma: W_left_ideal} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
+Notice that the identity of $(\Fun(G),\star)$ does not lie in $\calH$.
+Nevertheless, $\calH$ does have an identity of its own.
+It is easy to verify that the identity is $\iota_K$, which we define below.
+\[
+	\iota_K:G\to\CC,\quad \iota_K(g) := \begin{cases}
+		\frac{1}{|K|},\  & \text{if}\ g\in K, \\
+		0,\              & \text{else}.
+	\end{cases}
+\]
+We see that $\iota_K$ is an idempotent element, since $(\iota_K\star\iota_K)(g)=0$ for $g\notin K$, and
+\[
+	(\iota_K\star\iota_K)(k) = \sum_{x\in G} \iota_K(kx)\iota_K(x^{-1}) = \sum_{x\in K} \frac{1}{|K|^2} = \frac{1}{|K|}
+\]
+for $k\in K$.
+
+This is a special case of a more general situation: if $R$ is a ring and $e$ is an idempotent, then $eRe$ will be a ring in which $e$ serves as a unit.
+This is clear since $eree=ere=eere$ for all $ere\in eRe$.
+The ring $eRe$ is sometimes called an \emph{idempotented ring} or a \emph{Pierce corner} \cite{Bump10,Lam06}.
+
+We present a basis for $\calH$.
+For $KxK\in K\backslash G/K$, the $K$-double cosets in $G$, we define
+\[
+	\chi_{KxK}(y) := \begin{cases}
+		1,\  & \text{if}\ y\in KxK, \\
+		0,\  & \text{else}.
+	\end{cases}
+\]
+Recall that double cosets partition $G$ so there is no ambiguity in this definition.
+We call $\chi_{KxK}$ the \emph{characteristic function} of the $K$-double coset $KxK$.
+As an abuse of notation for the sake of brevity, we will denote this family by $\{\chi_x\}_{x\in G}$, where $x$ ranges over the $K$-double coset representatives as written above.
+
+It is not hard to see that the characteristic functions form a basis of $\calH$.
+By the definition of $\calH$, we see characteristic functions span the space.
+To see that they're linearly independent, assume that
+\[
+	\alpha_1 \chi_{x_1} + \cdots + \alpha_n \chi_{x_n}  = 0,
+\]
+for some complete collection of $K$-double coset representatives $x_i\in G$ and scalars $\alpha_i\in\CC$.
+Here $0$ denotes the zero function $g\mapsto 0$ for all $g\in G$.
+Evaluating both sides at $x_i$ tells us that $\alpha_i=0$, so the only solution is the trivial solution and we have linear independence.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The group algebra $\CC[G]$}\label{Section1.4}
+We can associate to $G$ another algebra, $\CC[G]$, called the \emph{group algebra} of $G$ over $\CC$.
+This algebra is defined by
+\[
+	\CC[G] := \Bigg\{ \sum_{g\in G} a_g e_g\ \Bigg|\ a_g\in \CC \Bigg\}.
+\]
+Clearly, the set $\{e_g\}_{g\in G}$ serves as a basis of this space.
+We endow the space with a multiplication defined on basis elements by $e_ge_h := e_{gh}$.
+The following lemma illustrates the relevance of the group algebra.
+\begin{lem}
+	The map $\Phi\colon \Fun(G)\to\CC[G]$ defined on basis elements by $\delta_g\mapsto e_g$ and extended linearly is an algebra isomorphism.
+\end{lem}
+\begin{proof}
+	By construction, $\Phi$ is a linear map of vector spaces.
+	It is also clear that this map is bijective since it is a bijection on basis elements.
+	Thus $\Phi$ is a vector space isomorphism.
+
+	We need to check that $\Phi$ respects the algebra multiplication.
+	This amounts to verifying that $\delta_g \star \delta_h = \delta_{gh}$.
+	Notice that $(\delta_g\star\delta_h)(x) = \sum_{ab=x} \delta_g(a)\delta_h(b)$ is equal to $1$ when $g=a$ and $h=b$, and $0$ otherwise.
+	This is exactly $\delta_{gh}(x)$.
+\end{proof}
+We may ask ourselves: what is the image of the induced representation and the Hecke algebra inside of the group algebra? To answer this, we define the group algebra element
+\[
+	e := \frac{1}{|K|} \sum_{k\in K} e_k.
+\]
+Note that $e$ is an idempotent element.
+Then the following proposition answers our question.
+\begin{prop}
+	\begin{enumerate}[\itshape(i)]
+		\item $\Phi(W) = \CC[G]e$.
+		\item $\Phi(\calH) = e \CC[G] e$.
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+	\begin{enumerate}[\itshape(i)]
+		\item We begin by showing that $\CC[G]e\subseteq \Phi(W)$.
+		      To see this, take an arbitrary element $(\sum_{g\in G} a_ge_g)e$ in $\CC[G]e$.
+		      Then notice
+		      \[
+			      \bigg(\sum_{g\in G} a_ge_g\bigg)e = \frac{1}{|K|}\bigg(\sum_{g\in G} a_ge_g\bigg)\bigg(\sum_{k\in K}e_k\bigg) = \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_ge_ge_k = \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_ge_{gk}.
+		      \]
+		      Then we apply $\Phi^{-1}$ to see that
+		      \[
+			      \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_ge_{gk} \mapsto \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_g\delta_{gk}.
+		      \]
+		      We wish to show that this lies in $W$, so we wish to check that this map is invariant under right-multiplication by an element of $K$.
+		      To this end, let $g'\in G$, $k'\in K$ and apply $\frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_g\delta_{gk}$ to $g'k'$.
+		      Note that $\delta_{gk}(g'k')=1$ if and only if $gk=g'k'$ (and $0$ otherwise).
+		      This is equivalent to $g=g'k'k^{-1}$.
+		      Thus
+		      \[
+			      \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_g\delta_{gk}(g'k') = \frac{1}{|K|}\sum_{k\in K} a_{g'k'k^{-1}}\delta_{g'k'}(g'k') = \frac{1}{|K|}\sum_{k\in K} a_{g'k'k^{-1}}.
+		      \]
+		      Similarly, we apply the map $\frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_g\delta_{gk}$ to $g'$.
+		      This yields
+		      \[
+			      \frac{1}{|K|}\sum_{\substack{g\in G \\ k\in K}} a_g\delta_{gk}(g') = \frac{1}{|K|}\sum_{k\in K} a_{g'k^{-1}}
+		      \]
+		      Since right-multiplication by any element of $K$ is an automorphism of $G$, we see that
+		      \[
+			      \frac{1}{|K|}\sum_{k\in K} a_{g'k'k^{-1}}=\frac{1}{|K|}\sum_{k\in K} a_{g'k^{-1}},
+		      \]
+		      which shows that $\CC[G]e\subseteq \Phi(W)$.
+		      Conversely, take $f=\sum_{g\in G} a_g\delta_g\in W$.
+		      Let $g'\in G$, $k'\in K$ and notice that
+		      \[
+			      a_{g'k'} = \sum_{g\in G} a_g\delta_g(g'k') = f(g'k') = f(g') = \sum_{g\in G} a_g \delta_g(g') = a_{g'}.
+		      \]
+		      Then $a_{g'k'}=a_{g'}$ for any $g'\in G$ and $k'\in K$.
+		      Then observe
+		      \begin{multline*}
+			      \Phi(f)e = \bigg(\sum_{g\in G} a_g\delta_g\bigg)\bigg(\frac{1}{|K|}\sum_{k\in K} e_k\bigg) = \frac{1}{|K|} \sum_{\substack{g\in G \\ k\in K}} a_g e_{gk} = \frac{1}{|K|} \sum_{\substack{g\in G \\ k\in K}} a_{gk^{-1}} e_g \\
+			      = \frac{1}{|K|} \sum_{\substack{g\in G \\ k\in K}} a_g e_g = \frac{1}{|K|}\sum_{k\in K}\sum_{g\in G} a_ge_g = \frac{1}{|K|}\sum_{k\in K} \Phi(f) = \Phi(f).
+		      \end{multline*}
+		      Then $\varphi(f)=\varphi(f)e\in\CC[G]e$, so $\Phi(W)\subseteq \CC[G]e$ as required.
+
+		\item The proof is similar to that of {\itshape(i)}.\qedhere
+	\end{enumerate}
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Identifying $\calH(G,K)$ with the endomorphism algebra $\End_G(W)$}\label{Section1.5}
+For any representation $V$ of $G$, define the space of \emph{$G$-intertwining endomorphisms on $V$} by
+\[
+	\End_G(V) := \{ f\in\End(V)\ |\ g\cdot f(v) = f(g\cdot v),\ \forall\ v\in V,\ g\in G \}\subseteq \End(V).
+\]
+These are the endomorphisms of $V$ that respect the action of $G$ on $V$.
+It is easy to see that this is a vector space.
+It has the additional structure of a unital associative algebra when endowed with the product of endomorphism composition.
+
+Now set $V$ to be $W$, the induced representation of the trivial character from $K$ to $G$, and define the linear map
+\[
+	\Psi\colon \calH\to\End(W),\quad \alpha\mapsto(w\mapsto w\star\alpha).
+\]
+Lemma \ref{lemma: W_left_ideal} tells us that $w \star\alpha$ is indeed an element of $W$ so the image of $\Psi$ is indeed $\End(W)$.
+The following proposition highlights the significance of this map.
+\begin{prop}\label{prop: H_iso_End_G(W)}
+	The map $\Psi$ defines an algebra isomorphism $\calH \cong \End_G(W)$.
+\end{prop}
+\begin{proof}
+	First we observe that $\Psi(\alpha)$ is indeed a $G$-intertwiner.
+	Given $g,h\in G$ and $w\in W$, we have
+	\begin{multline*}
+		(\Psi(\alpha)(g\cdot w))(h) = ((g\cdot w)\star\alpha)(h) = \sum_{xy=h} w(g^{-1}x)\alpha(y) = \sum_{x\in G} w(g^{-1}x)\alpha(x^{-1}h) \\
+		= \sum_{ab=g^{-1}h} w(a)\alpha(b) = (g\cdot(w\star\alpha))(h) = (g\cdot \Psi(\alpha)(w))(h).
+	\end{multline*}
+	Thus, the image of $\Psi$ lies in $\End_G(W)$.
+	Next, we check that $\Psi$ is an algebra isomorphism.
+	Let $\alpha_1,\alpha_2\in\calH$ and observe
+	\[
+		\Psi(\alpha_1\star\alpha_2)(w) = w\star(\alpha_1\star\alpha_2) = (w\star\alpha_1)\star\alpha_2 = \Psi(\alpha_1)(w)\star\alpha_2 = (\Psi(\alpha_1)\circ\Psi(\alpha_2))(w).
+	\]
+	Thus $\Psi$ is an algebra homomorphism.
+	To see that $\Psi$ is injective, we compute
+	\[
+		\ker \Psi = \{\alpha\in\calH\ |\ \Psi(\alpha)(w) = w\} = \{\alpha\in\calH\ |\ w\star\alpha = w\} = \{\delta_{1_G}\}.
+	\]
+	We see that $\Psi$ has trivial kernel so it is injective.
+	It is easy to see that surjectivity is a consequence of Theorem 13 in \cite{Murnaghan05} which also contains its proof.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Consequences for representation theory}\label{Section1.6}
+We prove a general property of representations.
+Namely, the decomposition of a representation is linked to its corresponding algebra of $G$-intertwining endomorphisms.
+We apply this to the induced representation $W$ and Proposition \ref{prop: H_iso_End_G(W)} lets us conclude that $W$ is multiplicity-free if and only if $\calH$ is commutative.
+
+First, suppose that $V$ is a complex representation of $G$.
+Write $V = \bigoplus_{i=1}^n V_i$ as the decomposition of $V$ into irreducible constituents, using Maschke's theorem.
+Notice that some of these $V_i$ may be isomorphic to each other as $G$-representations.
+We group these mutually isomorphic irreducible representations together by writing
+\[
+	V = \bigoplus_{i=1}^n V_i = \bigoplus_{i=1}^n U_i^{\oplus m_i},
+\]
+where $m_i$ is the number of times $U_i$ appears in the decomposition of $V$, henceforth referred to as the \emph{multiplicity} of $U_i$ in $V$.
+We say $V$ is \emph{multiplicity-free} if $m_i=1$ for all $i$.
+The $U_i^{\oplus m_i}$ are called the \emph{isotypical components} of $V$.
+We now prove the main proposition of this section.
+\begin{prop}\label{prop: V_mult-free_iff_End_G(V)_commutative}
+	\begin{enumerate}[\itshape(i)]
+		\item If $V$ is a representation of $G$ with the decomposition into isotypical components as above, then $\End_G(V)\cong \bigoplus_{i=1}^n \Mat_{m_i}(\CC)$.
+		\item $V$ is multiplicity-free if and only if $\End_G(V)$ is commutative.
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+	\begin{enumerate}[\itshape(i)]
+		\item Observe that
+		      \[
+			      \End_G(V) = \Hom_G(V_1\oplus \cdots \oplus V_n, V_1\oplus \cdots \oplus V_n) \cong \bigoplus_{i,j=1,\ldots,n} \Hom_G(V_i, V_j).
+		      \]
+		      Then we compute
+		      \[
+			      \Hom_G(V_i,V_j) = \Hom_G(U_i^{\oplus m_i}, U_j^{\oplus m_j}) \cong \Hom_G(U_i,U_j)^{\oplus m_im_j}.
+		      \]
+		      Schur's lemma tells us that
+		      \[
+			      \Hom_G(U_i,U_j) \cong \begin{cases}
+				      \CC,\    & \text{if}\ U_i\cong U_j,     \\
+				      \{0\},\  & \text{if}\ U_i\not\cong U_j.
+			      \end{cases}
+		      \]
+		      Then $\Hom_G(U_i,U_j)^{\oplus m_im_j} =\{0\}$ if $i\neq j$ and
+		      \[
+			      \Hom_G(U_i,U_i)^{\oplus m_i^2} \cong \CC^{m_i^2} \cong \Mat_{m_i}(\CC).
+		      \]
+		      Thus $\End_G(V) \cong \bigoplus_{i=1}^n \Mat_{n_i}(\CC)$.
+
+		\item We know from $(i)$ that we can identify $\End_G(V)$ with an algebra of block-diagonal matrices over $\CC$.
+		      The sizes of the blocks correspond to $m_i$, the multiplicity of $U_i$ in $V$.
+		      Composing two $f,g\in\End_G(V)$ corresponds to multiplying their associated matrices.
+		      Then $\End_G(V)$ is commutative if and only if the block sizes are all $1$.
+		      That is, if $m_i = 1$ for all $i$. \qedhere
+	\end{enumerate}
+\end{proof}
+\begin{cor}\label{cor: H_commutative}
+	\begin{enumerate}[\itshape(i)]
+		\item The induced representation $W$ is multiplicity-free if and only if its associated Hecke algebra $\calH$ is commutative.
+		\item $W$ is irreducible if and only if $\calH \cong \CC$.
+	\end{enumerate}
+\end{cor}
+\begin{proof}
+	\begin{enumerate}[\itshape(i)]
+		\item Apply Proposition \ref{prop: V_mult-free_iff_End_G(V)_commutative} with $V=W$.
+		      Then $W$ is multiplicity-free if and only if $\End_G(W)$ is commutative.
+		      Proposition \ref{prop: H_iso_End_G(W)} tells us that $\End_G(W)\cong\calH$.
+		      Thus $W$ is multiplicity-free if and only if $\calH$ is commutative.
+
+		\item Suppose that $W$ is irreducible.
+		      Schur's Lemma tells us that $\End_G(W)\cong\CC$, so $\calH\cong\CC$.
+		      Conversely, suppose that $\calH\cong\CC$.
+		      Write the decomposition of $W$ into irreducible constituents
+		      \[
+			      W = \bigoplus_{i=1}^n W_i.
+		      \]
+		      Schur's lemma tells us that $\End_G(W_i)\cong \CC$ for each $i$.
+		      Then
+		      \[
+			      \End_G(W) = \End_G\bigg(\bigoplus_{i=1}^n W_i\bigg) \cong \bigoplus_{i=1}^n \End_G(W_i) \cong \bigoplus_{i=1}^n \CC = \CC^n.
+		      \]
+		      However $\CC\cong\calH\cong\End_G(W)\cong\CC^n$.
+		      Thus $n=1$ and $W$ is irreducible. \qedhere
+	\end{enumerate}
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Gelfand's Trick}\label{Section1.7}
+Our goal in this section is to prove the following theorem.
+\begin{thm}[Gelfand's Trick] \label{theorem: Gelfand's_Trick}
+	Suppose that $G$ is a finite group and $K\leq G$ is a subgroup.
+	Let $\varphi\colon G\to G$ be an anti-automorphism with
+	\begin{enumerate}[(i)]
+		\item $\varphi^2=1$, and
+		\item $K\varphi(x)K=KxK$ for all $x\in G$.
+	\end{enumerate}
+	Then $\calH(G,K)$ is commutative.
+\end{thm}
+The key idea of this theorem is the following lemma.
+\begin{lem}\label{lemma: subalgebra_commutative}
+	Let $A$ be an algebra and $B\subseteq A$ be a subalgebra with basis $\{b_i\}_{i\in I}$.
+	Suppose $F\colon A\to A$ is an anti-homomorphism (i.e.\ $F(a_1a_2)=F(a_2)F(a_1)$) and $F(b_i) = b_i$.
+	Then $B$ is commutative.
+\end{lem}
+\begin{proof}
+	Since $F$ is the identity on basis elements of $B$, there holds $F|_B = \Id_B$.
+	Let $b_i,b_j\in B$ be basis elements and notice
+	\[
+		b_ib_j = F(b_ib_j) = F(b_j)F(b_i) = b_jb_i.
+	\]
+	Then basis elements of $B$ commute as desired.
+\end{proof}
+We employ Lemma \ref{lemma: subalgebra_commutative} by applying it to the case where $A=\Fun(G)$ and $B=\calH(G,K)$. Recall from Section \ref{Section1.3} that the characteristic functions $\{\chi_x\}_{x\in G}$ form a basis of $\calH(G,K)$.
+\begin{cor}\label{cor: comm}
+	Suppose $F\colon \Fun(G) \to \Fun(G)$ is an anti-homomorphism such that $F(\chi_x) = \chi_x$ for all $x\in X$.
+	Then $\calH(G,K)$ is commutative.
+\end{cor}
+This gives us a clear direction going forward: we want to find such a map $F$.
+
+Given an anti-homomorphism of groups $\varphi\colon G\to G$, we can consider the map $\varphi^\ast\colon\Fun(G)\to\Fun(G)$ defined by $\varphi^\ast f := f\circ \varphi$.
+This is the \emph{pullback} of $f$ by $\varphi$.
+In general, $\varphi^\ast$ is not an anti-homomorphism of convolution algebras.
+For instance, consider $G=\ZZ/2\ZZ=\{0,1\}$ and the map $\varphi(x)=x+x=0$.
+Clearly $\varphi$ is an anti-homomorphism.
+However, consider the maps $f,g\in\Fun(G)$ given by $f(x)=g(x)=0$ if $x=0$ and $f(x)=g(x)=1$ if $x=1$.
+Then
+\[
+	(\varphi^\ast(f\star g))(0) = \sum_{x+y = \varphi(0)} f(x)g(y) = \sum_{x+y = 0} f(x)g(y) = f(0)g(0) + f(1)g(1) = 1,
+\]
+\[
+	((\varphi^\ast g)\star(\varphi^\ast f))(0) = \sum_{x+y = 0} g(\varphi(x))f(\varphi(y)) = \sum_{x+y = 0} g(0)f(0) = 2g(0)f(0) = 0.
+\]
+Thus $\varphi^\ast$ is not an anti-homomorphism.
+However, when $\varphi$ has the stronger anti-automorphism property, we can say the same for $\varphi^\ast$.
+More precisely, we have the following lemma.
+\begin{lem}
+	Suppose $\varphi\colon G\to G$ is a group anti-automorphism.
+	Then $\varphi^\ast\colon\Fun(G)\to\Fun(G)$ is an algebra anti-automorphism.
+\end{lem}
+\begin{proof}
+	Let $\varphi$ be a group anti-automorphism.
+	Thus $\varphi$ is a bijection and an anti-homomorphism.
+	This lets us write $yz=x \iff \varphi(yz)=\varphi(x)$ since $\varphi$ is a bijection.
+	We can also write $\varphi(yz)=\varphi(x) \iff \varphi(z)\varphi(y)=\varphi(x)$ since $\varphi$ is an anti-homomorphism.
+	Then we compute
+	\begin{multline*}
+		((\varphi^\ast f)\star(\varphi^\ast g))(x) = \sum_{yz=x} (\varphi^\ast f)(y)(\varphi^\ast g)(z) = \sum_{yz=x} f(\varphi(y)) g(\varphi(z)) = \\
+		\sum_{\varphi(z)\varphi(y)=\varphi(x)} g(\varphi(z))f(\varphi(y)) = \sum_{z'y'=\varphi(x)} g(z')f(y') = (\varphi^\ast(g\star f))(x).
+	\end{multline*}
+	Thus $\varphi^\ast(g\star f) = (\varphi^\ast f)\star(\varphi^\ast g)$.
+	We also need to check that $\varphi^\ast$ is a bijection.
+	We check this on the basis elements $\{\delta_g\}_{g\in G}$ of $\Fun(G)$.
+	Let $g,h\in G$ and we compute
+	\[
+		(\varphi^\ast\delta_g)(h) = \begin{cases}
+			1,\  & \text{if}\ g=\varphi(h), \\
+			0,\  & \text{else}.
+		\end{cases} = \begin{cases}
+			1,\  & \text{if}\ h=\varphi^{-1}(g), \\
+			0,\  & \text{else}.
+		\end{cases} = \delta_{\varphi^{-1}(g)}(h).
+	\]
+	We see that $\varphi^\ast$ sends $\delta_g$ to $\delta_{\varphi^{-1}(g)}$.
+	We know $\varphi$ and $\varphi^{-1}$ are bijections on $G$, so $\varphi^\ast$ acts bijectively on the basis of $\Fun(G)$.
+\end{proof}
+Now we know that an anti-automorphism $\varphi$ of $G$ induces an anti-automorphism $\varphi^\ast$ of $\Fun(G)$.
+We ask ourselves: when does this anti-automorphism restrict to an anti-automorphism of $\calH(G,K)$?
+That is, when is $\varphi^\ast$ also an anti-automorphism of $\calH(G,K)$? The following lemma provides an answer.
+\begin{lem}
+	Suppose that $\varphi\colon G\to G$ is an anti-automorphism.
+	If $\varphi(K)=K$ then $\varphi^\ast$ restricts to an anti-automorphism of $\calH(G,K)$.
+\end{lem}
+\begin{proof}
+	Suppose $f\in\calH$.
+	Then notice
+	\[
+		(\varphi^\ast f)(k_1gk_2) = f(\varphi(k_1gk_2)) = f(\varphi(k_2)\varphi(g)\varphi(k_1)) = f(k_2'\varphi(g)k_1') = f(\varphi(g)) = (\varphi^\ast f)(g).
+	\]
+	Thus $\varphi^\ast f \in\calH$ since it's constant on $K$-double cosets.
+\end{proof}
+Now we explore the effect of $\varphi^\ast$ on the basis elements $\{\chi_x\}_{x\in G}$ of $\calH(G,K)$.
+\begin{lem}\label{lem: id_on_basis}
+	Suppose $\varphi\colon G\to G$ is an anti-automorphism.
+	If $\varphi^2=1$ and $K\varphi(x)K=KxK$ for all $x\in G$, then $\varphi^\ast\chi_x=\chi_x$.
+\end{lem}
+Before we present the proof, notice that $\varphi(K)=K$ is a consequence of the assumption that $K\varphi(x)K=KxK$ for all $x\in G$.
+This assumption implies that $K\varphi(x)K=KxK$ for all $x\in K$, which in turn implies that $\varphi(K)=K$.
+\begin{proof}
+	First, if $g\in KxK$, then
+	\[
+		\varphi(g)\in \varphi(KxK) = \varphi(K)\varphi(x)\varphi(K) = K\varphi(x)K = KxK.
+	\]
+	On the other hand, if $\varphi(g)\in KxK$, then
+	\[
+		g = \varphi(\varphi(g)) \in \varphi(KxK) = \varphi(K)\varphi(x)\varphi(K) = K\varphi(x)K = KxK.
+	\]
+	We see that $g\in KxK$ if and only if $\varphi(g)\in KxK$.
+	Then we compute
+	\[
+		(\varphi^\ast\chi_x)(g) = \chi_x(\varphi(g)) = \begin{cases}
+			1,\  & \text{if}\ \varphi(g)\in KxK, \\
+			0,\  & \text{else}.
+		\end{cases} = \begin{cases}
+			1,\  & \text{if}\ g\in KxK, \\
+			0,\  & \text{else}.
+		\end{cases} = \chi_x(g).\qedhere
+	\]
+\end{proof}
+We are now ready to prove Theorem \ref{theorem: Gelfand's_Trick}.
+\begin{proof}[Proof of Theorem \ref{theorem: Gelfand's_Trick}]
+	Lemma \ref{lem: id_on_basis} tells us that $\varphi^\ast$ is the identity on the characteristic functions $\chi_x$.
+	These are the basis elements of $\calH(G,K)$.
+	Since $\varphi$ is an anti-automorphism, $\varphi^\ast$ will be too.
+	We apply Corollary \ref{cor: comm} with $F=\varphi^\ast$ to see that the basis elements commute.
+	Thus $\calH(G,K)$ is commutative.
+\end{proof}
+When applying Gelfand's Trick, we will often consider $\varphi(x)=x^{-1}$ or $\varphi(x)=x^t$ (the latter of which is understood as the transpose map when $G$ is a matrix group).
+It is easy to see that they are both involutive anti-automorphisms, so the condition $K\varphi(x)K=KxK$ for all $x\in G$ will be the only condition left to verify.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Gelfand pairs}\label{Section1.8}
+We say that a pair of groups $(G,K)$ with $K\leq G$ is a \emph{Gelfand pair} if $\Ind_K^G \1$ is multiplicity-free.
+To be a Gelfand pair, it is sufficient to find an anti-automorphism satisfying the conditions of Theorem \ref{theorem: Gelfand's_Trick}.
+We present some examples of applications of this technique.
+
+\subsubsection{Example: $(G,K)$ with $G$ abelian}
+For any abelian group $G$, the identity map $\varphi(g)=g$ is an anti-automorphism.
+This map clearly satisfies $\varphi^2=1$ and $K\varphi(x)K=KxK$ for all $x\in G$.
+
+\subsubsection{Example: $(G,K)$ with $[G\! :\! K]=2$}
+The condition $[G\! :\! K]=2$ tells us that $K$ is a normal subgroup of $G$.
+Thus, the quotient group $G/K$ is defined and contains two cosets, $K$ and $G- K$.
+Consider the involutive anti-automorphism $\varphi(g)=g^{-1}$.
+We verify that double cosets are preserved.
+If $x\in K$, then $K\varphi(x)K = Kx^{-1}K = K = KxK$.
+On the other hand, if $x\in G- K$, then $K\varphi(x)K = Kx^{-1}K = G\setminus K = KxK$.
+We see that $K\varphi(x)K=KxK$ in all cases.
+
+\subsubsection{Example: $(G\times G,G)$}
+We can embed the group $G$ inside $G\times G$ by the injective map $g\mapsto (g,g)$.
+Then it makes sense to consider $G$ as a subgroup of $G\times G$.
+We apply Gelfand's Trick with the involutive anti-automorphism $\varphi(g_1,g_2)=(g_1,g_2)^{-1}=(g_1^{-1},g_2^{-1})$.
+There holds
+\begin{multline*}
+	G\varphi(g_1,g_2)G = \{(hg_1^{-1}k,hg_2^{-1}k)\ |\ h,k\in G\} \\
+	= \{(k^{-1}g_1h^{-1},k^{-1}g_2h^{-1})^{-1}\ |\ h,k\in G\} = \{(xg_1y,xg_2y)\ |\ x,y\in G\} = G(g_1,g_2)G.
+\end{multline*}
+We see that $\varphi$ preserves double cosets and we have a Gelfand pair.
+
+
+\subsubsection{Example: $(S_{n+m},S_n\times S_m)$}
+We present an original proof, but one may also see \cite{Bump13} for an alternate proof.
+The group $S_n\times S_m$ can be embedded inside $S_{n+m}$ by taking $w=(w_1,w_2)\in S_n\times S_m$ and forming an element of $S_{n+m}$ by having $w_1$ act on the first $n$ elements of $\{1,2,\ldots,n+m\}$ and having $w_2$ act on the last $m$ elements of $\{1,2,\ldots,n+m\}$.
+
+Consider the involutive anti-automorphism $\varphi(w)=w^{-1}$.
+We must verify that $K\varphi(w)K = KwK$ for each double coset.
+If $w\in K$, then $K\varphi(w)K=Kw^{-1}K=K=KwK$ so all that is left is to verify double cosets are preserved for $w\in G-K$.
+
+We wish to show that $Kw^{-1}K\subseteq KwK$ and $KwK \subseteq Kw^{-1}K$.
+Note that it suffices to show only one of these.
+We will show that $Kw^{-1}K\subseteq KwK$.
+Again, note that it suffices to show that $w^{-1} \in KwK$.
+This is equivalent to showing that $w^{-1} = k_1wk_2$ for some $k_1,k_2\in K$.
+This equation is equivalent to $k_2^{-1} = wk_1w$.
+Then it suffices to show that $wkw\in K$ for some $k\in K$.
+
+We call $i\in\{1,\ldots,n+m\}$ a \emph{crossing point} of $w$ if one of two mutually exclusive conditions hold: $i\in\{1,\ldots,n\}$ and $w(i)\in\{n+1,\ldots,n+m\}$, or $i\in\{n+1,\ldots,n+m\}$ and $w(i)\in\{1,\ldots,n\}$.
+Notice that the number of crossing points in $\{1,\ldots,n\}$ must equal the number of crossing points in $\{n+1,\ldots,n+m\}$ since $w$ is a bijection.
+Then there is a bijection $f\colon \{\text{crossing points}\leq n\} \to \{\text{crossing points}>n\}$.
+This yields two other bijections $g\colon \{1,\ldots,n\}-\{\text{crossing points}\leq n\} \to \{1,\ldots,n\}-w(\{\text{crossing points}>n\})$ and $h\colon \{n+1,\ldots,n+m\}-\{\text{crossing points}>n\} \to \{n+1,\ldots,n+m\} - w(\{\text{crossing points}\leq n\})$. Define $k\in S_{n+m}$ by
+\[
+	k(w(i)) := \begin{cases}
+		f(i),\       & \text{if}\ i\leq n\ \text{is a crossing point},     \\
+		f^{-1}(i),\  & \text{if}\ i>n\ \text{is a crossing point},         \\
+		g(i),\       & \text{if}\ i\leq n\ \text{is not a crossing point}, \\
+		h(i),\       & \text{if}\ i> n\ \text{is not a crossing point}.
+	\end{cases}
+\]
+It is easy to check that $k$ and $wkw$ lie in $K$ as desired.
+
+\subsubsection{Example: ($\mO_{n+1}(\FF_q),\mO_n(\FF_q))$ with $q\neq 2^k$}
+We can embed the group $\mO_n(\FF_q)$ inside $\mO_{n+1}(\FF_q)$ by the injection
+\[
+	\mO_n(\FF_q) \hookrightarrow \mO_{n+1}(\FF_q),\quad A \mapsto \begin{pmatrix} A & 0 \\ 0 & 1 \end{pmatrix}.
+\]
+Consider the involutive anti-automorphism $\varphi(x)=x^t=x^{-1}$.
+We verify that $\varphi$ preserves double cosets.
+First note, for any group $G$ and subgroup $H$, the action of $G$ on $G/H$ by left translation gives rise to an action of $G$ on $G/H\times G/H$.
+The orbits of this action are the double cosets $H\backslash G/H$.
+This yields an identification of $H\backslash G/H$ with $G\backslash (G/H\times G/H)$.
+Explicitly, the identification is given by $(g_1H,g_2H)\mapsto Hg_1g_2^{-1}H$.
+
+Notice that $G/H := \mO_{n+1}(\FF_q)/\mO_n(\FF_q)$ is isomorphic to the unit sphere.
+Given the previous discussion, it suffices to show that, given two unit vectors $u,v\in\RR^n$, there exists $g\in\mO_n(\FF_q)$ with $g(u) = v$ and $g(v) = u$, since the transpose map sends $(u,v)$ to $(v,u)$.
+If $u-v$ is not orthogonal to itself, take $g$ to be the reflection relative to the hyperplane orthogonal to $u-v$.
+More specifically, set $g(x) := x - \frac{2\langle u-v,x\rangle}{\langle u-v,u-v\rangle}(u-v)$.
+Then
+\begin{align*}
+	g(u) & = u - \frac{2\langle u-v,u\rangle}{\langle u-v,u-v\rangle}(u-v) = u - \frac{2\|u\|^2-2\langle u,v\rangle}{\|u\|^2+\|v\|^2-2\langle u,v\rangle}(u-v) = u - (u-v) = v, \\
+	g(v) & = v - \frac{2\langle u-v,v\rangle}{\langle u-v,u-v\rangle}(u-v) = v - \frac{2\langle u,v\rangle-2\|v\|^2}{\|u\|^2+\|v\|^2-2\langle u,v\rangle}(u-v) = v + (u-v) = u.
+\end{align*}
+If $u-v$ is orthogonal to itself, this tells us that $0=\langle u-v,u-v\rangle = \|u\|^2+\|v\|^2-\langle u,v\rangle = 2-2\langle u,v\rangle$ so $\langle u,v\rangle = 1$.
+Then $\langle u+v,u+v\rangle = 4$ so $u+v$ is not orthgonal to itself, and we take $g$ to be the reflection relative to $u+v$.
+That is, $g(x) := \frac{2\langle u+v,x\rangle}{\langle u+v,u+v\rangle}(u+v) - x$.
+Then
+\begin{align*}
+	g(u) & = \frac{2\langle u+v,u\rangle}{\langle u+v,u+v\rangle}(u+v) - u = \frac{2\langle u,v\rangle + 2\|u\|^2}{4}(u+v)-u = (u+v)-u = v, \\
+	g(v) & = \frac{2\langle u+v,v\rangle}{\langle u+v,u+v\rangle}(u+v) - v = \frac{2\langle u,v\rangle + 2\|v\|^2}{4}(u+v)-v = (u+v)-v = u.
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
