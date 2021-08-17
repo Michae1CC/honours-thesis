@@ -1,5 +1,5 @@
-\section{A Review of Linear Algebra and Bayesian Statistics}\label{Chapter1}
-The aim of this chapter is to study the structure of the Hecke algebra and elucidate its significance in the representation theory of $G$.
+\section{A Review of Gaussian Processes and Related Topics}\label{Chapter1}
+The aim of this chapter is to review some essential mathematical machinery required for us to understand the core concepts of Gaussian Processes.
 
 In Section \ref{Section1.1}, we introduce $(\Fun(G),\star)$, the convolution algebra of functions from $G$ to $\CC$.
 In Section \ref{Section1.2}, we present and discuss the induced representation $\Ind_K^G\1$ and its underlying vector space, $W$.
@@ -19,22 +19,58 @@ We conclude with some examples of applications of the main theorem in Section \r
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{The convolution algebra of functions $\Fun(G)$}\label{Section1.1}
-Let $X$ be a finite set.
-Denote the vector space of complex-valued maps on $X$ by $\Fun(X) := \{f\colon X\to \CC\}$.
-It has a basis of delta functions $\{\delta_x\}_{x\in X}$ defined by $\delta_x(x)=1$ and $\delta_x(y)=0$ for $y\neq x$.
-Note that $\Fun(X)$ is a commutative unital associative algebra under pointwise multiplication of functions.
-Also note that if a group $G$ acts on $X$, then $G$ also acts on $\Fun(X)$ by $(g\cdot f)(x) := f(g^{-1}\cdot x)$.
-Thus, $\Fun(X)$ is a representation of $G$.
+\subsection{Gaussian Processes}\label{Section1.1}
+A {\it Gaussian Process} (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
 
-Now suppose that $X=G$ is a finite group.
-The group structure on $G$ yields a second algebra structure on $\Fun(G)$.
-Specifically, it has the convolution product defined by
+A GP is completely characterised by a mean function $m(\bm{x})$ and a covariance function $k (\bm{x}, \bm{x'})$ on a real process as
+\begin{align*}
+	m(\bm{x})           & = \EE \left[ f(\bm{x}) \right]                                         \\
+	k (\bm{x}, \bm{x'}) & = \EE \left[ (f(\bm{x}) - m(\bm{x})) (f(\bm{x'}) - m(\bm{x'})) \right]
+\end{align*}
+A function $f(\bm{x})$ sampled from a GP with mean $m(\bm{x})$ and covariance $k (\bm{x}, \bm{x'})$ is written as
 \[
-	(f\star f')(x) := \sum_{yz = x} f(y)f'(z) = \sum_{g\in G} f(xg)f'(g^{-1}).
+	f(\bm{x}) \sim \calG \calP \left( m(\bm{x}), k (\bm{x}, \bm{x'}) \right)
 \]
-One can show that $\star$ is associative with identity $\delta_{1_G}$, so $(\Fun(G),\star)$ is a unital associative algebra.
-It is easy to see that this algebra is commutative if and only if $G$ is commutative.
+Since a GP is a collection of random variables it must satisfy the consistency requirement, that is, an observation of a set of variables should not the distribution of any small sub set of the observed values. More specifically if
+\[
+	(\bm{y_1}, \bm{y_2}) \sim \calN (\bm{\mu}, \bm{\Sigma})
+\]
+then
+\begin{align*}
+	\bm{y_1} & \sim \calN (\bm{\mu_1}, \bm{\Sigma_{1,1}}) \\
+	\bm{y_2} & \sim \calN (\bm{\mu_2}, \bm{\Sigma_{2,2}})
+\end{align*}
+
+where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
+
+\subsubsection{Noise-free observations}\label{Section1.1.1}
+Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
+To keep this simple to begin with, we shall assume that our obsevered data $D = \left\{ (\bm{x_i}, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ is (unrealistically) noise-free.
+In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model.
+The joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\ast}$ according to the prior is
+\[
+	\begin{pmatrix}
+		\bm{f} \\
+		\bm{f}_{\ast}
+	\end{pmatrix}
+	\sim \calN
+	\begin{pmatrix}
+		\bm{0} &
+		{
+				\begin{pmatrix}
+					\bm{K_{XX}}                    & \bm{K_{XX^{\ast}}}        \\
+					\bm{K_{XX^{\ast}}}^{\intercal} & \bm{K_{X^{\ast}X^{\ast}}}
+				\end{pmatrix}
+			}
+	\end{pmatrix}
+\]
+where $\bm{K_{XX}} = k(\bm{X}, \bm{X}) \in \RR^{n \times n}$, $\bm{K_{XX^{\ast}}} = k(\bm{X}, \bm{X^{\ast}}) \in \RR^{n \times n_\ast}$, $\bm{K_{X^{\ast}X^{\ast}}} = k(\bm{X^{\ast}}, \bm{X^{\ast}}) \in \RR^{n_\ast \times n_\ast}$.
+
+We can derive a distribution for $\bm{f}_{\ast}$ by conditioning the joint Gaussian prior distribution on the observed values
+\begin{equation}\label{prop:GP_train_distr1}
+	\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1},  \bm{K_{X^{\ast}X^{\ast}}} - \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\ast}}}  \right)
+\end{equation}
+Function values from the unobserved inputs $\bm{X^{\ast}}$ can be estimated using the mean of $\bm{f}_{\ast}$ evaluted in \ref{prop:GP_train_distr1}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
