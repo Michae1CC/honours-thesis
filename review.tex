@@ -45,9 +45,15 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 
 \subsubsection{Noise-free observations}\label{Section1.1.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
-To keep this simple to begin with, we shall assume that our obsevered data $D = \left\{ (\bm{x_i}, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ is (unrealistically) noise-free.
-In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model.
-The joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\ast}$ according to the prior is
+Let us suppose there is some obsevered data $D = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
+\[
+	\bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right).
+\]
+where $\bm{K_{XX}} = k(\bm{X}, \bm{X}) \in \RR^{n \times n}$. We would then like to make a prediction for unobserved values say $X^{\ast} = \left[ \bm{x}_1^{\ast}, \bm{x}_2^{\ast}, \ldots , \bm{x}_{n_\ast}^{\ast} \right]$ with value $f_{\ast}$ as has a distribution of
+\[
+	\bm{f}_{\ast} \sim \calN \left( \bm{0}, \bm{K_{X^{\ast}X^{\ast}}} \right).
+\]
+where $\bm{K_{X^{\ast}X^{\ast}}} = k(\bm{X^{\ast}}, \bm{X^{\ast}}) \in \RR^{n_\ast \times n_\ast}$. Here $\bm{f}$ and $\bm{f}_{\ast}$ are independent but we would like to give them some sort of correlation. We can do this by having them originate from the same joint distribution. According to the prior, we can write the joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\ast}$ as
 \[
 	\begin{pmatrix}
 		\bm{f} \\
@@ -55,7 +61,7 @@ The joint distribution of the training points $\bm{f}$ and the test points $\bm{
 	\end{pmatrix}
 	\sim \calN
 	\begin{pmatrix}
-		\bm{0} &
+		\bm{0}, &
 		{
 				\begin{pmatrix}
 					\bm{K_{XX}}                    & \bm{K_{XX^{\ast}}}        \\
@@ -64,13 +70,79 @@ The joint distribution of the training points $\bm{f}$ and the test points $\bm{
 			}
 	\end{pmatrix}
 \]
-where $\bm{K_{XX}} = k(\bm{X}, \bm{X}) \in \RR^{n \times n}$, $\bm{K_{XX^{\ast}}} = k(\bm{X}, \bm{X^{\ast}}) \in \RR^{n \times n_\ast}$, $\bm{K_{X^{\ast}X^{\ast}}} = k(\bm{X^{\ast}}, \bm{X^{\ast}}) \in \RR^{n_\ast \times n_\ast}$.
+where $\bm{K_{XX^{\ast}}} = k(\bm{X}, \bm{X^{\ast}}) \in \RR^{n \times n_\ast}$.
 
-We can derive a distribution for $\bm{f}_{\ast}$ by conditioning the joint Gaussian prior distribution on the observed values
+While the above does give us some information on $\bm{f}_{\ast}$ is related to the observed data and the test inputs, it does not provide any method to evalute $\bm{f}_{\ast}$. To do this we shall need the assistance of the following lemma
+\begin{thm}\label{theorem: cond_of_MVN}
+	(Marginals and conditionals of an MVN \cite{MurphyKevinP2012Ml}) Suppose $\bm{x} = (\bm{x}_1, \bm{x}_2)$ is jointly Gaussian with parameters
+	\[
+		\bm{\mu} =
+		\begin{pmatrix}
+			\bm{\mu}_1 \\
+			\bm{\mu}_2
+		\end{pmatrix}, \quad
+		\bm{\Sigma} =
+		\begin{pmatrix}
+			\bm{\Sigma}_{1,1} & \bm{\Sigma}_{1,2} \\
+			\bm{\Sigma}_{2,1} & \bm{\Sigma}_{2,2}
+		\end{pmatrix}
+	\]
+	then the posterior conditional is given by
+	\begin{align*}
+		\bm{x}_2 \mid \bm{x}_1 & \sim \calN \left( \bm{x}_2 \mid \bm{\mu}_{2 \mid 1}, \bm{\Sigma}_{2 \mid 1} \right)          \\
+		\bm{\mu}_{2 \mid 1}    & = \bm{\mu}_2 + \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \left( \bm{x}_1 - \bm{\mu}_1 \right) \\
+		\bm{\Sigma}_{2 \mid 1} & = \bm{\Sigma}_{2,2} - \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \bm{\Sigma}_{1,2}
+	\end{align*}
+\end{thm}
+
+Thus finding a mean an covariance for $\bm{f}_{\ast}$ requires a direct application of Theorem \ref{theorem: cond_of_MVN} which gives
+\begin{align*}
+	\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}^{\ast}, \bm{\Sigma}^{\ast} \right)
+\end{align*}
+where
+\begin{align*}
+	\bm{\mu}^{\ast} & = \bm{0} + \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \left( \bm{f} - \bm{0} \right) \\
+	                & = \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f}
+\end{align*}
+and
+\begin{align*}
+	\bm{\Sigma}^{\ast} & = \bm{K_{X^{\ast}X^{\ast}}} - \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\ast}}}
+\end{align*}
+meaning we can write a distribution for $\bm{f}_{\ast}$ as
 \begin{equation}\label{prop:GP_train_distr1}
-	\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1},  \bm{K_{X^{\ast}X^{\ast}}} - \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\ast}}}  \right)
+	\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X^{\ast}X^{\ast}}} - \bm{K_{XX^{\ast}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\ast}}}  \right)
 \end{equation}
 Function values from the unobserved inputs $\bm{X^{\ast}}$ can be estimated using the mean of $\bm{f}_{\ast}$ evaluted in \ref{prop:GP_train_distr1}.
+
+\subsubsection{Prediction with Noisy observations}\label{Section1.1.2}
+When attempting to model our value function we usually do not have access to the value function itself but a noisy version thereof, $y = f(\bm{x}) + \varepsilon$ where $\varepsilon \calN (0, \sigma_n^2)$ meaning the prior on the noisy values becomes
+\[
+	\operatorname{cov} (\bm{y}) = \bm{K_{XX}} + \sigma_n^2 \bm{I}
+\]
+The reason why noise is only added along the diagonal follows from the assumption of independence in our data.
+We can write out the new distribution of the observed noisy values along the points at which we wish to test the underlying function as
+\[
+	\begin{pmatrix}
+		\bm{f} \\
+		\bm{f}_{\ast}
+	\end{pmatrix}
+	\sim \calN
+	\begin{pmatrix}
+		\bm{0}, &
+		{
+				\begin{pmatrix}
+					\bm{K_{XX}} + \sigma_n^2 \bm{I} & \bm{K_{XX^{\ast}}}        \\
+					\bm{K_{XX^{\ast}}}^{\intercal}  & \bm{K_{X^{\ast}X^{\ast}}}
+				\end{pmatrix}
+			}
+	\end{pmatrix}
+\]
+Using a similar we arrive at a similar condition distribution of $\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
+\begin{align*}\label{prop:GP_train_distr2}
+	\bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{y} \sim & \calN \left( \overline{\bm{f}_{\ast}}, \operatorname{cov} (\bm{f}_{\ast}) \right)                                                   \\
+	\overline{\bm{f}_{\ast}}                                         & := \bm{K_{XX^{\ast}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \bm{I} \right]^{-1} \bm{y}                                        \\
+	\operatorname{cov} (\bm{f}_{\ast})                               & = \bm{K_{X^{\ast}X^{\ast}}} - \bm{K_{XX^{\ast}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \bm{I} \right]^{-1} \bm{K_{XX^{\ast}}}
+\end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
