@@ -1,25 +1,9 @@
 \section{A Review of Gaussian Processes and Related Topics}\label{Chapter1}
 The aim of this chapter is to review some essential mathematical machinery required for us to understand the core concepts of Gaussian Processes.
 
-In Section \ref{Section1.1}, we introduce $(\Fun(G),\star)$, the convolution algebra of functions from $G$ to $\CC$.
-In Section \ref{Section1.2}, we present and discuss the induced representation $\Ind_K^G\1$ and its underlying vector space, $W$.
-In Section \ref{Section1.3}, we introduce the Hecke algebra, $\calH(G,K)$.
-This is the space of functions that are constant on $K$-double cosets.
-In Section \ref{Section1.4}, we present the group algebra $\CC[G]$, which is isomorphic to $\Fun(G)$, and describe the copies of $W$ and $\calH(G,K)$ that lie inside of $\CC[G]$.
-In Section \ref{Section1.5}, we make the fundamental observation that $\calH(G,K)\cong\End_G(W)$, the endomorphism algebra of $G$-intertwiners on $W$.
-This is crucial for the final section, Section \ref{Section1.6}, where we prove that a representation $V$ is multiplicity-free if and only if $\End_G(V)$ is commutative.
-This lets us conclude that the induced representation $W$ is multiplicity-free if and only if its associated Hecke algebra is commutative.
+\input{review/kssm.tex}
 
-The purpose of Section \ref{Section1.7} is to develop a tool to expedite the process of proving $\calH(G,K)$ is commutative.
-This tool comes in the form of Gelfand's Trick, which transforms the task of proving commutativity into the task of writing down an involutive anti-automorphism of $G$ that preserves $K$-double cosets.
-We will see that this is a much easier task to perform.
-To prove Gelfand's Trick, we investigate the behavior of anti-automorphisms on $G$ and $\Fun(G)$.
-As we do this, the required conditions for Gelfand's Trick reveal themselves, leading to a natural statement and proof.
-We conclude with some examples of applications of the main theorem in Section \ref{Section1.8}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Gaussian Processes}\label{Section1.1}
+\subsection{Gaussian Processes}\label{Section1.4}
 A {\it Gaussian Process} (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
 
 A GP is completely characterised by a mean function $m(\bm{x})$ and a covariance function $k (\bm{x}, \bm{x'})$ on a real process as
@@ -43,7 +27,7 @@ then
 
 where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 
-\subsubsection{Noise-free observations}\label{Section1.1.1}
+\subsubsection{Noise-free observations}\label{Section1.4.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
 Let us suppose there is some obsevered data $D = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
 \[
