@@ -15,7 +15,20 @@
 \usepackage{xcolor}
 \usepackage[nobysame]{amsrefs}
 \usepackage{tgpagella}
-\usepackage{pdiag}  
+\usepackage{pdiag}
+
+% Algorithm package
+% \usepackage[linesnumbered,lined,boxed,vlined,ruled]{algorithm2e}
+\usepackage[linesnumbered,lined,boxed,vlined,ruled]{algorithm2e}
+\SetKw{Continue}{continue}
+\SetKw{Or}{or}
+% Set the algorithm comments to blue
+\newcommand\mycommfont[1]{\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+% \SetAlFnt{\large}
+% \SetAlCapFnt{\large}
+% \SetAlCapNameFnt{\large}
+% \SetProcFnt{\Large}
 
 \newcommand{\nc}{\newcommand}
 \newcommand{\rc}{\renewcommand}
