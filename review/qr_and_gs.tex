@@ -2,26 +2,59 @@
 
 Many areas of linear algebra involving studing the column space of matrices. The $QR$ factorisation provides us with a powerful tool to better understand the column space of a matrix as well as serving as an important factorisation mechanism for many numerical methods. Suppose that a matrix $\bm{A} = \left[ \bm{a}_1 , \bm{a}_2 , \ldots , \bm{a}_n \right] \in \KK^{n \times n}$ has full rank. The idea of a $QR$ factorisation is to find an alternative orthornormal basis for $\left( \bm{a}_i \right)_{i=1}^{n}$, say $\left( \bm{q}_i \right)_{i=1}^{n}$, and to somehow relate the original matrix $\bm{A}$ to a new matrix whose columns are $\left( \bm{q}_i \right)_{i=1}^{n}$. Consider the following procedure that allows us to find an orthornormal basis $\left( \bm{q}_i \right)_{i=1}^{n}$ for which $\operatorname{l.s} \left\{ \left( \bm{a}_i \right)_{i=1}^{n} \right\} = \operatorname{l.s} \left\{ \left( \bm{q}_i \right)_{i=1}^{n} \right\}$. First set $\bm{q}_1 = \frac{\bm{a}_1}{\| \bm{a}_i \|}$, clearly $\operatorname{l.s} \left\{ \bm{a}_1 \right\} = \operatorname{l.s} \left\{ \bm{q}_1 \right\}$. Next, construct a vector $\bm{q}_2' = \bm{a}_2 - r_{1,2} \cdot \bm{q}_1$ so that $\bm{q}_2' \perp \bm{q}_1$. This means
 \begin{align*}
-    0       & = \langle \bm{q}_2', \bm{q}_1 \rangle                                                   \\
-    0       & = \langle \bm{a}_2 - r_{1,2} \cdot \bm{q}_1, \bm{q}_1 \rangle                           \\
-    0       & = \langle \bm{a}_2, \bm{q}_1 \rangle - r_{1,2} \cdot \langle \bm{q}_1, \bm{q}_1 \rangle \\
-    r_{1,2} & = \langle \bm{a}_2, \bm{q}_1 \rangle
+    0       & = \langle \bm{q}_1, \bm{q}_2' \rangle                                                   \\
+    0       & = \langle \bm{q}_1, \bm{a}_2 - r_{1,2} \cdot \bm{q}_1 \rangle                           \\
+    0       & = \langle \bm{q}_1, \bm{a}_2 \rangle - r_{1,2} \cdot \langle \bm{q}_1, \bm{q}_1 \rangle \\
+    r_{1,2} & = \langle \bm{q}_1, \bm{a}_2 \rangle
 \end{align*}
-Since $\bm{q}_2'$ may not be a unit vector we set $\bm{q}_2 = \frac{\bm{q}_2'}{\| \bm{q}_2' \|}$ where $\operatorname{l.s} \left\{ \bm{a}_1, \bm{a}_2 \right\} = \operatorname{l.s} \left\{ \bm{q}_1, \bm{q}_2 \right\}$. Continuing the vector $\bm{q}_3'$ is constructed so that
+Since $\bm{q}_2'$ may not be a unit vector we set $\bm{q}_2 = \frac{\bm{q}_2'}{\| \bm{q}_2' \|}$ where $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2 \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2 \right\} \right)$. Continuing the vector $\bm{q}_3'$ is constructed so that
 \[
     \bm{q}_3' = \bm{a}_3 - \bm{r}_{1,3} \bm{q}_1 - \bm{r}_{2,3} \bm{q}_2
 \]
-are chosen so that $\bm{q}_3'$ is orthogonal to both $\bm{q}_2$ and $\bm{q}_1$. This amounts to setting $r_{1,3} = \langle \bm{a}_3, \bm{q}_1 \rangle$ and $r_{2,3} = \langle \bm{a}_{3}, \bm{q}_2 \langle$. Similarly, $\bm{q}_3'$ is normalized so that $\bm{q}_3 = \frac{\bm{q}_3'}{\| \bm{q}_3' \|}$ and $\operatorname{l.s} \left\{ \bm{a}_1, \bm{a}_2, \bm{a}_3 \right\} = \operatorname{l.s} \left\{ \bm{q}_1, \bm{q}_2, \bm{q}_3 \right\}$. Continuing in this fashion the $k^{th}$ vector in our orthornormal basis is computed as
+are chosen so that $\bm{q}_3'$ is orthogonal to both $\bm{q}_2$ and $\bm{q}_1$. This amounts to setting $r_{1,3} = \langle \bm{q}_1, \bm{a}_3 \rangle$ and $r_{2,3} = \langle \bm{q}_2, \bm{a}_{3} \rangle$. Similarly, $\bm{q}_3'$ is normalized so that $\bm{q}_3 = \frac{\bm{q}_3'}{\| \bm{q}_3' \|}$ and $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2, \bm{a}_3 \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2, \bm{q}_3 \right\} \right)$. Continuing in this fashion the $k^{th}$ vector in our orthornormal basis is computed as
 \[
     \bm{q}_k = \frac{\bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i}{r_{k,k}}
 \]
-where $r_{i,k} = \langle \bm{a}_k , \bm{q}_i \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\} \right)$. This procedure is famiously known as the Gram-Schmidt process and is summarized in the following algorithm.
+where $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\} \right)$. This procedure is famiously known as the Gram-Schmidt process and is summarized in the following algorithm.
+
+    % https://tex.stackexchange.com/questions/463359/algorithm-inside-a-tcolorbox-how-to-put-a-label-to-the-algorithm-but-the-captio
+    % http://cfrgtkky.blogspot.com/2018/12/algorithm-inside-tcolorbox-how-to-put.html
+    % {\centering
+    %     \begin{minipage}{.85\linewidth}
+    %         \begin{tcolorbox}[colback=white!100,colframe=black!100]
+    %             \begin{algorithm}[H]
+    %                 \caption{Classical Gram-Schmidt}
+    % \label{alg: Classical_Gram-Schmidt}
+    % \SetAlgoLined
+    % \DontPrintSemicolon
+    % \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+    % \Input{A basis $\left( \bm{a}_i \right)_{i=1}^{n}$.}
+    % \Output{An orthornormal basis $\left( \bm{q}_i \right)_{i=1}^{n}$ such that $\operatorname{l.s} \left\{ \left( \bm{a}_i \right)_{i=1}^{n} \right\} = \operatorname{l.s} \left\{ \left( \bm{q}_i \right)_{i=1}^{n} \right\}$}
+    % \BlankLine
+    % \For{$k = 1$ \KwTo $n$}{
+    %     $\bm{q}_k' = \bm{a}_k$\;
+    %     \For{$i = 1$ \KwTo $k-1$}{
+    %         $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$\;
+    %         $\bm{q}_k' = \bm{q}_k' - r_{i,k} \bm{q}_i$\;
+    %     }
+    %     $r_{k,k} = \| \bm{q}_k' \|$\;
+    %     $\bm{q}_k = \bm{q}_k' / r_{k,k}$\;
+    % }
+    % \Return{$\left( \bm{q}_i \right)_{i=1}^{n}$}
+    % \BlankLine
+    %             \end{algorithm}
+    %         \end{tcolorbox}
+    %     \end{minipage}
+    %     \par
+    % }
+
 
     {\centering
         \begin{minipage}{.85\linewidth}
             \begin{algorithm}[H]
-                \caption{relax}
-                \label{alg:relax}
+                \caption{Classical Gram-Schmidt}
+                \label{alg: Classical_Gram-Schmidt}
                 \SetAlgoLined
                 \DontPrintSemicolon
                 \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
@@ -32,13 +65,116 @@ where $r_{i,k} = \langle \bm{a}_k , \bm{q}_i \rangle$, $r_{k,k} = \| \bm{a}_k - 
                 \For{$k = 1$ \KwTo $n$}{
                     $\bm{q}_k' = \bm{a}_k$\;
                     \For{$i = 1$ \KwTo $k-1$}{
-                        $r_{i,k} = \langle \bm{a}_k, \bm{q}_i \rangle$\;
+                        $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$\;
                         $\bm{q}_k' = \bm{q}_k' - r_{i,k} \bm{q}_i$\;
                     }
                     $r_{k,k} = \| \bm{q}_k' \|$\;
                     $\bm{q}_k = \bm{q}_k' / r_{k,k}$\;
                 }
                 \Return{$\left( \bm{q}_i \right)_{i=1}^{n}$}
+                \BlankLine
+            \end{algorithm}
+        \end{minipage}
+        \par
+    }
+
+Relating the column space of $\bm{A}$ to the orthornormal basis $\left( \bm{q}_{i} \right)_{i=1}^{n}$ in a matrix form
+\[
+    \left[ \bm{a}_1 , \bm{a}_2 , \ldots \bm{a}_n \right] =
+    \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_n \right]
+    \begin{bmatrix}
+        r_{1,1} & r_{1,2} & \cdots & r_{1,n} \\
+                & r_{2,2} &        & \vdots  \\
+                &         & \ddots & \vdots  \\
+                &         &        & r_{n,n}
+    \end{bmatrix}
+\]
+or more succinctly
+\begin{equation}\label{eq: QR_factorisation}
+    \bm{A} = \bm{Q} \bm{R}
+\end{equation}
+where $\bm{Q} = \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_n \right]$ and $\left( \bm{R} \right)_{i,j} = r_{i,j}$ for $i \leq j$ and $\left( \bm{R} \right)_{i,j} = 0$ for $i > j$. This is exactly the $QR$ factorisation for a full rank matrix. Note that $\operatorname{Range} \left( \bm{A} \right) = \operatorname{Range} \left( \bm{Q} \right)$. In general, any square matrix  $\bm{A} \in \KK^{m \times n}$ may be decomposed as $\bm{A} = \bm{Q} \bm{R}$ where $\bm{Q} \in \KK^{m \times m}$ is an orthogonal matrix and $\bm{R} \in \KK^{m \times n}$ is an upper triangular matrix. This is known as a full $QR$ factorisation. Since bottom $(m-n)$ rows of this $\bm{R}$ consists entirely of zeros, it is often useful to partition the full $QR$ factorisation in the following manner to shed vacuous entries
+\[
+    \bm{A} = \bm{Q} \bm{R} = \bm{Q}
+    \begin{bmatrix}
+        \hat{\bm{R}} \\
+        \bm{0}_{(m-n) \times n}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \hat{\bm{Q}} & \bm{Q}'
+    \end{bmatrix}
+    \begin{bmatrix}
+        \hat{\bm{R}} \\
+        \bm{0}_{(m-n) \times n}
+    \end{bmatrix}
+    = \hat{\bm{Q}} \hat{\bm{R}}.
+\]
+This alternate decomposition is called the reduced (or somtimes the thin) $QR$ factorization. We shall state the following two theorems on the $QR$ factorization are stated without proof.
+
+\begin{thm} \label{theorem: QR_general_existence}
+    Every $\bm{A} \in \KK^{m \times n}, \; (m \geq n)$ has a full $QR$ factorisation, hence also a reduced $QR$ factorisation.
+    \cite{TrefethenLloydN.LloydNicholas1997Nla/}
+\end{thm}
+
+\begin{thm} \label{theorem: QR_full_rank_unique}
+    Each $\bm{A} \in \KK^{m \times n}, \; (m \geq n)$ of full rank has a unique reduced $QR$ factorisation $\bm{A} = \hat{\bm{Q}} \hat{\bm{R}}$ with $r_{k,k} > 0$.
+    \cite{TrefethenLloydN.LloydNicholas1997Nla/}
+\end{thm}
+
+In practice the classical Gram-Schmidt process described in algorithm \ref{alg: Classical_Gram-Schmidt} is rarely used as the procedure becomes numerically unstable if $\left( \bm{a}_i \right)_{i=1}^{n}$ are almost linearly dependent. Before looking for ways to resolve these numerical instabilities a quick recap of projectors has been devised. A square matrix $\bm{P}_{G}$ acting on a Hilbert space $H$ that sends $\bm{x} \in H$ to its projection onto a subspace $G$ is called the projector onto $G$. If $\left( \bm{q}_k \right)_{k=1}^{m}$ is an orthornormal basis in $G$ then
+\[
+    \bm{P}_{G} = \bm{Q} \bm{Q}^{\ast}
+\]
+where $\bm{Q} = \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_m, 0 , \ldots , 0 \right] \in \KK^{n \times n}$. A special class of projectors which isolates the components of a given vector onto a one dimensional subspace spanned by a single unit vector $\bm{q}$ called a rank one orthogonal projector, denoted as $\bm{P}_{q}$. Each $k$ in the classical Gram-Schmidt process $\bm{q}_k'$ using the following orthogonal projection
+\begin{equation}\label{eq: classical_GS_proj}
+    \bm{q}_k' = \bm{P}_{A_{k}^{\perp}} \bm{a}_k
+\end{equation}
+where $A_k = \operatorname{l.s} \left\{ \bm{a}_i \right\}_{i=1}^{k}$ and $\bm{P}_{A_{1}^{\perp}} = \Id$ for convenience. A modified version of the Gram-Schmidt process performs the same orthogonal projection broken up as $k-1$ orthogonal projections of rank $n-1$ as so
+\begin{align*}
+    \bm{q}_k' & = \bm{P}_{A_{k}^{\perp}} \bm{a}_k                                                                                                                                   \\
+              & = \left( \Id - \bm{Q}_{k} \bm{Q}_{k}^{\ast} \right) \bm{a}_k                                                                                                        \\
+              & = \left( \prod_{i=1}^{k-1} \left( \Id - \bm{q}_i \bm{q}_i^{\ast} \right) \right)\bm{a}_k                                                                            \\
+              & = \left( \Id - \bm{q}_1 \bm{q}_1^{\ast} \right) \left( \Id - \bm{q}_1 \bm{q}_1^{\ast} \right) \cdots \left( \Id - \bm{q}_{k-1} \bm{q}_{k-1}^{\ast} \right) \bm{a}_k \\
+              & = \bm{P}_{\bm{q}_{k}^{\perp}} \cdots \bm{P}_{\bm{q}_{1}^{\perp}} \bm{a}_k
+\end{align*}
+
+While its clear that $\bm{P}_{A_{k}^{\perp}} \bm{a} $ and $\bm{P}_{\bm{q}_{k}^{\perp}} \cdots \bm{P}_{\bm{q}_{1}^{\perp}} \bm{a}_k$ used for computing $\bm{q}_k'$ are algebraically, they differ arithmetically as the latter expression evaluates $\bm{q}_k'$ using the follow procedure
+
+\begin{align*}
+    \bm{q}_k^{(1)}             & = \bm{a}_k                                       \\
+    \bm{q}_k^{(2)}             & = \bm{P}_{\bm{q}_{1}^{\perp}} \bm{q}_k^{(1)}     \\
+    \bm{q}_k^{(3)}             & = \bm{P}_{\bm{q}_{2}^{\perp}} \bm{q}_k^{(2)}     \\
+                               & \vdots                                           \\
+    \bm{q}_k' = \bm{q}_k^{(k)} & = \bm{P}_{\bm{q}_{k-1}^{\perp}} \bm{q}_k^{(k-1)}
+\end{align*}
+
+Applying projections sequentially in this manner produces smaller numerical errors. The modified Gram-Schmidt process is summarized in the following algorithm.
+
+    {\centering
+        \begin{minipage}{.85\linewidth}
+            \begin{algorithm}[H]
+                \caption{Modified Gram-Schmidt}
+                \label{alg: Modified_Gram-Schmidt}
+                \SetAlgoLined
+                \DontPrintSemicolon
+                \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+                \Input{A basis $\left\{ \bm{a}_i \right\}_{i=1}^{n}$.}
+                \Output{An orthornormal basis $\left\{ \bm{q}_i \right\}_{i=1}^{n}$ such that $\operatorname{l.s} \left\{ \bm{a}_i \right\}_{i=1}^{n} = \operatorname{l.s} \left\{  \bm{q}_i \right\}_{i=1}^{n}$}
+                \BlankLine
+                \For{$k = 1$ \KwTo $n$}{
+                    $\bm{q}_k' = \bm{a}_k$\;
+                }
+                \For{$k = 1$ \KwTo $n$}{
+                    $r_{k,k} = \| \bm{q}_k' \|$\;
+                    $\bm{q}_k = \bm{q}_k' / r_{k,k}$\;
+                    \For{$i = k+1$ \KwTo $n$}{
+                        $r_{i,k} = \langle \bm{q}_k, \bm{q}_i' \rangle$\;
+                        $\bm{q}_i = \bm{q}_i - r_{i,k} \bm{q}_i$\;
+                    }
+                }
+                \Return{$\left\{ \bm{q}_i \right\}_{i=1}^{n}$}
                 \BlankLine
             \end{algorithm}
         \end{minipage}
