@@ -15,7 +15,7 @@ are chosen so that $\bm{q}_3'$ is orthogonal to both $\bm{q}_2$ and $\bm{q}_1$. 
 \begin{equation}\label{eq: comp_orth_basis}
     \bm{q}_k = \frac{\bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i}{r_{k,k}}
 \end{equation}
-where $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\} \right)$. This procedure is famiously known as the Gram-Schmidt process and is summarized in the following algorithm.
+where $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left( \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} \right) = \operatorname{l.s} \left( \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\} \right)$. This procedure is famiously known as the Gram-Schmidt process \cite{BerezanskyMakarovich1996FaV1,TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla} and is summarized in the following algorithm.
 
     % https://tex.stackexchange.com/questions/463359/algorithm-inside-a-tcolorbox-how-to-put-a-label-to-the-algorithm-but-the-captio
     % http://cfrgtkky.blogspot.com/2018/12/algorithm-inside-tcolorbox-how-to-put.html
@@ -149,7 +149,7 @@ While its clear that $\bm{P}_{A_{k}^{\perp}} \bm{a} $ and $\bm{P}_{\bm{q}_{k}^{\
     \bm{q}_k' = \bm{q}_k^{(k)} & = \bm{P}_{\bm{q}_{k-1}^{\perp}} \bm{q}_k^{(k-1)}
 \end{align*}
 
-Applying projections sequentially in this manner produces smaller numerical errors. The modified Gram-Schmidt process is summarized in the following algorithm.
+Applying projections sequentially in this manner produces smaller numerical errors. The modified Gram-Schmidt process \cite{TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla} is summarized in the following algorithm.
 
     {\centering
         \begin{minipage}{.85\linewidth}
