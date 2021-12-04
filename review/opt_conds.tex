@@ -1,0 +1,61 @@
+\subsubsection{Optimality Conditions}\label{Section1.1.4}
+
+So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ where $n = t_{\bm{r}_0}$ is the grade of $\bm{r}_0$ with respect to $\bm{A}$. Moreover from section \ref{Section1.1.3} we found ways to construct a basis for $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ allowing us to generate vectors with these affine spaces, namely the Arnoldi algorithm (algorithm \ref{alg: Arnoldi_Algorithm})and Lanczos algorithm (algorithm \ref{alg: Lanczos_Algorithm}) for non-symmertic and symmertic systems respectively. From now on $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ will be abbreviated to $\calK_{t_{\bm{r}_0}, \bm{A}}$ when the context is clear. The question still remains however, how should one choose an $\bm{x}_k$ that best approximates $\bm{x}^{\ast}$ satisfying equation \ref{eq: lin_sys_1}? Here are a few of the most well known methods for selecting a suitable $\bm{x}_k$.
+
+\begin{enumerate}
+
+    \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{x}_k - \bm{x}^{\ast} \|_2$. While this method seems like the most intuitive and natural way to select $\bm{x}_k$, it is unfortunately of no practical use since there is not enough information in the Krylov subspace to find an $\bm{x}_k$ which matches this specification.
+
+    \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{r}_k \|_2$ (recall is the residual of $\bm{x}_k$, that is, $\bm{r}_k = \bm{b} - \bm{A} \bm{x}_k$). This method is possible to implement. Two well known algorithms stem from this class of methods, notably MINRES (minimum residual) and GMRES (general minimum residual) which solve linear systems for symmetric and non-symmertic $\bm{A}$ respectively.
+
+    \item When $\bm{A}$ is a positive definite matrix it defines a norm $\| r \|_{\bm{A}} = \left( \bm{r}^{\intercal} \bm{A} \bm{r} \right)^{\frac{1}{2}}$, called the energy norm. Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| r \|_{\bm{A}^{-1}}$ which is equivalent to minimizing $\| \bm{x}_k - \bm{x} \|_{A}$. This technique is known as the CG (conjugate gradient) algorithm.
+
+    \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ for which $\bm{r}_{k} \perp \calW_k$ where $\calW_k$ is some $k$-dimensional subspace. Two well known algorithms that belong to this family of methods are SYMMLQ (Symmetric LQ Method) and a variant of GMRES used for solving symmetric and non-symmetric methods respectively.
+
+\end{enumerate}
+
+Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK_k$ the last two selection methods are equivalent. This is stated more precisely in thoerem
+
+\begin{thm} \label{theorem: 3_4_method_eq}
+    In the context of the above selection method, if $\bm{A} \succ \bm{0}$ and $\calW_k = \calK_k$ in method (4) then it produces the same $\bm{x}_k$ in method (3) \cite{DemmelJamesW1997Anla}.
+\end{thm}
+
+In fact the very last method can be used to bring together a number of different analytical aspects and unify them in a general framework known as projection methods. Selecting an $\bm{x}_k$ from our Krylov subspace allows $k$ degrees of freedom meaning $k$ constraints must be used to determine a unique $\bm{x}_k$ for selection. As seen in method (4) already, typically orthogonality constraints are imposed on the residual $\bm{r}_k$. Specifically we would like to find a $\bm{x}_k \in \bm{x}_0 + \calK_k$ where $\bm{r}_k \perp \calW_k$. This is sometimes referred to as the Petrov-Galerkin (or just Galerkin) conditions. Projection methods for which $\calW_k = \calK_k$ are known as orthogonal projections while methods for which $\calW_k = \bm{A} \calK_k$ are known as oblique projections. If we set $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ for some $\bm{z}_k \in \calK_k$ then the Petrov-Galerkin conditions imply $\bm{r}_0 \bm{A} \bm{z}_k \perp \calW_k$, or alternatively $\langle \bm{r}_0 - \bm{A} \bm{z}_k , \bm{w} \rangle = 0$ for every $\bm{w} \in \calW_k$. To impose these conditions it will help to have an appropriate basis for $\calK$ and $\calW$. Suppose we have access to such a basis where $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ and $\left\{ \bm{w}_i \right\}_{i=1}^{k}$ are basis elements for $\calK$ and $\calW$ respectively. Let
+\begin{align*}
+    \bm{K}_k \triangleq \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right] \in \KK^{n \times k} \\
+    \bm{W}_k \triangleq \left[ \bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_k \right] \in \KK^{n \times k}
+\end{align*}
+then the Petrov-Galerkin conditions can be imposed as follows
+\begin{align*}
+    \bm{K}_k \bm{y}_k                                                       & = \bm{z}_k , \quad \text{for some} \; \bm{y}_k \in \KK^k \\
+    \bm{W}_k^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{K}_k \bm{y}_k \right) & = \bm{0}.
+\end{align*}
+Moreover if $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible then $\bm{x}_k$ can be expressed as
+\begin{equation} \label{eq: expr_x_Petrov_Galerkin_1}
+    \bm{x}_k = \bm{x}_0 + \bm{K} \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0.
+\end{equation}
+This justifies a general form of the projection method algorithm presented in algorithm \ref{alg: General_Projection}.
+
+{\centering
+    \begin{minipage}{.85\linewidth}
+        \begin{algorithm}[H]
+            \caption{General Projection Method}
+            \label{alg: General_Projection}
+            \SetAlgoLined
+            \DontPrintSemicolon
+            \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+            \Output{An approximation of $\bm{x}^{\ast}$, $\bm{x}_k$.}
+            \BlankLine
+            \For{$k = 1 , \ldots $ \Until convergence}{
+            Select $\calK_k$ and $\calW_k$\;
+            Form $\bm{K}_k$ and $\bm{W}_k$\;
+            Solve $\left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right) \bm{y}_k = \bm{W}_k^{\intercal} \bm{r}_0$\;
+            $\bm{x}_k = \bm{x}_0 + \bm{K}_k \bm{y}_k$\;
+            }
+            \Return{$\bm{x}_k$}
+            \BlankLine
+        \end{algorithm}
+    \end{minipage}
+    \par
+}
