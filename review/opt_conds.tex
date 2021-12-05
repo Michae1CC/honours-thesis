@@ -20,10 +20,10 @@ Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK
     In the context of the above selection method, if $\bm{A} \succ \bm{0}$ and $\calW_k = \calK_k$ in method (4) then it produces the same $\bm{x}_k$ in method (3) \cite{DemmelJamesW1997Anla}.
 \end{thm}
 
-In fact the very last method can be used to bring together a number of different analytical aspects and unify them in a general framework known as projection methods. Selecting an $\bm{x}_k$ from our Krylov subspace allows $k$ degrees of freedom meaning $k$ constraints must be used to determine a unique $\bm{x}_k$ for selection. As seen in method (4) already, typically orthogonality constraints are imposed on the residual $\bm{r}_k$. Specifically we would like to find a $\bm{x}_k \in \bm{x}_0 + \calK_k$ where $\bm{r}_k \perp \calW_k$. This is sometimes referred to as the Petrov-Galerkin (or just Galerkin) conditions. Projection methods for which $\calW_k = \calK_k$ are known as orthogonal projections while methods for which $\calW_k = \bm{A} \calK_k$ are known as oblique projections. If we set $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ for some $\bm{z}_k \in \calK_k$ then the Petrov-Galerkin conditions imply $\bm{r}_0 \bm{A} \bm{z}_k \perp \calW_k$, or alternatively $\langle \bm{r}_0 - \bm{A} \bm{z}_k , \bm{w} \rangle = 0$ for every $\bm{w} \in \calW_k$. To impose these conditions it will help to have an appropriate basis for $\calK$ and $\calW$. Suppose we have access to such a basis where $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ and $\left\{ \bm{w}_i \right\}_{i=1}^{k}$ are basis elements for $\calK$ and $\calW$ respectively. Let
+In fact the very last method can be used to bring together a number of different analytical aspects and unify them in a general framework known as projection methods. Selecting an $\bm{x}_k$ from our Krylov subspace allows $k$ degrees of freedom meaning $k$ constraints must be used to determine a unique $\bm{x}_k$ for selection. As seen in method (4) already, typically orthogonality constraints are imposed on the residual $\bm{r}_k$. Specifically we would like to find a $\bm{x}_k \in \bm{x}_0 + \calK_k$ where $\bm{r}_k \perp \calW_k$. This is sometimes referred to as the Petrov-Galerkin (or just Galerkin) conditions. Projection methods for which $\calW_k = \calK_k$ are known as orthogonal projections while methods for which $\calW_k = \bm{A} \calK_k$ are known as oblique projections. If we set $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ for some $\bm{z}_k \in \calK_k$ then the Petrov-Galerkin conditions imply $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$, or alternatively $\langle \bm{r}_0 - \bm{A} \bm{z}_k , \bm{w} \rangle = 0$ for every $\bm{w} \in \calW_k$. To impose these conditions it will help to have an appropriate basis for $\calK$ and $\calW$. Suppose we have access to such a basis where $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ and $\left\{ \bm{w}_i \right\}_{i=1}^{k}$ are basis elements for $\calK$ and $\calW$ respectively. Let
 \begin{align*}
-    \bm{K}_k \triangleq \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right] \in \KK^{n \times k} \\
-    \bm{W}_k \triangleq \left[ \bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_k \right] \in \KK^{n \times k}
+    \bm{K}_k & \triangleq \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right] \in \KK^{n \times k} \\
+    \bm{W}_k & \triangleq \left[ \bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_k \right] \in \KK^{n \times k}
 \end{align*}
 then the Petrov-Galerkin conditions can be imposed as follows
 \begin{align*}
@@ -32,30 +32,30 @@ then the Petrov-Galerkin conditions can be imposed as follows
 \end{align*}
 Moreover if $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible then $\bm{x}_k$ can be expressed as
 \begin{equation} \label{eq: expr_x_Petrov_Galerkin_1}
-    \bm{x}_k = \bm{x}_0 + \bm{K} \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0.
+    \bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0.
 \end{equation}
 This justifies a general form of the projection method algorithm presented in algorithm \ref{alg: General_Projection}.
 
 {\centering
-    \begin{minipage}{.85\linewidth}
-        \begin{algorithm}[H]
-            \caption{General Projection Method}
-            \label{alg: General_Projection}
-            \SetAlgoLined
-            \DontPrintSemicolon
-            \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{General Projection Method}
+        \label{alg: General_Projection}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-            \Output{An approximation of $\bm{x}^{\ast}$, $\bm{x}_k$.}
-            \BlankLine
-            \For{$k = 1 , \ldots $ \Until convergence}{
-            Select $\calK_k$ and $\calW_k$\;
-            Form $\bm{K}_k$ and $\bm{W}_k$\;
-            Solve $\left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right) \bm{y}_k = \bm{W}_k^{\intercal} \bm{r}_0$\;
-            $\bm{x}_k = \bm{x}_0 + \bm{K}_k \bm{y}_k$\;
-            }
-            \Return{$\bm{x}_k$}
-            \BlankLine
-        \end{algorithm}
-    \end{minipage}
-    \par
+        \Output{An approximation of $\bm{x}^{\ast}$, $\bm{x}_k$.}
+        \BlankLine
+        \For{$k = 1 , \ldots $ \Until convergence}{
+        Select $\calK_k$ and $\calW_k$\;
+        Form $\bm{K}_k$ and $\bm{W}_k$\;
+        Solve $\left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right) \bm{y}_k = \bm{W}_k^{\intercal} \bm{r}_0$\;
+        $\bm{x}_k = \bm{x}_0 + \bm{K}_k \bm{y}_k$\;
+        }
+        \Return{$\bm{x}_k$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par
 }

@@ -1,0 +1,67 @@
+\subsubsection{Conjugate Gradient Algorithm}\label{Section1.1.5}
+
+From section \ref{Section1.1.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{Q}_k = \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{Q}_k$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{Q}_k \right)$ where $\bm{Q}_k$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{Q}_k \bm{y}$ for a unique $\bm{y} \in \KK^k$ so that
+\begin{equation} \label{eq: x_eq_Qky}
+    \bm{x}_k = \bm{x}_0 + \bm{Q}_k \bm{y}.
+\end{equation}
+Coupling this with the Petrov-Galerkin conditions means
+\begin{align} \label{eq: Tky_eq_normr0e1}
+    \bm{Q}_k^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{Q}_k \bm{y} \right) & = \bm{0}                        \nonumber \\
+    \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \bm{y}                           & = \bm{Q}_k^{\intercal} \bm{r}_0 \nonumber \\
+    \bm{T}_k \bm{y}                                                       & = \| \bm{r}_0 \| \bm{e}_1.
+\end{align}
+In the CG algorithm $\bm{x}_{k+1}$ is computed as the recurrance of the following three sets of vectors
+\begin{enumerate}
+    \item The approximate solutions $\bm{x}_{k}$
+    \item The residual vectors $\bm{r}_{k}$
+    \item The conjugate gradient vectors $\bm{p}_k$
+\end{enumerate}
+The conjugate gradient vectors are given the name gradient since the attempt to find the direction of steepest descent that minimizes $\| \bm{r}_{k} \|_{\bm{A}^{-1}}$. The are also given the name conjugate since $\langle \bm{p}_k, \bm{A} \bm{p}_j \rangle = 0$ for $i \neq j$, that is, vectors $\bm{p}_i$ and $\bm{p}_j$ are mutally $A$-conjugate.
+
+Since $\bm{A}$ is symmetric positive definite then so is $\bm{T}_k  = \bm{Q}_k \bm{A} \bm{Q}_k$. We can take the Cholesky decomposition of $\bm{T}_k$ to get
+\begin{equation} \label{eq: Tk_Cholesky}
+    \bm{T}_k = \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal}
+\end{equation}
+where $\bm{L}_k$ is a unit lower bidiagonal matrix and $\bm{D}_k$ is diagonal written as
+\[
+    \bm{L}_k =
+    \begin{bmatrix}
+        1   &        &         &   \\
+        l_1 & \ddots &         &   \\
+            & \ddots & \ddots  &   \\
+            &        & l_{k-1} & 1
+    \end{bmatrix}, \quad
+    \bm{D}_k =
+    \begin{bmatrix}
+        d_1 &     &        &     \\
+            & d_2 &        &     \\
+            &     & \ddots &     \\
+            &     &        & d_k
+    \end{bmatrix}.
+\]
+Combining equations \ref{eq: x_eq_Qky}, \ref{eq: Tky_eq_normr0e1} and \ref{eq: Tk_Cholesky}
+\begin{align*}
+    \bm{x}_k & = \bm{x}_0 + \bm{Q}_k \bm{y}                                                                                                  \\
+    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{Q}_k \bm{T}_k^{-1} \bm{e}_1                                                                   \\
+    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{Q}_k \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right)^{-1} \bm{e}_1                      \\
+    \bm{x}_k & = \bm{x}_0 + \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right) \left( \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1 \right) \\
+    \bm{x}_k & \triangleq \bm{x}_0 + \tilde{\bm{P}}_k \tilde{\bm{y}}_k
+\end{align*}
+where $\tilde{\bm{P}}_k = \bm{Q}_k \bm{L}_k^{-\intercal}$ and $\tilde{\bm{y}}_k = \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1$. The matrix $\tilde{\bm{P}}_k$ can be written as
+$\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$. Lemma \ref{lemma: Pk_cols_A_conj} shows that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate.
+
+\begin{lem} \label{lemma: Pk_cols_A_conj}
+    The columns of $\tilde{\bm{P}}_k$ are $A$-conjugate, in otherwise $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k$ is diagonal.
+\end{lem}
+
+\begin{proof}
+    We compute
+    \begin{align*}
+        \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)                 \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                        \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
+                                                             & = \bm{D}_k
+    \end{align*}
+    as wanted.
+\end{proof}
