@@ -1,0 +1,12 @@
+\section{Krylov Subspace Methods}\label{Chapter4}
+In this section we will focus on how iterative methods, in particular a class of iterative methods called Krylov Subspace methods, may be used to solve a linear system $\bm{A} \bm{x} = \bm{b}$. While non-iterative methods exist to solve such systems virtually all of them carry an unwieldy runtime of $\mathcal{O} \left( n^3 \right)$ for a system of $n$ parameters. Even for current computer systems, this renders many common matrix problems untractable. Consequently the focus of solving linear systems has shifted towards iterative methods. While iterative methods typically demand certain structural properties of the matrices, such as symmetry and positive definiteness, this generally is not a problem since the majority of large matrix problems that, by mature, endow these systems with the desired properties. For example, in the context of this paper the Gram matrices used to solve linear systems in Gaussian Processes possess both symmetry and positive definiteness. There are also a number of other properties of iterative methods which make them rather attractive to users. To start, iterative Krylov subspace methods are guranteed to converge to an exact solution within a finite number of iterations and even if the method is prematurely stopped before reaching an exact solution, the approximation obtained on the final iteration will in some sense be a good enough estimate of our exact solution. Furthermore, unlike most non-iterative methods, Krylov subspace methods do not require an explicit form of the matrix $\bm{A}$ and instead only requires some routine or process for computing $\bm{A} \bm{x}$.
+
+\input{lin_alg/kssm.tex}
+
+\input{lin_alg/qr_and_gs.tex}
+
+\input{lin_alg/arn_and lancz.tex}
+
+\input{lin_alg/opt_conds.tex}
+
+\input{lin_alg/conj_grad.tex}
