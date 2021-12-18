@@ -1,0 +1,51 @@
+\subsection{Reproducing Kernel Hilbert Spaces}\label{Section1.2}
+
+We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS) and describe their relation to kernels. We shall see that in some sense the RKHS of a kernel $k$ is the smallest feature space for a kernel. The formal definition of a RKHS is stated in definition \ref{defe: RKHS}.
+
+\begin{defe}[RKHS] \label{defe: RKHS}
+    Let $X \neq \null$ and $H$ be a real Hilbert space over $X$
+    \begin{enumerate}
+        \item A function $k : X \times X \to \RR$ is called a reproducing kernel if we have $k \left( \cdot, \bm{x} \right) \in H$ for all $\bm{x} \in X$ and the reproducing property
+              \[
+                  f(\bm{x}) = \langle f , k \left( \cdot, \bm{x} \right) \rangle
+              \]
+              holds for all $f \in H$ and $x \in X$.
+        \item The space $H$ is called a reproducing kernel Hilbert space over $X$ if for all $\bm{x} \in X$ the Dirac functional $\delta_{\bm{x}} : H \to \RR$ defined by $\delta_{\bm{x}} (f) \triangleq f(x), \; f \in H$ is continuous.
+    \end{enumerate}
+    \cite{SteinwartIngo2008SVMb}
+\end{defe}
+
+An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (x) - f (x)} \to 0$. Note that because the evaluation function is both linear and continuous then it is also bounded in the sense that there is an $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
+
+\begin{lem}[] \label{lem: RKHS_rk_k}
+    Let $H$ be a Hilbert function space over $X$ that has a reproducing kernel $k$. Then $H$ is a RKHS and $H$ is also a feature space of $k$ where the feature map $\Phi : X \to H$ is given by
+    \[
+        \Phi (\bm{x}) = k \left( \cdot , \bm{x}  \right)
+    \]
+    for some $\bm{x} \in X$. We call $\Phi$ the canonical feature map.
+\end{lem}
+
+\begin{proof}
+    Since the reproducing property tells us that any Dirac functional can be represented by the reproducing kernel this means
+    \[
+        \abs{\delta_{\bm{x}} (f)} = \abs{f(\bm{x})} = \abs{\langle f , k \left( \cdot, \bm{x} \right) \rangle} \leq \norm{k \left( \cdot, \bm{x} \right)}_H \cdot \norm{f}_H
+    \]
+    for all $\bm{x} \in X, \; f \in H$. This shows continuity of $\delta_{\bm{x}}$ for $\bm{x} \in X$. In order to show that $\Phi$ is a feature map, fix an $\bm{x}' \in X$ and set $f = k \left( \cdot, \bm{x}' \right)$. Then for $\bm{x} \in X$, the reproducing property yields
+    \[
+        \langle \Phi (\bm{x}') , \Phi (\bm{x}) \rangle_H = \langle k \left( \cdot, \bm{x}' \right) , k \left( \cdot, \bm{x} \right) \rangle_H = \langle f , k \left( \cdot, \bm{x} \right) \rangle_H = f(\bm{x}) = k \left( \bm{x}', \bm{x} \right).
+    \]
+\end{proof}
+
+This tells us that every Hilbert space with a reproducing kernel is a RKHS. We can also show the converse, that is, every RKHS has a unique reproducing kernel seen in theorem \ref{theorem: unique_kernel}.
+
+\begin{thm} \label{theorem: unique_kernel}
+    Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}.
+\end{thm}
+
+Theorem \ref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown giving a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem seen in thorem \ref{theorem: Moore-Aronszajn}.
+
+\begin{thm}[Moore-Aronszajn] \label{theorem: Moore-Aronszajn}
+    Suppose $k$ is a symmertic positive definite kernel on a set $X$. Then there is a unique Hilbert space of functions for which $k$ is the reproducing kernel \cite{BerlinetAlain2003RKHS}.
+\end{thm}
+
+The elements of a RKHS will often inherit the analytical properties of its corresponding kernel. This means that kernels provide a mechanism for generating spaces of functions with useful analytical properties.

@@ -1,0 +1,43 @@
+\subsection{Kernels}\label{Section1.1}
+
+Often in machine learning we are often met with the problem of how to best represent data instances as fixed size feature vectors $\bm{x}_i \in X$. For certain objects it might not be obvious at all on how to represent the data as a fixed length vector. Good examples of variable length data include textual documents and genomic data. For these types of data we can instead define a method of measuring similarity between object which does require them to be converted to a fixed length feature vector first \cite{MurphyKevinP2012Ml}. To do this we can begin by mapping the feature vectors into a Hilbert space $H$ which provides us with an inner product $\langle \cdot , \cdot \rangle_H : H \times H \to \RR$ and a norm $\| \cdot \|_H : H \to \RR$. Input data is transformed into feature space vectors via a non-linear feature mapping $\Phi : X \to H$. The benefit of using a feature mapping in this way is that we can construct non-linear descision boundaries using linear models. In some instances a similarity measure can be computed directly using a function $k : X \times X$, instead of needing to construct a $\Phi$ and then computing the inner product of the transformed instances. We call such functions that act directly of our data instances kernel functions and using a kernel function to avoid computation associated with the underlying feature space is known as the kernel trick \cite{SteinwartIngo2008SVMb}. These ideas are stated more formally in definition \ref{defe: kernel}.
+
+\begin{defe}[Kernel] \label{defe: kernel}
+    Let $X$ be a non-empty set. Then a function $k : X \times X \to \RR$ is called a kernel on $X$ if there exists a Hilbert space and a map $\Phi : X \to H$ such that for all $\bm{x} , \bm{x}' \in X$ we have $k \left( \bm{x} , \bm{x}' \right) = \langle \Phi \left( \bm{x} \right), \Phi \left( \bm{x}' \right) \rangle_H$. We call the $\Phi$ the feature map and $H$ the feature space of $k$.
+\end{defe}
+
+It is worth noting that almost no conditions are placed on the set $X$, allowing it to accommodate virtually any form of data. It is of little surprise then that neither the feature map nor the feature space are uniquely determined by the kernel. As a quick example from Ingo Steinwart and Andreas Christmann book {\it Support Vector Machines} \cite{SteinwartIngo2008SVMb}, let $X = \RR$ and $k \left( x , x' \right) = x \cdot x'$ where $x , x' \in X$. We can see that $k$ is a kernel using the feature map $\Phi \left( x \right) \triangleq x$ and $H = \RR$. However another suitable feature map for this particular kernel is $\Phi' \left( x \right) \triangleq \left( x / \sqrt{2} , x / \sqrt{2} \right)$ with a corresponding feature space of $H = \RR^2$ since
+\[
+    \langle \Phi' \left( x \right), \Phi' \left( x' \right) \rangle_{\RR^2} = \frac{x'}{\sqrt{2}} \cdot \frac{x}{\sqrt{2}} + \frac{x'}{\sqrt{2}} \cdot \frac{x}{\sqrt{2}} = x \cdot x'
+\]
+for $x,x' \in X$. While their might be numerous functions that provide some notion of similarity between data entries, these functions might not be valid kernels. Instead of needing to construct a feature map and feature space to verify that a chosen function is a valid kernel using definition \ref{defe: kernel}, we can make use of a much simpler set of criteria. First, we shall need the following definition.
+
+\begin{defe}[Positive Definite and Positive Semidefinite] \label{defe: PD}
+    A function $k : K \times K \to \RR$ is positive semidefinite if for all $n \in \NN$ and $\alpha_1 , \ldots , \alpha_n \in \RR$ and all $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ we have
+    \begin{equation}\label{eq: PSD}
+        \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j k \left( \bm{x}_j , \bm{x}_i \right) \geq 0.
+    \end{equation}
+    Furthermore, $k$ is said to be positive definite if for mutually distinct $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ equality \ref{eq: PSD} only holds for $\alpha_1 = \ldots = \alpha_n = 0$ \cite{SteinwartIngo2008SVMb}.
+\end{defe}
+
+\begin{defe}[Symmetric] \label{defe: Symmetric_function}
+    A function $k : K \times K \to \RR$ is called symmetric if $k \left( \bm{x} , \bm{x}' \right) = k \left( \bm{x}' , \bm{x} \right)$ for any inputs $\bm{x}' , \bm{x} \in X$ \cite{SteinwartIngo2008SVMb}.
+\end{defe}
+
+\begin{defe}[Gram Matrix] \label{defe: Gram_Matrix}
+    For fixed $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ the matrix $\bm{K} \in \RR^{n \times n}$ where $\bm{K}_{i,j} \triangleq k \left( \bm{x}_j , \bm{x}_i \right)$ is the Gram matrix \cite{SteinwartIngo2008SVMb}.
+\end{defe}
+
+Note that checking if a function is positive (semi) definite is equivalent to checking that any Gram matrix produced by function is positive (semi) definite. If $k$ is a real valued kernel corresponding to the feature map $\Phi$, then $k$ is symmertic by virtue of the fact that the inner product of a real Hilbert space is symmetric. Moreover $k$ is positive definite since for $\alpha_1 , \ldots , \alpha_n \in \RR$ and $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ we have
+\begin{align*}
+     & \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j k \left( \bm{x}_j , \bm{x}_i \right)                                           \\
+     & = \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j \langle \Phi \left( \bm{x}_i \right), \Phi \left( \bm{x}_j \right) \rangle_H \\
+     & = \norm{ \sum_i^n \alpha_i \Phi \left( \bm{x}_i \right) }_{H}^{2}                                                              \\
+     & \geq 0.
+\end{align*}
+
+The following theorems tell us that it is not only necessary for a kernel to be positive semi definite but it is also a sufficient condition.
+
+\begin{thm} \label{theorem: nec_and_suf_kernel_1}
+    A function $k : K \times K \to \RR$ is a kernel if and only if it is symmertic and positive semidefinite \cite{SteinwartIngo2008SVMb}.
+\end{thm}
