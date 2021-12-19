@@ -3,7 +3,7 @@
 We shall now focus on a specific class of kernel that shall be used extensively in upcoming theory and experimentation.
 
 \begin{defe}[Gaussian Radial Basis Kernel] \label{defe: grbfk}
-    For $d \in \NN, \; \sigma > 0, \; \bm{z} , \bm{z}' \in \RR^d$ we define
+    For $d \in \NN, \; \sigma \in \RR_{>0}$ and $ \bm{z} , \bm{z}' \in \RR^d$ we define
     \[
         k_\sigma \left( \bm{z} , \bm{z}' \right) \triangleq \exp \left( - \sigma^{-2} \sum_{j=1}^{d} \left( \bm{z}_j - {\bm{z}'}_j \right)^2 \right).
     \]
@@ -66,4 +66,4 @@ The Gaussian RBF kernel makes for a very simple an intuitive measurement of simi
     \label{fig: grbfk_graph_1}
 \end{figure}
 
-This kernel is infinitely differentiable meaning it has mean square derivatives of all orders and is therefore very smooth. In fact, some argue that such strong smoothness makes it unrealistic for modelling natural phenomena \cite{RasmussenCarlEdward2006Gpfm,SteinMichaelL1999IoSD}. Nontheless, Gaussian RBF kernelis still the one of the most widely used kernels in literature.
+This kernel is infinitely differentiable meaning it has mean square derivatives of all orders and is therefore very smooth. In fact, some argue that such strong smoothness makes it unrealistic for modelling natural phenomena \cite{RasmussenCarlEdward2006Gpfm,SteinMichaelL1999IoSD}. Nontheless, Gaussian RBF kernelis remains the one of the most widely used kernels in literature.

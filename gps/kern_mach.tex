@@ -1,0 +1,88 @@
+\subsection{Kernel Machines}\label{Section1.4}
+
+In this section, we shall look at two different machine learning models that make use of kernels to perform classification and regression. The first kernel machine we shall look at are support vector machines (SVM). SVMs where originally designed for binary classification and as such we shall only present a model for binary classification, although extensions exist that allow regression and multi-class classification.
+
+For the binary classification problem we are tasked with labelling new samples with either one of two classes, $-1$ or $1$. We shall assume our input space consists of vectors from $\RR^d$ and that we provided with a labelled training set $D = \left\{ \left( \bm{x}_1 , y_1 \right), \left( \bm{x}_1 , y_1 \right), \ldots , \left( \bm{x}_n , y_n \right) \right\}$. One simple method to classify samples is by creating an affine linear hyperplane satisfying
+\begin{align} \label{eq: linear_sep_hyp}
+    \langle \bm{w}, \bm{x}_i \rangle + b > 0, \quad y_i = +1 \nonumber \\
+    \langle \bm{w}, \bm{x}_i \rangle + b < 0, \quad y_i = -1
+\end{align}
+for some $\bm{w} \in \RR^d$ and $b \in \RR$ where $\norm{w}_2 = 1$. Moreover we would like $\bm{w}$ and $b$ to maximise the margin, that is the maximal distance between the separating hyperplane and the points in $D$. The specific $\bm{w}$ and $b$ obtained through the training set is denoted $\bm{w}_D$ and $b_D$ and the resulting descision function is defined as
+\[
+    f_D \left( \bm{x} \right) \triangleq \operatorname{sign} \left( \langle \bm{w}_D , \bm{x} \rangle + b_D \right).
+\]
+There are, however, a number of short comings to this model. The most obvious is that our training data may not be linearly separable in $\RR^d$ meaning that no such $\bm{w}_D$ and $b_D$ exist. Moreover, when noise is introduced to the data set this model will prioritize finding a hyperplane that perfectly separates the two classes, making no comprises in misclassifying points, leaving it subject to overfitting. SVMs where introduced by Boser {\it et al.} \cite{BoserBernhard1992Ataf} to address the first issue of separability. Their approach was to lift the input vector into a more malleable Hilbert space $H_0$ using a feature map. The inputs are then classified within the new space. Unfortunately this method does nothing to address the second issue of over fitting and, if anything, actually worsens it. Cortes and Vapnik \cite{CortesCorinna1995SN} attempted to address this second issue by introducing slack variables to equation \ref{eq: linear_sep_hyp} so that we instead need to satisfy $y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right) \geq 1 - \xi_i$ for some $\xi_i \in \RR_{>0}$. These constraints can be re-written as
+\[
+    \xi_i \geq 1 - y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right)
+\]
+and combining this this our slack constraints (that is $\xi_i \geq 0$) yields
+\[
+    \xi_i \geq \max \left\{ 0, 1 - y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right)  \right\} = L_{\text{hinge}} \left( y_i , \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right)
+\]
+where $L_{\text{hinge}}$ is the hinge loss defined as
+\[
+    L_{\text{hinge}} \left( y,\eta \right) \triangleq \max \left\{ 0,1-y\eta \right\}.
+\]
+This optimization problem can be re-written is the form
+\[
+    \min_{\left( \bm{w} , b \right) \in H_0 \times \RR} \lambda \norm{\bm{w}}_{H_0} + \frac{1}{n} \sum_{i=1}^{n} L_{\text{hinge}} \left( y_i , f_{\left( \bm{w} , b \right)} \right)
+\]
+where $f_{\left( \bm{w} , b \right)} : X \to \RR$ is defined as
+\[
+    f_{\left( \bm{w} , b \right)} \triangleq \langle \bm{w} , \Phi \left( x_i \right) \rangle + b.
+\]
+Unfortunately, this new embedding requires us to solve for optimal parameters in a very high, or even infinite, dimension vector space. To get around this, often the Lagrange approach is used to solve the corresponding dual problem. When the hinge loss is used the dual problem becomes
+\begin{align} \label{eq: SVM_dual_1}
+     & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j \langle \Phi \left( \bm{x}_i \right), \Phi \left( \bm{x}_j \right) \rangle \nonumber \\
+     & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0
+\end{align}
+Notice that in the dual problem, we find that inner products are only taken with vectors that have the feature map applied to them allowing us to employ the kernel if the corresponding kernel trick described in section \ref{Section1.1} is known for the feature map used so that \ref{eq: SVM_dual_1} becomes
+\begin{align*}
+     & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j k \left( \bm{x}_i, \bm{x}_j \right) \\
+     & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0.
+\end{align*}
+The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in Figure ...
+
+\begin{tikzpicture}
+    \draw[->,ultra thick] (-0.01,0)--(6,0) node[right]{$x$};
+    \draw[->,ultra thick] (0,-0.01)--(0,6) node[above]{$y$};
+
+    \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+    \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+
+    \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+    \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+
+    \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+    \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+
+    \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+    \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+    \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+    \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+\end{tikzpicture}
+
+\begin{tikzpicture}
+    \draw[->,ultra thick] (-0.01,0)--(6,0) node[right]{$x$};
+    \draw[->,ultra thick] (0,-0.01)--(0,6) node[above]{$y$};
+
+    \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+    \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+
+    \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+    \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+
+    \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+    \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+    \draw[<->,thick] (2.7,4)--(3.7,4) node[above,xshift=-0.3cm]{$k(x^{\ast},x_3)$}
+
+    \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+    \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.25] (d) at (3.7,3) {};
+    \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+    \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+    \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+    \draw[dashed,blue] (5,0)--(5,4.5);
+    \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
+\end{tikzpicture}
