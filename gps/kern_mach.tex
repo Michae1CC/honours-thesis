@@ -41,48 +41,134 @@ Notice that in the dual problem, we find that inner products are only taken with
      & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j k \left( \bm{x}_i, \bm{x}_j \right) \\
      & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0.
 \end{align*}
-The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in Figure ...
+
+The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in figure \ref{fig: motive_gp_1}.
+
+\begin{figure}[H]
+    \centering
+    \subfloat[]{
+        \begin{tikzpicture}
+            \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
+            \draw[->,thick] (0,-0.01)--(0,6) node[above]{$y$};
+
+            \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+            \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+
+            \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+            \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+
+            \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+            \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+
+            \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+            \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+            \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+            \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+        \end{tikzpicture}
+    }%
+    \qquad
+    \subfloat[]{
+        \begin{tikzpicture}
+            \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
+            \draw[->,thick] (0,-0.01)--(0,6) node[above]{$y$};
+
+            \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+            \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+            \draw[dashed,blue] (0.7,0)--(0.7,4.7);
+            \draw[<->,thick] (0.7,4.7)--(3.7,4.7) node[above,xshift=-1.5cm]{$k(x^{\ast},x_1)$};
+
+            \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+            \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+            \draw[dashed,blue] (1.4,0)--(1.4,3.5);
+            \draw[<->,thick] (1.4,3.5)--(3.7,3.5) node[above,xshift=-1.1cm]{$k(x^{\ast},x_2)$};
+
+            \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+            \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+            \draw[dashed,blue] (2.7,0)--(2.7,2.3);
+            \draw[<->,thick] (2.7,2.3)--(3.7,2.3) node[above,xshift=-0.9cm]{$k(x^{\ast},x_3)$};
+
+            \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+            \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.25] (d) at (3.7,3) {};
+            \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+            \draw[-,ultra thick] (5,-0.1 )--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+            \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+            \draw[dashed,blue] (5,0)--(5,4.5);
+            \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
+        \end{tikzpicture}
+    }%
+    \caption{A graph of the Gaussian RBF from definition \ref{defe: grbfk} for $d=2$. Evidently, a larger value of $\sigma$ slows the rate of decay increasing the similarity between the same pair of samples.}%
+    \label{fig: motive_gp_1}
+\end{figure}
+
+\begin{filecontents*}{./data/gp_intro_dat1.csv}
+    x,y0,y1,y2
+    0.0,3.8889447299776054,3.252195675396163,2.5723986201044187
+    0.10204081632653061,3.8963153731866624,3.2334114175675395,2.4977761527857716
+    0.20408163265306123,3.904676475191245,3.2263277175862597,2.4161726074738854
+    0.30612244897959184,3.912486422260641,3.2265022294195966,2.3292200441690207
+    0.40816326530612246,3.9181367775658873,3.228192583362307,2.2398507798591534
+    0.5102040816326531,3.920256370846241,3.2249223304542913,2.152200525625582
+    0.6122448979591837,3.9179701155023157,3.2101098230475538,2.071344891386562
+    0.7142857142857143,3.9110778971645765,3.1777033459669783,2.0028774256062816
+    0.8163265306122449,3.9001283490397016,3.122766415820061,1.9523672809629247
+    0.9183673469387755,3.886376053031046,3.04196343041673,1.924753149634383
+    1.0204081632653061,3.8716211994498333,2.933909038317024,1.9237443590136485
+    1.1224489795918369,3.857954079608229,2.799351626306004,1.9513035606887854
+    1.2244897959183674,3.847436905468257,2.6411768356723235,2.0072815139900495
+    1.3265306122448979,3.841775787363871,2.4642319083119633,2.0892569830605368
+    1.4285714285714286,3.8420321968485376,2.2749858593824617,2.192613833596985
+    1.5306122448979593,3.8484268708760094,2.081057401633018,2.310856060666622
+    1.6326530612244898,3.8602681088894766,1.8906546442626817,2.436135561712868
+    1.7346938775510203,3.876016440194414,1.7119803587951616,2.559934911031695
+    1.836734693877551,3.8934729250514666,1.5526570590488398,2.6738332705910244
+    1.9387755102040818,3.9100510027824393,1.4192260798320049,2.7702684624537106
+    2.0408163265306123,3.9230775813589482,1.3167595333633981,2.8432111425013322
+    2.142857142857143,3.9300643637480857,1.248613256762677,2.888679554257369
+    2.2448979591836737,3.9289011237509577,1.2163272198562576,2.905046033347129
+    2.3469387755102042,3.9179401795449396,1.2196699093041794,2.8931101011392846
+    2.4489795918367347,3.8959727008352174,1.2568027645405968,2.855945899531336
+    2.5510204081632653,3.8621237371394623,1.3245411459916354,2.7985513820415195
+    2.6530612244897958,3.8157151558884888,1.418678279406553,2.7273502460278247
+    2.7551020408163267,3.756152285749804,1.5343452363886438,2.6496002463865618
+    2.857142857142857,3.682888390340987,1.6663820121189532,2.5727700517645653
+    2.9591836734693877,3.595495808498078,1.809697591321269,2.5039341546455005
+    3.0612244897959187,3.493850568209357,1.9596010720146781,2.449232028447514
+    3.163265306122449,3.378399275439287,2.1120883798539003,2.413420573364779
+    3.2653061224489797,3.250456289718835,2.2640650594565668,2.3995428209525658
+    3.36734693877551,3.1124629519607803,2.4134903440220477,2.4087275907808734
+    3.4693877551020407,2.968139731618476,2.559424609970991,2.4401239977854456
+    3.5714285714285716,2.8224826195273596,2.701970562220883,2.4909781807485927
+    3.673469387755102,2.6815760504255355,2.8421022219924184,2.556846086350459
+    3.7755102040816326,2.5522348648343,2.9813911671556212,2.6319349647504673
+    3.8775510204081636,2.441513722741859,3.1216501445256846,2.709555194481732
+    3.979591836734694,2.3561485591504203,3.264528290179406,2.7826529438164505
+    4.081632653061225,2.3020051023456194,3.4111042700896737,2.8443841134520453
+    4.183673469387755,2.2836063990304716,3.5615279847182504,2.8886791623908876
+    4.285714285714286,2.3037932704691393,3.7147625310871684,2.9107453218748542
+    4.387755102040816,2.3635503438936984,3.8684692167316403,2.907454656505577
+    4.4897959183673475,2.461999004872191,4.019063544907245,2.8775731008424583
+    4.591836734693878,2.596536742969357,4.161947681776214,2.821805978895311
+    4.6938775510204085,2.763082806314141,4.291903941920607,2.742656025464969
+    4.795918367346939,2.9563825813547977,4.4036048056748225,2.644116725967176
+    4.8979591836734695,3.1703270754187236,4.492179720561176,2.5312380314160974
+    5.0,3.398251248127017,4.553760976976619,2.4096316234579827
+\end{filecontents*}
 
 \begin{tikzpicture}
-    \draw[->,ultra thick] (-0.01,0)--(6,0) node[right]{$x$};
-    \draw[->,ultra thick] (0,-0.01)--(0,6) node[above]{$y$};
-
-    \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
-    \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
-
-    \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
-    \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
-
-    \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
-    \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
-
-    \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
-    \draw[dashed,thick,red] (3.7,0)--(3.7,5);
-
-    \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
-    \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
-\end{tikzpicture}
-
-\begin{tikzpicture}
-    \draw[->,ultra thick] (-0.01,0)--(6,0) node[right]{$x$};
-    \draw[->,ultra thick] (0,-0.01)--(0,6) node[above]{$y$};
-
-    \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
-    \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
-
-    \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
-    \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
-
-    \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
-    \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
-    \draw[<->,thick] (2.7,4)--(3.7,4) node[above,xshift=-0.3cm]{$k(x^{\ast},x_3)$}
-
-    \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
-    \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.25] (d) at (3.7,3) {};
-    \draw[dashed,thick,red] (3.7,0)--(3.7,5);
-
-    \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
-    \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
-    \draw[dashed,blue] (5,0)--(5,4.5);
-    \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
+    \begin{axis}[
+            xmin=-0.0,xmax=6.5,
+            ymin=-0.5,ymax=6.5,
+            axis line style={draw=none},
+            tick style={draw=none},
+            yticklabels=\empty,
+            xticklabels=\empty,
+        ]
+        \addplot[smooth, color=black, semithick] table [x=x, y=y0, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+        \addplot[smooth, color=black, semithick, dashed] table [x=x, y=y1, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+        \addplot[smooth, color=black, semithick, dotted] table [x=x, y=y2, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+    \end{axis}
+    \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
+    \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
 \end{tikzpicture}
