@@ -44,64 +44,6 @@ Notice that in the dual problem, we find that inner products are only taken with
 
 The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in figure \ref{fig: motive_gp_1}.
 
-\begin{figure}[H]
-    \centering
-    \subfloat[]{
-        \begin{tikzpicture}
-            \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
-            \draw[->,thick] (0,-0.01)--(0,6) node[above]{$y$};
-
-            \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
-            \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
-
-            \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
-            \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
-
-            \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
-            \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
-
-            \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
-            \draw[dashed,thick,red] (3.7,0)--(3.7,5);
-
-            \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
-            \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
-        \end{tikzpicture}
-    }%
-    \qquad
-    \subfloat[]{
-        \begin{tikzpicture}
-            \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
-            \draw[->,thick] (0,-0.01)--(0,6) node[above]{$y$};
-
-            \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
-            \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
-            \draw[dashed,blue] (0.7,0)--(0.7,4.7);
-            \draw[<->,thick] (0.7,4.7)--(3.7,4.7) node[above,xshift=-1.5cm]{$k(x^{\ast},x_1)$};
-
-            \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
-            \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
-            \draw[dashed,blue] (1.4,0)--(1.4,3.5);
-            \draw[<->,thick] (1.4,3.5)--(3.7,3.5) node[above,xshift=-1.1cm]{$k(x^{\ast},x_2)$};
-
-            \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
-            \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
-            \draw[dashed,blue] (2.7,0)--(2.7,2.3);
-            \draw[<->,thick] (2.7,2.3)--(3.7,2.3) node[above,xshift=-0.9cm]{$k(x^{\ast},x_3)$};
-
-            \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
-            \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.25] (d) at (3.7,3) {};
-            \draw[dashed,thick,red] (3.7,0)--(3.7,5);
-
-            \draw[-,ultra thick] (5,-0.1 )--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
-            \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
-            \draw[dashed,blue] (5,0)--(5,4.5);
-            \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
-        \end{tikzpicture}
-    }%
-    \caption{A graph of the Gaussian RBF from definition \ref{defe: grbfk} for $d=2$. Evidently, a larger value of $\sigma$ slows the rate of decay increasing the similarity between the same pair of samples.}%
-    \label{fig: motive_gp_1}
-\end{figure}
-
 \begin{filecontents*}{./data/gp_intro_dat1.csv}
     x,y0,y1,y2
     0.0,2.6341780930873786,4.41685044685407,1.884123117075101
@@ -210,7 +152,150 @@ The next machine learning model of interest that uses kernels are gaussian proce
     5.5,1.69860261545027,1.8531818596862015,2.488627885130089,2.8888780190386125,2.628636682030301,0.7685685488702394
 \end{filecontents*}
 
-\begin{tikzpicture}
+\begin{figure}[H]
+    \centering
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                % This fake axis is added in so that it aligns with the next 
+                % two images.
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                \end{axis}
+                \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
+                \draw[->,thick] (0,-0.01)--(0,5.5) node[above]{$y$};
+
+                \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+                \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+
+                \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+                \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+
+                \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+                \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+
+                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+                \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+                \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+                \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+            \end{tikzpicture}
+        \end{adjustbox}
+
+    }%
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                % This fake axis is added in so that it aligns with the next 
+                % two images.
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                \end{axis}
+                \draw[->,thick] (-0.01,0)--(6,0) node[right]{$x$};
+                \draw[->,thick] (0,-0.01)--(0,5.5) node[above]{$y$};
+
+                \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
+                \draw[fill,draw,blue] (0.7,0.5) circle[radius=2.5pt];
+                \draw[dashed,blue] (0.7,0)--(0.7,4.7);
+                \draw[<->,thick] (0.7,4.7)--(3.7,4.7) node[above,xshift=-1.5cm]{$k(x^{\ast},x_1)$};
+
+                \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
+                \draw[fill,draw,blue] (1.4,0.6) circle[radius=2.5pt];
+                \draw[dashed,blue] (1.4,0)--(1.4,3.5);
+                \draw[<->,thick] (1.4,3.5)--(3.7,3.5) node[above,xshift=-1.1cm]{$k(x^{\ast},x_2)$};
+
+                \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
+                \draw[fill,draw,blue] (2.7,1.7) circle[radius=2.5pt];
+                \draw[dashed,blue] (2.7,0)--(2.7,2.3);
+                \draw[<->,thick] (2.7,2.3)--(3.7,2.3) node[above,xshift=-0.9cm]{$k(x^{\ast},x_3)$};
+
+                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+                \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.25] (d) at (3.7,3) {};
+                \draw[dashed,thick,red] (3.7,0)--(3.7,5);
+
+                \draw[-,ultra thick] (5,-0.1 )--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
+                \draw[fill,draw,blue] (5,4) circle[radius=2.5pt];
+                \draw[dashed,blue] (5,0)--(5,4.5);
+                \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
+            \end{tikzpicture}
+        \end{adjustbox}
+    }\\
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                    \addplot[smooth, color=black, semithick] table [x=x, y=y0, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+                    \addplot[smooth, color=black, semithick, dashed] table [x=x, y=y1, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+                    \addplot[smooth, color=black, semithick, dotted] table [x=x, y=y2, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+
+                    \addplot[name path = bU, mark=none, blue!10] coordinates {(0,0.5) (5.5,0.5)};
+                    \addplot[name path = bL, mark=none, blue!10] coordinates {(0,5.75) (5.5,5.75)};
+                    \addplot [blue!10] fill between [of = bU and bL, soft clip={domain=0:5.5}];
+                \end{axis}
+                \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
+                \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
+            \end{tikzpicture}
+        \end{adjustbox}
+    }
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                    \addplot[smooth, color=black, semithick] table [x=x, y=y0, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=black, semithick, dashed] table [x=x, y=y1, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=black, semithick, dotted] table [x=x, y=y2, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=red, ultra thick] table [x=x, y=mu, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+
+                    \addplot[name path = bU, smooth, color=blue!10] table [x=x, y=bU, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[name path = bL, smooth, color=blue!10] table [x=x, y=bL, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot [blue!10] fill between [of = bU and bL, soft clip={domain=0:5.5}];
+                \end{axis}
+                \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
+                \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
+                \draw[-,ultra thick] (0.5,0.4)--(0.5,0.6) node[below,yshift=-0.3cm]{$x_1$};
+                \draw[-,ultra thick] (2.1,0.4)--(2.1,0.6) node[below,yshift=-0.3cm]{$x_2$};
+                \draw[-,ultra thick] (2.95,0.4)--(2.95,0.6) node[below,yshift=-0.3cm]{$x_3$};
+                \draw[-,ultra thick] (5.3,0.4)--(5.3,0.6) node[below,yshift=-0.3cm]{$x_4$};
+
+                \foreach \Point in {(0.5, 3.45), (2.1, 4.0), (2.95, 3.6), (5.3, 2.1)}{
+                        \node at \Point {{\Large $\bm{\times}$}};
+                    }
+            \end{tikzpicture}
+        \end{adjustbox}
+    }
+    \caption{A graph of the Gaussian RBF from definition \ref{defe: grbfk} for $d=2$. Evidently, a larger value of $\sigma$ slows the rate of decay increasing the similarity between the same pair of samples.}%
+    \label{fig: motive_gp_1}
+\end{figure}
+
+
+
+\begin{tikzpicture}[>=latex]
     \begin{axis}[
             xmin=-0.0,xmax=6.5,
             ymin=-0.5,ymax=6.5,
@@ -231,7 +316,7 @@ The next machine learning model of interest that uses kernels are gaussian proce
     \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
 \end{tikzpicture}
 
-\begin{tikzpicture}
+\begin{tikzpicture}[>=latex]
     \begin{axis}[
             xmin=-0.0,xmax=6.5,
             ymin=-0.5,ymax=6.5,
@@ -251,4 +336,12 @@ The next machine learning model of interest that uses kernels are gaussian proce
     \end{axis}
     \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
     \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
+    \draw[-,ultra thick] (0.5,0.4)--(0.5,0.6) node[below,yshift=-0.3cm]{$x_1$};
+    \draw[-,ultra thick] (2.1,0.4)--(2.1,0.6) node[below,yshift=-0.3cm]{$x_2$};
+    \draw[-,ultra thick] (2.95,0.4)--(2.95,0.6) node[below,yshift=-0.3cm]{$x_3$};
+    \draw[-,ultra thick] (5.3,0.4)--(5.3,0.6) node[below,yshift=-0.3cm]{$x_4$};
+
+    \foreach \Point in {(0.5, 3.45), (2.1, 4.0), (2.95, 3.6), (5.3, 2.1)}{
+            \node at \Point {{\Large $\bm{\times}$}};
+        }
 \end{tikzpicture}
