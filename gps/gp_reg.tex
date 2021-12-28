@@ -1,13 +1,17 @@
 \subsection{Gaussian Processes for Regression}\label{Section1.5}
 
-A {\it Gaussian Process} (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
+We saw in section \ref{Section1.4} that Gaussian processes directly predicts the value function we are seeking to predict instead of parameteric values. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition
 
-A GP is completely characterised by a mean function $m(\bm{x})$ and a covariance function $k (\bm{x}, \bm{x'})$ on a real process as
+\begin{defe}[Gaussian Process] \label{defe: GP}
+    A Gaussian Process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
+\end{defe}
+
+A GP is completely characterised by a mean function $m(\bm{x})$ and a kernel, which in the context of GPs is sometimes called a covariance function, $k (\bm{x}, \bm{x'})$ on a real process as
 \begin{align*}
     m(\bm{x})           & = \EE \left[ f(\bm{x}) \right]                                         \\
     k (\bm{x}, \bm{x'}) & = \EE \left[ (f(\bm{x}) - m(\bm{x})) (f(\bm{x'}) - m(\bm{x'})) \right]
 \end{align*}
-A function $f(\bm{x})$ sampled from a GP with mean $m(\bm{x})$ and covariance $k (\bm{x}, \bm{x'})$ is written as
+GPs define a prior over all possible functions which can be used to create a posterior once enough data has been observed. The prior is used to represent the functions we expect to see before any observations are made. Although defining a prior over all possible function may seem computationally intractable, we actually only need to define a distribution over a finite number of points. Before any observations are made, we typically assume that the mean function is the constant zero function, that is $m \left( \bm{x} \right) = 0$. A function $f(\bm{x})$ sampled from a GP with mean $m(\bm{x})$ and covariance $k (\bm{x}, \bm{x'})$ is written as
 \[
     f(\bm{x}) \sim \calG \calP \left( m(\bm{x}), k (\bm{x}, \bm{x'}) \right)
 \]
@@ -21,7 +25,15 @@ then
     \bm{y_2} & \sim \calN (\bm{\mu_2}, \bm{\Sigma_{2,2}})
 \end{align*}
 
-where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
+where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices. Again, we shall us the notation that for set of data $\bm{W} = \left[ \bm{w}_1 ,\bm{w}_2 , \ldots , \bm{w}_n \right]^{\intercal} \in \RR^{n \times d}$ and $\bm{W}' = \left[ \bm{w}_1' ,\bm{w}_2' , \ldots , \bm{w}_m' \right]^{\intercal} \in \RR^{n' \times d}$ we use the notation
+\[
+    \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} \triangleq k \left( \bm{w}_i , \bm{w}_j' \right)
+\]
+where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The convariance function completely characterized by its kernel. To understand this better, as a small exercise we can select a number of inputs $\bm{X}^{\ast} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_{n^{\ast}} \right]^{\intercal} \in \RR^{n^{\ast} \times d}$ of compute the corresponding covariance matrix using, as an example, the Gaussian RBF kernel. Gaussian vectors can then be sampled using a joint Gaussian distribution using the covariance matrix from the distribution
+\[
+    \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right)
+\]
+and its values graphed as a function of its inputs. Figure \ref{fig: motive_gp_1} (C) shows functions drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of figure \ref{fig: motive_gp_1} (C) represents twice the standard deviation about the mean.
 
 \subsubsection{Noise-free observations}\label{Section1.4.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
