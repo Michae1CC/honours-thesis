@@ -13,6 +13,7 @@
 \usepackage{amsmath, amsthm, amssymb, amsfonts, amsthm, bbold, bm, xcolor}
 \usepackage{adjustbox}
 \usepackage{tikz, tikz-cd, float, paralist, pgfplots, tcolorbox, subfig, filecontents}
+\usepackage[pdftex,outline]{contour}
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{arrows}
 \usetikzlibrary{shapes.geometric}
@@ -337,7 +338,7 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 
 % We have the Bruhat decomposition
 % \[
-% 	\SL_2(\FF_q)=\bigsqcup_{w\in S_2} BwB = B \sqcup BsB = \underbrace{\begin{pmatrix} \FF_q & \FF_q \\ 0 & \FF_q \end{pmatrix}}_{B} \sqcup \underbrace{\begin{pmatrix} \FF_q & \FF_q \\ \FF_q^\times & \FF_q \end{pmatrix}}_{BsB}.
+% 	\SL_2(\FF_q)=\bigsqcup_{w\in S_2} BwB = B \sqcup BsB = \underbrace{\begin{bmatrix} \FF_q & \FF_q \\ 0 & \FF_q \end{bmatrix}}_{B} \sqcup \underbrace{\begin{bmatrix} \FF_q & \FF_q \\ \FF_q^\times & \FF_q \end{bmatrix}}_{BsB}.
 % \]
 % The Bruhat decomposition above and Section \ref{Section1.3} tell us that $\calH(G,B)$ has a basis $\{\chi_B,\chi_{BsB}\}$.
 % For brevity, we write $I:=\chi_B$ and $T:= \chi_{BsB}$.
@@ -364,7 +365,7 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Thus, we have $q-1$ choices for $a$ and $q$ choices for $b$, so $|B| = (q-1)q$.
 % To compute $|BsB|$, notice that
 % \[
-% 	BsB = \SL_2(\FF_q)-B = \Bigg\{\begin{pmatrix} a & b \\ c & d\end{pmatrix}\ \Bigg|\ c\neq 0,\ ad-bc=1\Bigg\} = \Bigg\{\begin{pmatrix} a & \frac{ad-1}{c} \\ c & d\end{pmatrix}\ \Bigg|\ c\neq 0\Bigg\}.
+% 	BsB = \SL_2(\FF_q)-B = \Bigg\{\begin{bmatrix} a & b \\ c & d\end{bmatrix}\ \Bigg|\ c\neq 0,\ ad-bc=1\Bigg\} = \Bigg\{\begin{bmatrix} a & \frac{ad-1}{c} \\ c & d\end{bmatrix}\ \Bigg|\ c\neq 0\Bigg\}.
 % \]
 % Thus, we have $q-1$ choices for $c$ and $q$ choices for both $a$ and $d$, so $|BsB| = (q-1)q^2$.
 % Then $\alpha = |BsB|/|B| = q$.
@@ -380,27 +381,27 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We wish to characterise $B^-B$.
 % Consider the product
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			a & 0      \\
 % 			b & a^{-1}
-% 		\end{pmatrix}}_{B^-}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B^-}
+% 	\underbrace{\begin{bmatrix}
 % 			c & d      \\
 % 			0 & c^{-1}
-% 		\end{pmatrix}}_{B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} =
+% 	\begin{bmatrix}
 % 		ac & ad                \\
 % 		bc & bd + a^{-1}c^{-1}
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % The entry $ac$ is invertible and the entries $bc$, $ad$ and $bd + a^{-1}c^{-1}$ are not necessarily invertible.
 % Thus
 % \[
-% 	B^-B = \Bigg\{\begin{pmatrix} a & b \\ c & d\end{pmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0\Bigg\}
+% 	B^-B = \Bigg\{\begin{bmatrix} a & b \\ c & d\end{bmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0\Bigg\}
 % \]
 % and
 % \[
-% 	BsB\cap B^-B = \Bigg\{\begin{pmatrix} a & b \\ c & d\end{pmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0, c\neq 0\Bigg\} = \Bigg\{\begin{pmatrix} a & b \\ c & \frac{1+bc}{a}\end{pmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0, c\neq 0\Bigg\}.
+% 	BsB\cap B^-B = \Bigg\{\begin{bmatrix} a & b \\ c & d\end{bmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0, c\neq 0\Bigg\} = \Bigg\{\begin{bmatrix} a & b \\ c & \frac{1+bc}{a}\end{bmatrix}\in \SL_2(\FF_q)\ \Bigg|\ a\neq 0, c\neq 0\Bigg\}.
 % \]
 % Thus, we have $q-1$ choices for both $a$ and $c$, and $q$ choices for $b$, so $|BsB\cap B^-B| = (q-1)^2q$.
 % Then $\beta = |BsB\cap B^-B|/|B| = q-1$.
@@ -431,39 +432,39 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We fix the following representations
 % \begin{multline*}
 % 	1 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		1 & 0 & 0 \\
 % 		0 & 1 & 0 \\
 % 		0 & 0 & 1
-% 	\end{pmatrix}, \
+% 	\end{bmatrix}, \
 % 	s_1 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		0 & 1 & 0  \\
 % 		1 & 0 & 0  \\
 % 		0 & 0 & -1
-% 	\end{pmatrix}, \
+% 	\end{bmatrix}, \
 % 	s_2 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		-1 & 0 & 0 \\
 % 		0  & 0 & 1 \\
 % 		0  & 1 & 0
-% 	\end{pmatrix}, \\
+% 	\end{bmatrix}, \\
 % 	s_1s_2 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		0  & 0  & 1 \\
 % 		-1 & 0  & 0 \\
 % 		0  & -1 & 0
-% 	\end{pmatrix}, \ s_2s_1 =
-% 	\begin{pmatrix}
+% 	\end{bmatrix}, \ s_2s_1 =
+% 	\begin{bmatrix}
 % 		0 & -1 & 0  \\
 % 		0 & 0  & -1 \\
 % 		1 & 0  & 0
-% 	\end{pmatrix}, \ s_1s_2s_1 =
-% 	\begin{pmatrix}
+% 	\end{bmatrix}, \ s_1s_2s_1 =
+% 	\begin{bmatrix}
 % 		0  & 0  & -1 \\
 % 		0  & -1 & 0  \\
 % 		-1 & 0  & 0
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \end{multline*}
 % Note that our choice of lifts of $s_1$ and $s_2$ do not matter, but these choices affect the matrix representations of $s_1s_2$, $s_2s_1$ and $s_1s_2s_1$.
 % As in Section \ref{Section3.2}, we have the Bruhat decomposition
@@ -504,59 +505,59 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \]
 % To compute the numerator, notice that
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & -1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix},
+% 	\end{bmatrix},
 % \]
 % which tells us that $Bs_1B$ is a subset of all matrices in $\SL_3(\FF_q)$ with $0$'s in the bottom left and bottom middle entries.
 % In fact, this is exactly $Bs_1B$.
 % To see this, we compute:
 % \[
-% 	\left|\left\{\begin{pmatrix}
+% 	\left|\left\{\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix}\right\}\right| = q^4\cdot (q-1)^2,\quad \left|\left\{\begin{pmatrix}
+% 	\end{bmatrix}\right\}\right| = q^4\cdot (q-1)^2,\quad \left|\left\{\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q        \\
 % 		0            & \FF_q^\times & \FF_q        \\
 % 		0            & 0            & \FF_q^\times
-% 	\end{pmatrix}\right\}\right| = q^3\cdot (q-1)^2.
+% 	\end{bmatrix}\right\}\right| = q^3\cdot (q-1)^2.
 % \]
 % It is a proposition of Bump in \cite{Bump10} that $|Bs_1B|/|B|=q$, so $|Bs_1B|=q|B|$.
 % This tells us that $Bs_1B$ consists of all matrices of the form above.
 
 % We multiply two of these matrices together to see that
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{Bs_1B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_1B}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{Bs_1B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_1B} =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Then the product of two elements in $Bs_1B$ will always have a $0$ in the bottom left entry.
 % However, $s_2$ has a $1$ in the bottom left entry.
@@ -572,44 +573,44 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \]
 % To compute the numerator, notice that
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 \\ 0 & 0 & 1 \\ 0 & 1 & 0
-% 		\end{pmatrix}}_{s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q
-% 	\end{pmatrix},
+% 	\end{bmatrix},
 % \]
 % which tells us that $Bs_2B$ is a subset of all matrices in $\SL_3(\FF_q)$ with $0$'s in the bottom left and middle left entries.
 % As before, $Bs_2B$ consists of all matrices of the form above.
 % We multiply two of these matrices together to see that
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{Bs_2B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_2B}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{Bs_2B}  =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_2B}  =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Then the product of two elements in $Bs_2B$ will always have a $0$ in the middle left entry.
 % However, $s_1$ has a $1$ in the middle left entry.
@@ -628,21 +629,21 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \]
 % To count $|Bs_1B|$, notice that the bottom rows and right columns of $Bs_1B$ and $B$ are the same (highlighted in {\color{red} red} below):
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\color{blue}\FF_q^\times & \color{blue}\FF_q        & \color{red}\FF_q        \\
 % 			\color{blue}0            & \color{blue}\FF_q^\times & \color{red}\FF_q        \\
 % 			\color{red}0             & \color{red}0             & \color{red}\FF_q^\times
-% 		\end{pmatrix}}_{B}\quad \underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}\quad \underbrace{\begin{bmatrix}
 % 			\color{blue}\FF_q        & \color{blue}\FF_q & \color{red}\FF_q        \\
 % 			\color{blue}\FF_q^\times & \color{blue}\FF_q & \color{red}\FF_q        \\
 % 			\color{red}0             & \color{red}0      & \color{red}\FF_q^\times
-% 		\end{pmatrix}}_{Bs_1B}
+% 		\end{bmatrix}}_{Bs_1B}
 % \]
 % This tells us that, when computing $|Bs_1B|/|B|$, the terms resulting from these columns and rows will cancel out.
 % Thus, we only need to consider the submatrices obtained by deleting the bottom row and right column.
 % Explicitly, we have
 % \[
-% 	\frac{|Bs_1B|}{|B|} = \frac{\left|\left\{\begin{pmatrix} \color{blue}\FF_q & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{pmatrix}\right\}\right|}{\left|\left\{\begin{pmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{pmatrix}\right\}\right|}.
+% 	\frac{|Bs_1B|}{|B|} = \frac{\left|\left\{\begin{bmatrix} \color{blue}\FF_q & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{bmatrix}\right\}\right|}{\left|\left\{\begin{bmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{bmatrix}\right\}\right|}.
 % \]
 % However, we have already performed this calculation in Section \ref{Section3.2}.
 % We evaluated this to be $q$, so $\alpha_1 = q$.
@@ -653,20 +654,20 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % As before, $s_2$ is a simple reflection so $\beta_1 = |Bs_2B|/|B|$.
 % To count $|Bs_2B|$, again, notice that the top rows and left columns of $Bs_2B$ and $B$ are the same (highlighted in {\color{red} red} below):
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\color{red}\FF_q^\times & \color{red}\FF_q         & \color{red}\FF_q         \\
 % 			\color{red}0            & \color{blue}\FF_q^\times & \color{blue}\FF_q        \\
 % 			\color{red}0            & \color{blue}0            & \color{blue}\FF_q^\times
-% 		\end{pmatrix}}_{B}\quad \underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}\quad \underbrace{\begin{bmatrix}
 % 			\color{red}\FF_q^\times & \color{red}\FF_q         & \color{red}\FF_q  \\
 % 			\color{red}0            & \color{blue}\FF_q        & \color{blue}\FF_q \\
 % 			\color{red}0            & \color{blue}\FF_q^\times & \color{blue}\FF_q
-% 		\end{pmatrix}}_{Bs_2B}
+% 		\end{bmatrix}}_{Bs_2B}
 % \]
 % This tells us that we only need to consider the submatrices obtained by deleting the top row and left column.
 % Explicitly, we have
 % \[
-% 	\frac{|Bs_2B|}{|B|} = \frac{\left|\left\{\begin{pmatrix} \color{blue}\FF_q & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{pmatrix}\right\}\right|}{\left|\left\{\begin{pmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{pmatrix}\right\}\right|}.
+% 	\frac{|Bs_2B|}{|B|} = \frac{\left|\left\{\begin{bmatrix} \color{blue}\FF_q & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{bmatrix}\right\}\right|}{\left|\left\{\begin{bmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{bmatrix}\right\}\right|}.
 % \]
 % We've already evaluated this to be $q$, so $\beta_1 = q$.
 % Now we compute $\alpha_2$.
@@ -678,52 +679,52 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Notice $s_1^{-1}=s_1$.
 % Then
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0  \\
 % 			1 & 0 & 0  \\
 % 			0 & 0 & -1
-% 		\end{pmatrix}}_{s_1^{-1}}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1^{-1}}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0  \\
 % 			1 & 0 & 0  \\
 % 			0 & 0 & -1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % \]
 % We see that
 % \[
-% 	s_1^{-1}Bs_1B\cap Bs_1B = \left\{\begin{pmatrix}
+% 	s_1^{-1}Bs_1B\cap Bs_1B = \left\{\begin{bmatrix}
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix}\right\}
+% 	\end{bmatrix}\right\}
 % 	\cap
-% 	\left\{\begin{pmatrix}
+% 	\left\{\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        \\
 % 		0            & 0     & \FF_q^\times
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % 	\right\} =
 % 	\left\{
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		\color{blue}\FF_q^\times & \color{blue}\FF_q & \color{red}\FF_q        \\
 % 		\color{blue}\FF_q^\times & \color{blue}\FF_q & \color{red}\FF_q        \\
 % 		\color{red}0             & \color{red}0      & \color{red}\FF_q^\times
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % 	\right\}.
 % \]
 % Notice that the bottom rows and right columns of $s_1^{-1}Bs_1B\cap Bs_1B$ and $B$ are the same.
@@ -731,7 +732,7 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Thus, we only need to consider the submatrices obtained by deleting the bottom row and right column.
 % More specifically, we have
 % \[
-% 	\frac{|s_1^{-1}Bs_1B\cap Bs_1B|}{|B|} = \frac{\left|\left\{\begin{pmatrix}\color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{pmatrix}\right\}\right|}{\left|\left\{\begin{pmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{pmatrix}\right\}\right|}.
+% 	\frac{|s_1^{-1}Bs_1B\cap Bs_1B|}{|B|} = \frac{\left|\left\{\begin{bmatrix}\color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{bmatrix}\right\}\right|}{\left|\left\{\begin{bmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{bmatrix}\right\}\right|}.
 % \]
 % However, we have already performed this calculation in Section \ref{Section3.3}.
 % We evaluated this to be $q-1$.
@@ -744,59 +745,59 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Notice $s_2^{-1}=s_2$.
 % Then
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 \\
 % 			0  & 0 & 1 \\
 % 			0  & 1 & 0
-% 		\end{pmatrix}}_{s_2^{-1}}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2^{-1}}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 \\
 % 			0  & 0 & 1 \\
 % 			0  & 1 & 0
-% 		\end{pmatrix}}_{s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q \\
 % 		0            & \FF_q        & \FF_q
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % We see that
 % \[
-% 	s_2^{-1}Bs_2B\cap Bs_2B = \left\{\begin{pmatrix}
+% 	s_2^{-1}Bs_2B\cap Bs_2B = \left\{\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q \\
 % 		0            & \FF_q        & \FF_q
-% 	\end{pmatrix}\right\}
+% 	\end{bmatrix}\right\}
 % 	\cap
-% 	\left\{\begin{pmatrix}
+% 	\left\{\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % 	\right\} =
 % 	\left\{
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		\color{red}\FF_q^\times & \color{red}\FF_q         & \color{red}\FF_q  \\
 % 		\color{red}0            & \color{blue}\FF_q^\times & \color{blue}\FF_q \\
 % 		\color{red}0            & \color{blue}\FF_q^\times & \color{blue}\FF_q
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % 	\right\}.
 % \]
 % Again, notice that the top rows and left columns of $s_2^{-1}Bs_2B\cap Bs_2B$ and $B$ are the same.
 % We only need to consider the submatrices obtained by deleting the top row and left column.
 % More specifically, we have
 % \[
-% 	\frac{|s_2^{-1}Bs_2B\cap Bs_2B|}{|B|} = \frac{\left|\left\{\begin{pmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{pmatrix}\right\}\right|}{\left|\left\{\begin{pmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{pmatrix}\right\}\right|}.
+% 	\frac{|s_2^{-1}Bs_2B\cap Bs_2B|}{|B|} = \frac{\left|\left\{\begin{bmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}\FF_q^\times & \color{blue}\FF_q \end{bmatrix}\right\}\right|}{\left|\left\{\begin{bmatrix} \color{blue}\FF_q^\times & \color{blue}\FF_q \\ \color{blue}0 & \color{blue}\FF_q^\times \end{bmatrix}\right\}\right|}.
 % \]
 % We've already evaluated this to be $q-1$.
 % Thus, $\beta_3 = q-1$.
@@ -822,36 +823,36 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_1B$ and $y\in Bs_2B$.
 % We look at the products $xy$ and $yx$:
 % \begin{align*}
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q        & \FF_q \\
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q
-% 	\end{pmatrix} \notin Bs_1B,        \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix} \notin Bs_1B,        \\
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q^\times & \FF_q & \FF_q
-% 	\end{pmatrix}\notin Bs_2B.
+% 	\end{bmatrix}\notin Bs_2B.
 % \end{align*}
 % We see that $T(xy)-S(yx)$ is always zero whenever $T(x^{-1})$ and $S(y^{-1})$ are non-zero, so this sum is always $0$.
 % Thus, $\gamma_1=\delta_1$.
@@ -863,46 +864,46 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_1B$ and $y\in Bs_2B$.
 % We look at the products $s_1xy$ and $s_1yx$:
 % \begin{align*}
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0  \\
 % 			1 & 0 & 0  \\
 % 			0 & 0 & -1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} & =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		\FF_q        & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q
-% 	\end{pmatrix} \notin Bs_1B,        \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix} \notin Bs_1B,        \\
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0  \\
 % 			1 & 0 & 0  \\
 % 			0 & 0 & -1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q^\times & \FF_q & \FF_q
-% 	\end{pmatrix} \notin Bs_2B.
+% 	\end{bmatrix} \notin Bs_2B.
 % \end{align*}
 % We see that $T(s_1xy)-S(s_1yx)$ is always zero whenever $T(x^{-1})$ and $S(y^{-1})$ are non-zero, so this sum is always $0$.
 % Thus, $\gamma_2=\delta_2$.
@@ -914,46 +915,46 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_1B$ and $y\in Bs_2B$.
 % We look at the products $s_2xy$ and $s_2yx$:
 % \begin{align*}
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 \\
 % 			0  & 0 & 1 \\
 % 			0  & 1 & 0
-% 		\end{pmatrix}}_{s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q \\
 % 		\FF_q^\times & \FF_q        & \FF_q
-% 	\end{pmatrix}\notin Bs_1B,         \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix}\notin Bs_1B,         \\
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 \\
 % 			0  & 0 & 1 \\
 % 			0  & 1 & 0
-% 		\end{pmatrix}}_{s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q^\times & \FF_q & \FF_q \\
 % 		\FF_q        & \FF_q & \FF_q
-% 	\end{pmatrix}\notin Bs_2B.
+% 	\end{bmatrix}\notin Bs_2B.
 % \end{align*}
 % We see that $T(s_2xy)-S(s_2yx)$ is always zero whenever $T(x^{-1})$ and $S(y^{-1})$ are non-zero, so this sum is always $0$.
 % Thus, $\gamma_3=\delta_3$.
@@ -965,48 +966,48 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_1B$ and $y\in Bs_2B$.
 % We look at the products $s_1s_2xy$ and $s_1s_2yx$:
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0  & 0  & 1 \\
 % 			-1 & 0  & 0 \\
 % 			0  & -1 & 0
-% 		\end{pmatrix}}_{s_1s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} =
+% 	\begin{bmatrix}
 % 		0            & \FF_q^\times & \FF_q \\
 % 		\FF_q        & \FF_q        & \FF_q \\
 % 		\FF_q^\times & \FF_q        & \FF_q
-% 	\end{pmatrix}\notin Bs_1B.
+% 	\end{bmatrix}\notin Bs_1B.
 % \]
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0  & 0  & 1 \\
 % 			-1 & 0  & 0 \\
 % 			0  & -1 & 0
-% 		\end{pmatrix}}_{s_1s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			a & b & c \\
 % 			0 & d & e \\
 % 			0 & f & g
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			h & i & j \\
 % 			k & l & m \\
 % 			0 & 0 & n
-% 		\end{pmatrix}}_{x} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} =
+% 	\begin{bmatrix}
 % 		fk     & fl     & fm+gn     \\
 % 		-ah-bk & -ai-bl & -aj-bm-cn \\
 % 		-dk    & -dl    & -dm-en
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % For $x$ to lie in $Bs_1B$ and $y\in Bs_2B$, we must have $afkn\neq 0$.
 % For the product $s_1s_2yx$ to lie in $Bs_2B$, we require $-dk=0$.
@@ -1023,46 +1024,46 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_1B$ and $y\in Bs_2B$.
 % We look at the products $s_2s_1xy$ and $s_2s_1yx$:
 % \begin{align*}
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & -1 & 0  \\
 % 			0 & 0  & -1 \\
 % 			1 & 0  & 0
-% 		\end{pmatrix}}_{s_2s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} & =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q        & \FF_q \\
 % 		0            & \FF_q^\times & \FF_q \\
 % 		\FF_q        & \FF_q        & \FF_q
-% 	\end{pmatrix}\notin Bs_1B,         \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix}\notin Bs_1B,         \\
+% 	\underbrace{\begin{bmatrix}
 % 			0 & -1 & 0  \\
 % 			0 & 0  & -1 \\
 % 			1 & 0  & 0
-% 		\end{pmatrix}}_{s_2s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q \\
 % 			0            & \FF_q        & \FF_q \\
 % 			0            & \FF_q^\times & \FF_q
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        \\
 % 			0            & 0     & \FF_q^\times
-% 		\end{pmatrix}}_{x} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} & =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q \\
 % 		\FF_q^\times & \FF_q & \FF_q \\
 % 		\FF_q        & \FF_q & \FF_q
-% 	\end{pmatrix}\notin Bs_2B.
+% 	\end{bmatrix}\notin Bs_2B.
 % \end{align*}
 % We see that $T(s_2s_1xy)-S(s_2s_1yx)$ is always zero whenever $T(x^{-1})$ and $S(y^{-1})$ are non-zero, so this sum is always $0$.
 % Thus, $\gamma_5=\delta_5$.
@@ -1074,26 +1075,26 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \]
 % We look at the product $s_1s_2s_1xy$:
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0  & 0  & -1 \\
 % 			0  & -1 & 0  \\
 % 			-1 & 0  & 0
-% 		\end{pmatrix}}_{s_1s_2s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1s_2s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			h & i & j               \\
 % 			k & l & m               \\
 % 			0 & 0 & \frac{1}{hl-ik}
-% 		\end{pmatrix}}_{x}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{x}
+% 	\underbrace{\begin{bmatrix}
 % 			\frac{1}{dg-ef} & b & c \\
 % 			0               & d & e \\
 % 			0               & f & g
-% 		\end{pmatrix}}_{y} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{y} =
+% 	\begin{bmatrix}
 % 		0                & \frac{-f}{hl-ik} & \frac{-g}{hl-ik} \\
 % 		\frac{-k}{dg-ef} & -bk-dl-fm        & -ck-el-gm        \\
 % 		\frac{-h}{dg-ef} & -bh-di-fj        & -ch-ei-gj
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % For $x$ to lie in $Bs_1B$, we require that $k\neq 0$ and $hl-ik\neq 0$ which can be restated at $i\neq \frac{hl}{k}$.
 % Similarly, for $y$ to lie in $Bs_2B$, we require that $f\neq 0$ and $e\neq\frac{dg}{f}$.
@@ -1118,27 +1119,27 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \]
 % We look at the product $s_1s_2s_1yx$:
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			0  & 0  & -1 \\
 % 			0  & -1 & 0  \\
 % 			-1 & 0  & 0
-% 		\end{pmatrix}}_{s_1s_2s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1s_2s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\frac{1}{dg-ef} & b & c \\
 % 			0               & d & e \\
 % 			0               & f & g
-% 		\end{pmatrix}}_{y}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{y}
+% 	\underbrace{\begin{bmatrix}
 % 			h & i & j               \\
 % 			k & l & m               \\
 % 			0 & 0 & \frac{1}{hl-ik}
-% 		\end{pmatrix}}_{x}
+% 		\end{bmatrix}}_{x}
 % 	=
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		-fk                 & -fl                   & -fm-\frac{g}{hl-ik}                 \\
 % 		-dk                 & -dl                   & -dm-\frac{e}{hl-ik}                 \\
 % 		\frac{-h}{dg-ef}-bk & \frac{-i}{dg-ef} - bl & \frac{-j}{dg-ef}-bm-\frac{c}{hl-ik}
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Now we investigate when the product $s_1s_2s_1yx$ lies in $Bs_2B$ which will lead to an easy evaluation of $\delta_6$.
 % First, we require that $-fk\neq 0$ which is already true since $f,k\neq 0$.
@@ -1175,26 +1176,26 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We fix a choice of permutation matrices in $\SL_4(\FF_q)$ that generate $S_4$:
 % \[
 % 	s_1 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		0 & 1 & 0  & 0 \\
 % 		1 & 0 & 0  & 0 \\
 % 		0 & 0 & -1 & 0 \\
 % 		0 & 0 & 0  & 1
-% 	\end{pmatrix}, \
+% 	\end{bmatrix}, \
 % 	s_2 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		-1 & 0 & 0 & 0 \\
 % 		0  & 0 & 1 & 0 \\
 % 		0  & 1 & 0 & 0 \\
 % 		0  & 0 & 0 & 1
-% 	\end{pmatrix}, \
+% 	\end{bmatrix}, \
 % 	s_3 =
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		1 & 0  & 0 & 0 \\
 % 		0 & -1 & 0 & 0 \\
 % 		0 & 0  & 0 & 1 \\
 % 		0 & 0  & 1 & 0
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % As before, $\calH(G,K)$ has a basis $\{\chi_{BwB}\}_{w\in S_4}$.
 % For brevity, we write $I:=\chi_B$ and $T_i:= \chi_{Bs_iB}$.
@@ -1209,100 +1210,100 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We begin by investigating the structure of the double cosets $Bs_1B$, $Bs_2B$ and $Bs_3B$.
 % Observe that
 % \begin{align*}
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			0 & 1 & 0  & 0 \\
 % 			1 & 0 & 0  & 0 \\
 % 			0 & 0 & -1 & 0 \\
 % 			0 & 0 & 0  & 1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} & =
+% 	\begin{bmatrix}
 % 		\color{blue}\FF_q        & \color{blue}\FF_q & \color{blue}\FF_q        & \FF_q        \\
 % 		\color{blue}\FF_q^\times & \color{blue}\FF_q & \color{blue}\FF_q        & \FF_q        \\
 % 		\color{blue}0            & \color{blue}0     & \color{blue}\FF_q^\times & \FF_q        \\
 % 		0                        & 0                 & 0                        & \FF_q^\times
-% 	\end{pmatrix},                     \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix},                     \\
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			-1 & 0 & 0 & 0 \\
 % 			0  & 0 & 1 & 0 \\
 % 			0  & 1 & 0 & 0 \\
 % 			0  & 0 & 0 & 1
-% 		\end{pmatrix}}_{s_2}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_2}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} & =
+% 	\begin{bmatrix}
 % 		\color{blue}\FF_q^\times & \color{blue}\FF_q          & \color{blue}\FF_q   & \FF_q                   \\
 % 		\color{blue}0            & \color{violet}\FF_q        & \color{violet}\FF_q & \color{red}\FF_q        \\
 % 		\color{blue}0            & \color{violet}\FF_q^\times & \color{violet}\FF_q & \color{red}\FF_q        \\
 % 		0                        & \color{red}0               & \color{red}0        & \color{red}\FF_q^\times
-% 	\end{pmatrix},                     \\
-% 	\underbrace{\begin{pmatrix}
+% 	\end{bmatrix},                     \\
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{B}
+% 	\underbrace{\begin{bmatrix}
 % 			1 & 0  & 0 & 0 \\
 % 			0 & -1 & 0 & 0 \\
 % 			0 & 0  & 0 & 1 \\
 % 			0 & 0  & 1 & 0
-% 		\end{pmatrix}}_{s_3}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_3}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q^\times & \FF_q        & \FF_q        & \FF_q        \\
 % 			0            & \FF_q^\times & \FF_q        & \FF_q        \\
 % 			0            & 0            & \FF_q^\times & \FF_q        \\
 % 			0            & 0            & 0            & \FF_q^\times \\
-% 		\end{pmatrix}}_{B} & =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{B} & =
+% 	\begin{bmatrix}
 % 		\FF_q^\times & \FF_q                   & \FF_q                   & \FF_q            \\
 % 		0            & \color{red}\FF_q^\times & \color{red}\FF_q        & \color{red}\FF_q \\
 % 		0            & \color{red}0            & \color{red}\FF_q        & \color{red}\FF_q \\
 % 		0            & \color{red}0            & \color{red}\FF_q^\times & \color{red}\FF_q
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \end{align*}
 % Notice that copies of $Bs_1B\subseteq\SL_3(\FF_q)$ and $Bs_2B\subseteq\SL_3(\FF_q)$ from the previous example (highlighted in {\color{blue}blue} and {\color{red}red} with their common entries in {\color{violet}purple}) lie in these three double cosets in $\SL_4(\FF_q)$.
 % We multiply two matrices belonging to $Bs_1B$ together to see that
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        & \FF_q        \\
 % 			0            & 0     & \FF_q^\times & \FF_q        \\
 % 			0            & 0     & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{Bs_1B}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_1B}
+% 	\underbrace{\begin{bmatrix}
 % 			\FF_q        & \FF_q & \FF_q        & \FF_q        \\
 % 			\FF_q^\times & \FF_q & \FF_q        & \FF_q        \\
 % 			0            & 0     & \FF_q^\times & \FF_q        \\
 % 			0            & 0     & 0            & \FF_q^\times
-% 		\end{pmatrix}}_{Bs_1B} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{Bs_1B} =
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        & \FF_q        \\
 % 		0            & 0     & \FF_q^\times & \FF_q        \\
 % 		0            & 0     & 0            & \FF_q^\times
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Then the product of two elements in $Bs_1B$ lies in $Bs_1B$.
 % The same is true for $Bs_2B$ and $Bs_3B$.
@@ -1320,12 +1321,12 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For the summand to be non-zero, we require that $x\in Bs_3B$.
 % Fix $x\in Bs_3B$, so it has the form
 % \[
-% 	x = \begin{pmatrix}
+% 	x = \begin{bmatrix}
 % 		\frac{1}{e(hk-ij)} & b & c & d \\
 % 		0                  & e & f & g \\
 % 		0                  & 0 & h & i \\
 % 		0                  & 0 & j & k
-% 	\end{pmatrix},
+% 	\end{bmatrix},
 % \]
 % with $ej\neq 0$ and $i\neq\frac{hk}{j}$.
 % Notice that if $wx\notin Bs_1B$ and $xw\notin Bs_1B$ then $T_1(wx)-T_1(xw)=0$.
@@ -1336,12 +1337,12 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Note that left-multiplication by $w$ permutes the rows of $x$ according to $w$.
 % Recall that elements of $Bs_1B$ have the form
 % \[
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		\FF_q        & \FF_q & \FF_q        & \FF_q        \\
 % 		\FF_q^\times & \FF_q & \FF_q        & \FF_q        \\
 % 		0            & 0     & \FF_q^\times & \FF_q        \\
 % 		0            & 0     & 0            & \FF_q^\times
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % We see that, for $wx$ to lie in $Bs_1B$, $w$ must perform the row operation $R_1\mapsto R_2$.
 % We also see that $w$ must not perform the row operations $R_2\mapsto R_3$ or $R_2\mapsto R_4$ since $e\neq 0$.
@@ -1369,30 +1370,30 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We compute
 % \[
 % 	\underbrace{
-% 		\begin{pmatrix}
+% 		\begin{bmatrix}
 % 			0 & 1 & 0  & 0 \\
 % 			1 & 0 & 0  & 0 \\
 % 			0 & 0 & -1 & 0 \\
 % 			0 & 0 & 0  & 1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			1 & 0  & 0 & 0 \\
 % 			0 & -1 & 0 & 0 \\
 % 			0 & 0  & 0 & 1 \\
 % 			0 & 0  & 1 & 0
-% 		\end{pmatrix}}_{s_3}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_3}
+% 	\underbrace{\begin{bmatrix}
 % 			\frac{1}{e(hk-ij)} & b & c & d \\
 % 			0                  & e & f & g \\
 % 			0                  & 0 & h & i \\
 % 			0                  & 0 & j & k
-% 		\end{pmatrix}}_{x} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{x} =
+% 	\begin{bmatrix}
 % 		0                  & -e & -f & -g \\
 % 		\frac{1}{e(hk-ij)} & b  & c  & d  \\
 % 		0                  & 0  & -j & -k \\
 % 		0                  & 0  & h  & i
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % For $s_1s_3x$ to lie in $Bs_1B$, we require that $h=0$.
 % We also require that $i\neq 0$ but this is already true since we require that $i\neq \frac{hk}{j}=0$.
@@ -1405,31 +1406,31 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % To count $\beta_{s_1s_3}$, we count how many ways $xs_1s_3$ can lie in $Bs_1B$.
 % We compute
 % \[
-% 	\underbrace{\begin{pmatrix}
+% 	\underbrace{\begin{bmatrix}
 % 			\frac{1}{e(hk-ij)} & b & c & d \\
 % 			0                  & e & f & g \\
 % 			0                  & 0 & h & i \\
 % 			0                  & 0 & j & k
-% 		\end{pmatrix}}_{x}
+% 		\end{bmatrix}}_{x}
 % 	\underbrace{
-% 		\begin{pmatrix}
+% 		\begin{bmatrix}
 % 			0 & 1 & 0  & 0 \\
 % 			1 & 0 & 0  & 0 \\
 % 			0 & 0 & -1 & 0 \\
 % 			0 & 0 & 0  & 1
-% 		\end{pmatrix}}_{s_1}
-% 	\underbrace{\begin{pmatrix}
+% 		\end{bmatrix}}_{s_1}
+% 	\underbrace{\begin{bmatrix}
 % 			1 & 0  & 0 & 0 \\
 % 			0 & -1 & 0 & 0 \\
 % 			0 & 0  & 0 & 1 \\
 % 			0 & 0  & 1 & 0
-% 		\end{pmatrix}}_{s_3} =
-% 	\begin{pmatrix}
+% 		\end{bmatrix}}_{s_3} =
+% 	\begin{bmatrix}
 % 		b & \frac{-1}{e(hk-ij)} & d & -c \\
 % 		e & 0                   & g & -f \\
 % 		0 & 0                   & i & -h \\
 % 		0 & 0                   & k & -j
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % For $xs_1s_3$ to lie in $Bs_1B$, we require that $k=0$.
 % We also require that $i\neq 0$ but this is already true since we require that $i\neq \frac{hk}{j}=0$.
@@ -1470,13 +1471,13 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % Here $m_{ii}=1$, $m_{i,i+1}=3$ and $m_{ij}=2$ for $|i-j|>1$.
 % This information can be encoded in the matrix
 % \[
-% 	M = \begin{pmatrix}
+% 	M = \begin{bmatrix}
 % 		1      & 3      & 2      & \hdots & 2      \\
 % 		3      & 1      & 3      & \ddots & \vdots \\
 % 		2      & 3      & 1      & \ddots & 2      \\
 % 		\vdots & \ddots & \ddots & \ddots & 3      \\
 % 		2      & \hdots & 2      & 3      & 1
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Generally we say that $W$ is a \emph{Coxeter group}, and $(W,S)$ is a \emph{Coxeter system} with \emph{Coxeter matrix} $M=(m_{ij})$ if $W$ is generated by the finite set $S=\{s_1,\ldots,s_n\}$ subject to the relations $(s_is_j)^{m_{ij}}=1$, where $m_{ii}=1$ and $m_{ij}\in\{2,3,4,\ldots,\infty\}$ with the convention that $m_{ij}=\infty$ means no relation is imposed \cite{Humphreys90}.
 
@@ -1635,9 +1636,9 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % We may identify $\GL_2(\RR)^+$ with an open subset of $\RR^4$.
 % Specifically, we make the identification
 % \[
-% 	\begin{pmatrix}
+% 	\begin{bmatrix}
 % 		x_1 & x_2 \\ x_3 & x_4
-% 	\end{pmatrix} \longleftrightarrow (x_1,x_2,x_3,x_4).
+% 	\end{bmatrix} \longleftrightarrow (x_1,x_2,x_3,x_4).
 % \]
 % Now take a measurable set $E\subseteq \GL_2(\RR)^+$.
 % To define the measure of $E$, we employ the Lebesgue measure on $\RR^4$.
@@ -1882,12 +1883,12 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \begin{lem}[The $p$-adic Cartan Decomposition]
 % 	Every double coset in $K^\circ\backslash G/K^\circ$ has a unique representative of the form
 % 	\[
-% 		\begin{pmatrix}
+% 		\begin{bmatrix}
 % 			\varpi^{\lambda_1} &                    &        &                    \\
 % 			                   & \varpi^{\lambda_2} &        &                    \\
 % 			                   &                    & \ddots &                    \\
 % 			                   &                    &        & \varpi^{\lambda_n}
-% 		\end{pmatrix},
+% 		\end{bmatrix},
 % 	\]
 % 	where $\varpi$ is the uniformiser of $\calP$ and $\lambda_1\geq \lambda_2\geq\cdots\geq\lambda_n$ are integers.
 % \end{lem}
@@ -1936,12 +1937,12 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % For a matrix to lie in the preimage of $B(\FF_q)$, its entries below the diagonal must have a constant term of $0$, the entries on the diagonal must have a non-zero constant term, and the entries above the diagonal may be chosen freely.
 % Then
 % \[
-% 	I = \phi^{-1}(B(\FF_q)) = \begin{pmatrix}
+% 	I = \phi^{-1}(B(\FF_q)) = \begin{bmatrix}
 % 		\calO^\times & \calO        & \hdots & \calO        \\
 % 		\calP        & \calO^\times & \ddots & \vdots       \\
 % 		\vdots       & \ddots       & \ddots & \calO        \\
 % 		\calP        & \hdots       & \calP  & \calO^\times
-% 	\end{pmatrix}
+% 	\end{bmatrix}
 % \]
 % In fact, this characterises the Iwahori subgroup for any non-archimedian local field.
 % We require that the elements below the diagonal vanish under $\phi$, so they must lie in $\calP$.
@@ -2023,20 +2024,20 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % The Weyl group is a Coxeter group with simple reflections $S=\{s_i = (i\ i+1)\ |\ i=1,\ldots, r\}$.
 % We can consider these simple reflections as elements of $\SL_{r+1}$ by writing
 % \[
-% 	s_i = \begin{pmatrix}
+% 	s_i = \begin{bmatrix}
 % 		I_{i-1} &    &   &         \\
 % 		        & 0  & 1 &         \\
 % 		        & -1 & 0 &         \\
 % 		        &    &   & I_{r-i}
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % Similarly, the affine Weyl group has the generators $\widetilde{S} := \{s_0,s_1,\ldots, s_r\}$, where $s_1,\ldots, s_r$ are as before, and $s_0$ is given by
 % \[
-% 	s_0 = \begin{pmatrix}
+% 	s_0 = \begin{bmatrix}
 % 		                 &         & \varpi^{-1} \\
 % 		                 & I_{r-1} &             \\
 % 		(-1)^{r+1}\varpi &         &
-% 	\end{pmatrix}.
+% 	\end{bmatrix}.
 % \]
 % This generator is understood as an element of $N_{G(k)}(A)/A(\calO)$.
 % Then we have

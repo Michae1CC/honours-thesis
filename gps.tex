@@ -16,21 +16,21 @@ We conclude with Section \ref{Section2.4}, in which we investigate the Gelfand--
 Suppose that $\sigma\colon K \to\CC^\times$ is a character, i.e.\ a group homomorphism.
 Consider the space
 \[
-	W := \{f\colon G\to \CC\ |\ f(gk) = f(g)\sigma(k),\ \forall g\in G, \forall k \in K\} \subseteq \Fun(G).
+    W := \{f\colon G\to \CC\ |\ f(gk) = f(g)\sigma(k),\ \forall g\in G, \forall k \in K\} \subseteq \Fun(G).
 \]
 As in the previous section, $W$ is called the induced representation and denoted $\Ind_K^G \sigma$.
 We state and prove a lemma analogous to Lemma \ref{lemma: W_left_ideal}.
 \begin{lem}\label{lemma: W_left_ideal_two}
-	$W$ is a left ideal of $(\Fun(G),\star)$.
+    $W$ is a left ideal of $(\Fun(G),\star)$.
 \end{lem}
 \begin{proof}
-	We verify that $f\star w\in W$ whenever $w\in W$ and $f\in\Fun(G)$.
-	Let $g\in G$ and $k\in K$.
-	Then
-	\begin{multline*}
-		(f\star w)(gk) = \sum_{xy=gk} f(x)w(y) = \sum_{x\in G} f(x)w(x^{-1}gk) = \sum_{x\in G} f(x)w(x^{-1}g)\sigma(k) \\
-		= \bigg[\sum_{x\in G} f(x)w(x^{-1}g)\bigg]\sigma(k) = \bigg[\sum_{xy=g} f(x)w(y)\bigg]\sigma(k) = (f\star w)(g)\sigma(k).\qedhere
-	\end{multline*}
+    We verify that $f\star w\in W$ whenever $w\in W$ and $f\in\Fun(G)$.
+    Let $g\in G$ and $k\in K$.
+    Then
+    \begin{multline*}
+        (f\star w)(gk) = \sum_{xy=gk} f(x)w(y) = \sum_{x\in G} f(x)w(x^{-1}gk) = \sum_{x\in G} f(x)w(x^{-1}g)\sigma(k) \\
+        = \bigg[\sum_{x\in G} f(x)w(x^{-1}g)\bigg]\sigma(k) = \bigg[\sum_{xy=g} f(x)w(y)\bigg]\sigma(k) = (f\star w)(g)\sigma(k).\qedhere
+    \end{multline*}
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,17 +38,17 @@ We state and prove a lemma analogous to Lemma \ref{lemma: W_left_ideal}.
 \subsection{The twisted Hecke algebra of a finite group $\calH(G,K,\sigma)$}\label{Section2.2}
 The Hecke algebra $\calH = \calH(G,K,\sigma)$ is the space
 \[
-	\calH := \{f\colon G\to \CC\ |\ f(k_1gk_2) = \sigma(k_1)f(g)\sigma(k_2),\ \forall g\in G,\ \forall k_1,k_2\in K\} \subseteq \Fun(G).
+    \calH := \{f\colon G\to \CC\ |\ f(k_1gk_2) = \sigma(k_1)f(g)\sigma(k_2),\ \forall g\in G,\ \forall k_1,k_2\in K\} \subseteq \Fun(G).
 \]
 The proof of Lemma \ref{lemma: W_left_ideal_two} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
 As before, the identity of $(\Fun(G),\star)$ does not lie in $\calH$.
 Nevertheless, $\calH$ does have an identity of its own.
 It is easy to verify that the identity is $\iota_K^\sigma$, which we define below.
 \[
-	\iota_K^\sigma:G\to\CC,\quad \iota_K^\sigma(g) := \begin{cases}
-		\frac{1}{|K|}\sigma(g),\  & \text{if}\ g\in K, \\
-		0,\                       & \text{else}.
-	\end{cases}
+    \iota_K^\sigma:G\to\CC,\quad \iota_K^\sigma(g) := \begin{cases}
+        \frac{1}{|K|}\sigma(g),\  & \text{if}\ g\in K, \\
+        0,\                       & \text{else}.
+    \end{cases}
 \]
 Thus, $(\calH,\star)$ is a unital associative algebra in its own right.
 
@@ -60,56 +60,56 @@ Consider the finite group $K$ acting on a set $X$.
 For each $x\in X$, let $\calO_x := \{g\cdot x\ |\ g\in G\}$ be the orbit containing $x$ and let $K_x := \{k\in K\ |\ k\cdot x = x\}$ be the stabiliser subgroup of $x$ in $K$ (also denoted as $\stab_K(x)$).
 Consider the vector space
 \[
-	V := \{f\colon X\to\CC\ |\ f(k\cdot x) = \sigma(k)f(x),\ \forall k\in K,\ \forall x\in X\}\subseteq \Fun(X).
+    V := \{f\colon X\to\CC\ |\ f(k\cdot x) = \sigma(k)f(x),\ \forall k\in K,\ \forall x\in X\}\subseteq \Fun(X).
 \]
 An orbit $\calO_x$ is called \emph{$(K,\sigma)$-relevant} if there exists $f\in V$ such that $f|_{\calO_x}$ is non-zero.
 Otherwise, we say $\calO_x$ is \emph{$(K,\sigma)$-irrelevant}.
 We omit mention of $(K,\sigma)$ if it is clear from the context.
 
 \begin{lem}\label{lemma: relevant_orbit}
-	An orbit $\calO_x$ is $(K,\sigma)$-relevant if and only if $\sigma(K_x) = \{1\}$.
+    An orbit $\calO_x$ is $(K,\sigma)$-relevant if and only if $\sigma(K_x) = \{1\}$.
 \end{lem}
 \begin{proof}
-	Assume that $\sigma(K_x)\neq\{1\}$.
-	Then there exists $k\in K_x$  such that $\sigma(k)\neq 1$.
-	Now recall that for $f\in V$ we have $f(x) = f(k\cdot x) = \sigma(k)f(x)$.
-	However $\sigma(k)\neq 1$, so $f(x)=0$.
-	Then $f$ must be zero on $\calO_x$ and $\calO_x$ is irrelevant.
+    Assume that $\sigma(K_x)\neq\{1\}$.
+    Then there exists $k\in K_x$  such that $\sigma(k)\neq 1$.
+    Now recall that for $f\in V$ we have $f(x) = f(k\cdot x) = \sigma(k)f(x)$.
+    However $\sigma(k)\neq 1$, so $f(x)=0$.
+    Then $f$ must be zero on $\calO_x$ and $\calO_x$ is irrelevant.
 
-	Conversely, the fact that $\sigma$ is trivial on $K_x$ implies that it factors through a well-defined function $\sigma_x\colon \calO_x\simeq K/K_x\rightarrow \CC$ given by $\sigma_x(kK_x) := \sigma(k)$.
-	To see that this function is well-defined, suppose that $k_1K_x=k_2K_x$.
-	Then $k_1k_2^{-1}\in K_x$.
-	Since $\sigma$ is trivial on $K_x$, we know $1=\sigma(k_1k_2^{-1})=\sigma(k_1)\sigma(k_2)^{-1}$.
-	Then $\sigma(k_1)=\sigma(k_2)$ so $\sigma_x(k_1K_x) = \sigma_x(k_2K_x)$.
-	It is easy to check that $\sigma_x\in V$.
-	Thus, $\calO_x$ is relevant.
+    Conversely, the fact that $\sigma$ is trivial on $K_x$ implies that it factors through a well-defined function $\sigma_x\colon \calO_x\simeq K/K_x\rightarrow \CC$ given by $\sigma_x(kK_x) := \sigma(k)$.
+    To see that this function is well-defined, suppose that $k_1K_x=k_2K_x$.
+    Then $k_1k_2^{-1}\in K_x$.
+    Since $\sigma$ is trivial on $K_x$, we know $1=\sigma(k_1k_2^{-1})=\sigma(k_1)\sigma(k_2)^{-1}$.
+    Then $\sigma(k_1)=\sigma(k_2)$ so $\sigma_x(k_1K_x) = \sigma_x(k_2K_x)$.
+    It is easy to check that $\sigma_x\in V$.
+    Thus, $\calO_x$ is relevant.
 \end{proof}
 Now suppose $K$ is a subgroup of $G$ acting on $X=G$ from the left and right by translation.
 Then the orbit $\calO_x$ is nothing but the double coset $KxK$ and $V$ becomes the Hecke algebra $\calH$.
 Explicitly, we have
 \[
-	\calH = \{f\colon X\to\CC \ |\ f(k_1\cdot x \cdot k_2) = \sigma(k_1)f(x)\sigma(k_2),\ \forall k_1,k_2\in K,\ \forall x\in X\}\subseteq \Fun(X).
+    \calH = \{f\colon X\to\CC \ |\ f(k_1\cdot x \cdot k_2) = \sigma(k_1)f(x)\sigma(k_2),\ \forall k_1,k_2\in K,\ \forall x\in X\}\subseteq \Fun(X).
 \]
 We can re-write this data by considering the left action of $K\times K^\op$ on $X$, where $K^\op$ is the group opposite to $K$.
 Then
 \[
-	\calH = \{f\colon X\to\CC \ |\ f((k_1,k_2)\cdot x) = \sigma(k_1)\sigma(k_2)f(x),\ \forall k_1,k_2\in K,\ \forall x\in X\}\subseteq\Fun(X).
+    \calH = \{f\colon X\to\CC \ |\ f((k_1,k_2)\cdot x) = \sigma(k_1)\sigma(k_2)f(x),\ \forall k_1,k_2\in K,\ \forall x\in X\}\subseteq\Fun(X).
 \]
 A double coset $KxK$ is relevant if it supports a non-zero function from $\calH$.
 Let $X_\rel$ be a family of relevant coset representatives.
 Define the family of functions $\{\chi_x\}_{x\in X_\rel}$ by
 \[
-	\chi_x(y) := \begin{cases}
-		\sigma(k)\sigma(k'),\  & \text{if}\ y\in KxK\ \text{with}\ y=kxk', \\
-		0,\                    & \text{if}\ y\notin KxK.
-	\end{cases}
+    \chi_x(y) := \begin{cases}
+        \sigma(k)\sigma(k'),\  & \text{if}\ y\in KxK\ \text{with}\ y=kxk', \\
+        0,\                    & \text{if}\ y\notin KxK.
+    \end{cases}
 \]
 One easily checks that $\chi_x$ is well-defined.
 We call $\chi_x$ a \emph{twisted characteristic function} associated to the relevant orbit $KxK$.
 When $\sigma=\1$, every orbit is relevant and $\sigma(k)\sigma(k')=1$, so we obtain the original characteristic functions described in Section \ref{Section1.3}.
 Define the map
 \[
-	\sigma\boxtimes\sigma\colon K\times K\to\CC^\times\times\CC^\times,\quad (\sigma\boxtimes\sigma)(k_1,k_2) := (\sigma(k_1),\sigma(k_2)).
+    \sigma\boxtimes\sigma\colon K\times K\to\CC^\times\times\CC^\times,\quad (\sigma\boxtimes\sigma)(k_1,k_2) := (\sigma(k_1),\sigma(k_2)).
 \]
 As a result of Lemma \ref{lemma: relevant_orbit}, we see that an orbit under the left action of $K\times K^\op$ is relevant if and only if $(\sigma\boxtimes\sigma)(\stab_{K\times K}(x)) = \{1\}$.
 As in Section \ref{Section1.3}, it is not difficult to see that the twisted characteristic functions of relevant orbits form a basis of $\calH(G,K,\sigma)$.
@@ -119,15 +119,15 @@ As in Section \ref{Section1.3}, it is not difficult to see that the twisted char
 \subsection{Twisted Gelfand's Trick}\label{Section2.3}
 Our goal in this section is to prove the twisted analogue of Gelfand's Trick.
 \begin{thm}[Twisted Gelfand's Trick]\label{twisted_trick}
-	Suppose that $G$ is a finite group with $K\leq G$ as a subgroup and character $\sigma\colon K\to\CC^\times$.
-	Let $\varphi\colon G\to G$ be an anti-automorphism such that
-	\begin{enumerate}[\itshape(i)]
-		\item $\varphi^2=1$,
-		\item $\varphi(K)=K$,
-		\item $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$, and
-		\item $\varphi(x) = x$ for all $x\in X_\mathrm{rel}$, a family of representatives for the $(K,\sigma)$-relevant $K$-double cosets.
-	\end{enumerate}
-	Then $\calH(G,K,\sigma)$ is commutative.
+    Suppose that $G$ is a finite group with $K\leq G$ as a subgroup and character $\sigma\colon K\to\CC^\times$.
+    Let $\varphi\colon G\to G$ be an anti-automorphism such that
+    \begin{enumerate}[\itshape(i)]
+        \item $\varphi^2=1$,
+        \item $\varphi(K)=K$,
+        \item $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$, and
+        \item $\varphi(x) = x$ for all $x\in X_\mathrm{rel}$, a family of representatives for the $(K,\sigma)$-relevant $K$-double cosets.
+    \end{enumerate}
+    Then $\calH(G,K,\sigma)$ is commutative.
 \end{thm}
 This is a true generalisation of Theorem \ref{theorem: Gelfand's_Trick}.
 Indeed, if we consider the trivial representation $\sigma=\1$, condition {\itshape(iii)} is trivially satisfied, condition {\itshape(iv)} corresponds to the requirement that $K\varphi(x)K=KxK$ in Theorem \ref{theorem: Gelfand's_Trick}, and condition {\itshape(ii)} is contained in the requirement that $K\varphi(x)K=KxK$.
@@ -138,26 +138,26 @@ This leaves us with a question: can we rewrite the condition $\varphi^\ast \chi_
 Recall that $X_\mathrm{rel}$ denotes a family of representatives for the relevant double cosets.
 Recall the twisted characteristic functions $\{\chi_x\}_{x\in X_\rel}$ defined in Section \ref{Section2.2} given by
 \[
-	\chi_x(y) = \begin{cases}
-		\sigma(k)\sigma(k'),\  & \text{if}\ y\in KxK\ \text{with}\ y=kxk', \\
-		0,\                    & \text{if}\ y\notin KxK.
-	\end{cases}
+    \chi_x(y) = \begin{cases}
+        \sigma(k)\sigma(k'),\  & \text{if}\ y\in KxK\ \text{with}\ y=kxk', \\
+        0,\                    & \text{if}\ y\notin KxK.
+    \end{cases}
 \]
 Thus,
 \[
-	(\varphi^\ast\chi_x)(g) = \begin{cases}
-		\sigma(k)\sigma(k'),\  & \text{if}\ \varphi(g) \in KxK\ \text{with}\ \varphi(g) = kxk', \\
-		0,\                    & \text{else}.
-	\end{cases}
+    (\varphi^\ast\chi_x)(g) = \begin{cases}
+        \sigma(k)\sigma(k'),\  & \text{if}\ \varphi(g) \in KxK\ \text{with}\ \varphi(g) = kxk', \\
+        0,\                    & \text{else}.
+    \end{cases}
 \]
 If $\varphi\colon G\to G$ is an involutive homomorphism, then $\varphi(g) = kxk'$ is equivalent to $g=\varphi(k')\varphi(x)\varphi(k)$.
 If we further suppose that $\varphi(x)=x$ for all $x\in X_\rel$ and $\varphi(K)=K$, then $g=\varphi(k')\varphi(x)\varphi(k)$ is equivalent to $g=\varphi(k')x\varphi(k)$.
 Thus,
 \[
-	(\varphi^\ast\chi_x)(g) = \begin{cases}
-		\sigma(\varphi(k'))\sigma(\varphi(k)),\  & \text{if}\ g \in KxK\ \text{with}\ g = \varphi(k')x\varphi(k), \\
-		0,\                                      & \text{else}.
-	\end{cases}
+    (\varphi^\ast\chi_x)(g) = \begin{cases}
+        \sigma(\varphi(k'))\sigma(\varphi(k)),\  & \text{if}\ g \in KxK\ \text{with}\ g = \varphi(k')x\varphi(k), \\
+        0,\                                      & \text{else}.
+    \end{cases}
 \]
 This tells us that $\varphi^\ast\chi_x$ is also supported (i.e.\ non-zero) on $KxK$.
 Now let's also assume that $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$.
@@ -165,15 +165,15 @@ Then we can easily verify that $\varphi^\ast\chi_x \in \calH(G,K,\sigma)$.
 So $\varphi^\ast\chi_x$ must be a multiple of $\chi_x$.
 In fact, this multiple is $1$, since
 \[
-	(\varphi^\ast\chi_x)(x) = \chi_x(\varphi(x)) = \chi_x(x) = 1.
+    (\varphi^\ast\chi_x)(x) = \chi_x(\varphi(x)) = \chi_x(x) = 1.
 \]
 We are now ready to prove Theorem \ref{twisted_trick}.
 \begin{proof}[Proof of Theorem \ref{twisted_trick}]
-	Suppose that $\varphi\colon G\to G$ is an anti-automorphism.
-	Also suppose that $\varphi^2=1$, $\varphi(K)=K$, $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$, and $\varphi(x)=x$ for all $x\in X_\rel$.
-	The above discussion tells us that $\varphi^\ast \chi_x = \chi_x$.
-	These are the basis elements of $\calH(G,K,\sigma)$.
-	We apply Corollary \ref{cor: comm} to conclude that $\calH(G,K,\sigma)$ is commutative.
+    Suppose that $\varphi\colon G\to G$ is an anti-automorphism.
+    Also suppose that $\varphi^2=1$, $\varphi(K)=K$, $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$, and $\varphi(x)=x$ for all $x\in X_\rel$.
+    The above discussion tells us that $\varphi^\ast \chi_x = \chi_x$.
+    These are the basis elements of $\calH(G,K,\sigma)$.
+    We apply Corollary \ref{cor: comm} to conclude that $\calH(G,K,\sigma)$ is commutative.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,51 +182,51 @@ We are now ready to prove Theorem \ref{twisted_trick}.
 We construct the \emph{Gelfand--Graev representation} of $G=\GL_n(\FF_q)$.
 First, consider the \emph{unipotent radical} of $G$, given by
 \[
-	U(\FF_q) := \begin{pmatrix}
-		1      & \FF_q  & \hdots & \FF_q  \\
-		0      & 1      & \ddots & \vdots \\
-		\vdots & \ddots & 1      & \FF_q  \\
-		0      & \hdots & 0      & 1
-	\end{pmatrix}.
+    U(\FF_q) := \begin{bmatrix}
+        1      & \FF_q  & \hdots & \FF_q  \\
+        0      & 1      & \ddots & \vdots \\
+        \vdots & \ddots & 1      & \FF_q  \\
+        0      & \hdots & 0      & 1
+    \end{bmatrix}.
 \]
 Next, fix a non-trivial additive character $\psi\colon \FF_q\to\CC^\times$ (i.e.\ $\psi(a+b)=\psi(a)\psi(b)$).
 Then define a character $\pi\colon U(\FF_q)\to\CC^\times$ by
 \[
-	\pi(x) := \psi(x_{12}+x_{23}+\cdots+x_{n-1,n}).
+    \pi(x) := \psi(x_{12}+x_{23}+\cdots+x_{n-1,n}).
 \]
 To see that $\pi$ is a character, observe
 \begin{align*}
-	\pi(xy) & = \psi((xy)_{12} + (xy)_{23} + \cdots + (xy)_{n-1,n})                                                                                          \\
-	        & = \psi\bigg(\sum_{k=1}^{n-1} x_{1k}y_{k2} + \sum_{k=1}^{n-1} x_{2k}y_{k3} + \cdots + \sum_{k=1}^{n-1} x_{n-1,k}y_{kn}\bigg)                    \\
-	        & = \psi\bigg(\sum_{k=1}^{n-1} x_{1k}y_{k2}\bigg)\psi\bigg(\sum_{k=1}^{n-1} x_{2k}y_{k3}\bigg)\cdots\bigg(\sum_{k=1}^{n-1} x_{n-1,k}y_{kn}\bigg) \\
-	        & = \psi(x_{12}+y_{12})\psi(x_{23}+y_{23})\cdots\psi(x_{n-1,n}+y_{n-1,n})                                                                        \\
-	        & = \psi(x_{12})\psi(y_{12})\psi(x_{23})\psi(y_{23})\cdots\psi(x_{n-1,n})\psi(y_{n-1,n})                                                         \\
-	        & = \psi(x_{12})\psi(x_{23})\cdots\psi(x_{n-1,n})\psi(y_{12})\psi(y_{23})\cdots\psi(y_{n-1,n})                                                   \\
-	        & = \psi(x_{12} + \cdots + x_{n-1,n})\psi(y_{12} + \cdots + y_{n-1,n})                                                                           \\
-	        & = \pi(x)\pi(y).
+    \pi(xy) & = \psi((xy)_{12} + (xy)_{23} + \cdots + (xy)_{n-1,n})                                                                                          \\
+            & = \psi\bigg(\sum_{k=1}^{n-1} x_{1k}y_{k2} + \sum_{k=1}^{n-1} x_{2k}y_{k3} + \cdots + \sum_{k=1}^{n-1} x_{n-1,k}y_{kn}\bigg)                    \\
+            & = \psi\bigg(\sum_{k=1}^{n-1} x_{1k}y_{k2}\bigg)\psi\bigg(\sum_{k=1}^{n-1} x_{2k}y_{k3}\bigg)\cdots\bigg(\sum_{k=1}^{n-1} x_{n-1,k}y_{kn}\bigg) \\
+            & = \psi(x_{12}+y_{12})\psi(x_{23}+y_{23})\cdots\psi(x_{n-1,n}+y_{n-1,n})                                                                        \\
+            & = \psi(x_{12})\psi(y_{12})\psi(x_{23})\psi(y_{23})\cdots\psi(x_{n-1,n})\psi(y_{n-1,n})                                                         \\
+            & = \psi(x_{12})\psi(x_{23})\cdots\psi(x_{n-1,n})\psi(y_{12})\psi(y_{23})\cdots\psi(y_{n-1,n})                                                   \\
+            & = \psi(x_{12} + \cdots + x_{n-1,n})\psi(y_{12} + \cdots + y_{n-1,n})                                                                           \\
+            & = \pi(x)\pi(y).
 \end{align*}
 The \emph{Gelfand--Graev representation} of $G$ is $\Ind_U^G \pi$.
 In \cite{Bump13}, Bump explains, ``this Gelfand–Graev representation is important because it contains \emph{most} irreducible representations of the group; those it contains are therefore called \emph{generic}.'' Furthermore, we have the following theorem.
 \begin{thm}\label{thm: gelf_graev}
-	The Gelfand--Graev representation is multiplicity-free.
-	That is, $(\GL_n(\FF_q),U(\FF_q),\pi)$ is a twisted Gelfand pair.
+    The Gelfand--Graev representation is multiplicity-free.
+    That is, $(\GL_n(\FF_q),U(\FF_q),\pi)$ is a twisted Gelfand pair.
 \end{thm}
 This theorem will be proven in two parts.
 We begin with a lemma.
 \begin{lem}\label{lemma: bruhat}
-	\begin{enumerate}[\itshape(i)]
-		\item We have the Bruhat decomposition
-		      \[
-			      \GL_n(\FF_q) = \bigsqcup_{w\in W} BwB,
-		      \]
-		      where $W$ is the group of all $n\times n$ permutation matrices and $B$ is the subgroup of all $n\times n$ upper-triangular matrices.
-		\item We can modify the Bruhat decomposition and write
-		      \[
-			      \GL_n(\FF_q) = \bigsqcup_{m\in M} UmU,
-		      \]
-		      where $M$ is the group of all $n\times n$ monomial matrices.
-		      A monomial matrix is a matrix with exactly one non-zero element in each row and column.
-	\end{enumerate}
+    \begin{enumerate}[\itshape(i)]
+        \item We have the Bruhat decomposition
+              \[
+                  \GL_n(\FF_q) = \bigsqcup_{w\in W} BwB,
+              \]
+              where $W$ is the group of all $n\times n$ permutation matrices and $B$ is the subgroup of all $n\times n$ upper-triangular matrices.
+        \item We can modify the Bruhat decomposition and write
+              \[
+                  \GL_n(\FF_q) = \bigsqcup_{m\in M} UmU,
+              \]
+              where $M$ is the group of all $n\times n$ monomial matrices.
+              A monomial matrix is a matrix with exactly one non-zero element in each row and column.
+    \end{enumerate}
 \end{lem}
 Before we prove Lemma \ref{lemma: bruhat}, we recall a simple fact about matrices.
 Define $x_{ij}(t) := I_{n\times n} + tE_{ij}$, where $1\leq i\leq j\leq n$ and $E_{ij}$ is the matrix of $0$'s except for a $1$ in the $i^\text{th}$ row and $j^\text{th}$ column.
@@ -241,81 +241,81 @@ Similarly, left-multiplying $A$ by $x_{ii}(\lambda-1)$ corresponds to the row op
 We see that we can perform the usual row and column operations by right- and left-multiplying by elements of $B$.
 
 \begin{proof}[Proof of Lemma \ref{lemma: bruhat}]
-	We begin by proving that $\GL_n(\FF_q) = \bigcup_{w\in W} BwB$ and will prove disjointness of the union later.
-	We proceed by induction.
-	The $n=1$ case is clearly true since all matrices in $\GL_1(\FF_q)$ are upper-triangular.
-	Now let $n>1$ and $g\in\GL_n(\FF_q)$.
-	We wish to find a permutation matrix $w$ in $BgB$.
-	We have two cases: $g_{n,1}\neq 0$ and $g_{n,1}=0$.
+    We begin by proving that $\GL_n(\FF_q) = \bigcup_{w\in W} BwB$ and will prove disjointness of the union later.
+    We proceed by induction.
+    The $n=1$ case is clearly true since all matrices in $\GL_1(\FF_q)$ are upper-triangular.
+    Now let $n>1$ and $g\in\GL_n(\FF_q)$.
+    We wish to find a permutation matrix $w$ in $BgB$.
+    We have two cases: $g_{n,1}\neq 0$ and $g_{n,1}=0$.
 
-	In the first case, the previous discussion tells us that we can multiply $g$ on the left and the right by appropriate elements of $B$ so that the resulting matrix has zeros in the left column and bottom row, except for the bottom left entry, which is $g_{n,1}$.
-	This is non-zero so we can normalise this resulting matrix by $g_{n,1}$ to yield $\left(\begin{smallmatrix} 0 & g' \\ 1 & 0 \end{smallmatrix}\right)$.
-	Here $g'$ lies in $\GL_{n-1}(\FF_q)$.
-	The inductive hypothesis that the $n-1$ is true tells us that $g'$ lies in a double coset $Bw'B$ for some $(n-1)\times(n-1)$ permutation matrix $w'$.
-	Then the desired $w$ is obtained by setting $w = \left(\begin{smallmatrix} 0 & w' \\ 1 & 0 \end{smallmatrix}\right)$.
+    In the first case, the previous discussion tells us that we can multiply $g$ on the left and the right by appropriate elements of $B$ so that the resulting matrix has zeros in the left column and bottom row, except for the bottom left entry, which is $g_{n,1}$.
+    This is non-zero so we can normalise this resulting matrix by $g_{n,1}$ to yield $\left(\begin{smallmatrix} 0 & g' \\ 1 & 0 \end{smallmatrix}\right)$.
+    Here $g'$ lies in $\GL_{n-1}(\FF_q)$.
+    The inductive hypothesis that the $n-1$ is true tells us that $g'$ lies in a double coset $Bw'B$ for some $(n-1)\times(n-1)$ permutation matrix $w'$.
+    Then the desired $w$ is obtained by setting $w = \left(\begin{smallmatrix} 0 & w' \\ 1 & 0 \end{smallmatrix}\right)$.
 
-	In the second case, choose $g_{i1}\neq 0$ and $g_{nj}\neq 0$ so that $i$ is as large as possible and $j$ is as small as possible.
-	This amounts to choosing the two non-zero entries in the left column and bottom row that are closest to the bottom left entry.
-	Left- and right-multiplication by appropriate elements of $B$ yields a matrix whose first and $j$th columns and $i$th and last rows are empty, except the entries $g_{i1}$ and $g_{nj}$.
-	Since these entries are non-zero, we can normalise these to $1$ as well.
-	Now we apply the inductive hypothesis to the matrix obtained by removing these two rows and two columns.
-	We are left with a permutation matrix and this completes the induction.
+    In the second case, choose $g_{i1}\neq 0$ and $g_{nj}\neq 0$ so that $i$ is as large as possible and $j$ is as small as possible.
+    This amounts to choosing the two non-zero entries in the left column and bottom row that are closest to the bottom left entry.
+    Left- and right-multiplication by appropriate elements of $B$ yields a matrix whose first and $j$th columns and $i$th and last rows are empty, except the entries $g_{i1}$ and $g_{nj}$.
+    Since these entries are non-zero, we can normalise these to $1$ as well.
+    Now we apply the inductive hypothesis to the matrix obtained by removing these two rows and two columns.
+    We are left with a permutation matrix and this completes the induction.
 
-	We verify that the union is disjoint.
-	Let $w_1,w_2\in W$ be representatives for the same double coset.
-	Then $Bw_1B=Bw_2B$ and, given any $b\in B$, there exists $b'\in B$ with $w_1bw_2^{-1} = b'$.
-	In particular, $w_1w_2^{-1}\in B\cap W = \{1\}$.
-	Thus $w_1=w_2$.
+    We verify that the union is disjoint.
+    Let $w_1,w_2\in W$ be representatives for the same double coset.
+    Then $Bw_1B=Bw_2B$ and, given any $b\in B$, there exists $b'\in B$ with $w_1bw_2^{-1} = b'$.
+    In particular, $w_1w_2^{-1}\in B\cap W = \{1\}$.
+    Thus $w_1=w_2$.
 
-	We now prove the modified decomposition.
-	Consider the subgroup $T$ of diagonal matrices in $\GL_n(\FF_q)$.
-	Notice that $B=TU=UT$ and $M=TW=WT$ so the result follows from the regular Bruhat decomposition.
-	Disjointness is proven as before.
+    We now prove the modified decomposition.
+    Consider the subgroup $T$ of diagonal matrices in $\GL_n(\FF_q)$.
+    Notice that $B=TU=UT$ and $M=TW=WT$ so the result follows from the regular Bruhat decomposition.
+    Disjointness is proven as before.
 \end{proof}
 \begin{proof}[Proof of Theorem \ref{thm: gelf_graev}]
-	Consider the involutive anti-automorphism $\varphi\colon G \to G$ defined by
-	\[
-		\varphi(g) := w_0 g^t w_0,\quad\text{where}\ w_0 =
-		\begin{pmatrix}
-			  &                       & 1 \\
-			  & \reflectbox{$\ddots$} &   \\
-			1 &                       &
-		\end{pmatrix}.
-	\]
-	We verify that $U\varphi(g)U=UgU$ for all $g\in G$.
-	For each double coset $UgU$, we will show that $UgU$ has a certain coset representative $g'$ with $\varphi(g')=g'$, or $f(g)=0$ for all $f\in\calH$.
+    Consider the involutive anti-automorphism $\varphi\colon G \to G$ defined by
+    \[
+        \varphi(g) := w_0 g^t w_0,\quad\text{where}\ w_0 =
+        \begin{bmatrix}
+              &                       & 1 \\
+              & \reflectbox{$\ddots$} &   \\
+            1 &                       &
+        \end{bmatrix}.
+    \]
+    We verify that $U\varphi(g)U=UgU$ for all $g\in G$.
+    For each double coset $UgU$, we will show that $UgU$ has a certain coset representative $g'$ with $\varphi(g')=g'$, or $f(g)=0$ for all $f\in\calH$.
 
-	The modification of the Bruhat decomposition in Lemma \ref{lemma: bruhat} tells us that $UgU=UmU$ for some monomial matrix $m$.
-	Let $f\in\calH$ be non-vanishing on $UmU$.
-	That is, $f(m)\neq 0$.
-	We show that $m$ has the form
-	\[
-		m = \begin{pmatrix}
-			    &                       &     & D_1 \\
-			    &                       & D_2 &     \\
-			    & \reflectbox{$\ddots$} &     &     \\
-			D_r &                       &     &
-		\end{pmatrix},
-	\]
-	for some diagonal matrices $D_1$,\ldots,$D_r$.
-	Equivalently, we show that if $m_{ij}$ and $m_{i+1,k}$ are non-zero, then we must have $k\leq j+1$.
+    The modification of the Bruhat decomposition in Lemma \ref{lemma: bruhat} tells us that $UgU=UmU$ for some monomial matrix $m$.
+    Let $f\in\calH$ be non-vanishing on $UmU$.
+    That is, $f(m)\neq 0$.
+    We show that $m$ has the form
+    \[
+        m = \begin{bmatrix}
+                &                       &     & D_1 \\
+                &                       & D_2 &     \\
+                & \reflectbox{$\ddots$} &     &     \\
+            D_r &                       &     &
+        \end{bmatrix},
+    \]
+    for some diagonal matrices $D_1$,\ldots,$D_r$.
+    Equivalently, we show that if $m_{ij}$ and $m_{i+1,k}$ are non-zero, then we must have $k\leq j+1$.
 
-	To see this, assume that $m_{ij},m_{i+1,k}\neq 0$ and $k>j+1$.
-	Then define $x :=I_n + m_{ij}E_{i,i+1}\in U$ and $y:= I_n +m_{i+1,k}E_{jk}\in U$.
-	Simple computations tell us that $xm = m+m_{ij}m_{i+1,k}e_{ik} = my$, $\pi(x)=\psi(m_{ij})\neq 1$ and $\pi(y)=\pi(0)=1$.
-	Then, since $f\in\calH$, there holds $\pi(x)f(m)=f(xm)=f(my)=f(m)\pi(y)$.
-	Thus $(\pi(x)-\pi(y))f(m)=0$, so $f(m)=0$ since $\pi(x)\neq \pi(y)$.
+    To see this, assume that $m_{ij},m_{i+1,k}\neq 0$ and $k>j+1$.
+    Then define $x :=I_n + m_{ij}E_{i,i+1}\in U$ and $y:= I_n +m_{i+1,k}E_{jk}\in U$.
+    Simple computations tell us that $xm = m+m_{ij}m_{i+1,k}e_{ik} = my$, $\pi(x)=\psi(m_{ij})\neq 1$ and $\pi(y)=\pi(0)=1$.
+    Then, since $f\in\calH$, there holds $\pi(x)f(m)=f(xm)=f(my)=f(m)\pi(y)$.
+    Thus $(\pi(x)-\pi(y))f(m)=0$, so $f(m)=0$ since $\pi(x)\neq \pi(y)$.
 
-	Now we show that each diagonal matrix $D_i$ is actually a matrix of scalars.
-	In particular, we show that if $m_{i,j}$ and $m_{i+1,j+1}$ are non-zero then they are equal.
-	Consider $x$ and $y$ as given above, with $k=j+1$.
-	Then $xm=my$, $\pi(x)=\psi(m_{ij})$, $\pi(y)=\psi(m_{i+1,j+1})$ and $(\pi(x)-\pi(y))f(m)=0$.
-	Recall that $f$ doesn't vanish on $UmU$ so $f(m)\neq 0$.
-	Thus $\pi(x)=\pi(y)$, which tells us that $\psi(m_{ij})=\psi(m_{i+1,j+1})$ and $m_{ij}=m_{i+1,j+1}$ by injectivity of $\psi$.
+    Now we show that each diagonal matrix $D_i$ is actually a matrix of scalars.
+    In particular, we show that if $m_{i,j}$ and $m_{i+1,j+1}$ are non-zero then they are equal.
+    Consider $x$ and $y$ as given above, with $k=j+1$.
+    Then $xm=my$, $\pi(x)=\psi(m_{ij})$, $\pi(y)=\psi(m_{i+1,j+1})$ and $(\pi(x)-\pi(y))f(m)=0$.
+    Recall that $f$ doesn't vanish on $UmU$ so $f(m)\neq 0$.
+    Thus $\pi(x)=\pi(y)$, which tells us that $\psi(m_{ij})=\psi(m_{i+1,j+1})$ and $m_{ij}=m_{i+1,j+1}$ by injectivity of $\psi$.
 
-	Finally, notice $\varphi(m)=m$.
-	This is easy to see, since $m^t$ is simply $m$ with the elements on the opposite diagonal reversed, and left- and right-multiplying by $w_0$ also reverses the opposite diagonal.
-	This completes the proof.
+    Finally, notice $\varphi(m)=m$.
+    This is easy to see, since $m^t$ is simply $m$ with the elements on the opposite diagonal reversed, and left- and right-multiplying by $w_0$ also reverses the opposite diagonal.
+    This completes the proof.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

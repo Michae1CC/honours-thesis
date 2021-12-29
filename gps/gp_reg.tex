@@ -1,6 +1,6 @@
 \subsection{Gaussian Processes for Regression}\label{Section1.5}
 
-We saw in section \ref{Section1.4} that Gaussian processes directly predicts the value function we are seeking to predict instead of parameteric values. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition
+We saw in section \ref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid D \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid D \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead we choose a suitable $f$ by assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition \ref{defe: GP}.
 
 \begin{defe}[Gaussian Process] \label{defe: GP}
     A Gaussian Process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
@@ -29,38 +29,213 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 \[
     \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} \triangleq k \left( \bm{w}_i , \bm{w}_j' \right)
 \]
-where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The convariance function completely characterized by its kernel. To understand this better, as a small exercise we can select a number of inputs $\bm{X}^{\star} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_{n^{\star}} \right]^{\intercal} \in \RR^{n^{\star} \times d}$ of compute the corresponding covariance matrix using, as an example, the Gaussian RBF kernel. Gaussian vectors can then be sampled using a joint Gaussian distribution using the covariance matrix from the distribution
+where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The convariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation in the Gaussian RBF kernel, definition \ref{defe: grbfk}. To understand this better, as a small exercise we can select a number of inputs $\bm{X}^{\star} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_{n^{\star}} \right]^{\intercal} \in \RR^{n^{\star} \times d}$ of compute the corresponding covariance matrix using the Gaussian RBF kernel. Gaussian vectors can then be sampled using a joint Gaussian distribution using the covariance matrix from the distribution
 \[
-    \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right)
+    \bm{f}^{\star} \sim \calN \left( \bm{0}, \bm{K_{X^{\star} X^{\star}}} \right)
 \]
-and its values graphed as a function of its inputs. Figure \ref{fig: motive_gp_1} (C) shows functions drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of figure \ref{fig: motive_gp_1} (C) represents twice the standard deviation about the mean.
+graph its values as a function of its inputs.
 
-\subsubsection{Noise-free observations}\label{Section1.4.1}
+\begin{filecontents*}{./data/gp_intro_dat1.csv}
+    x,y0,y1,y2
+    0.0,2.6341780930873786,4.41685044685407,1.884123117075101
+    0.11224489795918367,2.685150340856032,4.351109330694541,2.0933788453347146
+    0.22448979591836735,2.758222906849677,4.246986054733594,2.3215583495507697
+    0.336734693877551,2.844091796198551,4.111722477611423,2.5621308980348045
+    0.4489795918367347,2.9327004798948444,3.954138391914307,2.8093607381581323
+    0.5612244897959183,3.0142490315111,3.7837568463624893,3.058296829896802
+    0.673469387755102,3.0800293333419133,3.609905398833131,3.304575221937234
+    0.7857142857142857,3.1230071846450134,3.4408573216000065,3.5440886761610075
+    0.8979591836734694,3.1381275068842287,3.2830844115325393,3.772606115615495
+    1.010204081632653,3.1223796951701805,3.1407028040204787,3.985434762859824
+    1.1224489795918366,3.074690487867501,3.0151840031490704,4.177213384641246
+    1.2346938775510203,2.99572649694323,2.9053883056890326,4.341906534238328
+    1.346938775510204,2.887680093346262,2.807934404050683,4.473021654529128
+    1.4591836734693877,2.7540712359611135,2.7178753181761683,4.5640359352552755
+    1.5714285714285714,2.5995639802641644,2.629596908378246,4.608968085491204
+    1.683673469387755,2.4297636797240854,2.537815790076743,4.603008456947798
+    1.7959183673469388,2.250945266539242,2.4385306514757277,4.54310273176884
+    1.9081632653061225,2.0696826217289814,2.3297825969976156,4.428402138611055
+    2.020408163265306,1.8923794707563157,2.2121155584786374,4.26051300065903
+    2.13265306122449,1.724750314129252,2.088670901030661,4.043522033936433
+    2.2448979591836733,1.5713409480295042,1.9649185604698398,3.78380984825793
+    2.357142857142857,1.4351902937232137,1.8480772970914263,3.4896953544368947
+    2.4693877551020407,1.3177316537250037,1.7463209648090843,3.170973707657322
+    2.5816326530612246,1.2189781885886188,1.667887909534986,2.838411584600058
+    2.693877551020408,1.137982180009872,1.6202034591848866,2.503253609595508
+    2.806122448979592,1.0734814750833834,1.6091067041507867,2.176777775544475
+    2.9183673469387754,1.0246008560812094,1.638242628202587,1.8699164299237567
+    3.0306122448979593,0.9914469543413351,1.708653796550625,1.5929463528940093
+    3.142857142857143,0.9754532832118712,1.8185871450769515,1.3552308689036683
+    3.2551020408163267,0.9793831046385866,1.9635250522558478,1.1649988273056024
+    3.36734693877551,1.0069633897912214,2.136445411268843,1.0291341361289352
+    3.479591836734694,1.0622134340832736,2.328310102622806,0.9529576266820667
+    3.5918367346938775,1.1485904962060034,2.5287676666005745,0.9399816624503701
+    3.704081632653061,1.2681182060719118,2.7270230125223396,0.9916380696381344
+    3.816326530612245,1.4206777569266578,2.9127943188682153,1.1069890129419622
+    3.9285714285714284,1.603600797665261,3.077239529790242,1.282461239660869
+    4.040816326530612,1.8116633596458505,3.213718985997705,1.5116563075035667
+    4.153061224489796,2.0374945244629954,3.31826875093589,1.7853109321561014
+    4.26530612244898,2.272346385818944,3.3896996920659737,2.0914743830547122
+    4.377551020408164,2.50710273056381,3.4293088690936613,2.415953795652976
+    4.489795918367347,2.7333622652331386,3.440263336916595,2.743037053839629
+    4.6020408163265305,2.9444150750492786,3.426788503862636,3.0564529194286605
+    4.714285714285714,3.1359501955059153,3.3933321658244284,3.3404756976868217
+    4.826530612244898,3.306372509617609,3.343882098004392,3.5810500536442835
+    4.938775510204081,3.456677113806286,3.281564998201946,3.766794718394943
+    5.051020408163265,3.5899014357864862,3.2085942528948497,3.889767236618262
+    5.163265306122449,3.710253447229357,3.1265441378249808,3.9459164775264113
+    5.275510204081633,3.822067924064683,3.036856306931041,3.9352029543435254
+    5.387755102040816,3.928774395166681,2.9414323013414645,3.8614290770863415
+    5.5,4.032057566247807,2.843156622782664,3.7318467351526268
+\end{filecontents*}
+
+\begin{filecontents*}{./data/gp_intro_dat2.csv}
+    x,mu,y0,y1,y2,bU,bL
+    0.0,2.96787109791578,3.646442446207024,2.3796779884645356,3.123887098083909,3.8222957144465917,2.1134464813849685
+    0.11224489795918367,3.178846435851742,3.7278533056947927,2.705139783400845,3.3197136652913843,3.8425540443223007,2.515138827381183
+    0.22448979591836735,3.373957062754166,3.772122911137243,3.033674383762561,3.4864096188544065,3.8416203985733905,2.906293726934942
+    0.336734693877551,3.550670833185919,3.7845706480846375,3.3482893361633472,3.6227538754415383,3.8226477418327116,3.2786939245391267
+    0.4489795918367347,3.707387470227142,3.777024821961083,3.6497714076425667,3.734021204276469,3.7908281722625117,3.623946768191772
+    0.5612244897959183,3.8435001880813098,3.7587623765632605,3.9224326540622303,3.820415281746996,3.938789896922746,3.7482104792398734
+    0.673469387755102,3.959374699757277,3.7401691473547714,4.161761533893699,3.884187912930478,4.2112638754378935,3.70748552407666
+    0.7857142857142857,4.056245238332488,3.727886967246087,4.3591514373501585,3.9294944134700884,4.440290931214802,3.6721995454501735
+    0.8979591836734694,4.136035742591053,3.7320230213633776,4.516870894977162,3.9667169440013335,4.6225623417878845,3.6495091433942224
+    1.010204081632653,4.201122318895088,3.7511336294964686,4.631536079365145,3.9909291094494637,4.756943867968448,3.645300769821728
+    1.1224489795918366,4.254059537569402,3.7922886212348805,4.703821106353732,4.014456904551665,4.844164391874928,3.663954683263876
+    1.2346938775510203,4.297297268072625,3.8510310641448773,4.736836098027459,4.040882180292408,4.886718646421257,3.7078758897239927
+    1.346938775510204,4.332916090251523,3.931146658869461,4.737917134427073,4.0721402987298845,4.8886932140093196,3.7771389664937254
+    1.4591836734693877,4.362407665942143,4.019692223676497,4.711145152040588,4.114354849026403,4.855508162034269,3.869307169850018
+    1.5714285714285714,4.386522000140943,4.113994631302509,4.667147410140193,4.1675113923767135,4.79358919579317,3.9794548044887157
+    1.683673469387755,4.405196773426522,4.211161115648332,4.60858632272203,4.2301483229724735,4.709995085814498,4.100398461038546
+    1.7959183673469388,4.417575648333239,4.297237502243545,4.542647493156313,4.298601004588312,4.612045273426419,4.223106023240059
+    1.9081632653061225,4.422113551855313,4.370044631852721,4.478504417000914,4.366233750854552,4.507185391473455,4.337041712237171
+    2.020408163265306,4.416758358107319,4.4212535412567835,4.413073469318789,4.428720525173312,4.439002309014812,4.394514407199825
+    2.13265306122449,4.399191007367498,4.4498214644109035,4.354633815643454,4.472837424274621,4.501454599238494,4.296927415496501
+    2.2448979591836733,4.367100601462363,4.44669502086167,4.293220973455457,4.495071115055989,4.529355328572067,4.204845874352659
+    2.357142857142857,4.318467882753287,4.4122754488830465,4.2367626348642995,4.480392701402552,4.511998980020114,4.124936785486461
+    2.4693877551020407,4.251829947856004,4.344361140161457,4.176480274188317,4.420872228223025,4.444440701959786,4.059219193752223
+    2.5816326530612246,4.166501022807468,4.242712341391929,4.110274997773214,4.315673648503417,4.324777879750019,4.008224165864918
+    2.693877551020408,4.062728357957119,4.110217875771083,4.032563200602017,4.153918593320322,4.154406402240164,3.9710503136740742
+    2.806122448979592,3.9417683270387145,3.9492135726749384,3.9344120355000705,3.9443400697750968,3.9571937560826638,3.926342897994765
+    2.9183673469387754,3.805875044263767,3.7642279401126544,3.810832282328448,3.684817080524404,3.9345310053498097,3.6772190831777247
+    3.0306122448979593,3.6582015833339296,3.564842924761986,3.6644624038944493,3.3833530964865193,3.9269741902831705,3.3894289763846888
+    3.142857142857143,3.5026215163692607,3.3520647108430026,3.488370188345563,3.052946676019309,3.9234237680191817,3.0818192647193396
+    3.2551020408163267,3.3434853499709174,3.1402141378498163,3.2837887833202726,2.7002390009588226,3.920293063216916,2.7666776367249186
+    3.36734693877551,3.1853319635639767,2.934150639260623,3.057322775625835,2.3472996257286054,3.914233966397971,2.4564299607299827
+    3.479591836734694,3.03257891484487,2.738827249921258,2.812094834179371,2.009196676123942,3.902114762761585,2.163043066928155
+    3.5918367346938775,2.8892171796754873,2.5662919443248073,2.559707152254641,1.6967015390942675,3.881056263819646,1.8973780955313282
+    3.704081632653061,2.758535417727554,2.41434042449297,2.309411800258502,1.4256334316849872,3.848437973565799,1.668632861889309
+    3.816326530612245,2.642896256015177,2.2902148380401837,2.075552115650442,1.207890471342624,3.8018786148254615,1.4839138972048924
+    3.9285714285714284,2.5435825902305362,2.1965744091641124,1.8662299680038845,1.0467598332277432,3.7392081008329594,1.3479570796281128
+    4.040816326530612,2.4607259083694415,2.133954232173078,1.6922651032951084,0.952486845042865,3.6584498086819774,1.2630020080569058
+    4.153061224489796,2.393321664023437,2.0881938587934696,1.566133253333461,0.92147130773977,3.5578289289014684,1.2288143991454055
+    4.26530612244898,2.339329380270647,2.0632588371219063,1.4903968555363714,0.94987473663854,3.435816329632721,1.2428424309085735
+    4.377551020408164,2.295848100924048,2.0605594124527933,1.4690236774181895,1.033187881225276,3.2912091804701387,1.3004870213779576
+    4.489795918367347,2.259351656203322,2.064341290936802,1.499164363108256,1.1636813952423448,3.123241143061824,1.3954621693448201
+    4.6020408163265305,2.2259635269573055,2.0739080755801877,1.575649936757477,1.3294049093439706,2.931708042701583,1.520219011213028
+    4.714285714285714,2.1917482915683912,2.0845379827266677,1.6904928495001776,1.5224847717101069,2.717092081155121,1.6664045019816616
+    4.826530612244898,2.1529959577040843,2.0900622587437008,1.8320811599608942,1.733755447747318,2.4806793091811996,1.8253126062269691
+    4.938775510204081,2.10647694342231,2.087733094036374,1.98722071801456,1.9517354055585423,2.2248945171189956,1.988059369725624
+    5.051020408163265,2.049648890548753,2.0747166503580527,2.1438285289379833,2.167467964578078,2.149507699667685,1.9497900814298208
+    5.163265306122449,1.9808014834652514,2.050810263655156,2.283421101970534,2.3742039664111614,2.297682746932975,1.663920219997528
+    5.275510204081633,1.8991314699538484,2.006424555553889,2.395089681917207,2.5656201066053885,2.429871221330997,1.3683917185766998
+    5.387755102040816,1.8047465055032903,1.9408588788404912,2.4682291512970815,2.7418915989000654,2.5411728761483077,1.068320134858273
+    5.5,1.69860261545027,1.8531818596862015,2.488627885130089,2.8888780190386125,2.628636682030301,0.7685685488702394
+\end{filecontents*}
+
+\begin{figure}[h]
+    \centering
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                    \addplot[smooth, color=black, semithick] table [x=x, y=y0, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+                    \addplot[smooth, color=black, semithick, dashed] table [x=x, y=y1, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+                    \addplot[smooth, color=black, semithick, dotted] table [x=x, y=y2, col sep=comma, mark=none] {./data/gp_intro_dat1.csv};
+
+                    \addplot[name path = bU, mark=none, blue!10] coordinates {(0,0.5) (5.5,0.5)};
+                    \addplot[name path = bL, mark=none, blue!10] coordinates {(0,5.75) (5.5,5.75)};
+                    \addplot [blue!10] fill between [of = bU and bL, soft clip={domain=0:5.5}];
+
+                \end{axis}
+                \draw[color=red, ultra thick] (0,3)--(5.8,3);
+                \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
+                \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
+            \end{tikzpicture}
+        \end{adjustbox}
+    }
+    \subfloat[]{
+        \begin{adjustbox}{width=0.48\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=-0.0,xmax=6.5,
+                        ymin=-0.5,ymax=6.5,
+                        axis line style={draw=none},
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                    ]
+                    \addplot[smooth, color=black, semithick] table [x=x, y=y0, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=black, semithick, dashed] table [x=x, y=y1, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=black, semithick, dotted] table [x=x, y=y2, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[smooth, color=red, ultra thick] table [x=x, y=mu, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+
+                    \addplot[name path = bU, smooth, color=blue!10] table [x=x, y=bU, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot[name path = bL, smooth, color=blue!10] table [x=x, y=bL, col sep=comma, mark=none] {./data/gp_intro_dat2.csv};
+                    \addplot [blue!10] fill between [of = bU and bL, soft clip={domain=0:5.5}];
+                \end{axis}
+                \draw[->,thick] (0,0.5)--(0,5.5) node[above]{$y$};
+                \draw[->,thick] (0,0.5)--(6,0.5) node[right]{$x$};
+                \draw[-,ultra thick] (0.5,0.4)--(0.5,0.6) node[below,yshift=-0.3cm]{$x_1$};
+                \draw[-,ultra thick] (2.1,0.4)--(2.1,0.6) node[below,yshift=-0.3cm]{$x_2$};
+                \draw[-,ultra thick] (2.95,0.4)--(2.95,0.6) node[below,yshift=-0.3cm]{$x_3$};
+                \draw[-,ultra thick] (5.3,0.4)--(5.3,0.6) node[below,yshift=-0.3cm]{$x_4$};
+
+                \foreach \Point in {(0.5, 3.45), (2.1, 4.0), (2.95, 3.6), (5.3, 2.1)}{
+                        \node at \Point {\contour{white}{\Large \textbf{+}}};
+                    }
+            \end{tikzpicture}
+        \end{adjustbox}
+    }
+    \caption{Panel (A) shows three function drawn from the prior distribution. Panel (B) shows three function drawn from the prior distribution after four observations have been made. In both panels the mean function is drawn in red, sampled functions in black and twice the standard deviation shaded in light blue.}
+    \label{fig: GP_func_samples}
+\end{figure}
+
+Figure \ref{fig: GP_func_samples} (A) shows three samples drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of figure \ref{fig: GP_func_samples} (A) represents twice the standard deviation about the mean.
+
+\subsubsection{Noise-free observations}\label{Section1.5.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
 Let us suppose there is some obsevered data $D = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
 \[
     \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right).
 \]
-where $\bm{K_{XX}} = k(\bm{X}, \bm{X}) \in \RR^{n \times n}$. We would then like to make a prediction for unobserved values say $X^{\star} = \left[ \bm{x}_1^{\star}, \bm{x}_2^{\star}, \ldots , \bm{x}_{n_\star}^{\star} \right]$ with value $f_{\star}$ as has a distribution of
+We would then like to make a prediction for unobserved values say $X^{\star} = \left[ \bm{x}_1^{\star}, \bm{x}_2^{\star}, \ldots , \bm{x}_{n_\star}^{\star} \right]$ with value $f_{\star}$ as has a distribution of
 \[
     \bm{f}_{\star} \sim \calN \left( \bm{0}, \bm{K_{X^{\star}X^{\star}}} \right).
 \]
 where $\bm{K_{X^{\star}X^{\star}}} = k(\bm{X^{\star}}, \bm{X^{\star}}) \in \RR^{n_\star \times n_\star}$. Here $\bm{f}$ and $\bm{f}_{\star}$ are independent but we would like to give them some sort of correlation. We can do this by having them originate from the same joint distribution. According to the prior, we can write the joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\star}$ as
 \[
-    \begin{pmatrix}
+    \begin{bmatrix}
         \bm{f} \\
         \bm{f}_{\star}
-    \end{pmatrix}
+    \end{bmatrix}
     \sim \calN
-    \begin{pmatrix}
+    \begin{bmatrix}
         \bm{0}, &
         {
-                \begin{pmatrix}
+                \begin{bmatrix}
                     \bm{K_{XX}}                     & \bm{K_{XX^{\star}}}         \\
                     \bm{K_{XX^{\star}}}^{\intercal} & \bm{K_{X^{\star}X^{\star}}}
-                \end{pmatrix}
+                \end{bmatrix}
             }
-    \end{pmatrix}
+    \end{bmatrix}
 \]
 where $\bm{K_{XX^{\star}}} = k(\bm{X}, \bm{X^{\star}}) \in \RR^{n \times n_\star}$.
 
@@ -69,15 +244,15 @@ While the above does give us some information on $\bm{f}_{\star}$ is related to 
     (Marginals and conditionals of an MVN \cite{MurphyKevinP2012Ml}) Suppose $\bm{x} = (\bm{x}_1, \bm{x}_2)$ is jointly Gaussian with parameters
     \[
         \bm{\mu} =
-        \begin{pmatrix}
+        \begin{bmatrix}
             \bm{\mu}_1 \\
             \bm{\mu}_2
-        \end{pmatrix}, \quad
+        \end{bmatrix}, \quad
         \bm{\Sigma} =
-        \begin{pmatrix}
+        \begin{bmatrix}
             \bm{\Sigma}_{1,1} & \bm{\Sigma}_{1,2} \\
             \bm{\Sigma}_{2,1} & \bm{\Sigma}_{2,2}
-        \end{pmatrix}
+        \end{bmatrix}
     \]
     then the posterior conditional is given by
     \begin{align*}
@@ -104,9 +279,9 @@ meaning we can write a distribution for $\bm{f}_{\star}$ as
 \begin{equation}\label{prop:GP_train_distr1}
     \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\star}}}  \right)
 \end{equation}
-Function values from the unobserved inputs $\bm{X^{\star}}$ can be estimated using the mean of $\bm{f}_{\star}$ evaluted in \ref{prop:GP_train_distr1}.
+Function values from the unobserved inputs $\bm{X^{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. Figure \ref{fig: GP_func_samples} (B) shows these computations given a data set $D = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
 
-\subsubsection{Prediction with Noisy observations}\label{Section1.1.2}
+\subsubsection{Prediction with Noisy observations}\label{Section1.5.2}
 When attempting to model our value function we usually do not have access to the value function itself but a noisy version thereof, $y = f(\bm{x}) + \varepsilon$ where $\varepsilon \calN (0, \sigma_n^2)$ meaning the prior on the noisy values becomes
 \[
     \operatorname{cov} (\bm{y}) = \bm{K_{XX}} + \sigma_n^2 \bm{I}
@@ -114,20 +289,20 @@ When attempting to model our value function we usually do not have access to the
 The reason why noise is only added along the diagonal follows from the assumption of independence in our data.
 We can write out the new distribution of the observed noisy values along the points at which we wish to test the underlying function as
 \[
-    \begin{pmatrix}
-        \bm{f} \\
+    \begin{bmatrix}
+        \bm{y} \\
         \bm{f}_{\star}
-    \end{pmatrix}
+    \end{bmatrix}
     \sim \calN
-    \begin{pmatrix}
+    \begin{bmatrix}
         \bm{0}, &
         {
-                \begin{pmatrix}
+                \begin{bmatrix}
                     \bm{K_{XX}} + \sigma_n^2 \bm{I} & \bm{K_{XX^{\star}}}         \\
                     \bm{K_{XX^{\star}}}^{\intercal} & \bm{K_{X^{\star}X^{\star}}}
-                \end{pmatrix}
+                \end{bmatrix}
             }
-    \end{pmatrix}
+    \end{bmatrix}
 \]
 Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
 \begin{align*}\label{prop:GP_train_distr2}
