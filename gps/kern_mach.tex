@@ -180,7 +180,7 @@ The next machine learning model of interest that uses kernels are gaussian proce
                 \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
                 \draw[fill,draw,blue!70] (2.7,1.7) circle[radius=1.5pt];
 
-                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\star}$};
                 \draw[dashed,thick,red] (3.7,0)--(3.7,5);
 
                 \draw[-,ultra thick] (5,-0.1)--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
@@ -209,26 +209,26 @@ The next machine learning model of interest that uses kernels are gaussian proce
                 \draw[-,ultra thick] (0.7,-0.1)--(0.7,0.1) node[below,yshift=-0.3cm]{$x_1$};
                 \draw[fill,draw,blue!70] (0.7,0.5) circle[radius=1.5pt];
                 \draw[dashed,blue!70] (0.7,0)--(0.7,4.7);
-                \draw[<->,thick] (0.7,4.7)--(3.7,4.7) node[above,xshift=-1.5cm]{$k(x^{\ast},x_1)$};
+                \draw[<->,thick] (0.7,4.7)--(3.7,4.7) node[above,xshift=-1.5cm]{$k(x^{\star},x_1)$};
 
                 \draw[-,ultra thick] (1.4,-0.1)--(1.4,0.1) node[below,yshift=-0.3cm]{$x_2$};
                 \draw[fill,draw,blue!70] (1.4,0.6) circle[radius=1.5pt];
                 \draw[dashed,blue!70] (1.4,0)--(1.4,3.5);
-                \draw[<->,thick] (1.4,3.5)--(3.7,3.5) node[above,xshift=-1.1cm]{$k(x^{\ast},x_2)$};
+                \draw[<->,thick] (1.4,3.5)--(3.7,3.5) node[above,xshift=-1.1cm]{$k(x^{\star},x_2)$};
 
                 \draw[-,ultra thick] (2.7,-0.1)--(2.7,0.1) node[below,yshift=-0.3cm]{$x_3$};
                 \draw[fill,draw,blue!70] (2.7,1.7) circle[radius=1.5pt];
                 \draw[dashed,blue!70] (2.7,0)--(2.7,2.3);
-                \draw[<->,thick] (2.7,2.3)--(3.7,2.3) node[above,xshift=-0.9cm]{$k(x^{\ast},x_3)$};
+                \draw[<->,thick] (2.7,2.3)--(3.7,2.3) node[above,xshift=-0.9cm]{$k(x^{\star},x_3)$};
 
-                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\ast}$};
+                \draw[-,ultra thick] (3.7,-0.1)--(3.7,0.1) node[below,yshift=-0.2cm]{$x^{\star}$};
                 \node[diamond,draw,fill,draw,red,minimum width = 1cm,minimum height = 1.3cm,scale=0.2] (d) at (3.7,3) {};
                 \draw[dashed,thick,red] (3.7,0)--(3.7,5);
 
                 \draw[-,ultra thick] (5,-0.1 )--(5,0.1) node[below,yshift=-0.3cm]{$x_4$};
                 \draw[fill,draw,blue!70] (5,4) circle[radius=1.5pt];
                 \draw[dashed,blue!70] (5,0)--(5,4.5);
-                \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\ast},x_4)$};
+                \draw[<->,thick] (3.7,4.5)--(5,4.5) node[above,xshift=-0.3cm]{$k(x^{\star},x_4)$};
             \end{tikzpicture}
         \end{adjustbox}
     }\\
@@ -291,36 +291,125 @@ The next machine learning model of interest that uses kernels are gaussian proce
             \end{tikzpicture}
         \end{adjustbox}
     }
-    \caption{Panel (A) shows depicts the classical problem of time series prediction, guessing a value for $x^{\ast}$ given values for surrounding times. Panel (B) shows a suitable choice for the value at time $x^{\ast}$ with the reasoning that closely surrounding values should have greater influence over inference. Panel (C) shows three function drawn from the prior distribution. Panel (D) shows three function drawn from the prior distribution after four observations have been made. In both the latter panels, the mean function is drawn in red, sampled functions in black and twice the standard deviation shaded in light blue.}
+    \caption{Panel (A) shows depicts the classical problem of time series prediction, guessing a value for $x^{\star}$ given values for surrounding times. Panel (B) shows a suitable choice for the value at time $x^{\star}$ with the reasoning that closely surrounding values should have greater influence over inference. Panel (C) shows three function drawn from the prior distribution. Panel (D) shows three function drawn from the prior distribution after four observations have been made. In both the latter panels, the mean function is drawn in red, sampled functions in black and twice the standard deviation shaded in light blue.}
     \label{fig: motive_gp_1}
 \end{figure}
 
-In this diagram there is a number of observed values $D = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x^{\ast}$. This is a classic problem of time series prediction. What seems like a good prediction for the missing value at time $x^{\ast}$? Perhaps something close to the red diamond seen in figure \ref{fig: motive_gp_1} (B). Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used as the founding ideas behind GPs, that is, training inputs that are more similar value we would like to make predictions for should have a greater influence over the prediction.
+In this diagram there is a number of observed values $D = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x^{\star}$. This is a classic problem of time series prediction. What seems like a good prediction for the missing value at time $x^{\star}$? Perhaps something close to the red diamond seen in figure \ref{fig: motive_gp_1} (B). Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used as the founding ideas behind GPs, that is, training inputs that are more similar value we would like to make predictions for should have a greater influence over the prediction.
 
 Similar to SVMs we can motivate the mathematical model of a GP through a linear model. Since GPs are designed for regression tasks, we shall only focus on motivating GP regression although we will see later on that GPs can be extended to perform binary classification and even multi-class classification. To begin, consider the following linear regression model
-
-\[
+\begin{equation} \label{eq: gp_lin_reg_base}
     f \left( \bm{x} \right) \triangleq \langle \bm{w} , \bm{x} \rangle
-\]
-
+\end{equation}
 where we are again assuming that $\bm{x}$ belongs to $\RR^d$ and that $\bm{w} \in \RR^d$ is a weight vector. Notice the striking resemblances to the linear classifier used to motivate SVMs, although this time we are using the value computed by the inner product directly to infer instead of fitting it over a sign function to force it into a binary class. Suppose we have independently sampled observations $D = \left\{ \left( \bm{x}_i , y_i \right) \right\}_{i=1}^{n}$ to a noisy version of $f$
 \[
     y_i = f \left( \bm{x}_i \right) + \varepsilon_i
 \]
 where $\varepsilon_i \overset{\text{iid}}{\sim} \calN \left( 0 , \sigma_n^2 \right) $. Together the assumption of noise and the base linear model give rise to a likelihood, or more specifically, a probability density over the observations given the inputs and weight parameters. Due to the assumption of independence in our observations
-\begin{align*}
+\begin{align} \label{eq: y_cond_X_w}
     p \left( y \mid \bm{X}, \bm{w} \right)
-     & = \prod_{i=1}^{n} p \left( y_i \mid \bm{x}_i , \bm{w} \right)                                                                                                                                 \\
-     & = \prod_{i=1}^{n} \frac{1}{\sqrt{2 \pi} \sigma_n} \exp \left( - \frac{\left( y_i - \langle \bm{w} , \bm{x}_i \rangle \right)^2}{2 \sigma_n^2} \right)                                         \\
-     & = \frac{1}{\left( 2 \pi \sigma_n^2 \right)^{\frac{n}{2}}} \exp \left( - \frac{1}{2 \sigma_n^2} \left( \sum_{i=1}^{n} \left( y_i - \langle \bm{w} , \bm{x}_i \rangle \right)^2 \right) \right) \\
-     & = \frac{1}{\left( 2 \pi \sigma_n^2 \right)^{\frac{n}{2}}} \exp \left( - \frac{1}{2 \sigma_n^2} \norm{\bm{y} - \bm{X} \bm{w}}^2_2 \right)                                                      \\
+     & = \prod_{i=1}^{n} p \left( y_i \mid \bm{x}_i , \bm{w} \right)                                                                                                                                 \\ \nonumber
+     & = \prod_{i=1}^{n} \frac{1}{\sqrt{2 \pi} \sigma_n} \exp \left( - \frac{\left( y_i - \langle \bm{w} , \bm{x}_i \rangle \right)^2}{2 \sigma_n^2} \right)                                         \\ \nonumber
+     & = \frac{1}{\left( 2 \pi \sigma_n^2 \right)^{\frac{n}{2}}} \exp \left( - \frac{1}{2 \sigma_n^2} \left( \sum_{i=1}^{n} \left( y_i - \langle \bm{w} , \bm{x}_i \rangle \right)^2 \right) \right) \\ \nonumber
+     & = \frac{1}{\left( 2 \pi \sigma_n^2 \right)^{\frac{n}{2}}} \exp \left( - \frac{1}{2 \sigma_n^2} \norm{\bm{y} - \bm{X} \bm{w}}^2_2 \right)                                                      \\ \nonumber
      & = \calN \left( \bm{X} \bm{w} , \sigma_n^2 \; \Id_{n \times n} \right)
-\end{align*}
+\end{align}
 where $\bm{y} = \left[ y_1 , y_2 , \ldots , y_n \right]^{\intercal} \in \RR^n$ and $\bm{X} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_n \right]^{\intercal} \in \RR^{n \times d}$. Within the Bayesian paradigm, a prior is required to represent our beliefs about the parameters in the absence of any information. Typically, the following prior is used for the weight vector
 \[
-    \bm{w} \sim \calN \left( \bm{0}, \Sigma_p \right)
+    \bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)
 \]
-where $\Sigma_p$ is an appropriate covariance matrix.
+where $\bm{\Sigma}_p$ is an appropriate covariance matrix. We would like to know the posterior pdf $p \left( \bm{w} \mid \bm{y} , \bm{X} \right)$ which refines our choices of $\bm{w}$ by taking into account our observations. The posterior can be computed using Bayes rule
+\[
+    p \left( \bm{w} \mid \bm{y} , \bm{X} \right) \propto p \left( \bm{y} \mid \bm{w} , \bm{X} \right) p \left( \bm{w} \right).
+\]
+Equation \ref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \bm{w} , \bm{X} \right)$ and since $\bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)$ then
+\begin{equation*}
+    p \left( \bm{w} \right) = \frac{1}{\sqrt{\left( 2 \pi \right)^{d} \left| \bm{\Sigma} \right|}} \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right)
+\end{equation*}
+\cite{KroeseDirkP2014SMaC}. This means, up to proportionality
+\begin{align*}
+    p \left( \bm{w} \mid \bm{y} , \bm{X} \right)
+     & \propto \exp \left( - \frac{1}{2 \sigma_n^2} \left( \bm{y} - \bm{X} \bm{w} \right)^{\intercal} \left( \bm{y} - \bm{X} \bm{w} \right) \right) \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right) \\
+     & \propto \exp \left( - \frac{1}{2} \left( \bm{w} - \bar{\bm{w}} \right)^{\intercal} \left( \frac{1}{\sigma^2_n} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right) \right)
+\end{align*}
+where $\bar{\bm{w}} = \sigma_{n}^{-2} \left( \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right)^{-1} \bm{X}^{\intercal} \bm{y}$. Notice that this again is a multivariate Gaussian distribution with mean $\bar{\bm{w}}$ and covariance $\bm{A}^{-1}$ where $\bm{A} = \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1}$ so that
+\begin{equation*}
+    p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \sim \calN \left( \bm{w} , \bm{A}^{-1} \right)
+\end{equation*}
+To make a prediction of our target function for an input, $\bm{x}^{\star}$, outside our observed values we can take the average over all possible parameter values weighted by the posterior to predict $f^{\star} = f \left( \bm{x}^{\star} \right)$ which yields
+\begin{equation*}
+    p \left( f^{\star} \mid \bm{x}^{\star} , \bm{X} , \bm{y} \right) = \int_{\RR^d} p \left( f^{\star} \mid \bm{x}^{\star} , \bm{w} \right) p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \; d \bm{w} = \calN \left( {\bm{x}^{\star}}^{\intercal} \bar{\bm{w}} , {\bm{x}^{\star}}^{\intercal} \bm{A}^{-1} \bm{x}^{\star} \right).
+\end{equation*}
+This gives another Gaussian distribution whose means is the mean of the posterior distribution of the weight vectors multiplied by the input vector, and whose covariance in the quadratic form of the covariance of the weight vectors again with the input vectors. This makes sense since it tells us that the uncertainty of the model grows quadratically with the magnitude of the input.
+
+We can now use the kernel trick in the exact same manner in the derivation of the SVM model, that is, by using a feature mapping $\Phi$ to lift the inputs of our linear regression model from equation \ref{eq: gp_lin_reg_base} into a higher dimension and more workable Hilbert space so that our model now becomes.
+\begin{equation*} \label{eq: gp_lin_reg_feat_map}
+    f \left( \bm{x} \right) \triangleq \langle \bm{w} , \Phi \left( \bm{x} \right) \rangle.
+\end{equation*}
+The derivation for the new model is identical with the only difference being that $\bm{x}^{\star}$ is replaced with $\Phi \left( \bm{x}^{\star} \right)$ and $\bm{X}$ is replaced with $\Phi \left( \bm{X} \right) \triangleq \left[ \Phi \left( \bm{x}_1 \right), \Phi \left( \bm{x}_2 \right) , \ldots , \Phi \left( \bm{x}_n \right) \right]^{\intercal} \in \RR^{n \times N}$ where $N$ is the dimension of the Hilbert space. The new predictive distribution becomes
+\begin{equation} \label{eq: comput_f_ast_1}
+    f^{\star} \mid \bm{x}^{\star} , \bm{X} , \bm{y} \sim \calN \left( \frac{1}{\sigma_n^2} \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \bm{y} , \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{A}^{-1} \Phi \left( \bm{x}^{\star} \right) \right)
+\end{equation}
+where $\bm{A}$ is now $\bm{A} = \frac{1}{\sigma_n^2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \in \RR^{N \times N}$. From this, it becomes evident that the inverse of $\bm{A}$ is required to compute both the mean and the covariance. This is not favourable since this would require knowledge of the Hilbert space into which the feature map send inputs. Moreover, computing $\bm{A}^{-1}$ may become impractical in the dimension of the Hilbert space is incredibly large. Remember, the whole point of the kernel trick is to avoid any computation that involves direct knowledge of $H$ and to instead use a kernel $k$ to bypass these obstacles and indirectly produce inner products of the data applied to the feature map. With this in mind, let us try and find different expressions for the mean and the covariance of equation \ref{eq: comput_f_ast_1} the will enable us to apply the kernel trick. To start we can find a suitable expression for the mean. First define the notation
+\[
+    \bm{K}_{\bm{W} \bm{W}'} \triangleq \Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal} \in \RR^{n \times n'}
+\]
+where $\bm{W} \in \RR^{n \times d}$ and $\bm{W}' \in \RR^{n' \times d}$ are two data matrices. Consider the following
+\begin{align*}
+     & \bm{A} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal}                                                                                                                                \\
+     & = \left( \sigma_n^{-2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal}               \\
+     & = \sigma_n^{-2} \; {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} + {\Phi \left( \bm{X} \right)}^{\intercal}     \\
+     & = \sigma_n^{-2} \; {\Phi \left( \bm{X} \right)}^{\intercal} \left( \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} + \sigma_n^{2} \Id_{n \times n} \right) \\
+     & = \sigma_n^{-2} \; {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)
+\end{align*}
+meaning
+\begin{align*}
+    \sigma_n^{-2} \; {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)             & = \bm{A} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal}                                                                     \\
+    \sigma_n^{-2} \; \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right) & = \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal}                                                                            \\
+    \sigma_n^{-2} \; \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal}                                                                       & = \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1}
+\end{align*}
+so that the current mean of
+\[
+    \frac{1}{\sigma_n^2} \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \bm{y}
+\]
+in equation \ref{eq: comput_f_ast_1} can be replaced with
+\[
+    \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y}.
+\]
+To find a more suitable expression for the covariance matrix, we will need the assistance of the matrix inversion lemma stated without proof in lemma \ref{lemma: mat_inv_lem}.
+\begin{lem}[Matrix Inversion Lemma] \label{lemma: mat_inv_lem}
+    For $\bm{Z} \in \KK^{n \times m}, \bm{W} \in \KK^{m \times m}$ and $\bm{U},\bm{V} \in \KK^{n \times m}$ then
+    \[
+        \left( \bm{Z} + \bm{U} \bm{W} \bm{V}^{\intercal} \right)^{-1} = \bm{Z}^{-1} - \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V}^{\intercal} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V}^{\intercal} \bm{Z}^{-1}
+    \]
+    assuming the relevant inverses exist \cite{PressWilliamH.WilliamHenry1992NriC}[page 75].
+\end{lem}
+Consider
+\begin{equation} \label{eq: GP_weight_A_inv}
+    \bm{A} = \bm{\Sigma}_p^{-1} +  {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{-2} \Id_{n \times n} \right) \Phi \left( \bm{X} \right)
+\end{equation}
+then setting $\bm{Z}^{-1} = \bm{\Sigma}_p, \bm{W}^{-1} = \sigma_n^{2} \Id_{n \times n}$ and $\bm{V} = \bm{U} = \Phi \left( \bm{X} \right)$ then equation \ref{eq: GP_weight_A_inv} becomes
+\begin{equation*}
+    \bm{\Sigma}_p - \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{2} \Id_{n \times n} + \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \right)^{-1} \Phi \left( \bm{X} \right) \bm{\Sigma}_p
+\end{equation*}
+via the matrix inversion lemma. Thus equation \ref{eq: comput_f_ast_1} can be equivalently formulated as
+\begin{multline} \label{eq: comput_f_ast_2}
+    f^{\star} \mid \bm{x}^{\star} , \bm{X} , \bm{y} \sim \calN ( \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , \\
+    \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{\Sigma}_p \Phi \left( \bm{x}^{\star} \right) - \Phi \left( \bm{x}^{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{2} \Id_{n \times n} + \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \right)^{-1} \Phi \left( \bm{X} \right) \bm{\Sigma}_p \Phi \left( \bm{x}^{\star} \right) )
+\end{multline}
+The astute reader may have noticed the very suggestive notation of labelling matrices of the form $\Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal}$ as $\bm{K}_{\bm{W} \bm{W}'}$ as though it may have some sort of connection to a kernel. To make this even more obvious, notice that each occurance of the feature map in both expressions for the mean and covariance in equation \ref{eq: comput_f_ast_2} can be replaced with a $\bm{K}_{\bm{W} \bm{W}'}$ for some appropriate choice of $\bm{W}$ and $\bm{W}'$ giving a more notationally cleaner expression
+\begin{equation} \label{eq: comput_f_ast_3}
+    f^{\star} \mid \bm{x}^{\star} , \bm{X} , \bm{y} \sim \calN ( \bm{K}_{\bm{x}^{\star} \bm{X}} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , \bm{K}_{\bm{x}^{\star} \bm{x}^{\star}} - \bm{K}_{\bm{x}^{\star} \bm{X}} \left( \sigma_n^{2} \Id_{n \times n} + \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \bm{K}_{\bm{X} \bm{x}^{\star}} )
+\end{equation}
+. To get a better idea of the connection to kernels, since $\bm{\Sigma}_p$ is a symmetric positive semi definite matrix, it defines an inner product
+\[
+    \langle \bm{x} , \bm{y} \rangle_{\bm{\Sigma}_p} = \bm{y}^{\ast} \bm{\Sigma}_p \bm{x}, \quad \bm{x} , \bm{y} \in \KK^{N}
+\]
+\cite{WangGuorongGITa}[page 34] so that
+\begin{equation} \label{eq: K_notate_as_gram}
+    \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{ij} = \langle \Phi \left( \bm{w}_i \right) ,\Phi \left( \bm{w}_i \right) \rangle_{\bm{\Sigma}_p} = k \left( \bm{w}_i , \bm{w}_j \right)
+\end{equation}
+where $k$ is the kernel with feature map $\Phi$ and inner product $\langle \cdot , \cdot \rangle_{\bm{\Sigma}_p}$. In fact when $\bm{W} = \bm{W}'$ equation \ref{eq: K_notate_as_gram} is exactly the Gram matrix with said kernel. Thus GPs are another great example of models that take advantage of the kernel trick. We shall see in the coming chapters on how exactly we can compute predictions using observed values.
 
 Unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid D \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid D \right)$. One idea in choosing a suitable $f$ is to fix a class of functions $\calF$ to search over and then find a function from this class that best represents this data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead we can choose a suitable $f$ by assigning a prior probability to every possible function using the training data and then to select the function with the highest probability.
 
