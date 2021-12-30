@@ -6,7 +6,7 @@ So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left
 
     \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{x}_k - \bm{x}^{\ast} \|_2$. While this method seems like the most intuitive and natural way to select $\bm{x}_k$, it is unfortunately of no practical use since there is not enough information in the Krylov subspace to find an $\bm{x}_k$ which matches this specification.
 
-    \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{r}_k \|_2$ (recall is the residual of $\bm{x}_k$, that is, $\bm{r}_k = \bm{b} - \bm{A} \bm{x}_k$). This method is possible to implement. Two well known algorithms stem from this class of methods, notably MINRES (minimum residual) and GMRES (general minimum residual) which solve linear systems for symmetric and non-symmertic $\bm{A}$ respectively.
+    \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{r}_k \|_2$ (recall this is the residual of $\bm{x}_k$, that is, $\bm{r}_k = \bm{b} - \bm{A} \bm{x}_k$). This method is possible to implement. Two well known algorithms stem from this class of methods, namely MINRES (minimum residual) and GMRES (general minimum residual) which solve linear systems for symmetric and non-symmertic $\bm{A}$ respectively.
 
     \item When $\bm{A}$ is a positive definite matrix it defines a norm $\| r \|_{\bm{A}} = \left( \bm{r}^{\intercal} \bm{A} \bm{r} \right)^{\frac{1}{2}}$, called the energy norm. Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| r \|_{\bm{A}^{-1}}$ which is equivalent to minimizing $\| \bm{x}_k - \bm{x} \|_{A}$. This technique is known as the CG (conjugate gradient) algorithm.
 
@@ -14,7 +14,7 @@ So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left
 
 \end{enumerate}
 
-Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK_k$ the last two selection methods are equivalent. This is stated more precisely in thoerem
+Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK_k$ the last two selection methods are equivalent. This is stated more precisely in theorem \ref{theorem: 3_4_method_eq} without proof.
 
 \begin{thm} \label{theorem: 3_4_method_eq}
     In the context of the above selection method, if $\bm{A} \succ \bm{0}$ and $\calW_k = \calK_k$ in method (4) then it produces the same $\bm{x}_k$ in method (3) \cite{DemmelJamesW1997Anla}.

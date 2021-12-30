@@ -298,15 +298,53 @@ We can write out the new distribution of the observed noisy values along the poi
         \bm{0}, &
         {
                 \begin{bmatrix}
-                    \bm{K_{XX}} + \sigma_n^2 \bm{I} & \bm{K_{XX^{\star}}}         \\
-                    \bm{K_{XX^{\star}}}^{\intercal} & \bm{K_{X^{\star}X^{\star}}}
+                    \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} & \bm{K_{XX^{\star}}}         \\
+                    \bm{K_{XX^{\star}}}^{\intercal}           & \bm{K_{X^{\star}X^{\star}}}
                 \end{bmatrix}
             }
     \end{bmatrix}
 \]
 Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
-\begin{align*}\label{prop:GP_train_distr2}
-    \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{y} \sim & \calN \left( \overline{\bm{f}_{\star}}, \operatorname{cov} (\bm{f}_{\star}) \right)                                                     \\
-    \overline{\bm{f}_{\star}}                                          & := \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \bm{I} \right]^{-1} \bm{y}                                           \\
-    \operatorname{cov} (\bm{f}_{\star})                                & = \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \bm{I} \right]^{-1} \bm{K_{XX^{\star}}}
-\end{align*}
+\begin{equation}\label{prop:GP_train_distr2}
+    \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{y} \sim \calN \left( \overline{\bm{f}_{\star}}, \operatorname{cov} (\bm{f}_{\star}) \right)
+\end{equation}
+where
+\begin{align}
+    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                  \\
+    \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX^{\star}}} \label{eq: GP_train_distr2_var}
+\end{align}
+Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}^{\star}$
+\[
+    \bm{f}_{\star} = \sum_{i=1}^{n} \alpha_i k \left( \bm{x}_i , \bm{x}^{\ast} \right)
+\]
+where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y}$. Intuitively, this expression can be understood by realising that despite defining the GP defining a joint Gaussian distribution over the observations when making predictions GPs only require the $(n+1)$-dimension distribution defined by the $n$ observations and the single test point. Marginalising by taking  the relevant submatrix block of the covariance matrix yields our desired $1$-dimensional prediction.
+
+Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X^{\star}X^{\star}}}$, and positive term $\bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX^{\star}}}$ which represents knowledge given by the observations about the underlying function.
+
+Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
+
+    {\centering
+        \begin{minipage}{.85\linewidth}
+            \begin{algorithm}[H]
+                \caption{Unoptimized GPR}
+                \label{alg: Unoptimized_GPR}
+                \SetAlgoLined
+                \DontPrintSemicolon
+                \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+                \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}^{\star}$.}
+                \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
+                \BlankLine
+                $\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$\;
+                $\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$\;
+                $\overline{f_{\star}} = \bm{K_{x^{\star} X}} \bm{\alpha}$\;
+                $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x^{\star} X}} \right)$\;
+                $\VV \left[ f_{\star} \right] = \bm{K_{x^{\star} x^{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
+                \Return{$\overline{f_{\star}} , \VV \left[ f_{\star} \right]$}
+                \BlankLine
+            \end{algorithm}
+        \end{minipage}
+        \par
+    }
+
+A cholesky decomposition is typically used since $\bm{L}$ can be used twice to assist in solving both the linear systems in the mean and covariance. Unfortunately, a cholesky decomposition incurres a runtime of $\calO \left( n^3 \right)$ where $n$ is the number of samples making it impractical for large data sets. In the later chapters we shall consider other methods for solving these linear systems.

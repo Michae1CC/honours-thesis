@@ -1,6 +1,6 @@
 \subsection{Arnoldi and Lanczos Algorithm}\label{Section4.3}
 
-As a quick reminder, we are in search of an iterative process to solve the linear system $\bm{A} \bm{x}^{\star} = \bm{b}$ where no explicit form of $\bm{A}$ is available and we may only rely on a routine that computes $\bm{A} \bm{v}$ for any $\bm{v}$ to extract information on $\bm{A}$. In section \ref{Section4.1} we discovered that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$. With many iterative methods, computing an exact value for $\bm{x}^{\star}$ is out the question with the view that $t_{\bm{r}_0, \bm{A}}$ is impractically large. We must instead resort to approximating $\bm{x}^{\star}$ by $\bm{x}_k$ for which $\bm{x}^{k} \in \calK_{k} \left( \bm{A}, \bm{r}_0 \right)$ where $k \ll t_{\bm{r}_0}$. To find an appropriate value for $\bm{x}_k$, a good start would be to find a basis $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. Definition \ref{defe: krylov_subspace} showed us that $\left\{ \bm{A}^{i-1} \bm{r}_0 \right\}_{i=1}^{k}$ serves as a basis for $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. However, for numericcal reasons this is a poor choice of basis since this each consecutive term becomes closer and closer to being linearly dependent. To search for a more appriporate basis, set $n = t_{\bm{r}_0, \bm{A}}$ so that $\bm{x}^{\star} \in \calK_{n} \left( \bm{A}, \bm{r}_0 \right)$. Let $\bm{K} \in \KK^{n \times n}$ be the invertible matrix
+As a quick reminder, we are in search of an iterative process to solve the linear system $\bm{A} \bm{x}^{\star} = \bm{b}$ where no explicit form of $\bm{A}$ is available and we may only rely on a routine that computes $\bm{A} \bm{v}$ for any $\bm{v}$ to extract information on $\bm{A}$. In section \ref{Section4.1} it wa discovered that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$. With many iterative methods, computing an exact value for $\bm{x}^{\star}$ is out the question with the view that $t_{\bm{r}_0, \bm{A}}$ is impractically large. We must instead resort to approximating $\bm{x}^{\star}$ by $\bm{x}_k$ for which $\bm{x}^{k} \in \calK_{k} \left( \bm{A}, \bm{r}_0 \right)$ where $k \ll t_{\bm{r}_0}$. To find an appropriate value for $\bm{x}_k$, a good start would be to find a basis $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. Definition \ref{defe: krylov_subspace} showed us that $\left\{ \bm{A}^{i-1} \bm{r}_0 \right\}_{i=1}^{k}$ serves as a basis for $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. However, for numerical reasons this is a poor choice of basis since this each consecutive term becomes closer and closer to being linearly dependent. From now on, for more convenient notation we shall set $n = t_{\bm{r}_0, \bm{A}}$ so that $\bm{x}^{\star} \in \calK_{n} \left( \bm{A}, \bm{r}_0 \right)$. To search for a more appriporate basis let $\bm{K} \in \KK^{n \times n}$ be the invertible matrix
 \[
     \bm{K} = \left[ \bm{r}_0 , \bm{A} \bm{r}_0, \ldots , \bm{A}^{n-1} \bm{r}_0 \right].
 \]
@@ -129,7 +129,7 @@ From equation \ref{eq: arn_eq_1} we find that $\bm{q}_{j+1}$ can be computed usi
 \par
 }
 
-When $\bm{A}$ is symmertic then $\bm{H} = \bm{T}$ becomes a tridiagonal matrix, simplifying a large amount of the Arnoldi algorithm since a considerably large number of matrix elements from $\bm{T}$ can be written as
+When $\bm{A}$ is symmertic then $\bm{H} = \bm{T}$ becomes a tridiagonal matrix, simplifying a large amount of the Arnoldi algorithm since the matrix elements from $\bm{T}$ can be written as
 \[
     \bm{T} =
     \begin{bmatrix}
@@ -144,7 +144,7 @@ As before, equating the $j^{th}$ columns of $\bm{A} \bm{Q} = \bm{Q} \bm{T}$ yiel
 \begin{equation}\label{eq: lancz_orth_basis}
     \bm{A} \bm{q}_{j} = \beta_{j-1} \bm{q}_{j-1} + \alpha_{j} \bm{q}_j + \beta_j \bm{q}_{j+1}.
 \end{equation}
-Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of equation \ref{eq: lancz_orth_basis} by $\bm{q}_j$ gives $\bm{q}_j = \bm{A} \bm{q}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in algorithm \ref{alg: Lanczos_Algorithm}.
+Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of equation \ref{eq: lancz_orth_basis} by $\bm{q}_j$ gives $\bm{q}_j \bm{A} \bm{q}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in algorithm \ref{alg: Lanczos_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
