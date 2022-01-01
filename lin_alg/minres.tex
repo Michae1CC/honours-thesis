@@ -1,0 +1,14 @@
+\subsection{Minimum Residual}\label{Section4.6}
+In contrast to CG, MINRES is able applicable to a wider range of linear systems and is used for solving symmertic indefinite systems. From section \ref{Section4.4} we saw that MINRES minimizes the residual $\bm{r}_k$ with respect to the Euclidean norm at each iteration (hence the name), that is $\bm{x}_k$ is chosen so that
+\begin{equation} \label{eq: minres_opt_cond_1}
+    \bm{x}_k = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2.
+\end{equation}
+It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the Petrov-Galerkin conditions where $\det \left( \bm{A} \right) \neq 0$, in other words MINRES is an oblique projection method. We can also show that when $\det \left( \bm{A} \right) \neq 0$ and $\calW = \bm{A} \calK_k$ the matrix $\bm{W}^{\intercal} \bm{A} \bm{K}$ is non-singular. So under the conditions of MINRES, using a similar argument used for CG, $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{V}_k \bm{y}_k$. Using equation \ref{eq: AVk_eq_VkTk1k} produced by the Lanczos algorithm in \ref{Section4.3} we can manipulate our optimality condition \ref{eq: minres_opt_cond_1} as follows
+\begin{align*}
+    \bm{x}_k      & = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2                                 \\
+    \iff \bm{y}_k & = \argmin_{\bm{y} \in \RR^k} \norm{\bm{A} \left( \bm{x}_0 + \bm{V}_k \bm{y} \right) - \bm{b}}_2            \\
+    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ - \left( \bm{b} - \bm{A} \bm{x}_0 \right) + \bm{A} \bm{V}_k \bm{y} }_2 \\
+    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{V}_{k} \bm{T}_{k+1,k} \bm{y} - \bm{r}_0 }_2                        \\
+    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \bm{V}_{k}^{\intercal} \bm{r}_0 }_2            \\
+    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2
+\end{align*}

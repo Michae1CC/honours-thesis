@@ -57,11 +57,12 @@ $\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde
 \begin{proof}
     We compute
     \begin{align*}
-        \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)                 \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                        \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
-                                                             & = \bm{D}_k
+        \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k
+         & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)                 \\
+         & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                        \\
+         & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
+         & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
+         & = \bm{D}_k
     \end{align*}
     as wanted.
 \end{proof}

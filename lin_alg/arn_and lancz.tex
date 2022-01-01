@@ -75,12 +75,12 @@ where
     \bm{Q}_k \bm{H}_k =
     \left[ \bm{q}_1 , \bm{q}_2 , \ldots , \bm{q}_k \right]
     \begin{bmatrix}
-        h_{1,1} & \cdots & \cdots & \cdots    & h_{1,k}   \\
-        h_{2,1} & \cdots & \cdots & \cdots    & \vdots    \\
-        0       & \ddots & \ddots & \ddots    & \vdots    \\
-        \vdots  & \ddots & \ddots & \ddots    & \vdots    \\
-        0       & \cdots & 0      & h_{k,k-1} & h_{k,k}   \\
-        0       & \cdots & 0      & 0         & h_{k+1,k}
+        h_{1,1} & \cdots & \cdots & \cdots    & h_{1,k} \\
+        h_{2,1} & \cdots & \cdots & \cdots    & \vdots  \\
+        0       & \ddots & \ddots & \ddots    & \vdots  \\
+        \vdots  & \ddots & \ddots & \ddots    & \vdots  \\
+        0       & \cdots & 0      & h_{k,k-1} & h_{k,k} \\
+        0       & \cdots & 0      & 0         & 0
     \end{bmatrix}.
 \]
 Equating the $j^{th}$ columns of equation \ref{eq: QTkAQk_eq_Hk_p_qkhk} yields
@@ -175,3 +175,9 @@ Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, 
 \end{minipage}
 \par
 }
+
+For the Lanczos algorithm, equation \ref{eq: QTkAQk_eq_Hk_p_qkhk} can be re-written in the a more compact form as
+\begin{equation}\label{eq: AVk_eq_VkTk1k}
+    \bm{A} \bm{V}_{k} = \bm{V}_{k} \bm{T}_{k+1,k}
+\end{equation}
+where $\bm{T}_{k+1,k} = \bm{T}_{k} + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$.
