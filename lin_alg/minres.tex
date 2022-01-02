@@ -7,8 +7,129 @@ It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the 
 \begin{align*}
     \bm{x}_k      & = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2                                 \\
     \iff \bm{y}_k & = \argmin_{\bm{y} \in \RR^k} \norm{\bm{A} \left( \bm{x}_0 + \bm{V}_k \bm{y} \right) - \bm{b}}_2            \\
-    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ - \left( \bm{b} - \bm{A} \bm{x}_0 \right) + \bm{A} \bm{V}_k \bm{y} }_2 \\
-    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{V}_{k} \bm{T}_{k+1,k} \bm{y} - \bm{r}_0 }_2                        \\
-    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \bm{V}_{k}^{\intercal} \bm{r}_0 }_2            \\
-    \bm{y}_k      & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2
+                  & = \argmin_{\bm{y} \in \RR^k} \norm{ - \left( \bm{b} - \bm{A} \bm{x}_0 \right) + \bm{A} \bm{V}_k \bm{y} }_2 \\
+                  & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{V}_{k} \bm{T}_{k+1,k} \bm{y} - \bm{r}_0 }_2                        \\
+                  & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \bm{V}_{k}^{\intercal} \bm{r}_0 }_2            \\
+                  & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2
 \end{align*}
+\cite{GreenbaumAnne1997Imfs}*{page 43}. Using the general project method procedure \ref{alg: General_Projection} as a guide, this gives the following high-level description of the MINRES algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}.
+{\centering
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{High-Level MINRES}
+        \label{alg: highlev_minres}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Output{An approximation of $\bm{x}^{\ast}$, $\bm{x}_k$.}
+        \BlankLine
+        \For{$k = 1 , \ldots $ \Until convergence}{
+            $\operatorname{Lanczos-Step} \left( \bm{A}, \bm{v}_{k}, \bm{v}_{k-1}, \beta_{k} \right) \to \alpha_{k}, \beta_{k+1}, \bm{v}_{k+1}$ \;
+            Find $\bm{y}$ to minimize $\norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2$ \;
+            $\bm{x}_k = \bm{V}_k \bm{y}$ \;
+        }
+        \Return{$\bm{x}_k$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par
+}
+At each step solving $\bm{y}$ is a matter of solving a $(n+1) \times n$ least squares problem with Hessenberg structure. This can be done by performing a QR-factorisation on the successive $\bm{T}_{k+1,k}$ matrices, whats more using a clever bit of thinking, we can actually compute the QR-factorisation of $\bm{T}_{k+1,k}$ from the QR-factorisation of $\bm{T}_{k,k-1}$ using a inexpensive $\calO \left( n \right)$ Householder reflection \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}. Computing the QR-factorisation of $\bm{T}_{k,k-1}$ yields
+\begin{equation}
+    \bm{Q}_k \bm{T}_{k,k+1}
+    =
+    \begin{bmatrix}
+        \bm{R}_k \\ 0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \gamma_{1}^{(1)} & \delta_{2}^{(1)} & \varepsilon_{3}^{(1)} &                       &        &                       \\
+                         & \gamma_{1}^{(2)} & \delta_{3}^{(2)}      & \varepsilon_{4}^{(1)} &        &                       \\
+                         &                  & \ddots                & \ddots                & \ddots &                       \\
+                         &                  &                       & \ddots                & \ddots & \varepsilon_{k}^{(1)} \\
+                         &                  &                       &                       & \ddots & \gamma_{k}^{(2)}      \\
+                         &                  &                       &                       &        & \delta_{k}^{(2)}      \\
+                         &                  &                       &                       &        & 0                     \\
+    \end{bmatrix}
+\end{equation}
+where $\bm{Q}_k = \prod_{i=1}^{k} \bm{Q}_{i,i+1}$ is the product of Householder reflections designed to annihilate the $\beta_i$s in the subdiagonal of $\bm{T}_{k,k+1}$ \cite{ChoiSou-ChengTerrya2007Imfs}*{page 25} where each $\bm{Q}_{i,i+1}$ is defined as
+\begin{equation*}
+    \bm{Q}_{i,i+1} \triangleq
+    \begin{bmatrix}
+        \Id_{(i-1) \times (i-1)} &       &         &                          \\
+                                 & c_{i} & s_{i-1} &                          \\
+                                 &       &         & \Id_{(k-i) \times (k-i)}
+    \end{bmatrix}
+\end{equation*}
+\cite{ChoiSou-ChengTerrya2007Imfs}*{page 22}. As mentioned for each $i$, $\bm{Q}_{i,i+1}$ is orthogonal, symmetric and constructed to annihilate $\beta_{k+1}$ that is the bottom right element of $\bm{T}_{k,k+1}$. To see this better we can alternatively write $\bm{Q}_k \bm{T}_{k,k+1}$ as $\bm{Q}_{k,k+1} \cdot \bm{Q}_{2,3}\bm{Q}_{1,2} \bm{T}_{k,k+1}$. Notice however that $\bm{Q}_{k,k+1}$ is the only rotation matrix that will involve $\beta_{k+1}$ in its matrix multiplication with $\bm{T}_{k,k+1}$. To study the influence of $\bm{Q}_{k,k+1}$ in a more compact way we only need to consider the matrix vector product
+\begin{equation} \label{eq: iso_Qkk1_mat_vec_prod_1}
+    \begin{bmatrix}
+        c_k & s_k  \\
+        s_k & -c_k
+    \end{bmatrix}
+    \begin{bmatrix}
+        \gamma_{k}^{(1)} & \delta_{k+1}^{(1)} & 0           \\
+        \beta_{k+1}      & \alpha_{k+1}       & \beta_{k+1}
+    \end{bmatrix}.
+\end{equation}
+To annihilate $\beta_{k+1}$, we find the appropriate choice of $c_k$ and $s_k$ are
+\begin{equation*}
+    \rho_k = \sqrt{{\gamma_k^{(1)}}^{2} + \beta_{k+1}^{2}}, \quad c_k \triangleq \frac{\gamma_{k}^{(1)}}{\rho_k}, \quad s_k \triangleq \frac{\beta_{k+1}}{\rho_{k}}
+\end{equation*}
+so that \ref{eq: iso_Qkk1_mat_vec_prod_1} becomes
+\begin{equation*}
+    \begin{bmatrix}
+        c_k & s_k  \\
+        s_k & -c_k
+    \end{bmatrix}
+    \begin{bmatrix}
+        \gamma_{k}^{(1)} & \delta_{k+1}^{(1)} & 0           \\
+        \beta_{k+1}      & \alpha_{k+1}       & \beta_{k+1}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \gamma_{k}^{(2)} & \delta_{k+1}^{(2)} & \varepsilon_{k+2}^{(1)} \\
+        0                & \gamma_{k+1}^{(1)} & \delta_{k+2}^{(1)}
+    \end{bmatrix}.
+\end{equation*}
+Furthermore, if we set
+\begin{align*}
+    \bm{Q}_k \left( \beta_0 \bm{e}_1 \right) & = \prod_{i=1}^{k} \bm{Q}_{i,i+1} \left( \beta_0 \bm{e}_1 \right) \\
+                                             & =
+    \beta_0 \bm{Q}_{k,k+1} \cdots \bm{Q}_{2,3}
+    \begin{bmatrix}
+        c_1 \\ s_1 \\ \bm{0}_{k-1}
+    \end{bmatrix}                                                                                  \\
+                                             & =
+    \beta_0 \bm{Q}_{k,k+1} \cdots \bm{Q}_{3,4}
+    \begin{bmatrix}
+        c_1 \\ s_1 c_1 \\ s_1 s_2 \\ \bm{0}_{k-2}
+    \end{bmatrix}                                                                                  \\
+                                             & =
+    \beta_0 \bm{Q}_{k,k+1}
+    \begin{bmatrix}
+        c_1 \\ s_1 c_1 \\ \vdots \\ s_1 \cdots s_{k-1} \\ 0
+    \end{bmatrix}                                                                                  \\
+                                             & =
+    \bm{Q}_{k,k+1}
+    \begin{bmatrix}
+        \bm{t}_{k-1} \\ \phi_{k-1} \\ 0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \bm{t}_{k} \\ \phi_{k-1}
+    \end{bmatrix}
+\end{align*}
+where $\bm{t}_k = \left[ \tau_1 , \tau_2 , \cdots , \tau_k \right]^{\intercal}$ then our optimality condition
+\begin{equation*}
+    \bm{y}_k = \argmin_{\bm{y} \in \RR^k} \norm{
+        \begin{bmatrix}
+            \bm{R}_k \\ 0
+        \end{bmatrix} \bm{y} -
+        \begin{bmatrix}
+            \bm{t}_{k} \\ \phi_{k-1}
+        \end{bmatrix}
+    }_2
+\end{equation*}
+which can be used to formulate subproblems \cite{ChoiSou-ChengTerrya2007Imfs}*{page 25}.
