@@ -10,9 +10,9 @@ Contrary to the kernel trick the Random Fouier Features (RFF) technique approxim
 \end{thm}
 
 The spectral distribution $\mu_k$ can be represented as finite measure induced by the Fourier transformation. Choosing a kernel for which $k (\bm{0}) = 1$ normalizes $\mu_k$ to a probability distribution $p (\cdot)$. For instance, the spectral distribution of the Gaussian RBF kernel is
-\[
+\begin{equation} \label{eq: rbf-spec-pdf}
     p \left( \bm{w}\right) = \frac{1}{\sqrt{\left( 2 \pi\right)^{D} \left| \frac{\sigma^2}{2} \Id_{D \times D} \right|}} \exp \left( -\frac{1}{2} \bm{w}^\intercal \left( \frac{\sigma^2}{2} \Id_{D \times D} \right)^{-1} \bm{w} \right)
-\]
+\end{equation}
 \cite{NIPS2007_013a006f}*{page 3}. One important detail required for Bochner's theorem to work is that it requires our kernel to be shift-invariant (sometimes also referred to as stationary) stated in definition \ref{defe: shift-invar}.
 
 \begin{defe}[Shift-Invariant] \label{defe: shift-invar}
@@ -36,18 +36,18 @@ where $\bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$ using the feature map
 \begin{equation}
     \varphi (\bm{x}) = \frac{1}{\sqrt{D}} \left[ z \left( \bm{\omega}_1, \bm{x} \right), z \left( \bm{\omega}_2, \bm{x} \right), \ldots , z \left( \bm{\omega}_D, \bm{x} \right) \right]^{\intercal}
 \end{equation}
-where for convenience $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows us to estimate the Gram matrix as $\bm{K} \approx \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \RR^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. Rahimi and Recht offer two embeddings for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ for which $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}, used in the vast majority of literature. The first embedding takes the form
+where for convenience $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows us to estimate the Gram matrix as $\bm{K} \approx \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \RR^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. Rahimi and Recht offer two embeddings for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ used in the vast majority of literature for which $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
 \begin{equation} \label{eq: rff_emb}
-    z \left( \bm{\omega}, \bm{x} \right) = \left[ \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) , \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \right]
+    z \left( \bm{\omega}, \bm{x} \right) = \left[ \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) , \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \right]^{\intercal}
 \end{equation}
 which satisfies \ref{eq: rff_boch_int} since
 \begin{align*}
      & z \left( \bm{\omega}, \bm{x} \right)^{\intercal} z \left( \bm{\omega}, \bm{y} \right)                                                                                                                                                      \\
      & =
+    \left[ \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right), \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)  \right]
     \begin{bmatrix}
         \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) \\ \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right)
-    \end{bmatrix}
-    \left[ \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right), \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)  \right]                                                                                                            \\
+    \end{bmatrix}                                                                                                                                                                                                                     \\
      & = \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right) + \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)    \\
      & = \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) + \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) \right) +           \\
      & \qquad \qquad \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) - \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) \right) \\
@@ -94,7 +94,7 @@ When using the Gaussian kernel,
 \]
 meaning $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$. This result is indeed consistent with our preliminary experiments. Thus for experimentation an embedding of $\varphi_1$ is always used.
 
-Another important result given by Rahimi and Recht provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation seen in proposition \ref{prop: rff_sup-norm_bound_1}.
+Another important result given by Rahimi and Recht provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation stated in proposition \ref{prop: rff_sup-norm_bound_1}.
 
 \begin{prop} \label{prop: rff_sup-norm_bound_1}
     Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $l$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation \ref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{>0}, \; \varepsilon \leq \sigma_p l$ we have
@@ -104,7 +104,7 @@ Another important result given by Rahimi and Recht provides a bound on the sup-n
     where $\alpha \in \RR_{>0}, \; \alpha < \infty$ does not depend on anything \cite{NIPS2007_013a006f}*{page 3}.
 \end{prop}
 
-Rahimi and Recht prove \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$ is experimentation.
+Rahimi and Recht prove \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$ in experimentation.
 
 These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorithm}, which is used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
 
@@ -129,3 +129,14 @@ These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorith
 \end{minipage}
 \par
 }
+
+Algorithm \ref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\frac{\sigma^{-2}}{2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \frac{\sigma^{-2}}{2} \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in algorithm \ref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in lemma \ref{lem: rff-unbiased}.
+
+\begin{lem} \label{lem: rff-unbiased}
+    $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, that is
+    \[
+        \EE \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right] = \exp \left( \frac{- \norm{\bm{x}_i - {\bm{x}_j}}_{2}^{2}}{\sigma^2} \right)
+    \] \cite{YuFelixX2016ORF}*{page 3}.
+\end{lem}
+
+Unfortunately, constructing the transformation matrix using $\bm{W}_{\text{RFF}}$ does not scale to well as the dimension of the feature space increases. Thus the focus of the upcoming sections will be to highlight a few of the more popular alternative methods used in literature for the constructing the transformation matrix.
