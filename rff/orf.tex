@@ -1,0 +1,35 @@
+\subsection{Orthogonal Random Features}\label{Section3.2}
+In the previous chapter algorithm \ref{alg: RFF-algorithm} assumed some sort of mechanism for producing the transformation matrix $\bm{W}$. The construction presented in \ref{Section3.1} involved sampling $\bm{\omega}_{i} \stackrel{\text{iid}}{\sim} p(\cdot)$. For the Gaussian RBF kernel this meant sampling from the multivariate Gaussian distribution $\calN \left( \bm{0} , \Id_{D \times D} \right)$. The transformation matrix constructed in this manner was denoted $\bm{W}_{\text{RFF}}$. There has been a buzz of activity in literature for alternative constructs of the transformation matrix described in section \ref{Section3.1} \cite{LiuFanghui2021RFfK} which seek to both improve performance time used to lower variance. We shall the consider the two methods proposed by Yu {\it et al.} \cite{YuFelixX2016ORF}, the first method in this section and the second in the following section. The first method that Yu {\it et al.} presents is the Orthogonal Random Features (ORF) method with imposes orthogonality on the the transformation matrix. To do this first a Gaussian matrix $\bm{G}$ is produced, much like $\bm{W}_{\text{RFF}}$. An orthogonal matrix $\bm{Q}$ is then produced by taking the QR-factorization (see section \ref{Section4.2}) of $\bm{G}$. However, random orthogonal matrix, $\bm{Q}$, will not give an unbiased estimate of the kernel matrix. To fix this, we shall need the assistance of the following common probabilistic identity
+\[
+    \norm{\bm{z}}^2_2 \sim \chi^2_k, \; \text{where} \; \bm{z} \sim \calN \left( \bm{0}, \Id_{k \times k} \right)
+\]
+where $\chi^2_k$ is the chi-squared distribution with $k$ degrees of freedom \cite{BrockwellPeterJ1991TSTa}*{page 41}. This identity is easy enough to show by equating a shared moment generating function of $(1-2t)^{-\frac{k}{2}}$ for $t < \frac{1}{2}$. Taking the square root of both sides gives $\norm{\bm{z}}_2 \sim \chi_k$ where $\chi_k$ is the chi distribution with $k$ degrees of freedom. From our RFF method each $\bm{\omega}_i \in \RR^D$ was independently taken from the multivariate normal Gaussian distribution meaning that using this identity $\norm{\bm{\omega}_i} \sim \chi_D$. The ORF method augments $\bm{Q}$ by scaling its rows by iid $\chi_D$ values which is done by right multiplying by $\bm{S} = \operatorname{diag} \left( \psi_1 , \psi_2 , \ldots , \psi_D \right)$ where $\psi_i \stackrel{\text{iid}}{\sim} \chi_D$. This means
+\[
+    \norm{\left(\bm{S} \bm{Q}\right)_{(i)}}_2 = \norm{\psi_i \bm{Q}_{(i)}} = \psi_i \sim \chi_D
+\]
+so that the row norms of $\bm{G}$ and $\bm{S} \bm{Q}$ have the same distribution. Thus the transformation matrix for the ORF method is
+\begin{equation}
+    \bm{W}_{\text{ORF}} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \bm{S} \bm{Q}.
+\end{equation}
+The main downside the the ORF method is that the QR-factorization brings a computational cost of $\calO \left( Dd \right)$. Fortunately when using $\bm{W}_{\text{ORF}}$ as our transformation matrix in algorithm \ref{alg: RFF-algorithm} the approximate Gram matrix $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, stated more formally in theorem \ref{thm: orf-unbiased}.
+
+\begin{thm} \label{thm: orf-unbiased}
+    $\bm{\widetilde{K}}_{\text{ORF}}$ is an unbiased estimate of $\bm{K}$, that is
+    \[
+        \EE \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right] = \exp \left( \frac{- \norm{\bm{x}_i - {\bm{x}_j}}_{2}^{2}}{\sigma^2} \right)
+    \] \cite{YuFelixX2016ORF}*{page 3}.
+\end{thm}
+
+Furthermore, the variance of $\left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij}$ is bounded by
+\[
+    \VV \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right] - \VV \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right] = \frac{1}{D} \left( \frac{g (\tau)}{d} - \frac{(d-1)e^{-\tau^2}\tau^4}{2d} \right)
+\]
+where $\tau = \norm{\bm{x}_i - \bm{x}_j}_2 / \frac{\sigma}{\sqrt{2}}$ and
+\[
+    g (\tau) = \frac{e^{\tau^2} \left( \tau^8 + 6 \tau^6 + 7 \tau^4 + \tau \right)}{4} + \frac{e^{\tau^2} \tau^4 \left( \tau^6 + 2 \tau^4 \right)}{2d}
+\]
+\cite{LiuFanghui2021RFfK}*{page 8}. This shows that there are scenarios for which $\VV \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right] < \VV \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right]$, namely when $d$ is large and $\tau$ is small. Also, the ratio in variance between $\bm{\widetilde{K}}_{\text{ORF}}$ and $\bm{\widetilde{K}}_{\text{RFF}}$ for large $d$ can be approximated as
+\[
+    \frac{\VV \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right]}{\VV \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right]} \approx 1 - \frac{(s-1)e^{-\tau^2}\tau^4}{d(1-e^{-\tau^2})^2}
+\]
+\cite{LiuFanghui2021RFfK}*{page 8}.
