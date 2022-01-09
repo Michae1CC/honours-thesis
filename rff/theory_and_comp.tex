@@ -42,14 +42,15 @@ where for convenience $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \lan
 \end{equation}
 which satisfies \ref{eq: rff_boch_int} since
 \begin{align*}
-     & z \left( \bm{\omega}, \bm{x} \right)^{\intercal} z \left( \bm{\omega}, \bm{y} \right)                                                                                                                                                                                                                                                                                                                                                                         \\
+     & z \left( \bm{\omega}, \bm{x} \right)^{\intercal} z \left( \bm{\omega}, \bm{y} \right)                                                                                                                                                      \\
      & =
     \begin{bmatrix}
         \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) \\ \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right)
     \end{bmatrix}
-    \left[ \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right), \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)  \right]                                                                                                                                                                                                                                                                                                                               \\
-     & = \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right) + \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)                                                                                                                                                                                                                       \\
-     & = \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) + \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) \right) + \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) - \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) \right) \\
+    \left[ \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right), \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)  \right]                                                                                                            \\
+     & = \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) \cos \left( \langle \bm{\omega} , \bm{y} \rangle \right) + \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \sin \left( \langle \bm{\omega} , \bm{y} \rangle \right)    \\
+     & = \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) + \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) \right) +           \\
+     & \qquad \qquad \frac{1}{2} \left( \cos \left( \langle \bm{\omega} , \bm{x} \rangle - \langle \bm{\omega} , \bm{y} \rangle \right) - \cos \left( \langle \bm{\omega} , \bm{x} \rangle + \langle \bm{\omega} , \bm{y} \rangle \right) \right) \\
      & = \cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right).
 \end{align*}
 The other embedding Rahimi and Recht give is
@@ -57,8 +58,8 @@ The other embedding Rahimi and Recht give is
     z (\bm{x}) = \sqrt{2} \cos \left(  \langle \bm{\omega} , \bm{x} \rangle + b \right)
 \end{equation}
 where $b \sim U \left[ 0,2 \pi \right]$. Using a similar argument we can show that this embedding also satisfies \ref{eq: rff_boch_int}. However, Sutherland's and Schneider's paper \cite{sutherland2015error} they argue that the Gaussian RBF kernel is better suited for the embedding given in \ref{eq: rff_emb}. To summarise their argument we denote
-\[
-    z_1 (\bm{x}) = \sqrt{\frac{2}{D}}
+\begin{equation} \label{eq: rff_feat_map_1}
+    \varphi_1 (\bm{x}) = \sqrt{\frac{2}{D}}
     \begin{bmatrix}
         \cos \left( \langle \bm{\omega}_{1} , \bm{x} \rangle \right)   \\
         \cos \left( \langle \bm{\omega}_{2} , \bm{x} \rangle \right)   \\
@@ -68,17 +69,17 @@ where $b \sim U \left[ 0,2 \pi \right]$. Using a similar argument we can show th
         \vdots                                                         \\
         \sin \left( \langle \bm{\omega}_{D/2} , \bm{x} \rangle \right)
     \end{bmatrix}
-\]
+\end{equation}
 to be the feature map corresponding to embedding in equation \ref{eq: rff_emb} and
-\[
-    z_2 (\bm{x}) = \sqrt{\frac{2}{D}}
+\begin{equation} \label{eq: rff_feat_map_2}
+    \varphi_2 (\bm{x}) = \sqrt{\frac{2}{D}}
     \begin{bmatrix}
         \cos \left( \langle \bm{\omega}_{1} , \bm{x} \rangle + b_1 \right) \\
         \vdots                                                             \\
         \cos \left( \langle \bm{\omega}_{D} , \bm{x} \rangle + b_D \right)
     \end{bmatrix}
-\]
-to be the feature map corresponding to equation \ref{eq: rff_emb}. Furthermore, $\varphi_1$ and $\varphi_2$ denote the feature maps corresponding to $z_1$ and $z_2$ respectively. They then show that
+\end{equation}
+to be the feature map corresponding to equation \ref{eq: rff_emb_alt}. They then show that
 \begin{align*}
     \VV \left[ \varphi_1 (\Delta) \right] & = \frac{1}{D} \left( 1 + k (2 \Delta) - 2 {k( \Delta)}^2 \right)           \\
     \VV \left[ \varphi_2 (\Delta) \right] & = \frac{1}{D} \left( 1 + \frac{1}{2} k (2 \Delta) - {k( \Delta)}^2 \right)
@@ -92,3 +93,39 @@ When using the Gaussian kernel,
     \VV \left[ \cos \left( \langle \bm{\omega} , \Delta \rangle \right) \right] = \frac{1}{2} \left( 1 - \exp \left( - \frac{2\norm{\Delta}^2_2}{\sigma^2} \right) \right)^2 \leq \frac{1}{2}
 \]
 meaning $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$. This result is indeed consistent with our preliminary experiments. Thus for experimentation an embedding of $\varphi_1$ is always used.
+
+Another important result given by Rahimi and Recht provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation seen in proposition \ref{prop: rff_sup-norm_bound_1}.
+
+\begin{prop} \label{prop: rff_sup-norm_bound_1}
+    Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $l$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation \ref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{>0}, \; \varepsilon \leq \sigma_p l$ we have
+    \[
+        \PP \left[ \sup_{\bm{x},\bm{y} \in \calM} \left| \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\RR^D} - k (\bm{x},\bm{y}) \right| \geq \varepsilon \right] \leq \alpha \left( \frac{\sigma_p l}{\varepsilon} \right)^2 \exp \left( - \frac{D \varepsilon^2}{8(d+2)} \right)
+    \]
+    where $\alpha \in \RR_{>0}, \; \alpha < \infty$ does not depend on anything \cite{NIPS2007_013a006f}*{page 3}.
+\end{prop}
+
+Rahimi and Recht prove \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$ is experimentation.
+
+These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorithm}, which is used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
+
+{\centering
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{RFF Algorithm}
+        \label{alg: RFF-algorithm}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{$\bm{X} \in \RR^{n \times d}$, the dimension of the feature space $D$.}
+        \Output{$\bm{\widetilde{K}} \approx \bm{K}$ where $\bm{K}$ is the Gram matrix corresponding to $\bm{X}$.}
+        \BlankLine
+        Construct $\bm{W} \triangleq \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal} \in \RR^{D \times d} \;$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$\;
+        $\bm{Z} = \frac{1}{\sqrt{D}} \left[ \cos \left( \bm{W} \bm{X}^{\intercal} \right), \sin \left( \bm{W} \bm{X}^{\intercal} \right) \right]^{\intercal}$\;
+        $\bm{\widetilde{K}} = \bm{Z}\bm{Z}^{\intercal}$\;
+        \Return{$\bm{\widetilde{K}}$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par
+}
