@@ -1,0 +1,10 @@
+\subsection{Theory and Computation}\label{Section3.1}
+Contrary to the kernel trick the Random Fouier Features (RFF) technique approximates $\langle \Phi \left( \cdot \right) , \Phi \left( \cdot \right) \rangle_{\RR^N}$ through an explicit feature mapping $\varphi$. The RFF techniques hinges on Bochners theorem stated without proof in \ref{theorem: bochner} which characterises positive definite functions.
+
+\begin{thm}{Bochner's} \label{theorem: bochner}
+    A continuous and shift-invariant function $k \left( \bm{x} , \bm{y} \right) = k \left( \bm{x} - \bm{y} \right) = k \left( \Delta \right)$ is positive definite (see definition \ref{defe: PD}) if and only if it can be represented as
+    \[
+        \int_{\RR} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) \mu_k \left( d \; \bm{\omega} \right)
+    \]
+    where $\mu_k$ is a positive finite measure on the frequencies of $\bm{\omega}$ \cite{HahnHans1933SBVü,LiuFanghui2021RFfK}.
+\end{thm}

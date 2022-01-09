@@ -211,10 +211,10 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 \input{gps/gps.tex}
 \newpage
 
-\input{lin_alg/lin_alg.tex}
+\input{rff/rff.tex}
 \newpage
 
-\input{gps.tex}
+\input{lin_alg/lin_alg.tex}
 \newpage
 
 \newpage
@@ -437,289 +437,52 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             author = {CHOI, Sou-Cheng T and PAIGE, Christopher C and SAUNDERS, Michael A},
         }
 
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-        \bib{AGS08}{incollection}{
-            author = {Aizenbud, A.},
-            author = {Gourevitch, D.},
-            author = {Sayag, E.},
-            title = {$(\GL_{n+1}(F),\GL_n(F))$ is a Gelfand pair for any local field $F$},
-            publisher = {Cambridge University Press},
-            volume ={144},
-            year = {2008},
-            bookTitle = {Compositio Mathematica, Volume 144, Issue 6},
-            pages = {1504--1524}
+        % Rahimi and Recht first paper on RFF
+        \bib{NIPS2007_013a006f}{inproceedings}{
+            author = {Rahimi, Ali and Recht, Benjamin},
+            booktitle = {Advances in Neural Information Processing Systems},
+            editor = {J. Platt and D. Koller and Y. Singer and S. Roweis},
+            pages = {},
+            publisher = {Curran Associates, Inc.},
+            title = {Random Features for Large-Scale Kernel Machines},
+            url = {https://proceedings.neurips.cc/paper/2007/file/013a006f03dbc5392effeb8f18fda755-Paper.pdf},
+            volume = {20},
+            year = {2008}
         }
 
-        \bib{Brocker85}{book}{
-            author = {Brocker, T.},
-            author = {Dieck, T.},
-            year = {1985},
-            publisher = {Springer-Verlag, Berlin},
-            title = {Representations of Compact Lie Groups}
-        }
-
-        \bib{Bannai84}{book}{
-            author = {Bannai, E.},
-            author = {Ito, T.},
-            title = {Algebraic Combinatorics I : Association Schemes},
-            publisher = {Benjamin Cummings Publishing Company, San Francisco},
-            year = {1984}
-        }
-
-        \bib{Bump10}{webpage}{
-            author = {Bump, D.},
-            title = {Hecke Algebras},
-            year = {2010},
-            url = {http://sporadic.stanford.edu/bump/math263/hecke.pdf},
-            accessdate = {12/03/2021}
-        }
-
-        \bib{Bump13}{book}{
-            author = {Bump, D.},
-            year = {2013},
-            title = {Lie Groups},
-            edition = {Second Edition},
-            publisher = {Springer-Verlag, New York}
-        }
-
-        \bib{Carter85}{book}{
-            author = {Carter, R. W.},
-            title = {Finite Groups of Lie Type},
-            publisher = {John Wiley \& Sons Ltd},
-            year = {1985}
-        }
-
-        \bib{CSST20}{book}{
-            title={Gelfand Triples and Their Hecke Algebras: Harmonic Analysis for Multiplicity-Free Induced Representations of Finite Groups},
-            author={Ceccherini-Silberstein, T.},
-            author={Scarabotti, F.},
-            author={Tolli, F.},
-            series={Lecture Notes in Mathematics},
-            year={2020},
-            publisher={Springer International Publishing}
-        }
-
-        \bib{CMHL03}{book}{
-            author = {Cherednik, I.},
-            author = {Markov, Y.},
-            author = {Howe, R.},
-            author = {Lusztig, G.},
-            year = {2003},
-            title = {Iwahori-Hecke Algebras and Their Representation Theory},
-            publisher = {Springer, Berlin, Heidelberg}
-        }
-
-        \bib{Coxeter35}{article}{
-            author = {Coxeter, H. S. M.},
-            year = {1935},
-            title = {The Complete Enumeration of Finite Groups of the Form {$R_i^2=(R_iR_j)^{k_{ij}}=1$}},
-            publisher = {Journal of the London Mathematical Society},
-            volume = {s1-10},
-            pages = {21--25}
-        }
-
-        \bib{Curtis87v1}{book}{
-            author = {Curtis, C. W.},
-            author = {Reiner, I.},
-            year = {1987},
-            title = {Methods of Representation Theory - with applications to finite groups and orders},
-            volume = {1},
-            publisher = {John Wiley \& Sons}
-        }
-
-        \bib{Curtis87v2}{book}{
-            author = {Curtis, C. W.},
-            author = {Reiner, I.},
-            year = {1987},
-            title = {Methods of Representation Theory - with applications to finite groups and orders},
-            volume = {2},
-            publisher = {John Wiley \& Sons}
-        }
-
-        \bib{Diaconis88}{book}{
-            title = {Group representations in probability and statistics},
-            author = {Diaconis, P.},
-            organization = {Institute of Mathematical Statistics, Hayward, California},
-            bookTitle = {Lecture Notes--Monograph Series, vol. 11},
-            year = {1988}
-        }
-
-        \bib{Etingof11}{book}{
-            title={Introduction to Representation Theory},
-            author={Etingof, P. I.},
-            author = {Golberg, O.},
-            author = {Hensel, S.},
-            author = {Liu, T.},
-            author = {Schwendner, A.},
-            author ={Vaintrob, D.},
-            author = {Yudovina, E.},
-            year={2011},
-            publisher={American Mathematical Society}
-        }
-
-        \bib{Folland84}{book}{
-            author = {Folland, G. B.},
-            title = {Real Analysis},
-            year = {1984},
-            publisher = {John Wiley \& Sons Inc.}
-        }
-
-        \bib{Gross91}{article}{
-            author = {Gross, B. H.},
-            journal = {Bulletin (New Series) of the American Mathematical Society},
-            pages = {277--301},
-            publisher = {American Mathematical Society},
-            title = {Some applications of Gelfand pairs to number theory},
-            volume = {24},
-            year = {1991}
-        }
-
-        \bib{Hendel20}{webpage}{
-            author = {Hendel, Y. I.},
-            title = {On Twisted Gelfand Pairs Through Commutativity of a Hecke Algebra},
-            year = {2020},
-            url = {https://arxiv.org/pdf/1807.02843.pdf},
-            accessdate = {20/01/21}
-        }
-
-        \bib{HKP}{webpage}{
-            title = {Iwahori--Hecke Algebras},
-            author = {Haines, T. J.},
-            author = {Kottwitz, R. E.},
-            author = {Prasad, A.},
-            year = {2009},
-            url = {https://arxiv.org/abs/math/0309168},
-            accessdate = {29/04/2021}
-        }
-
-        \bib{HP02}{article}{
-            title = {Formulae relating the Bernstein and Iwahori--Matsumoto presentations of an affine Hecke algebra},
-            author = {Haines, T. J.},
-            author = {Pettet, A.},
-            year = {2002},
-            journal = {Journal of Algebra},
-            pages = {127--149},
-            volume = {252}
-        }
-
-        \bib{Humphreys90}{book}{
-            title = {Reflection Groups and Coxeter Groups},
-            author = {Humphreys, J. E.},
-            publisher = {Cambridge University Press, New York},
-            year = {1990}
-        }
-
-        \bib{Koranyi80}{incollection}{
-            pages = {334--348},
-            booktitle = {Harmonic Analysis and Group Representation},
-            title = {Some Applications of Gelfand Pairs in Classical Analysis},
-            year = {1980},
-            author = {Koranyi, A.}
-        }
-
-        \bib{Lam06}{incollection}{
-            author = {Lam, T. Y.},
-            year = {2003},
-            booktitle = {Algebras, Rings and Their Representations: Proceedings of the International Conference on Algebras, Modules and Rings},
-            title = {Corner Ring Theory: A Generalization of Peirce Decompositions, I},
-            journal = {Algebras, Rings and Their Representations},
-            pages = {153--182}
-        }
-
-        \bib{Lang02}{book}{
-            title = {Algebra},
-            author = {Lang, S.},
-            year = {2002},
-            edition = {revised 3rd edition},
-            publisher = {Springer-Verlag, New York}
-        }
-
-        \bib{Macdonald95}{book}{
-            author = {Macdonald, I. G.},
-            title = {Symmetric Functions and Hall Polynomials},
-            year = {1995},
-            edition = {2},
-            publisher = {Oxford University Press Inc., New York}
-        }
-
-        \bib{MilneANT}{webpage}{
-            author={Milne, J. S.},
-            title={Algebraic Number Theory (v3.08)},
-            year={2020},
-            url={www.jmilne.org/},
-            accessdate = {15/04/2021}
-        }
-
-
-        \bib{Morel18}{webpage}{
-            author = {Morel, S.},
-            year = {2018},
-            url = {https://web.math.princeton.edu/~smorel/449/notes_449.pdf},
-            title = {MAT 449 : Representation theory},
-            accessdate = {14/02/2021}
-        }
-
-        \bib{Solleveld21}{webpage}{
-            url = {https://arxiv.org/pdf/2009.03007.pdf},
-            author = {Maarten Solleveld},
-            title = {Affine Hecke Algebras and their Representations},
+        \bib{PotapczynskiAndres2021BSGP}{article}{
             year = {2021},
-            institution = {Institute for Mathematics, Astrophysics and Particle Physics, Radboud University},
-            accessdate = {31/05/21}
+            title = {Bias-Free Scalable Gaussian Processes via Randomized Truncations},
+            language = {eng},
+            author = {Potapczynski, Andres and Wu, Luhuan and Biderman, Dan and Pleiss, Geoff and Cunningham, John P},
         }
 
-        \bib{Murnaghan05}{webpage}{
-            author = {Murnaghan, F.},
-            title = {MAT445/1196F - Representation Theory Course Notes},
-            year = {2005},
-            accessdate = {15/02/2021},
-            url = {http://www.math.toronto.edu/murnaghan/courses/mat445/notes.pdf}
+        % Bochner's theorem
+        \bib{HahnHans1933SBVü}{article}{
+            issn = {0026-9255},
+            journal = {Monatshefte für Mathematik},
+            pages = {A27--A27},
+            volume = {40},
+            publisher = {Springer Vienna},
+            number = {1},
+            year = {1933},
+            title = {S. Bochner, Vorlesungen über Fouriersche Integrale: Mathematik und ihre Anwendungen, Bd. 12.) Akad. Verlagsges., Leipzig 1932, VIII. u. 229S. Preis brosch. RM 14,40, geb. RM16},
+            language = {ger},
+            address = {Vienna},
+            author = {Hahn, Hans},
         }
 
-        \bib{Musili93}{incollection}{
-            author = {Musili, C.},
-            title = {Representations of Finite Groups},
-            bookTitle = {Texts and Readings in Mathematics, vol. 8},
-            year = {1993},
-            pages = {115--140},
-        }
-
-        \bib{Prasad05}{webpage}{
-            author = {Prasad, A.},
-            title = {On Bernstein's Presentation of Iwahori--Hecke Algebras and Representations of Split Reductive Groups over Non-Archimedian Local Fields},
-            year = {2005},
-            url = {https://arxiv.org/pdf/math/0504417.pdf},
-            accessdate = {27/05/21}
-        }
-
-        \bib{Riggs96}{thesis}{
-            author = {Riggs, L. J.},
-            year = {1996},
-            title = {Polynomial equations and solvability: A historical perspective},
-            institution = {California State University, San Bernardino}
-        }
-
-        \bib{Williamson21}{webpage}{
-            author = {Romanov, A.},
-            author = {Williamson, G.},
-            title = {Langlands correspondence and Bezrukavnikov’s equivalence},
+        %  A Survey on Algorithms, Theory, and Beyond
+        \bib{LiuFanghui2021RFfK}{article}{
+            issn = {0162-8828},
+            journal = {IEEE transactions on pattern analysis and machine intelligence},
+            volume = {PP},
+            publisher = {IEEE},
             year = {2021},
-            institution = {University of Sydney},
-            url = {https://arxiv.org/abs/2103.02329},
-            accessdate = {2/05/2021}
+            title = {Random Features for Kernel Approximation: A Survey on Algorithms, Theory, and Beyond},
+            language = {eng},
+            author = {Liu, Fanghui and Huang, Xiaolin and Chen, Yudong and Suykens, Johan A. K},
         }
-
-        \bib{Terras99}{book}{
-            author = {Terras, A.},
-            title = {Fourier  Analysis  on  Finite  Groups  and  Applications},
-            year = {1999},
-            publisher = {Cambridge University Press},
-            organization = {London  Mathematical Society}
-        }
-
-
 
     \end{biblist}
 \end{bibdiv}
