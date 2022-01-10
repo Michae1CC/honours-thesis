@@ -107,7 +107,7 @@ where $\tau$ is again $\norm{\bm{x}_i - \bm{x}_j}_2 / \frac{\sigma}{\sqrt{2}}$ \
     node[above right] {$\bm{u}$};
 
     % Vector H D_2 v
-    \draw[-stealth] (0,0,0) -- (0.86736677,-0.49766946,0)
+    \draw[-stealth] (0,0,0) -- (0.83078669, -0.47668089, -0.28734788)
     node[above left] {$\bm{H} \bm{D}_2 \bm{v}$};
 
     % Vector H D_2 w
@@ -117,6 +117,47 @@ where $\tau$ is again $\norm{\bm{x}_i - \bm{x}_j}_2 / \frac{\sigma}{\sqrt{2}}$ \
     % Vector H D_2 u
     \draw[-stealth] (0,0,0) -- (0.22058188, -0.57508846,  0.78779242)
     node[above left] {$\bm{H} \bm{D}_2 \bm{u}$};
+
+\end{tikzpicture}
+
+\begin{tikzpicture}[tdplot_main_coords, scale = 2.5]
+
+    % Create a point (P)
+    \coordinate (P) at ({1/sqrt(3)},{1/sqrt(3)},{1/sqrt(3)});
+
+    % Draw shaded circle
+    \shade[ball color = SkyBlue,
+        opacity = 0.5
+    ] (0,0,0) circle (1cm);
+
+    % draw arcs 
+    \tdplotsetrotatedcoords{0}{0}{0};
+    \draw[dashed,
+        tdplot_rotated_coords,
+        darkgray
+    ] (0,0,0) circle (1);
+
+    % Axes in 3 d coordinate system
+    \draw[-stealth] (-1.80,0,0) -- (1.80,0,0)
+    node[below left] {$x$};
+
+    \draw[-stealth] (0,-1.30,0) -- (0,1.30,0)
+    node[below right] {$y$};
+
+    \draw[-stealth] (0,0,-1.30) -- (0,0,1.30)
+    node[above] {$z$};
+
+    % Vector r
+    \draw[-stealth] (0,0,0) -- (0.44366934, -0.44366934,  0.77866233)
+    node[above right] {$\bm{r}$};
+
+    % Vector w
+    \draw[-stealth] (0,0,0) -- (-0.69631062, -0.69631062,  0.17407766)
+    node[above right] {$\bm{w}$};
+
+    % Vector v
+    \draw[-stealth] (0,0,0) -- (0.87287156, -0.43643578,  0.21821789)
+    node[above right] {$\bm{v}$};
 
 \end{tikzpicture}
 
