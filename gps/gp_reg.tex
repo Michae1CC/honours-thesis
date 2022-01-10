@@ -227,7 +227,7 @@ where $\bm{K_{X^{\star}X^{\star}}} = k(\bm{X^{\star}}, \bm{X^{\star}}) \in \RR^{
         \bm{f}_{\star}
     \end{bmatrix}
     \sim \calN
-    \begin{bmatrix}
+    \begin{pmatrix}
         \bm{0}, &
         {
                 \begin{bmatrix}
@@ -235,7 +235,7 @@ where $\bm{K_{X^{\star}X^{\star}}} = k(\bm{X^{\star}}, \bm{X^{\star}}) \in \RR^{
                     \bm{K_{XX^{\star}}}^{\intercal} & \bm{K_{X^{\star}X^{\star}}}
                 \end{bmatrix}
             }
-    \end{bmatrix}
+    \end{pmatrix}
 \]
 where $\bm{K_{XX^{\star}}} = k(\bm{X}, \bm{X^{\star}}) \in \RR^{n \times n_\star}$.
 
@@ -294,7 +294,7 @@ We can write out the new distribution of the observed noisy values along the poi
         \bm{f}_{\star}
     \end{bmatrix}
     \sim \calN
-    \begin{bmatrix}
+    \begin{pmatrix}
         \bm{0}, &
         {
                 \begin{bmatrix}
@@ -302,7 +302,7 @@ We can write out the new distribution of the observed noisy values along the poi
                     \bm{K_{XX^{\star}}}^{\intercal}           & \bm{K_{X^{\star}X^{\star}}}
                 \end{bmatrix}
             }
-    \end{bmatrix}
+    \end{pmatrix}
 \]
 Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
 \begin{equation}\label{prop:GP_train_distr2}
