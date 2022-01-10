@@ -13,30 +13,30 @@ The spectral distribution $\mu_k$ can be represented as finite measure induced b
 \begin{equation} \label{eq: rbf-spec-pdf}
     p \left( \bm{w}\right) = \frac{1}{\sqrt{\left( 2 \pi\right)^{D} \left| \frac{\sigma^2}{2} \Id_{D \times D} \right|}} \exp \left( -\frac{1}{2} \bm{w}^\intercal \left( \frac{\sigma^2}{2} \Id_{D \times D} \right)^{-1} \bm{w} \right)
 \end{equation}
-\cite{NIPS2007_013a006f}*{page 3}. One important detail required for Bochner's theorem to work is that it requires our kernel to be shift-invariant (sometimes also referred to as stationary) stated in definition \ref{defe: shift-invar}.
+\cite{NIPS2007_013a006f}*{page 3}. One caveat in Bochner's theorem is that it requires our kernel to be shift-invariant (sometimes also referred to as stationary) stated in definition \ref{defe: shift-invar}.
 
 \begin{defe}[Shift-Invariant] \label{defe: shift-invar}
     A kernel $k : \RR^N \times \RR^N \to \CC$ is called shift-invariant if $k \left( \bm{x}, \bm{y} \right) = g \left( \bm{x} - \bm{y} \right)$ for some positive definite function $g : \RR^N \to \CC$ \cite{JMLR:v17:14-538}*{page 3}.
 \end{defe}
 
-Clearly the Gaussian RBF kernel is shift invariant since it only relies on the bounding radius of $\bm{x}$ and $\bm{y}$. Thus from Bochners theorem a positive definite sift-invariant kernel with $k(0) = 1$ can be computed as
+Clearly the Gaussian RBF kernel is shift invariant since it only relies on the bounding radius of $\bm{x}$ and $\bm{y}$. Thus from Bochners theorem a positive definite shift-invariant kernel with $k(0) = 1$ can be computed as
 \begin{equation} \label{eq: rff_boch_int}
-    k \left( \bm{x} - \bm{y} \right) = \int_{\RR} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) d \; \bm{\omega} .
+    k \left( \bm{x} - \bm{y} \right) = \int_{\CC} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) d \; \bm{\omega} .
 \end{equation}
 The main of idea of RFF is to approximate the integral in \ref{eq: rff_boch_int} using the following Monte-Carlo estimate
 \begin{align*}
     k \left( \bm{x} - \bm{y} \right)
-     & = \int_{\RR} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) d \; \bm{\omega}                                                                                                              \\
+     & = \int_{\CC} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) d \; \bm{\omega}                                                                                                              \\
      & = \EE_{\bm{\omega} \sim p (\cdot)} \left( \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) \right)                                                                                                          \\
      & \approx \frac{1}{D} \sum_{j=1}^{D} \exp \left( i \langle \bm{\omega}_{j} , \bm{x} - \bm{y} \rangle \right)                                                                                                                     \\
      & = \sum_{j=1}^{D} \left( \frac{1}{\sqrt{D}} \exp \left( i \langle \bm{\omega}_{j} , \bm{x} \rangle \right) \right) \overline{\left( \frac{1}{\sqrt{D}} \exp \left( i \langle \bm{\omega}_{j} , \bm{y} \rangle \right) \right) } \\
-     & = \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\RR^D}
+     & = \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\CC^D}
 \end{align*}
 where $\bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$ using the feature map
 \begin{equation}
     \varphi (\bm{x}) = \frac{1}{\sqrt{D}} \left[ z \left( \bm{\omega}_1, \bm{x} \right), z \left( \bm{\omega}_2, \bm{x} \right), \ldots , z \left( \bm{\omega}_D, \bm{x} \right) \right]^{\intercal}
 \end{equation}
-where for convenience $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows us to estimate the Gram matrix as $\bm{K} \approx \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \RR^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. Rahimi and Recht offer two embeddings for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ used in the vast majority of literature for which $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
+where for convenience $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows us to estimate the Gram matrix as $\bm{K} \approx \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \CC^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. Rahimi and Recht offer two embeddings for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ used in the vast majority of literature for which $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
 \begin{equation} \label{eq: rff_emb}
     z \left( \bm{\omega}, \bm{x} \right) = \left[ \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) , \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \right]^{\intercal}
 \end{equation}
@@ -84,7 +84,7 @@ to be the feature map corresponding to equation \ref{eq: rff_emb_alt}. They then
     \VV \left[ \varphi_1 (\Delta) \right] & = \frac{1}{D} \left( 1 + k (2 \Delta) - 2 {k( \Delta)}^2 \right)           \\
     \VV \left[ \varphi_2 (\Delta) \right] & = \frac{1}{D} \left( 1 + \frac{1}{2} k (2 \Delta) - {k( \Delta)}^2 \right)
 \end{align*}
-so that the variance of $\varphi_1$ is smaller whenever
+meaning the variance of $\varphi_1$ is smaller whenever
 \[
     \VV \left[ \cos \left( \langle \bm{\omega} , \Delta \rangle \right) \right] = \frac{1}{2} + \frac{1}{2} k (2 \Delta) - {k( \Delta)}^2 \leq \frac{1}{2} .
 \]
@@ -92,7 +92,7 @@ When using the Gaussian kernel,
 \[
     \VV \left[ \cos \left( \langle \bm{\omega} , \Delta \rangle \right) \right] = \frac{1}{2} \left( 1 - \exp \left( - \frac{2\norm{\Delta}^2_2}{\sigma^2} \right) \right)^2 \leq \frac{1}{2}
 \]
-meaning $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$. This result is indeed consistent with our preliminary experiments. Thus for experimentation an embedding of $\varphi_1$ is always used.
+so that $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$. This result is indeed consistent with our preliminary experiments. With this in mind, for our experimentation an embedding of $\varphi_1$ is always used.
 
 Another important result given by Rahimi and Recht provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation stated in proposition \ref{prop: rff_sup-norm_bound_1}.
 
@@ -104,7 +104,7 @@ Another important result given by Rahimi and Recht provides a bound on the sup-n
     where $\alpha \in \RR_{>0}, \; \alpha < \infty$ does not depend on anything \cite{NIPS2007_013a006f}*{page 3}.
 \end{prop}
 
-Rahimi and Recht prove \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$ in experimentation.
+Rahimi and Recht prove proposition \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$ in experimentation.
 
 These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorithm}, which is used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
 
