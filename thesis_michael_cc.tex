@@ -10,9 +10,10 @@
   citecolor   = {blue!50!black} % Colour of citations	
 }
 \usepackage[left=0.8in,right=0.8in,top=1in,bottom=1in]{geometry}
-\usepackage{amsmath, amsthm, amssymb, amsfonts, amsthm, bbold, bm, xcolor}
+\usepackage{amsmath, amsthm, amssymb, amsfonts, amsthm, bbold, bm}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{adjustbox}
-\usepackage{tikz, tikz-cd, float, paralist, pgfplots, tcolorbox, subfig, filecontents}
+\usepackage{tikz, tikz-cd, tikz-3dplot, float, paralist, pgfplots, tcolorbox, subfig, filecontents}
 \usepackage[pdftex,outline]{contour}
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{arrows}
@@ -20,6 +21,9 @@
 \usepackage[nobysame]{amsrefs}
 \usepackage{tgpagella}
 \usepackage{pdiag}
+
+\tdplotsetmaincoords{60}{115}
+\pgfplotsset{compat=newest}
 
 % Algorithm package
 % \usepackage[linesnumbered,lined,boxed,vlined,ruled]{algorithm2e}

@@ -42,4 +42,86 @@ This is the same transformation matrix estimate that Yu {\it et al.} provides. U
 \end{equation*}
 where $\tau$ is again $\norm{\bm{x}_i - \bm{x}_j}_2 / \frac{\sigma}{\sqrt{2}}$ \cite{LiuFanghui2021RFfK}*{page 8}.
 
-Bojarski {\it et al.} \cite{BojarskiMariusz2016Saar} give an intuitive explanation for the roles of each of the different blocks $\bm{H} \bm{D}_1$, $\bm{H} \bm{D}_2$ and $\bm{H} \bm{D}_3$.
+\begin{tikzpicture}[tdplot_main_coords, scale = 2.5]
+
+    % Create a point (P)
+    \coordinate (P) at ({1/sqrt(3)},{1/sqrt(3)},{1/sqrt(3)});
+
+    % Draw shaded circle
+    \shade[ball color = SkyBlue,
+        opacity = 0.5
+    ] (0,0,0) circle (1cm);
+
+    % draw arcs 
+    \tdplotsetrotatedcoords{0}{0}{0};
+    \draw[dashed,
+        tdplot_rotated_coords,
+        darkgray
+    ] (0,0,0) circle (1);
+
+    % Axes in 3 d coordinate system
+    \draw[-stealth] (-1.80,0,0) -- (1.80,0,0)
+    node[below left] {$x$};
+
+    \draw[-stealth] (0,-1.30,0) -- (0,1.30,0)
+    node[below right] {$y$};
+
+    \draw[-stealth] (0,0,-1.30) -- (0,0,1.30)
+    node[above] {$z$};
+
+    % Vector v
+    \draw[-stealth] (0,0,0) -- (-0.19588084,  0.97940421,  0.04897021)
+    node[above right] {$\bm{v}$};
+
+    % Vector H D_1 v
+    \draw[-stealth] (0,0,0) -- (-0.37139068,  0.74278135,  0.55708601)
+    node[above right] {$\bm{H} \bm{D}_1 \bm{v}$};
+
+\end{tikzpicture}
+
+\begin{tikzpicture}[tdplot_main_coords, scale = 2.5]
+
+    % Create a point (P)
+    \coordinate (P) at ({1/sqrt(3)},{1/sqrt(3)},{1/sqrt(3)});
+
+    % Axes in 3 d coordinate system
+    \draw[-stealth] (-1.80,0,0) -- (1.80,0,0)
+    node[below left] {$x$};
+
+    \draw[-stealth] (0,-1.30,0) -- (0,1.30,0)
+    node[below right] {$y$};
+
+    \draw[-stealth] (0,0,-1.30) -- (0,0,1.30)
+    node[above] {$z$};
+
+    % Vector v
+    \draw[-stealth] (0,0,0) -- (-0.37139068,  0.74278135,  0.55708601)
+    node[above right] {$\bm{v}$};
+
+    % Vector w
+    \draw[-stealth] (0,0,0) -- (-0.55708601,  0.37139068,  0.74278135)
+    node[above left] {$\bm{w}$};
+
+    % Vector u
+    \draw[-stealth] (0,0,0) -- (-0.46423834,  0.55708601,  0.64993368)
+    node[above right] {$\bm{u}$};
+
+    % Vector H D_2 v
+    \draw[-stealth] (0,0,0) -- (0.86736677,-0.49766946,0)
+    node[above left] {$\bm{H} \bm{D}_2 \bm{v}$};
+
+    % Vector H D_2 w
+    \draw[-stealth] (0,0,0) -- (-0.73,-0.57,-0.38)
+    node[above left] {$\bm{H} \bm{D}_2 \bm{w}$};
+
+    % Vector H D_2 u
+    \draw[-stealth] (0,0,0) -- (0.22058188, -0.57508846,  0.78779242)
+    node[above left] {$\bm{H} \bm{D}_2 \bm{u}$};
+
+\end{tikzpicture}
+
+Bojarski {\it et al.} \cite{BojarskiMariusz2016Saar}*{page 4} give an intuitive explanation for the roles of each of the different blocks $\bm{H} \bm{D}_1$, $\bm{H} \bm{D}_2$ and $\bm{H} \bm{D}_3$. Since the first block can be shown to satisfy
+\[
+    \PP \left[ \norm{\bm{H}\bm{D}_1 \bm{x}}_{\infty} > \frac{\log D}{\sqrt{D}} \right] \leq 2 d \exp \left( {-\frac{\log^2 D}{8}} \right), \quad \bm{x} \in \RR^D
+\]
+\cite{LiuFanghui2021RFfK}*{page 8} so that it can be thought as a "balancer" leaving no single dimension bearingtoo much of the $l^2$ norm. For the secnd block, the cost of using a structured matrix is the loss of independence. The role of the second block is to mitigate this effect by making similar input vectors near-orthogonal. Finally the third block controls the capacity of the entire structure by providing a vector of parameters. Near-independence is now implied by the near-orthogonality achieved by the proceeding block and the fact that the projections of the Gaussian vector or Radamacher vector onto "almost orthogonal directions" and "close to independent".
