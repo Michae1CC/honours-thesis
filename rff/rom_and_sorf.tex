@@ -24,7 +24,7 @@ where $\bm{S} \in \RR^{D \times D}$ has orthogonal rows and $\bm{D} = \operatorn
     \]
 \end{defe}
 
-Note that while Hadamard matrices are only defined for dimensions of exact powers of 2 although other sizes can be constructed by removing portions of the matrix given in definition \ref{defe: Hadamard-Matrix} or by padding with $0$. This gives a concrete means for which one can generate a transformation matrix
+Note that while Hadamard matrices are only defined for dimensions of exact powers of 2, although other sizes can be constructed by removing portions of the matrix given in definition \ref{defe: Hadamard-Matrix} or by padding with $0$. This gives a concrete means for which one can generate a transformation matrix
 \begin{equation} \label{eq: ROM-Hadamard}
     \sqrt{d} \prod_{i=1}^{k} \bm{H} \bm{D}_{i}
 \end{equation}
@@ -36,16 +36,16 @@ where $\bm{H}$ is an appropriately sized Hadamard matrix. It is easy to check th
         \emph{Method}                                                  & \emph{Time}                       & \emph{Extra Space } \\\midrule
         RFF \cite{NIPS2007_013a006f}                                   & $\calO (Dd)$                      & $\calO (Dd)$        \\
         ORF \cite{YuFelixX2016ORF}                                     & $\calO (Dd)$                      & $\calO (Dd)$        \\
-        ROM (SORF) \cite{YuFelixX2016ORF,ChoromanskiKrzysztof2017TUEo} & $\calO \left( D \log (d) \right)$ & $\calO (D)$         \\\bottomrule
+        ROM (SORF) \cite{ChoromanskiKrzysztof2017TUEo,YuFelixX2016ORF} & $\calO \left( D \log (d) \right)$ & $\calO (D)$         \\\bottomrule
         \hline
     \end{tabular}
     \caption{A comparison of various methods for computing a suitable transformation matrix with the Random Fourier Features paradigm. Typically the dimension of the feature space, $D$, is chosen as some multiple of the dimension of data, $d$.}
     \label{table: RFF-compare}
 \end{table}
 
-Despite the wide use of the ROM method in various machine learning tasks \cite{ChoromanskiKrzysztof2017TUEo,AndoniAlexandr2015PaOL,ChoromanskiKrzysztof2020RAwP,LiuFanghui2021RFfK} a number of high-interest theoretical properties remain unsolved problems leaving many aspects of this method shrouded in mystery. Instead, much of what we understand about ROM's estimate capabilities comes from empirical analysis. Nonetheless, we shall still cover a smaller number of important results that have been established.
+Despite the wide use of the ROM method in various machine learning tasks \cite{ChoromanskiKrzysztof2017TUEo,AndoniAlexandr2015PaOL,ChoromanskiKrzysztof2020RAwP,LiuFanghui2021RFfK} a number of high-interest theoretical properties remain unsolved problems, leaving many aspects of this method shrouded in mystery. Instead, much of what we understand about ROM's estimate capabilities comes from empirical analysis. Nonetheless, we shall still cover a smaller number of important results that have been established.
 
-Choromanski {\it et al.} \cite{ChoromanskiKrzysztof2017TUEo} show that there is diminishing returns (estimation wise) for choosing larger values of $k$ in equation \ref{eq: ROM-Hadamard}. They also show that choosing odd values of $k$ in \ref{eq: ROM-Hadamard} provide better estimates then its even $k-1$ and $k+1$ counterparts. For this reason a $k$ value of $3$ is usually chosen which yields the transformation matrix estimate given in equation \ref{eq: SORF-tm}. The method for constructing transformation matrices in this manner is referred to as Structured Orthogonal Random Features (SORF).
+Choromanski {\it et al.} \cite{ChoromanskiKrzysztof2017TUEo} show that there is diminishing returns (estimate wise) for choosing larger values of $k$ in equation \ref{eq: ROM-Hadamard}. They also show that choosing odd values of $k$ in \ref{eq: ROM-Hadamard} provide better estimates then its even $k-1$ and $k+1$ counterparts. For this reason a $k$ value of $3$ is usually chosen which gives rise to the transformation matrix estimate given in equation \ref{eq: SORF-tm}. The method for constructing transformation matrices in this manner is referred to as Structured Orthogonal Random Features (SORF).
 \begin{equation} \label{eq: SORF-tm}
     \bm{W}_{\text{SORF}} = \sqrt{d} \bm{H} \bm{D}_{3} \bm{H} \bm{D}_{2} \bm{H} \bm{D}_{1}
 \end{equation}
@@ -186,12 +186,12 @@ where $\tau$ is again $\norm{\bm{x}_i - \bm{x}_j}_2 / \frac{\sigma}{\sqrt{2}}$ \
             \end{tikzpicture}
         \end{adjustbox}
     }
-    \caption{A visual representation for the roles of each of the matrix blocks in the SORF method. The first block $\bm{H} \bm{D}_1$ rotates $\bm{v}$ so that single dimension bears too much of the $l^2$ norm seen in (A). In (B) second block $\bm{H} \bm{D}_2$ transforms vectors so that their image is near-orthogonal. Figure (C) demonstrates that the projection of a random vector $\bm{r}$ onto two near-orthogonal vector $\bm{v},\bm{w}$ yields a near-independent vector.}
+    \caption{A visual representation for the roles of each matrix block in the SORF method. The first block $\bm{H} \bm{D}_1$ rotates $\bm{v}$ so that single dimension bears too much of the $l^2$ norm seen in (A). In (B) the second block $\bm{H} \bm{D}_2$ transforms vectors so that their image is near-orthogonal. Figure (C) shows that the projection of a random vector $\bm{r}$ onto two near-orthogonal vector $\bm{v},\bm{w}$ yields a near-independent vector.}
     \label{fig: SORF-vis}
 \end{figure}
 
-Bojarski {\it et al.} \cite{BojarskiMariusz2016Saar}*{page 4} give an intuitive explanation for the roles of each of the different blocks $\bm{H} \bm{D}_1$, $\bm{H} \bm{D}_2$ and $\bm{H} \bm{D}_3$. Since the first block can be shown to satisfy
+Bojarski {\it et al.} \cite{BojarskiMariusz2016Saar}*{page 4} give an intuitive explanation for the roles of each of the different blocks $\bm{H} \bm{D}_1$, $\bm{H} \bm{D}_2$ and $\bm{H} \bm{D}_3$. The first block can be shown to satisfy
 \[
     \PP \left[ \norm{\bm{H}\bm{D}_1 \bm{x}}_{\infty} > \frac{\log D}{\sqrt{D}} \right] \leq 2 d \exp \left( {-\frac{\log^2 D}{8}} \right), \quad \bm{x} \in \RR^D
 \]
-\cite{LiuFanghui2021RFfK}*{page 8} so that it can be thought as a "balancer" leaving no single dimension bearing too much of the $l^2$ norm. For the second block, the cost of using a structured matrix is the loss of independence. Thus, the purpose of the second block is to mitigate this effect by making similar input vectors near-orthogonal. Finally the third block controls the capacity of the entire structure by providing a vector of parameters. Near-independence is now implied by the near-orthogonality (achieved by $\bm{H} \bm{D}_2$) and the fact that the projections of the Gaussian vector or Radamacher vector onto "almost orthogonal directions" are "close to independent". These roles are visually represented in figure \ref{fig: SORF-vis}.
+\cite{LiuFanghui2021RFfK}*{page 8} so that it can be thought as a "balancer" leaving no single dimension bearing too much of the $l^2$ norm. For the second block, the cost of using a structured matrix is the loss of independence. The purpose of the second block is to mitigate this effect by making similar input vectors near-orthogonal. Finally the third block controls the capacity of the entire structure by providing a vector of parameters. Near-independence is now implied by the near-orthogonality (achieved by $\bm{H} \bm{D}_2$) and the fact that the projections of the Gaussian vector or Radamacher vector onto "almost orthogonal directions" are "close to independent". These roles are portrayed visually in figure \ref{fig: SORF-vis}.
