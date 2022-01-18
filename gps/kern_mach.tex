@@ -165,7 +165,7 @@ Equation \ref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \
 \begin{align*}
     p \left( \bm{w} \mid \bm{y} , \bm{X} \right)
      & \propto \exp \left( - \frac{1}{2 \sigma_n^2} \left( \bm{y} - \bm{X} \bm{w} \right)^{\intercal} \left( \bm{y} - \bm{X} \bm{w} \right) \right) \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right) \\
-     & \propto \exp \left( - \frac{1}{2} \left( \bm{w} - \bar{\bm{w}} \right)^{\intercal} \left( \frac{1}{\sigma^2_n} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right) \right)
+     & \propto \exp \left( - \frac{1}{2} \left( \bm{w} - \bar{\bm{w}} \right)^{\intercal} \left( \frac{1}{\sigma^2_n} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right) \left( \bm{w} - \bar{\bm{w}} \right) \right)
 \end{align*}
 where $\bar{\bm{w}} \triangleq \sigma_{n}^{-2} \left( \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right)^{-1} \bm{X}^{\intercal} \bm{y}$. Notice that this again is a multivariate Gaussian distribution with mean $\bar{\bm{w}}$ and covariance $\bm{A}^{-1}$ where $\bm{A} \triangleq \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1}$ so that
 \begin{equation*}

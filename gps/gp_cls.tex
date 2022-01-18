@@ -1,0 +1,77 @@
+\subsection{Gaussian Processes for Classification}\label{Section1.6}
+
+As with most classifications model, the Guassian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and fintie number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
+\[
+    p \left( y \mid \bm{x} \right) = \frac{ p \left( y \right) p \left( \bm{x} \mid y \right) }{ \sum_{i=1}^{C} p \left( \calC_i \right) p \left( \bm{x} \mid \calC_i \right) }.
+\]
+On the other hand, the discriminative method focuses on modelling $p \left( y \mid \bm{x} \right)$ directly. With both these paradigms at our disposal, which one should we prefer for our GPC? While there are strengths and weaknesses associated with both models, the discriminative approach is usually chosen as it has a rather attractive property of directly modeling what we want, that is, $p \left( y \mid \bm{x} \right)$. Also the density estimation of $p \left( \bm{x} \mid \calC_i \right)$ using in the generative model presents a number of difficulties, especially for larger values of $d$. If we are only focused on classifying inputs, the generative approach may mean we are trying to solve a harder problem than what we need to. For this reason we focus on GPCs that adopt the discriminative approach.
+
+\subsubsection{Linear Models for Classification}\label{Section1.6.1}
+
+We can start by reviewing linear models for the simplist form of classification, that is binary classification. Adopting the notation from SVM (see section \ref{Section1.4.1}) literature the binary classification problem involves assigning an input $\bm{x}$ to a class of either $-1$ or $+1$. For a linear model likelihood can be formulated as
+\begin{equation} \label{eq: GPC-lin-model-1}
+    p \left( y=+1 \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)
+\end{equation}
+given a weight vector $\bm{w}$ and where $\sigma (\bm{z})$ is chosen to be any sigmoid function, see definition \ref{defe: sigmoid-function}.
+\begin{defe}[Sigmoid Function] \label{defe: sigmoid-function}
+    A sigmoid function is a monotonically increasing function mapping from $\RR$ to $\left[ 0,1 \right]$ \cite{RasmussenCarlEdward2006Gpfm}*{page 35}.
+\end{defe}
+Typically the logistic function
+\begin{equation}
+    \sigma (z) = \frac{1}{1 + \exp (-z)}
+\end{equation}
+is used to take the role of the sigmoid function in equation \ref{eq: GPC-lin-model-1}. This type of model is aptly named the logistic regression. Unlike GPR, the likelihood is no longer a Gaussian distribution. Instead it follows the Bernoulli distribution
+\begin{equation*}
+    p \left( y \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)^{y} \left( 1 - \sigma \left( \langle \bm{x} , \bm{w} \rangle \right) \right)^{\frac{1 - y}{2}}
+\end{equation*}
+which for symmeteric likelihood functions can be written more concisely as
+\begin{equation*}
+    p \left( y_i \mid \bm{x}_i , \bm{w} \right) = \sigma \left( y_i f_i \right)
+\end{equation*}
+where
+\begin{equation} \label{eq: GPC-lin-latent-func}
+    f_i \triangleq f \left( \bm{x}_i \right) = \langle \bm{x} , \bm{w} \rangle .
+\end{equation}
+Thus the logistic regression model can be written as the log ratio of the likelihoods of the input belonging to either class, that is
+\begin{equation*}
+    \operatorname{logit} \left( \bm{x} \right) \triangleq \langle \bm{x} , \bm{w} \rangle = \log \left( \frac{p \left( y = +1 \right)}{p \left( y = -1 \right)} \right)
+\end{equation*}
+where $\operatorname{logit}$ is commonly referred to as the logit transformation. For a given dataset $\calD = \left( \bm{X} , \bm{y} \right)$ where $\bm{X} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_n \right]^{\intercal} \in \RR^{n \times d}$ and $\bm{y} = \left[ y_1 , y_2 , \ldots , y_n \right]^{\intercal} \in \left\{ -1,+1 \right\}^{n}$ we assume each observation is independently generated conditioned over $f \left( \bm{x} \right)$. Similar to GPR, a Gaussian prior is used for the weights so that $\bm{w} \sim \calN \left( \bm{0} , \sigma_p \right)$ giving an un-normalised log posterior of
+\begin{equation*}
+    \log p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \propto - \frac{1}{2} \bm{w}^{\intercal} \Sigma_p^{-1} \bm{w} + \sum_{i=1}^{n} \log \sigma \left( y_i f_i \right).
+\end{equation*}
+
+However, unlike GPR an analytic form for the mean and variance for the posterior is not available due to the non-Gaussian nature of the likelihood. However, when using the logistic function it is easy enough to show that the log likelihood is concave as a function of $\bm{w}$ for a fixed dataset. This means a number of numerical optimization techniques, such as Newton's method or the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm \cite{FletcherR2000PMoO}.
+
+Gaussian processes classification on binary classes, the basic idea is that a Gaussian process regression model is place over a latent function $f \left( \bm{x} \right)$ with the output being "squashed" through a sigmoid function to obtain a prior on
+\begin{equation*}
+    \pi \left( \bm{x} \right) \triangleq p \left( y=+1 \mid \bm{x} \right) = \sigma \left( f \left( \bm{x} \right) \right).
+\end{equation*}
+This constructsion is illustrated in figure and provides a natural extension to the linear logistic regression model. Specifically, the linear model from equation \ref{eq: GPC-lin-latent-func} is replaced with a GPR model and the Gaussian prior on the weights with a GPR weight prior.
+
+    {\em \textbf{>>>> RE WORD}}\\
+We have tacitly assumed that the latent Gaussian process is noise-free, and
+combined it with smooth likelihood functions, such as the logistic or probit.
+However, one can equivalently think of adding independent noise to the latent
+process in combination with a step-function likelihood. In particular, assuming
+Gaussian noise and a step-function likelihood is exactly equivalent to a noisefree
+latent process and probit likelihood.
+
+The latent function $f$ plays the role of a {\it nuisance function} we do not observe values of $f$ and we are not particularly interested in the values of $f$, but rather in $\pi$, in particular for test cases $\pi \left( \bm{x}_{\star} \right)$. The purpose of $f$ is solely to allow a convenient formulation of the model, and the computational goal to pursued in the coming sections will be to remove (integrate out) f.\\
+{\em \textbf{>>>> RE WORD}}\\
+Subsequently, predictions for $\pi_{\star} = \pi \left( \bm{x}_{\star} \right)$ are made by average over all possible latent functions weighted by the posterior giving the prediction
+\begin{equation} \label{eq: GP-pred-1}
+    \overline{\pi_{\star}} \triangleq p \left( y_{\star} = +1 \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) = \int \sigma \left( f_{\star} \right) p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
+\end{equation}
+While this is a sound model, computing predictions is not so straight forward since the integral in \ref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. In this coming sections we will see how we can make use of our numerical toolbox to instead come up with a good approximation for $\overline{\pi_{\star}}$.
+
+\subsubsection{Lapace Approximation for Posterior}\label{Section1.6.2}
+
+We saw that the integral in \ref{eq: GP-pred-1} used to make predictions for $\overline{\pi_{\star}}$ could not be done analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be numerically approximated to provide a numerically tractable succedaneum. Using Baye's theorem
+\begin{align*}
+    p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)
+     & = \int p \left( f_{\star} , \bm{f} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d \bm{f}                                                                                                                                                                        \\
+     & = \frac{1}{p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star} \right)} \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{x}_{\star} \right) p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) \; d \bm{f} \\
+     & = \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{x}_{\star}, \bm{y} \right) \; d \bm{f}
+\end{align*}
+using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram}*{page 315}.
