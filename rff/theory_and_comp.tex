@@ -28,7 +28,7 @@ The main of idea of RFF is to approximate the integral in \ref{eq: rff_boch_int}
     k \left( \bm{x} - \bm{y} \right)
      & = \int_{\CC^d} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) \; d \bm{\omega}                                                                                                            \\
      & = \EE_{\bm{\omega} \sim p (\cdot)} \left( \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) \right)                                                                                                          \\
-     & \approx \frac{1}{D} \sum_{j=1}^{D} \exp \left( i \langle \bm{\omega}_{j} , \bm{x} - \bm{y} \rangle \right)                                                                                                                     \\
+     & \simeq \frac{1}{D} \sum_{j=1}^{D} \exp \left( i \langle \bm{\omega}_{j} , \bm{x} - \bm{y} \rangle \right)                                                                                                                      \\
      & = \sum_{j=1}^{D} \left( \frac{1}{\sqrt{D}} \exp \left( i \langle \bm{\omega}_{j} , \bm{x} \rangle \right) \right) \overline{\left( \frac{1}{\sqrt{D}} \exp \left( i \langle \bm{\omega}_{j} , \bm{y} \rangle \right) \right) } \\
      & = \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\CC^D}
 \end{align*}
@@ -36,7 +36,7 @@ where $\bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$ using the feature map
 \begin{equation}
     \varphi (\bm{x}) = \frac{1}{\sqrt{D}} \left[ z \left( \bm{\omega}_1, \bm{x} \right), z \left( \bm{\omega}_2, \bm{x} \right), \ldots , z \left( \bm{\omega}_D, \bm{x} \right) \right]^{\intercal}
 \end{equation}
-where for convenience of notation $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows the Gram matrix to be estimated as $\bm{K} \approx \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \CC^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. The vast majority of literature uses the embeddings Rahimi and Recht provide for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ where $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
+where for convenience of notation $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows the Gram matrix to be estimated as $\bm{K} \simeq \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \CC^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation, in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. The vast majority of literature uses the embeddings Rahimi and Recht provide for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ where $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
 \begin{equation} \label{eq: rff_emb}
     z \left( \bm{\omega}, \bm{x} \right) = \left[ \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) , \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \right]^{\intercal}
 \end{equation}
@@ -118,7 +118,7 @@ These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorith
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
         \Input{$\bm{X} \in \RR^{n \times d}$, the dimension of the feature space $D$.}
-        \Output{$\bm{\widetilde{K}} \approx \bm{K}$ where $\bm{K}$ is the Gram matrix corresponding to $\bm{X}$.}
+        \Output{$\bm{\widetilde{K}} \simeq \bm{K}$ where $\bm{K}$ is the Gram matrix corresponding to $\bm{X}$.}
         \BlankLine
         Construct $\bm{W} \triangleq \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal} \in \RR^{D \times d} \;$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$\;
         $\bm{Z} = \frac{1}{\sqrt{D}} \left[ \cos \left( \bm{W} \bm{X}^{\intercal} \right), \sin \left( \bm{W} \bm{X}^{\intercal} \right) \right]^{\intercal}$\;
