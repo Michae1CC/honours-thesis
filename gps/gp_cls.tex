@@ -91,9 +91,9 @@ where $q \left( \bm{z} \right)$ is multivariate Gaussian and $c$ is some normali
     \bm{z}_0 = \argmin_{\bm{z}} p \left( \bm{z} \right)
 \end{equation*}
 which can be computed by solving
-\begin{equation*}
+\begin{equation} \label{eq: lapace-grad-zero}
     \nabla p \left( \bm{z}_0 \right) = \bm{0}.
-\end{equation*}
+\end{equation}
 To ensure the covariance of the synthesized multivariate Gaussian behaves similar to the original distribution we can make use of an important property of the Gaussian distribution which that its logarithm is a quadratic function of its inputs. Taking the Taylor series expansion of $\ln q \left( \bm{z} \right)$ centered at $\bm{z}_0$ yields
 \begin{equation*}
     \ln q \left( \bm{z} \right) \simeq \ln q \left( \bm{z}_0 \right) - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right)
@@ -103,18 +103,36 @@ where
     \bm{A} = - \nabla \nabla \left. \ln f \left( \bm{z} \right) \right|_{\bm{z} = \bm{z}_0}.
 \end{equation*}
 Expotentiating both sides gives
-\begin{align*}
+\begin{align}
     f \left( \bm{z} \right)
-     & \simeq f \left( \bm{z}_0 \right) \exp \left( - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right) \right) \\
-     & \propto \calN \left( \bm{z} \mid \bm{z}_0 , \bm{A}^{-1} \right).
-\end{align*}
+     & \simeq f \left( \bm{z}_0 \right) \exp \left( - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right) \right) \nonumber \\
+     & \propto \calN \left( \bm{z} \mid \bm{z}_0 , \bm{A}^{-1} \right) \label{eq: lapace-gauss-apprx} .
+\end{align}
 Returning to our original problem of estimating $p \left( \bm{f} \mid \bm{X} , \bm{y} \right) = p \left( \bm{y} \mid \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right)$ as a Gaussian distribution, the prior $p \left( \bm{f} \mid \bm{X} \right)$ follows a Gaussian distribution with zero mean and covariance $\bm{K}_{\bm{X} \bm{X}}$ and the distribution of $p \left( \bm{y} \mid \bm{f} \right)$ (assuming independence of samples) can be written as
 \begin{equation*}
     p \left( \bm{y} \mid \bm{f} \right) = \prod_{i=1}^{n} \sigma \left( y_i f_i \right).
 \end{equation*}
-To find a Laplace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ we only need to consider an unnormalized posterior when maximizing with respect to $\bm{f}$ since $p \left( \bm{y} \mid \bm{f} \right)$ does not depend on $\bm{f}$. Thus, the log of the unnormalized posterior becomes
+To find a Laplace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ we only need to consider an unnormalized posterior when maximizing with respect to $\bm{f}$ since $p \left( \bm{y} \mid \bm{f} \right)$ does not depend on $\bm{f}$. Thus, the log of the unnormalized posterior is
 \begin{align*}
     \Psi \left( \bm{f} \right)
      & \triangleq \ln p \left( \bm{y} \mid \bm{f} \right) + \ln p \left( \bm{f} \mid \bm{X} \right)                                                                                                                                \\
      & = - \sum_{i=1}^{n} \ln \left( 1 + \exp \left( y_i f_i \right) \right) - \frac{1}{2} \bm{f}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} - \frac{1}{2} \ln \left| \bm{K}_{\bm{X} \bm{X}} \right| - \frac{n}{2} \ln 2 \pi .
 \end{align*}
+The gradient and Hessian of the unnormalized posterior then become
+\begin{align*}
+    \nabla \Psi \left( \bm{f} \right)        & = \nabla \ln p \left( \bm{y} \mid \bm{f} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} = \left( \bm{t} - \bm{\pi} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} \\
+    \nabla \nabla \Psi \left( \bm{f} \right) & = \nabla \nabla \ln p \left( \bm{y} \mid \bm{f} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} = - \bm{W} - \bm{K}_{\bm{X} \bm{X}}^{-1}
+\end{align*}
+where $\pi_i = p \left( y_i = +1 \mid f_i \right) = \sigma ( f_i )$, $\bm{t} = \left( \bm{y} + \bm{1} \right) / 2 \in \RR^{n}$ and $\bm{W} \triangleq - \nabla \nabla \ln p \left( \bm{y} \mid \bm{f} \right)$ is a diagonal matrix (since the distribution of $y_i$ only depends on $f_i$ and not $f_{j \neq i}$) with entries $\bm{W}_{ii} = \sigma \left( y_i f_i \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}. From equation \ref{eq: lapace-grad-zero}, the mode of $\hat{\bm{f}}$ of $\bm{\Psi}$ can be computed as
+\begin{align}
+    \nabla \Psi \left( \hat{\bm{f}} \right) & = \bm{0} = \left( \bm{t} - \bm{\pi} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}} \nonumber \\
+    \iff \hat{\bm{f}}                       & = \bm{K}_{\bm{X} \bm{X}} \left( \bm{t} - \bm{\pi} \right) \label{eq: expr-for-mode-lapace} .
+\end{align}
+Since $\bm{t} - \bm{\pi}$ is a non-linear function a non-linear method is required to solve $\hat{\bm{f}}$ in \ref{eq: expr-for-mode-lapace}. Since the Hessian of $\Psi \left( \bm{f} \right)$ is available, Newton's method is typically used as an iterative method to approximate $\hat{\bm{f}}$ where $\hat{\bm{f}}$ is updated as
+\begin{equation*}
+    \hat{\bm{f}}^{\text{new}} = \bm{K}_{\bm{X} \bm{X}} \left( \Id_{n \times n} + \bm{W} \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \left( \bm{W} \hat{\bm{f}}^{\text{old}} + \nabla \log \left( \bm{y} \mid \hat{\bm{f}}^{\text{old}} \right) \right).
+\end{equation*}
+Once a suitable mode is found, using equation \ref{eq: lapace-gauss-apprx}, the Lapacian approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ becomes
+\begin{equation*}
+    q \left( \bm{f} \mid \bm{X} , \bm{y} \right) = \calN \left( \bm{f} , \left( \bm{K}_{\bm{X} \bm{X}}^{-1} + \bm{W} \right)^{-1} \right).
+\end{equation*}
