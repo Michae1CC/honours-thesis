@@ -70,19 +70,19 @@ While this is a sound model, computing predictions is not so straight forward si
 We saw that the integral in \ref{eq: GP-pred-1} used to make predictions for $\overline{\pi_{\star}}$ could not be done analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be numerically approximated to provide a numerically tractable succedaneum. Using Baye's theorem
 \begin{align*}
     p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)
-     & = \int p \left( f_{\star} , \bm{f} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d \bm{f}                                                                                                                                                         \\
-     & = \frac{1}{p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star} \right)} \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \right) p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) \; d \bm{f} \\
+     & = \int p \left( f_{\star} , \bm{f} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d \bm{f}                                                                                                                                                       \\
+     & = \frac{1}{p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star} \right)} \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right) p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) \; d \bm{f} \\
      & = \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{y} \right) \; d \bm{f}
 \end{align*}
-using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}*{page 315}. The conditional distribution $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ which can be derived as
+using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}*{page 315}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
 \begin{equation*}
-    p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{y} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{X} \bm{x}_{\star}} \right)
+    p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{X} \bm{x}_{\star}} \right)
 \end{equation*}
 through the use of equation \ref{eq: GP_train_distr2_mean} and \ref{eq: GP_train_distr2_var}. Unfortunately
 \begin{equation*}
     p \left( \bm{f} \mid \bm{X} , \bm{y} \right) = \frac{p \left( \bm{y} \mid \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right) }{p \left( \bm{y} \mid \bm{X} \right)}
 \end{equation*}
-does not follow a Gaussian distribution. Instead we can use a Lapace approximation to estimate $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ as a Gaussian distribution. breifly, the Lapace approximation working by assuming the distribution at hand, $p \left( \bm{z} \right)$, can be modelled as
+does not follow a Gaussian distribution. Instead we can use a Lapace approximation to estimate $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ as a Gaussian distribution. Breifly, the Lapace approximation works by assuming the distribution at hand, $p \left( \bm{z} \right)$, can be modelled as
 \begin{equation*}
     p \left( \bm{z} \right) = \frac{1}{c} q \left( \bm{z} \right)
 \end{equation*}
@@ -128,11 +128,72 @@ where $\pi_i = p \left( y_i = +1 \mid f_i \right) = \sigma ( f_i )$, $\bm{t} = \
     \nabla \Psi \left( \hat{\bm{f}} \right) & = \bm{0} = \left( \bm{t} - \bm{\pi} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}} \nonumber \\
     \iff \hat{\bm{f}}                       & = \bm{K}_{\bm{X} \bm{X}} \left( \bm{t} - \bm{\pi} \right) \label{eq: expr-for-mode-lapace} .
 \end{align}
-Since $\bm{t} - \bm{\pi}$ is a non-linear function a non-linear method is required to solve $\hat{\bm{f}}$ in \ref{eq: expr-for-mode-lapace}. Since the Hessian of $\Psi \left( \bm{f} \right)$ is available, Newton's method is typically used as an iterative method to approximate $\hat{\bm{f}}$ where $\hat{\bm{f}}$ is updated as
+Since $\bm{t} - \bm{\pi}$ is a non-linear function a non-linear optimization technique method is required to solve $\hat{\bm{f}}$ in \ref{eq: expr-for-mode-lapace}. Since the Hessian of $\Psi \left( \bm{f} \right)$ is available, Newton's method is typically employed as fast iterative method to approximate $\hat{\bm{f}}$ where $\hat{\bm{f}}$ is updated as
 \begin{equation*}
-    \hat{\bm{f}}^{\text{new}} = \bm{K}_{\bm{X} \bm{X}} \left( \Id_{n \times n} + \bm{W} \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \left( \bm{W} \hat{\bm{f}}^{\text{old}} + \nabla \log \left( \bm{y} \mid \hat{\bm{f}}^{\text{old}} \right) \right).
+    \hat{\bm{f}}^{\; \text{new}} = \bm{K}_{\bm{X} \bm{X}} \left( \Id_{n \times n} + \bm{W} \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \left( \bm{W} \hat{\bm{f}}^{\; \text{old}} + \nabla \ln \left( \bm{y} \mid \hat{\bm{f}}^{\; \text{old}} \right) \right).
 \end{equation*}
 Once a suitable mode is found, using equation \ref{eq: lapace-gauss-apprx}, the Lapacian approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ becomes
-\begin{equation*}
-    q \left( \bm{f} \mid \bm{X} , \bm{y} \right) = \calN \left( \bm{f} , \left( \bm{K}_{\bm{X} \bm{X}}^{-1} + \bm{W} \right)^{-1} \right).
+\begin{equation} \label{eq: lapace-apprx}
+    p \left( \bm{f} \mid \bm{X} , \bm{y} \right) \simeq q \left( \bm{f} \mid \bm{X} , \bm{y} \right) = \calN \left( \hat{\bm{f}} , \left( \bm{K}_{\bm{X} \bm{X}}^{-1} + \bm{W} \right)^{-1} \right).
+\end{equation}
+
+\subsubsection{Predictions}\label{Section1.6.3}
+
+With the Lapace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ (equation \ref{eq: lapace-apprx}) and an exact probability distribution for $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ a mean for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be computed by invoking \ref{eq: GP_train_distr2_mean} to give
+\begin{align}
+    \mu_{f_{\star}} = \EE \left[ f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right]
+     & = \bm{K}_{\bm{x}_{\star} \bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}}           \nonumber               \\
+     & = \bm{K}_{\bm{x}_{\star} \bm{X}} \nabla \ln \left( \bm{y} \mid \hat{\bm{f}} \right) \nonumber               \\
+     & = \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{t} - \bm{\pi} \right) \label{eq: latent-process-mean-apprx-1} .
+\end{align}
+Similarly, the variance can be computed using equation \ref{eq: GP_train_distr2_var} to give
+\begin{align} \label{eq: latent-process-var-apprx-1}
+    \sigma_{f_{\star}}^2 = \VV \left[ f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right]
+     & = k \left( \bm{x}_{\star} , \bm{x}_{\star} \right) - \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{K}_{\bm{X} \bm{X}} + \bm{W}^{-1} \right)^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal}.
+\end{align}
+Using equation \ref{eq: GP-pred-1}, predictions can now be made as
+\begin{equation} \label{eq: pred-apprx-1}
+    \overline{\pi_{\star}} \simeq \int \sigma \left( f_{\star} \right) q \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
+\end{equation}
+where $q \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$ is a multivariate Gaussian distribution with mean and variance given by equations \ref{eq: latent-process-mean-apprx-1} and \ref{eq: latent-process-var-apprx-1} respectively. Noitce that the prediction given in \ref{eq: pred-apprx-1} is a convolution of a Gaussian and logistic function which unfortunately cannot be evaluated analytically. However, Spiegelhalter and Lauritzen \cite{spiegelhalter1990sequential} show that a good approximation can be found by replacing the sigmoid function with the probit function $\Phi \left( \lambda a \right)$ which is simply the cumulative distribution function (CDF) of the standard Gaussian distribution. To get the best approximation using the probit function, the constant factor $\lambda$ is adjusted to equate their slopes at the origin. The value of $\lambda$ that gives this equality is $\lambda = \sqrt{\pi / 8}$. The similarity between the sigmoid function and probit function rescaled by a factor of $\sqrt{\pi / 8}$ is illustrated in Figure TODO. The reason for replacing the sigmoid function with a probit function is that the convolution of a Gaussian distribution and probit function can in fact be analytically evaluated as
+\begin{equation} \label{eq: probit-int-apprx-1}
+    \int \Phi \left( \lambda a \right) \calN \left( a \mid \mu , \sigma^2 \right) \; da = \Phi \left( \frac{\mu}{\left( \lambda^{-2} + \sigma^2 \right)^{\frac{1}{2}}} \right).
+\end{equation}
+Again apply the approximation $\sigma \left( a \right) \simeq \Phi \left( \lambda a \right)$ to left hand side of \ref{eq: probit-int-apprx-1} gives the following approximation of the convolution of a Gaussian and sigmoid function
+\begin{equation} \label{eq: pred-apprx-2}
+    \int \sigma \left( a \right) \calN \left( a \mid \mu , \sigma^2 \right) \; da \simeq \sigma \left( \frac{\mu}{\left( 1 + \pi \sigma^2 / 8 \right)^{\frac{1}{2}}} \right)
+\end{equation}
+\cite{BishopChristopherM2006Pram}*{page 219}. This means the integral used to approximate $\overline{\pi_{\star}}$ in \ref{eq: pred-apprx-1} can be approximated using \ref{eq: pred-apprx-2} to give
+\begin{equation*} \label{eq: pred-apprx-3}
+    \overline{\pi_{\star}} = \sigma \left( \frac{\mu_{f_{\star}}}{\left( 1 + \pi \sigma_{f_{\star}}^2 / 8 \right)^{\frac{1}{2}}} \right).
 \end{equation*}
+This theory justifies Algorithm TODO which creates predictions based on the GPC method.
+
+    {\centering
+        \begin{minipage}{.85\linewidth}
+            \begin{algorithm}[H]
+                \caption{Unoptimized GPC}
+                \label{alg: Unoptimized_GPC}
+                \SetAlgoLined
+                \DontPrintSemicolon
+                \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+                \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}^{\star}$.}
+                \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
+                \BlankLine
+                $\bm{t} = \left( \bm{y} + \bm{1} \right) / 2$\;
+                $\bm{f} = \bm{0}$\;
+                \Repeat{convergence}{
+                    $\bm{W} = \operatorname{diag} \left( \sigma \left( \bm{y} .^{\ast} \bm{f} \right) \right)$\;
+                    $\bm{\alpha} = \operatorname{lin-solve} \left( \Id_{n \times n} + \bm{W} \bm{K}_{\bm{X} \bm{X}}, \bm{K}_{\bm{X} \bm{X}} \right)$\;
+                    $\bm{f} = \bm{\alpha} \left( \bm{t} - \sigma (\bm{f}) + \bm{W} \bm{f} \right)$\;
+                }
+                $\mu_{f_{\star}} = \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{t} - \sigma (\bm{f}) \right)$\;
+                $\sigma_{f_{\star}}^2 = k \left( \bm{x}_{\star} , \bm{x}_{\star} \right) - \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{K}_{\bm{X} \bm{X}} + \bm{W}^{-1} \right)^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal}$\;
+                $\overline{\pi_{\star}} = \sigma \left( \mu_{f_{\star}} / {\left( 1 + \pi \sigma_{f_{\star}}^2 / 8 \right)^{\frac{1}{2}}} \right)$\;
+                \Return{$\overline{\pi_{\star}} , \mu_{f_{\star}} , \sigma_{f_{\star}}^2$}
+                \BlankLine
+            \end{algorithm}
+        \end{minipage}
+        \par
+    }
