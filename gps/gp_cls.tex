@@ -1,10 +1,10 @@
 \subsection{Gaussian Processes for Classification}\label{Section1.6}
 
-As with most classifications model, the Guassian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and fintie number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
+As with most classifications model, the Gaussian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and fintie number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
 \[
     p \left( y \mid \bm{x} \right) = \frac{ p \left( y \right) p \left( \bm{x} \mid y \right) }{ \sum_{i=1}^{C} p \left( \calC_i \right) p \left( \bm{x} \mid \calC_i \right) }.
 \]
-On the other hand, the discriminative method focuses on modelling $p \left( y \mid \bm{x} \right)$ directly. With both these paradigms at our disposal, which one should we prefer for our GPC? While there are strengths and weaknesses associated with both models, the discriminative approach is usually chosen as it has a rather attractive property of directly modeling what we want, that is, $p \left( y \mid \bm{x} \right)$. Also the density estimation of $p \left( \bm{x} \mid \calC_i \right)$ using in the generative model presents a number of difficulties, especially for larger values of $d$. If we are only focused on classifying inputs, the generative approach may mean we are trying to solve a harder problem than what we need to. For this reason we focus on GPCs that adopt the discriminative approach.
+On the other hand, the discriminative method focuses on modelling $p \left( y \mid \bm{x} \right)$ directly. With both these paradigms at our disposal, which one should we prefer for our GPC? While there are strengths and weaknesses associated with both models, the discriminative approach is usually chosen as it has a rather attractive property of directly modeling what we want, that is $p \left( y \mid \bm{x} \right)$. Also the density estimation of $p \left( \bm{x} \mid \calC_i \right)$ using in the generative model presents a number of difficulties, especially for larger values of $d$. If we are only focused on classifying inputs, the generative approach may mean we are trying to solve a harder problem than what we need to. For this reason we focus on GPCs that adopt the discriminative approach.
 
 \subsubsection{Linear Models for Classification}\label{Section1.6.1}
 
@@ -16,11 +16,48 @@ given a weight vector $\bm{w}$ and where $\sigma (\bm{z})$ is chosen to be any s
 \begin{defe}[Sigmoid Function] \label{defe: sigmoid-function}
     A sigmoid function is a monotonically increasing function mapping from $\RR$ to $\left[ 0,1 \right]$ \cite{RasmussenCarlEdward2006Gpfm}*{page 35}.
 \end{defe}
-Typically the logistic function
-\begin{equation}
+In this text, the commonly used logistic function
+\begin{equation} \label{eq: logistic-function}
     \sigma (z) = \frac{1}{1 + \exp (-z)}
 \end{equation}
-is used to take the role of the sigmoid function in equation \ref{eq: GPC-lin-model-1}. This type of model is aptly named the logistic regression. Unlike GPR, the likelihood is no longer a Gaussian distribution. Instead it follows the Bernoulli distribution
+will take the role of the sigmoid function in equation \ref{eq: GPC-lin-model-1}, graphed in Figure \ref{fig: logistic-func-and-probit}. This type of model is aptly named the logistic regression.
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[>=latex, scale=1.1]
+        \begin{axis}[
+                axis line style = thick,
+                xlabel={$x$},
+                ylabel={$y$},
+                every axis x label/.style={
+                        at={(ticklabel* cs:1.01)},
+                        anchor=west,
+                    },
+                xmin=-5.5,xmax=5.5,
+                ymin=-0.125,ymax=1.125,
+                axis y line =middle,
+                axis x line =bottom,
+                every axis y label/.style={
+                        at={(ticklabel* cs:1.01)},
+                        anchor=south,
+                    },
+                % axis line style={->},
+                xticklabels={$-5$, $5$},
+                xtick={-5,5},
+                yticklabels={$0$, $1$},
+                ytick={-0.05,0.95},
+                % axis line style={draw=none},
+                ytick style={draw=none},
+            ]
+            \addplot[smooth, color=red, thick] {1/(1+exp(-x))};
+            \addplot [smooth, blue, thick, dashed] {normcdf((0.6266 * x),0,1)};
+            \addplot[smooth, color=black, semithick, dotted] {0};
+            \addplot[smooth, color=black, semithick, dotted] {1};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{The logistic function from equation \ref{eq: logistic-function} (solid red) juxtaposed with a close approximation, the scaled probit function (dashed blue).}
+    \label{fig: logistic-func-and-probit}
+\end{figure}
+Unlike GPR, the likelihood is no longer a Gaussian distribution. Instead it follows the Bernoulli distribution
 \begin{equation*}
     p \left( y \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)^{y} \left( 1 - \sigma \left( \langle \bm{x} , \bm{w} \rangle \right) \right)^{\frac{1 - y}{2}}
 \end{equation*}
@@ -43,38 +80,46 @@ where $\operatorname{logit}$ is commonly referred to as the logit transformation
 
 However, unlike GPR an analytic form for the mean and variance for the posterior is not available due to the non-Gaussian nature of the likelihood. However, when using the logistic function it is easy enough to show that the log likelihood is concave as a function of $\bm{w}$ for a fixed dataset. This means a number of numerical optimization techniques, such as Newton's method or the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm \cite{FletcherR2000PMoO}.
 
-Gaussian processes classification on binary classes, the basic idea is that a Gaussian process regression model is place over a latent function $f \left( \bm{x} \right)$ with the output being "squashed" through a sigmoid function to obtain a prior on
+The idea behind Gaussian process classification for binary classes is that a Gaussian process regression model is place over a latent function $f \left( \bm{x} \right)$ with the output being "squashed" through a sigmoid function to obtain a prior on
 \begin{equation*}
     \pi \left( \bm{x} \right) \triangleq p \left( y=+1 \mid \bm{x} \right) = \sigma \left( f \left( \bm{x} \right) \right).
 \end{equation*}
-This constructsion is illustrated in figure and provides a natural extension to the linear logistic regression model. Specifically, the linear model from equation \ref{eq: GPC-lin-latent-func} is replaced with a GPR model and the Gaussian prior on the weights with a GPR weight prior.
+This construction is illustrated in figure and provides a natural extension to the linear logistic regression model. Specifically, the linear model from equation \ref{eq: GPC-lin-latent-func} is replaced with a GPR model and the Gaussian prior on the weights with a GPR weight prior with
+\begin{equation*}
+    p \left(
+    \begin{bmatrix}
+            f_{\star} \\
+            \bm{f}
+        \end{bmatrix}
+    \right)
+    =
+    \calN \left( \bm{0} ,
+    \begin{bmatrix}
+        \bm{K_{XX}}                     & \bm{K_{Xx^{\star}}}                             \\
+        \bm{K_{Xx^{\star}}}^{\intercal} & k \left( \bm{x}_{\star}, \bm{x}_{\star} \right)
+    \end{bmatrix}
+    \right)
+\end{equation*}
+where $f_{\star} = f ( \bm{x}_{\star} )$ and $\bm{f} = f \left( \bm{X} \right)$. For classification tasks, we assume that each observation has received the correct label which is why no noise is added to the covariance matrix.
 
-    {\em \textbf{>>>> RE WORD}}\\
-We have tacitly assumed that the latent Gaussian process is noise-free, and
-combined it with smooth likelihood functions, such as the logistic or probit.
-However, one can equivalently think of adding independent noise to the latent
-process in combination with a step-function likelihood. In particular, assuming
-Gaussian noise and a step-function likelihood is exactly equivalent to a noisefree
-latent process and probit likelihood.
+Note that, neither are value of $f$ ever observered within the phenomena we are modelling nor are we particularly interested in them. The function $f$ serves the role of a {\it nuisance function} and acts solely as a convenience tool within our formulations. Remember the ultimate goal is to make predictions for $\pi$, not $f$, and that the goal of the coming sections will be to eventually integrate our $f$.
 
-The latent function $f$ plays the role of a {\it nuisance function} we do not observe values of $f$ and we are not particularly interested in the values of $f$, but rather in $\pi$, in particular for test cases $\pi \left( \bm{x}_{\star} \right)$. The purpose of $f$ is solely to allow a convenient formulation of the model, and the computational goal to pursued in the coming sections will be to remove (integrate out) f.\\
-{\em \textbf{>>>> RE WORD}}\\
 Subsequently, predictions for $\pi_{\star} = \pi \left( \bm{x}_{\star} \right)$ are made by average over all possible latent functions weighted by the posterior giving the prediction
 \begin{equation} \label{eq: GP-pred-1}
     \overline{\pi_{\star}} \triangleq p \left( y_{\star} = +1 \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) = \int \sigma \left( f_{\star} \right) p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
 \end{equation}
-While this is a sound model, computing predictions is not so straight forward since the integral in \ref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. In this coming sections we will see how we can make use of our numerical toolbox to instead come up with a good approximation for $\overline{\pi_{\star}}$.
+While this is a sound model, computing predictions is not so straight forward since the integral in \ref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. Later on we will see how we can make use of our numerical toolbox to instead come up with a good approximation for $\overline{\pi_{\star}}$.
 
 \subsubsection{Lapace Approximation for Posterior}\label{Section1.6.2}
 
-We saw that the integral in \ref{eq: GP-pred-1} used to make predictions for $\overline{\pi_{\star}}$ could not be done analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be numerically approximated to provide a numerically tractable succedaneum. Using Baye's theorem
+We saw that the integral in \ref{eq: GP-pred-1} could not be used to make predictions for $\overline{\pi_{\star}}$ analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be numerically approximated to provide a numerically tractable succedaneum. Using Baye's theorem
 \begin{align*}
     p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)
      & = \int p \left( f_{\star} , \bm{f} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d \bm{f}                                                                                                                                                       \\
      & = \frac{1}{p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star} \right)} \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right) p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) \; d \bm{f} \\
      & = \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{y} \right) \; d \bm{f}
 \end{align*}
-using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}*{page 315}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
+using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
 \begin{equation*}
     p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{X} \bm{x}_{\star}} \right)
 \end{equation*}
@@ -94,7 +139,7 @@ which can be computed by solving
 \begin{equation} \label{eq: lapace-grad-zero}
     \nabla p \left( \bm{z}_0 \right) = \bm{0}.
 \end{equation}
-To ensure the covariance of the synthesized multivariate Gaussian behaves similar to the original distribution we can make use of an important property of the Gaussian distribution which that its logarithm is a quadratic function of its inputs. Taking the Taylor series expansion of $\ln q \left( \bm{z} \right)$ centered at $\bm{z}_0$ yields
+To ensure the covariance of the synthesized multivariate Gaussian behaves similar to the original distribution we can make use of an important property of the Gaussian distribution which is its logarithm is a quadratic function of its inputs. Taking the Taylor series expansion of $\ln q \left( \bm{z} \right)$ centered at $\bm{z}_0$ yields
 \begin{equation*}
     \ln q \left( \bm{z} \right) \simeq \ln q \left( \bm{z}_0 \right) - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right)
 \end{equation*}
@@ -108,7 +153,7 @@ Expotentiating both sides gives
      & \simeq f \left( \bm{z}_0 \right) \exp \left( - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right) \right) \nonumber \\
      & \propto \calN \left( \bm{z} \mid \bm{z}_0 , \bm{A}^{-1} \right) \label{eq: lapace-gauss-apprx} .
 \end{align}
-Returning to our original problem of estimating $p \left( \bm{f} \mid \bm{X} , \bm{y} \right) = p \left( \bm{y} \mid \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right)$ as a Gaussian distribution, the prior $p \left( \bm{f} \mid \bm{X} \right)$ follows a Gaussian distribution with zero mean and covariance $\bm{K}_{\bm{X} \bm{X}}$ and the distribution of $p \left( \bm{y} \mid \bm{f} \right)$ (assuming independence of samples) can be written as
+Returning to our original problem of estimating $p \left( \bm{f} \mid \bm{X} , \bm{y} \right) \propto p \left( \bm{y} \mid \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right)$ as a Gaussian distribution, the prior $p \left( \bm{f} \mid \bm{X} \right)$ follows a Gaussian distribution with zero mean and covariance $\bm{K}_{\bm{X} \bm{X}}$ and the distribution of $p \left( \bm{y} \mid \bm{f} \right)$ (assuming independence of samples) can be written as
 \begin{equation*}
     p \left( \bm{y} \mid \bm{f} \right) = \prod_{i=1}^{n} \sigma \left( y_i f_i \right).
 \end{equation*}
@@ -139,7 +184,7 @@ Once a suitable mode is found, using equation \ref{eq: lapace-gauss-apprx}, the 
 
 \subsubsection{Predictions}\label{Section1.6.3}
 
-With the Lapace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ (equation \ref{eq: lapace-apprx}) and an exact probability distribution for $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ a mean for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be computed by invoking \ref{eq: GP_train_distr2_mean} to give
+With the Lapace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ (equation \ref{eq: lapace-apprx}) and an exact probability distribution for $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$, a mean for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be computed by invoking \ref{eq: GP_train_distr2_mean} to give
 \begin{align}
     \mu_{f_{\star}} = \EE \left[ f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right]
      & = \bm{K}_{\bm{x}_{\star} \bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}}           \nonumber               \\
@@ -155,19 +200,19 @@ Using equation \ref{eq: GP-pred-1}, predictions can now be made as
 \begin{equation} \label{eq: pred-apprx-1}
     \overline{\pi_{\star}} \simeq \int \sigma \left( f_{\star} \right) q \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
 \end{equation}
-where $q \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$ is a multivariate Gaussian distribution with mean and variance given by equations \ref{eq: latent-process-mean-apprx-1} and \ref{eq: latent-process-var-apprx-1} respectively. Noitce that the prediction given in \ref{eq: pred-apprx-1} is a convolution of a Gaussian and logistic function which unfortunately cannot be evaluated analytically. However, Spiegelhalter and Lauritzen \cite{spiegelhalter1990sequential} show that a good approximation can be found by replacing the sigmoid function with the probit function $\Phi \left( \lambda a \right)$ which is simply the cumulative distribution function (CDF) of the standard Gaussian distribution. To get the best approximation using the probit function, the constant factor $\lambda$ is adjusted to equate their slopes at the origin. The value of $\lambda$ that gives this equality is $\lambda = \sqrt{\pi / 8}$. The similarity between the sigmoid function and probit function rescaled by a factor of $\sqrt{\pi / 8}$ is illustrated in Figure TODO. The reason for replacing the sigmoid function with a probit function is that the convolution of a Gaussian distribution and probit function can in fact be analytically evaluated as
+where $q \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$ is a multivariate Gaussian distribution with mean and variance given by equations \ref{eq: latent-process-mean-apprx-1} and \ref{eq: latent-process-var-apprx-1} respectively. Notice that the prediction given in \ref{eq: pred-apprx-1} is a convolution of a Gaussian and logistic function which unfortunately cannot be evaluated analytically. However, Spiegelhalter and Lauritzen \cite{spiegelhalter1990sequential} show that a good approximation can be found by replacing the sigmoid function with the probit function $\Phi \left( \lambda a \right)$ which is simply the cumulative distribution function (CDF) of the standard Gaussian distribution. To get the best approximation using the probit function, the constant factor $\lambda$ is adjusted to equate their slopes at the origin. The value of $\lambda$ that gives this equality is $\lambda = \sqrt{\pi / 8}$. The similarity between the sigmoid function and probit function rescaled by a factor of $\sqrt{\pi / 8}$ is illustrated in Figure \ref{fig: logistic-func-and-probit}. The reason for replacing the sigmoid function with a probit function is that the convolution of a Gaussian distribution and probit function can be analytically evaluated as
 \begin{equation} \label{eq: probit-int-apprx-1}
     \int \Phi \left( \lambda a \right) \calN \left( a \mid \mu , \sigma^2 \right) \; da = \Phi \left( \frac{\mu}{\left( \lambda^{-2} + \sigma^2 \right)^{\frac{1}{2}}} \right).
 \end{equation}
-Again apply the approximation $\sigma \left( a \right) \simeq \Phi \left( \lambda a \right)$ to left hand side of \ref{eq: probit-int-apprx-1} gives the following approximation of the convolution of a Gaussian and sigmoid function
+Again apply the approximation $\sigma \left( a \right) \simeq \Phi \left( \lambda a \right)$ to left hand side of \ref{eq: probit-int-apprx-1} gives the following approximation for the convolution of a Gaussian and sigmoid function
 \begin{equation} \label{eq: pred-apprx-2}
     \int \sigma \left( a \right) \calN \left( a \mid \mu , \sigma^2 \right) \; da \simeq \sigma \left( \frac{\mu}{\left( 1 + \pi \sigma^2 / 8 \right)^{\frac{1}{2}}} \right)
 \end{equation}
-\cite{BishopChristopherM2006Pram}*{page 219}. This means the integral used to approximate $\overline{\pi_{\star}}$ in \ref{eq: pred-apprx-1} can be approximated using \ref{eq: pred-apprx-2} to give
+\cite{BishopChristopherM2006Pram}*{page 219}. The integral used to approximate $\overline{\pi_{\star}}$ in \ref{eq: pred-apprx-1} can now be approximated using \ref{eq: pred-apprx-2} to give
 \begin{equation*} \label{eq: pred-apprx-3}
     \overline{\pi_{\star}} = \sigma \left( \frac{\mu_{f_{\star}}}{\left( 1 + \pi \sigma_{f_{\star}}^2 / 8 \right)^{\frac{1}{2}}} \right).
 \end{equation*}
-This theory justifies Algorithm TODO which creates predictions based on the GPC method.
+This theory justifies Algorithm \ref{alg: Unoptimized_GPC} which creates predictions based on the GPC method.
 
     {\centering
         \begin{minipage}{.85\linewidth}

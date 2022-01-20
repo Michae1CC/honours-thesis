@@ -40,6 +40,13 @@
 % \SetProcFnt{\Large}
 
 \DeclareMathOperator*{\argmin}{\arg\min}
+\def\cdf(#1)(#2)(#3){0.5*(1+(erf((#1-#2)/(#3*sqrt(2)))))}%
+
+\tikzset{
+    declare function={
+        normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));
+    }
+}
 
 \newcommand{\nc}{\newcommand}
 \newcommand{\rc}{\renewcommand}
