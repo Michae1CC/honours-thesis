@@ -34,10 +34,6 @@
 % Set the algorithm comments to blue
 \newcommand\mycommfont[1]{\ttfamily\textcolor{blue}{#1}}
 \SetCommentSty{mycommfont}
-% \SetAlFnt{\large}
-% \SetAlCapFnt{\large}
-% \SetAlCapNameFnt{\large}
-% \SetProcFnt{\Large}
 
 \DeclareMathOperator*{\argmin}{\arg\min}
 \def\cdf(#1)(#2)(#3){0.5*(1+(erf((#1-#2)/(#3*sqrt(2)))))}%
@@ -47,6 +43,7 @@
         normcdf(\x,\m,\s)=1/(1 + exp(-0.07056*((\x-\m)/\s)^3 - 1.5976*(\x-\m)/\s));
     }
 }
+
 
 \newcommand{\nc}{\newcommand}
 \newcommand{\rc}{\renewcommand}
@@ -217,18 +214,18 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 \pagenumbering{arabic}
 
 \input{introduction.tex}
-\newpage
+\clearpage
 
 \input{gps/gps.tex}
-\newpage
+\clearpage
 
 \input{rff/rff.tex}
-\newpage
+\clearpage
 
 \input{lin_alg/lin_alg.tex}
-\newpage
+\clearpage
 
-\newpage
+\clearpage
 \linespread{1.58}
 \begin{bibdiv}
     \begin{biblist}[\normalsize]*{labels={alphabetic}}
@@ -244,6 +241,22 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             language = {eng},
             address = {Cambridge, Mass.},
             author = {Rasmussen, Carl Edward and Williams, Christopher K. I}
+        }
+
+        % Mark van der Wilk PhD
+        \bib{van2019sparse}{misc}{
+            title={Sparse Gaussian process approximations and applications},
+            author={Van der Wilk, Mark},
+            year={2019},
+            school={University of Cambridge}
+        }
+
+        % Cao, Yanshuai PhD
+        \bib{cao2018scaling}{misc}{
+            title={Scaling Gaussian Processes},
+            author={Cao, Yanshuai},
+            year={2018},
+            school={University of Toronto (Canada)}
         }
 
         %  Machine learning : a probabilistic perspective / Kevin P. Murphy.
