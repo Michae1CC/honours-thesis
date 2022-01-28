@@ -135,8 +135,20 @@ Algorithm \ref{alg: RFF-algorithm} of course assumes an appropriate construction
 \begin{lem} \label{lem: rff-unbiased}
     $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, that is
     \[
-        \EE \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right] = \exp \left( \frac{- \norm{\bm{x}_i - {\bm{x}_j}}_{2}^{2}}{\sigma^2} \right)
+        \EE \left[ \left( \bm{\widetilde{K}}_{\text{RFF}} \right)_{ij} \right] = \exp \left( \frac{- \norm{\bm{x}_i - {\bm{x}_j}}_{2}^{2}}{2 \sigma^2} \right)
     \] \cite{YuFelixX2016ORF}*{page 3}.
 \end{lem}
+
+\begin{proof}
+    We shall prove this for the Gaussian kernel, although proofs for other kernels are analogous. Let $\bm{z} = \bm{x} - \bm{y}$. Recall the kernel is approximated as
+    \[
+        \sum_{j=1}^{D} \frac{1}{D} \cos \left( \langle \bm{\omega}_j , \bm{z} \rangle \right)
+    \]
+    where $\bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$. By Bochner's theorem
+    \[
+        \EE \left[ \cos \left( \langle \bm{\omega}_j , \bm{z} \rangle \right) \right] = \exp \left( - \norm{\bm{z}}^2_2 / 2 \sigma \right)
+    \]
+    meaning $\bm{\widetilde{K}}_{\text{RFF}}$ provides an unbiased estimate of $\bm{K}$.
+\end{proof}
 
 Unfortunately, constructing the transformation matrix using $\bm{W}_{\text{RFF}}$ does not scale well as the dimension of the feature space increases. Thus the focus of the upcoming sections will be to highlight a few of the more popular alternative methods used in the literature for the construction of the transformation matrix.
