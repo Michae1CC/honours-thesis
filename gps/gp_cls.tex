@@ -1,6 +1,6 @@
 \subsection{Gaussian Processes for Classification}\label{Section1.6}
 
-As with most classifications model, the Gaussian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and fintie number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
+As with most classifications model, the Gaussian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and finite number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
 \[
     p \left( y \mid \bm{x} \right) = \frac{ p \left( y \right) p \left( \bm{x} \mid y \right) }{ \sum_{i=1}^{C} p \left( \calC_i \right) p \left( \bm{x} \mid \calC_i \right) }.
 \]
@@ -8,7 +8,7 @@ On the other hand, the discriminative method focuses on modelling $p \left( y \m
 
 \subsubsection{Linear Models for Classification}\label{Section1.6.1}
 
-We can start by reviewing linear models for the simplist form of classification, that is binary classification. Adopting the notation from SVM (see section \ref{Section1.4.1}) literature the binary classification problem involves assigning an input $\bm{x}$ to a class of either $-1$ or $+1$. For a linear model likelihood can be formulated as
+We can start by reviewing linear models for the simplist form of classification, that is binary classification. Adopting the notation from SVM (see section \ref{Section1.4.1}) literature, the binary classification problem involves assigning an input $\bm{x}$ to a class of either $-1$ or $+1$. For a linear model likelihood can be formulated as
 \begin{equation} \label{eq: GPC-lin-model-1}
     p \left( y=+1 \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)
 \end{equation}
@@ -78,7 +78,7 @@ where $\operatorname{logit}$ is commonly referred to as the logit transformation
     \log p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \propto - \frac{1}{2} \bm{w}^{\intercal} \Sigma_p^{-1} \bm{w} + \sum_{i=1}^{n} \log \sigma \left( y_i f_i \right).
 \end{equation*}
 
-However, unlike GPR an analytic form for the mean and variance for the posterior is not available due to the non-Gaussian nature of the likelihood. However, when using the logistic function it is easy enough to show that the log likelihood is concave as a function of $\bm{w}$ for a fixed dataset. This means a number of numerical optimization techniques, such as Newton's method or the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm \cite{FletcherR2000PMoO}.
+However, unlike GPR an analytic form for the mean and variance for the posterior is not available due to the non-Gaussian nature of the likelihood. However, when using the logistic function it is easy enough to show that the log likelihood is concave as a function of $\bm{w}$ for a fixed dataset. This means a number of numerical optimization techniques, such as Newton's method or the Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm \cite{FletcherR2000PMoO} can be used to solve these values.
 
 The idea behind Gaussian process classification for binary classes is that a Gaussian process regression model is place over a latent function $f \left( \bm{x} \right)$ with the output being "squashed" through a sigmoid function to obtain a prior on
 \begin{equation*}
@@ -255,7 +255,7 @@ Specifically, the linear model from equation \ref{eq: GPC-lin-latent-func} is re
 \end{equation*}
 where $f_{\star} = f ( \bm{x}_{\star} )$ and $\bm{f} = f \left( \bm{X} \right)$. For classification tasks, we assume that each observation has received the correct label which is why no noise is added to the covariance matrix.
 
-Note that, neither are value of $f$ ever observered within the phenomena we are modelling nor are we particularly interested in them. The function $f$ serves the role of a {\it nuisance function} and acts solely as a convenience tool within our formulations. Remember the ultimate goal is to make predictions for $\pi$, not $f$, and that the goal of the coming sections will be to eventually integrate our $f$.
+Note that, neither are values of $f$ ever observered within the phenomena we are modelling nor are we particularly interested in them. The function $f$ serves the role of a {\it nuisance function} and acts solely as a convenience tool within our formulations. Remember the ultimate goal is to make predictions for $\pi$, not $f$, and that the goal of the coming sections will be to eventually integrate out $f$.
 
 Subsequently, predictions for $\pi_{\star} = \pi \left( \bm{x}_{\star} \right)$ are made by average over all possible latent functions weighted by the posterior giving the prediction
 \begin{equation} \label{eq: GP-pred-1}
@@ -316,7 +316,7 @@ To find a Laplace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right
      & \triangleq \ln p \left( \bm{y} \mid \bm{f} \right) + \ln p \left( \bm{f} \mid \bm{X} \right)                                                                                                                                \\
      & = - \sum_{i=1}^{n} \ln \left( 1 + \exp \left( y_i f_i \right) \right) - \frac{1}{2} \bm{f}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} - \frac{1}{2} \ln \left| \bm{K}_{\bm{X} \bm{X}} \right| - \frac{n}{2} \ln 2 \pi .
 \end{align*}
-The gradient and Hessian of the unnormalized posterior then become
+The gradient and Hessian of the unnormalized posterior then becomes
 \begin{align*}
     \nabla \Psi \left( \bm{f} \right)        & = \nabla \ln p \left( \bm{y} \mid \bm{f} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} = \left( \bm{t} - \bm{\pi} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{f} \\
     \nabla \nabla \Psi \left( \bm{f} \right) & = \nabla \nabla \ln p \left( \bm{y} \mid \bm{f} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} = - \bm{W} - \bm{K}_{\bm{X} \bm{X}}^{-1}
@@ -326,7 +326,7 @@ where $\pi_i = p \left( y_i = +1 \mid f_i \right) = \sigma ( f_i )$, $\bm{t} = \
     \nabla \Psi \left( \hat{\bm{f}} \right) & = \bm{0} = \left( \bm{t} - \bm{\pi} \right) - \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}} \nonumber \\
     \iff \hat{\bm{f}}                       & = \bm{K}_{\bm{X} \bm{X}} \left( \bm{t} - \bm{\pi} \right) \label{eq: expr-for-mode-lapace} .
 \end{align}
-Since $\bm{t} - \bm{\pi}$ is a non-linear function a non-linear optimization technique method is required to solve $\hat{\bm{f}}$ in \ref{eq: expr-for-mode-lapace}. Since the Hessian of $\Psi \left( \bm{f} \right)$ is available, Newton's method is typically employed as fast iterative method to approximate $\hat{\bm{f}}$ where $\hat{\bm{f}}$ is updated as
+Since $\bm{t} - \bm{\pi}$ is a non-linear function, a non-linear optimization technique method is required to solve $\hat{\bm{f}}$ in \ref{eq: expr-for-mode-lapace}. Since the Hessian of $\Psi \left( \bm{f} \right)$ is available, Newton's method is typically employed as fast iterative method to approximate $\hat{\bm{f}}$ where $\hat{\bm{f}}$ is updated as
 \begin{equation*}
     \hat{\bm{f}}^{\; \text{new}} = \bm{K}_{\bm{X} \bm{X}} \left( \Id_{n \times n} + \bm{W} \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \left( \bm{W} \hat{\bm{f}}^{\; \text{old}} + \nabla \ln \left( \bm{y} \mid \hat{\bm{f}}^{\; \text{old}} \right) \right).
 \end{equation*}

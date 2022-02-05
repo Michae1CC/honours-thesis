@@ -1,6 +1,6 @@
 \subsection{Gaussian Processes for Regression}\label{Section1.5}
 
-We saw in section \ref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid D \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid D \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead we choose a suitable $f$ by assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition \ref{defe: GP}.
+We saw in section \ref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid \calD \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid \calD \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead we choose a suitable $f$ by assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition \ref{defe: GP}.
 
 \begin{defe}[Gaussian Process] \label{defe: GP}
     A Gaussian Process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
@@ -8,14 +8,14 @@ We saw in section \ref{Section1.4} that, unlike most other machine learning mode
 
 A GP is completely characterised by a mean function $m(\bm{x})$ and a kernel, which in the context of GPs is sometimes called a covariance function, $k (\bm{x}, \bm{x'})$ on a real process as
 \begin{align*}
-    m(\bm{x})           & = \EE \left[ f(\bm{x}) \right]                                         \\
-    k (\bm{x}, \bm{x'}) & = \EE \left[ (f(\bm{x}) - m(\bm{x})) (f(\bm{x'}) - m(\bm{x'})) \right]
+    m(\bm{x})           & = \EE \left[ f(\bm{x}) \right]                                          \\
+    k (\bm{x}, \bm{x'}) & = \EE \left[ (f(\bm{x}) - m(\bm{x})) (f(\bm{x'}) - m(\bm{x'})) \right].
 \end{align*}
 GPs define a prior over all possible functions which can be used to create a posterior once enough data has been observed. The prior is used to represent the functions we expect to see before any observations are made. Although defining a prior over all possible function may seem computationally intractable, we actually only need to define a distribution over a finite number of points. Before any observations are made, we typically assume that the mean function is the constant zero function, that is $m \left( \bm{x} \right) = 0$. A function $f(\bm{x})$ sampled from a GP with mean $m(\bm{x})$ and covariance $k (\bm{x}, \bm{x'})$ is written as
 \[
     f(\bm{x}) \sim \calG \calP \left( m(\bm{x}), k (\bm{x}, \bm{x'}) \right)
 \]
-Since a GP is a collection of random variables it must satisfy the consistency requirement, that is, an observation of a set of variables should not the distribution of any small sub set of the observed values. More specifically if
+Since a GP is a collection of random variables it must satisfy the consistency requirement, that is, observing some of the values should not change the distribution of any small sub set of unobserved values. More specifically if
 \[
     (\bm{y_1}, \bm{y_2}) \sim \calN (\bm{\mu}, \bm{\Sigma})
 \]
@@ -29,11 +29,7 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 \[
     \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} \triangleq k \left( \bm{w}_i , \bm{w}_j' \right)
 \]
-where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The convariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation in the Gaussian RBF kernel, definition \ref{defe: grbfk}. To understand this better, as a small exercise we can select a number of inputs $\bm{X}^{\star} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_{n^{\star}} \right]^{\intercal} \in \RR^{n^{\star} \times d}$ of compute the corresponding covariance matrix using the Gaussian RBF kernel. Gaussian vectors can then be sampled using a joint Gaussian distribution using the covariance matrix from the distribution
-\[
-    \bm{f}^{\star} \sim \calN \left( \bm{0}, \bm{K_{X^{\star} X^{\star}}} \right)
-\]
-graph its values as a function of its inputs.
+where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The convariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation in the Gaussian RBF kernel, definition \ref{defe: grbfk}.
 
 \begin{filecontents*}{./data/gp_intro_dat1.csv}
     x,y0,y1,y2
@@ -208,19 +204,19 @@ graph its values as a function of its inputs.
     \label{fig: GP_func_samples}
 \end{figure}
 
-Figure \ref{fig: GP_func_samples} (A) shows three samples drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of figure \ref{fig: GP_func_samples} (A) represents twice the standard deviation about the mean.
+Figure \ref{fig: GP_func_samples} (A) shows three samples drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of Figure \ref{fig: GP_func_samples} (A) represents twice the standard deviation about the mean.
 
 \subsubsection{Noise-free observations}\label{Section1.5.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
-Let us suppose there is some obsevered data $D = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
+Let us suppose there is some obsevered data $\calD = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
 \[
     \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right).
 \]
-We would then like to make a prediction for unobserved values say $X^{\star} = \left[ \bm{x}_1^{\star}, \bm{x}_2^{\star}, \ldots , \bm{x}_{n_\star}^{\star} \right]$ with value $f_{\star}$ as has a distribution of
+We would then like to make a prediction for unobserved values say $X_{\star} = \left[ {\bm{x}_1}_{\star}, {\bm{x}_2}_{\star}, \ldots , {\bm{x}_{n}}_{\star} \right]$ with value $f_{\star}$ as has a distribution of
 \[
-    \bm{f}_{\star} \sim \calN \left( \bm{0}, \bm{K_{X^{\star}X^{\star}}} \right).
+    \bm{f}_{\star} \sim \calN \left( \bm{0}, \bm{K_{X_{\star}X_{\star}}} \right).
 \]
-where $\bm{K_{X^{\star}X^{\star}}} = k(\bm{X^{\star}}, \bm{X^{\star}}) \in \RR^{n_\star \times n_\star}$. Here $\bm{f}$ and $\bm{f}_{\star}$ are independent but we would like to give them some sort of correlation. We can do this by having them originate from the same joint distribution. According to the prior, we can write the joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\star}$ as
+where $\bm{K_{X_{\star}X_{\star}}} = k(\bm{X_{\star}}, \bm{X_{\star}}) \in \RR^{n_\star \times n_\star}$. Here $\bm{f}$ and $\bm{f}_{\star}$ are independent but we would like to give them some sort of correlation. We can do this by having them originate from the same joint distribution. According to the prior, we can write the joint distribution of the training points $\bm{f}$ and the test points $\bm{f}_{\star}$ as
 \[
     \begin{bmatrix}
         \bm{f} \\
@@ -231,13 +227,13 @@ where $\bm{K_{X^{\star}X^{\star}}} = k(\bm{X^{\star}}, \bm{X^{\star}}) \in \RR^{
         \bm{0}, &
         {
                 \begin{bmatrix}
-                    \bm{K_{XX}}                     & \bm{K_{XX^{\star}}}         \\
-                    \bm{K_{XX^{\star}}}^{\intercal} & \bm{K_{X^{\star}X^{\star}}}
+                    \bm{K_{XX}}                     & \bm{K_{XX_{\star}}}         \\
+                    \bm{K_{XX_{\star}}}^{\intercal} & \bm{K_{X_{\star}X_{\star}}}
                 \end{bmatrix}
             }
     \end{pmatrix}
 \]
-where $\bm{K_{XX^{\star}}} = k(\bm{X}, \bm{X^{\star}}) \in \RR^{n \times n_\star}$.
+where $\bm{K_{XX_{\star}}} = k(\bm{X}, \bm{X_{\star}}) \in \RR^{n \times n_\star}$.
 
 While the above does give us some information on $\bm{f}_{\star}$ is related to the observed data and the test inputs, it does not provide any method to evalute $\bm{f}_{\star}$. To do this we shall need the assistance of the following lemma
 \begin{thm}\label{theorem: cond_of_MVN}
@@ -264,22 +260,22 @@ While the above does give us some information on $\bm{f}_{\star}$ is related to 
 
 Thus finding a mean an covariance for $\bm{f}_{\star}$ requires a direct application of Theorem \ref{theorem: cond_of_MVN} which gives
 \begin{align*}
-    \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}^{\star}, \bm{\Sigma}^{\star} \right)
+    \bm{f}_{\star} \mid \bm{K_{XX_{\star}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}_{\star}, \bm{\Sigma}_{\star} \right)
 \end{align*}
 where
 \begin{align*}
-    \bm{\mu}^{\star} & = \bm{0} + \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \left( \bm{f} - \bm{0} \right) \\
-                     & = \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f}
+    \bm{\mu}_{\star} & = \bm{0} + \bm{K_{XX_{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \left( \bm{f} - \bm{0} \right) \\
+                     & = \bm{K_{XX_{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f}
 \end{align*}
 and
 \begin{align*}
-    \bm{\Sigma}^{\star} & = \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\star}}}
+    \bm{\Sigma}_{\star} & = \bm{K_{X_{\star}X_{\star}}} - \bm{K_{XX_{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX_{\star}}}
 \end{align*}
 meaning we can write a distribution for $\bm{f}_{\star}$ as
 \begin{equation}\label{prop:GP_train_distr1}
-    \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX^{\star}}}  \right)
+    \bm{f}_{\star} \mid \bm{K_{XX_{\star}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{XX_{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X_{\star}X_{\star}}} - \bm{K_{XX_{\star}}}^{\intercal} \bm{K_{XX}}^{-1} \bm{K_{XX_{\star}}}  \right)
 \end{equation}
-Function values from the unobserved inputs $\bm{X^{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. Figure \ref{fig: GP_func_samples} (B) shows these computations given a data set $D = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
+Function values from the unobserved inputs $\bm{X_{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. Figure \ref{fig: GP_func_samples} (B) shows these computations given a data set $D = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
 
 \subsubsection{Prediction with Noisy observations}\label{Section1.5.2}
 When attempting to model our value function we usually do not have access to the value function itself but a noisy version thereof, $y = f(\bm{x}) + \varepsilon$ where $\varepsilon \sim \calN (0, \sigma_n^2)$ meaning the prior on the noisy values becomes
@@ -298,28 +294,28 @@ We can write out the new distribution of the observed noisy values along the poi
         \bm{0}, &
         {
                 \begin{bmatrix}
-                    \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} & \bm{K_{XX^{\star}}}         \\
-                    \bm{K_{XX^{\star}}}^{\intercal}           & \bm{K_{X^{\star}X^{\star}}}
+                    \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} & \bm{K_{XX_{\star}}}         \\
+                    \bm{K_{XX_{\star}}}^{\intercal}           & \bm{K_{X_{\star}X_{\star}}}
                 \end{bmatrix}
             }
     \end{pmatrix}
 \]
-Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
+Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{XX_{\star}}} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
 \begin{equation}\label{prop:GP_train_distr2}
-    \bm{f}_{\star} \mid \bm{K_{XX^{\star}}} , \bm{K_{XX}}, \bm{y} \sim \calN \left( \overline{\bm{f}_{\star}}, \operatorname{cov} (\bm{f}_{\star}) \right)
+    \bm{f}_{\star} \mid \bm{K_{XX_{\star}}} , \bm{K_{XX}}, \bm{y} \sim \calN \left( \overline{\bm{f}_{\star}}, \operatorname{cov} (\bm{f}_{\star}) \right)
 \end{equation}
 where
 \begin{align}
-    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                  \\
-    \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X^{\star}X^{\star}}} - \bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX^{\star}}} \label{eq: GP_train_distr2_var}
+    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{XX_{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                  \\
+    \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X_{\star}X_{\star}}} - \bm{K_{XX_{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX_{\star}}} \label{eq: GP_train_distr2_var}
 \end{align}
-Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}^{\star}$
+Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}_{\star}$
 \[
-    \bm{f}_{\star} = \sum_{i=1}^{n} \alpha_i k \left( \bm{x}_i , \bm{x}^{\ast} \right)
+    \bm{f}_{\star} = \sum_{i=1}^{n} \alpha_i k \left( \bm{x}_i , \bm{x}_{\star} \right)
 \]
-where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y}$. Intuitively, this expression can be understood by realising that despite defining the GP defining a joint Gaussian distribution over the observations when making predictions GPs only require the $(n+1)$-dimension distribution defined by the $n$ observations and the single test point. Marginalising by taking  the relevant submatrix block of the covariance matrix yields our desired $1$-dimensional prediction.
+where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y}$. Intuitively, this expression can be understood by realising that, despite defining the GP using a joint Gaussian distribution over the observations, when making predictions GPs only care about the $(n+1)$-dimension distribution defined by the $n$ observations and the single test point. When the GP is marginalized by taking the relevant submatrix block of the covariance matrix, this conditioning gives us our desired $1$-dimensional prediction.
 
-Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X^{\star}X^{\star}}}$, and positive term $\bm{K_{XX^{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX^{\star}}}$ which represents knowledge given by the observations about the underlying function.
+Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X_{\star}X_{\star}}}$, and positive term $\bm{K_{XX_{\star}}}^{\intercal} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{XX_{\star}}}$ which represents knowledge given by the observations about the underlying function.
 
 Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
 
@@ -332,14 +328,14 @@ Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for compu
                 \DontPrintSemicolon
                 \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-                \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}^{\star}$.}
+                \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}_{\star}$.}
                 \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
                 \BlankLine
                 $\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$\;
                 $\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$\;
-                $\overline{f_{\star}} = \bm{K_{x^{\star} X}} \bm{\alpha}$\;
-                $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x^{\star} X}} \right)$\;
-                $\VV \left[ f_{\star} \right] = \bm{K_{x^{\star} x^{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
+                $\overline{f_{\star}} = \bm{K_{x_{\star} X}} \bm{\alpha}$\;
+                $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x_{\star} X}} \right)$\;
+                $\VV \left[ f_{\star} \right] = \bm{K_{x_{\star} x_{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
                 \Return{$\overline{f_{\star}} , \VV \left[ f_{\star} \right]$}
                 \BlankLine
             \end{algorithm}

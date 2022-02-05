@@ -3,7 +3,7 @@
 We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS) and describe their relation to kernels. We shall see that in some sense the RKHS of a kernel $k$ is the smallest feature space for a kernel. The formal definition of a RKHS is stated in definition \ref{defe: RKHS}.
 
 \begin{defe}[RKHS] \label{defe: RKHS}
-    Let $X \neq \null$ and $H$ be a real Hilbert space over $X$
+    Let $X \neq \emptyset$ and $H$ be a real Hilbert space over $X$
     \begin{enumerate}
         \item A function $k : X \times X \to \RR$ is called a reproducing kernel if we have $k \left( \cdot, \bm{x} \right) \in H$ for all $\bm{x} \in X$ and the reproducing property
               \[
@@ -42,7 +42,7 @@ This tells us that every Hilbert space with a reproducing kernel is a RKHS. We c
     Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}.
 \end{thm}
 
-Theorem \ref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown giving a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem seen in thorem \ref{theorem: Moore-Aronszajn}.
+Theorem \ref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown giving a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem presented in thorem \ref{theorem: Moore-Aronszajn}.
 
 \begin{thm}[Moore-Aronszajn] \label{theorem: Moore-Aronszajn}
     Suppose $k$ is a symmertic positive definite kernel on a set $X$. Then there is a unique Hilbert space of functions for which $k$ is the reproducing kernel \cite{BerlinetAlain2003RKHS}.
