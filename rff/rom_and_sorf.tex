@@ -34,7 +34,8 @@ where $\bm{H}$ is an appropriately sized Hadamard matrix. It is easy to check th
     \centering
     \caption{A comparison of various methods for computing a suitable transformation matrix with the Random Fourier Features paradigm. Typically the dimension of the feature space, $D$, is chosen as some multiple of the dimension of data, $d$.}
     \label{table: RFF-compare}
-    \begin{tabular}{*3c}    \toprule
+    \begin{tabular}{*3c}                                                                                                                    \\\bottomrule
+        \hline
         \emph{Method}                                                  & \emph{Time}                       & \emph{Extra Space } \\\midrule
         RFF \cite{NIPS2007_013a006f}                                   & $\calO (Dd)$                      & $\calO (Dd)$        \\
         ORF \cite{YuFelixX2016ORF}                                     & $\calO (Dd)$                      & $\calO (Dd)$        \\
