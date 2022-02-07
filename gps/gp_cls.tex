@@ -1,10 +1,10 @@
 \subsection{Gaussian Processes for Classification}\label{Section1.6}
 
-As with most classifications model, the Gaussian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and finite number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
+As with most classification models, the Gaussian processes classifier (GPC) seeks an estimate for the joint probability $p \left( y , \bm{x} \right)$ where $\bm{x} \in \RR^d$ is an input, as in the regression case, but $y$ is now a class taking on a discrete and finite number of values $\left\{ \calC_i \right\}_{i=1}^C$. Using Baye's theorem the joint probability density can be decomposed into either $p \left( y \right) p \left( \bm{x} \mid y \right)$ or $p \left( \bm{x} \right) p \left( \bm{y} \mid \bm{x} \right)$ giving rise to the {\it generative} and {\it discriminative} approaches respectively \cite{RasmussenCarlEdward2006Gpfm}*{page 34}. The generative approach models the prior probabilities of each class, $p \left( \calC_i \right)$, as well as the class conditional probabilities for each input $p \left( \bm{x} \mid \calC_i \right)$ and computes the posterior as
 \[
     p \left( y \mid \bm{x} \right) = \frac{ p \left( y \right) p \left( \bm{x} \mid y \right) }{ \sum_{i=1}^{C} p \left( \calC_i \right) p \left( \bm{x} \mid \calC_i \right) }.
 \]
-On the other hand, the discriminative method focuses on modelling $p \left( y \mid \bm{x} \right)$ directly. With both these paradigms at our disposal, which one should we prefer for our GPC? While there are strengths and weaknesses associated with both models, the discriminative approach is usually chosen as it has a rather attractive property of directly modeling what we want, that is $p \left( y \mid \bm{x} \right)$. Also the density estimation of $p \left( \bm{x} \mid \calC_i \right)$ using in the generative model presents a number of difficulties, especially for larger values of $d$. If we are only focused on classifying inputs, the generative approach may mean we are trying to solve a harder problem than what we need to. For this reason we focus on GPCs that adopt the discriminative approach.
+On the other hand, the discriminative method focuses on modelling $p \left( y \mid \bm{x} \right)$ directly. With both these paradigms at our disposal, which one would be preferred for our GPC? While there are strengths and weaknesses associated with both models, the discriminative approach is usually chosen as it has a rather attractive property of directly modeling what we require, that is $p \left( y \mid \bm{x} \right)$. Aditionally, the density estimation of $p \left( \bm{x} \mid \calC_i \right)$ using in the generative model presents a number of difficulties, especially for larger values of $d$. If we are only focused on classifying inputs, the generative approach could mean trying to solve a harder problem than what is necessary. For this reason we focus on GPCs that adopt the discriminative approach.
 
 \subsubsection{Linear Models for Classification}\label{Section1.6.1}
 
@@ -69,11 +69,11 @@ where
 \begin{equation} \label{eq: GPC-lin-latent-func}
     f_i \triangleq f \left( \bm{x}_i \right) = \langle \bm{x} , \bm{w} \rangle .
 \end{equation}
-Thus the logistic regression model can be written as the log ratio of the likelihoods of the input belonging to either class, that is
+Thus, the logistic regression model can be written as the log ratio of the likelihoods of the input belonging to either class, that is
 \begin{equation*}
     \operatorname{logit} \left( \bm{x} \right) \triangleq \langle \bm{x} , \bm{w} \rangle = \log \left( \frac{p \left( y = +1 \right)}{p \left( y = -1 \right)} \right)
 \end{equation*}
-where $\operatorname{logit}$ is commonly referred to as the logit transformation. For a given dataset $\calD = \left( \bm{X} , \bm{y} \right)$ where $\bm{X} = \left[ \bm{x}_1 , \bm{x}_2 , \ldots , \bm{x}_n \right]^{\intercal} \in \RR^{n \times d}$ and $\bm{y} = \left[ y_1 , y_2 , \ldots , y_n \right]^{\intercal} \in \left\{ -1,+1 \right\}^{n}$ we assume each observation is independently generated conditioned over $f \left( \bm{x} \right)$. Similar to GPR, a Gaussian prior is used for the weights so that $\bm{w} \sim \calN \left( \bm{0} , \sigma_p \right)$ giving an un-normalised log posterior of
+where $\operatorname{logit}$ is commonly referred to as the logit transformation. For a given dataset $\calD = \left\{ \left( x_i , y_i \right) \right\}_{i=1}^{n}$ we assume each observation is independently generated conditioned over $f \left( \bm{x} \right)$. Similar to GPR, a Gaussian prior is used for the weights so that $\bm{w} \sim \calN \left( \bm{0} , \sigma_p \right)$ giving an un-normalised log posterior of
 \begin{equation*}
     \log p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \propto - \frac{1}{2} \bm{w}^{\intercal} \Sigma_p^{-1} \bm{w} + \sum_{i=1}^{n} \log \sigma \left( y_i f_i \right).
 \end{equation*}
@@ -248,20 +248,20 @@ Specifically, the linear model from equation \ref{eq: GPC-lin-latent-func} is re
     =
     \calN \left( \bm{0} ,
     \begin{bmatrix}
-        \bm{K_{XX}}                     & \bm{K_{Xx^{\star}}}                             \\
-        \bm{K_{Xx^{\star}}}^{\intercal} & k \left( \bm{x}_{\star}, \bm{x}_{\star} \right)
+        \bm{K_{XX}}         & \bm{K_{x^{\star}X}}^{\intercal}                 \\
+        \bm{K_{x^{\star}X}} & k \left( \bm{x}_{\star}, \bm{x}_{\star} \right)
     \end{bmatrix}
     \right)
 \end{equation*}
 where $f_{\star} = f ( \bm{x}_{\star} )$ and $\bm{f} = f \left( \bm{X} \right)$. For classification tasks, we assume that each observation has received the correct label which is why no noise is added to the covariance matrix.
 
-Note that, neither are values of $f$ ever observered within the phenomena we are modelling nor are we particularly interested in them. The function $f$ serves the role of a {\it nuisance function} and acts solely as a convenience tool within our formulations. Remember the ultimate goal is to make predictions for $\pi$, not $f$, and that the goal of the coming sections will be to eventually integrate out $f$.
+Note thatvalues of $f$ are also never observered within the phenomena we are modelling, nor are we particularly interested in them. The function $f$ serves the role of a {\it nuisance function} and acts solely as a convenience tool within our formulations. Remember the ultimate goal is to make predictions for $\pi$, not $f$, and that the goal of the coming sections will be to eventually integrate out $f$.
 
 Subsequently, predictions for $\pi_{\star} = \pi \left( \bm{x}_{\star} \right)$ are made by average over all possible latent functions weighted by the posterior giving the prediction
 \begin{equation} \label{eq: GP-pred-1}
     \overline{\pi_{\star}} \triangleq p \left( y_{\star} = +1 \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) = \int \sigma \left( f_{\star} \right) p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
 \end{equation}
-While this is a sound model, computing predictions is not so straight forward since the integral in \ref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. Later on we will see how we can make use of our numerical toolbox to instead come up with a good approximation for $\overline{\pi_{\star}}$.
+While this is a sound model, computing predictions is not so straight forward since the integral in \ref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. Later on we will see how we can make use of our numerical toolbox to derive a good approximation for $\overline{\pi_{\star}}$.
 
 \subsubsection{Lapace Approximation for Posterior}\label{Section1.6.2}
 
@@ -274,7 +274,7 @@ We saw that the integral in \ref{eq: GP-pred-1} could not be used to make predic
 \end{align*}
 using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
 \begin{equation*}
-    p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{X} \bm{x}_{\star}}^{\intercal} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{X} \bm{x}_{\star}} \right)
+    p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{x}_{\star}\bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{x}_{\star}\bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal} \right)
 \end{equation*}
 through the use of equation \ref{eq: GP_train_distr2_mean} and \ref{eq: GP_train_distr2_var}. Unfortunately
 \begin{equation*}
@@ -292,7 +292,7 @@ which can be computed by solving
 \begin{equation} \label{eq: lapace-grad-zero}
     \nabla p \left( \bm{z}_0 \right) = \bm{0}.
 \end{equation}
-To ensure the covariance of the synthesized multivariate Gaussian behaves similar to the original distribution we can make use of an important property of the Gaussian distribution which is its logarithm is a quadratic function of its inputs. Taking the Taylor series expansion of $\ln q \left( \bm{z} \right)$ centered at $\bm{z}_0$ yields
+To ensure the covariance of the synthesized multivariate Gaussian behaves similar to the original distribution we can make use of an important property of the Gaussian distribution which is its logarithm being is a quadratic function of its inputs. Taking the Taylor series expansion of $\ln q \left( \bm{z} \right)$ centered at $\bm{z}_0$ yields
 \begin{equation*}
     \ln q \left( \bm{z} \right) \simeq \ln q \left( \bm{z}_0 \right) - \frac{1}{2} \left( \bm{z} - \bm{z}_0 \right)^{\intercal} \bm{A} \left( \bm{z} - \bm{z}_0 \right)
 \end{equation*}
@@ -337,7 +337,7 @@ Once a suitable mode is found, using equation \ref{eq: lapace-gauss-apprx}, the 
 
 \subsubsection{Predictions}\label{Section1.6.3}
 
-With the Lapace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ (equation \ref{eq: lapace-apprx}) and an exact probability distribution for $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$, a mean for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be computed by invoking \ref{eq: GP_train_distr2_mean} to give
+With the Lapace approximation for $p \left( \bm{f} \mid \bm{X} , \bm{y} \right)$ (equation \ref{eq: lapace-apprx}) and an exact probability distribution for $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$, a mean for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can now be computed by invoking \ref{eq: GP_train_distr2_mean} to give
 \begin{align}
     \mu_{f_{\star}} = \EE \left[ f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right]
      & = \bm{K}_{\bm{x}_{\star} \bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \hat{\bm{f}}           \nonumber               \\

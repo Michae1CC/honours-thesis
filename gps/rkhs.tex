@@ -1,6 +1,6 @@
 \subsection{Reproducing Kernel Hilbert Spaces}\label{Section1.2}
 
-We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS) and describe their relation to kernels. We shall see that in some sense the RKHS of a kernel $k$ is the smallest feature space for a kernel. The formal definition of a RKHS is stated in definition \ref{defe: RKHS}.
+We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS) and describe their relation to kernels, and see that in some sense, the RKHS of a kernel $k$ is the smallest feature space for a kernel. The formal definition of a RKHS is stated in definition \ref{defe: RKHS}.
 
 \begin{defe}[RKHS] \label{defe: RKHS}
     Let $X \neq \emptyset$ and $H$ be a real Hilbert space over $X$
@@ -15,7 +15,7 @@ We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS
     \cite{SteinwartIngo2008SVMb}
 \end{defe}
 
-An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (x) - f (x)} \to 0$. Note that because the evaluation function is both linear and continuous then it is also bounded in the sense that there is an $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
+An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically, in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (x) - f (x)} \to 0$. Note that because the evaluation function is both linear and continuous, then it is also bounded in the sense that there is an $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
 
 \begin{lem}[] \label{lem: RKHS_rk_k}
     Let $H$ be a Hilbert function space over $X$ that has a reproducing kernel $k$. Then $H$ is a RKHS and $H$ is also a feature space of $k$ where the feature map $\Phi : X \to H$ is given by
@@ -42,7 +42,7 @@ This tells us that every Hilbert space with a reproducing kernel is a RKHS. We c
     Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}.
 \end{thm}
 
-Theorem \ref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown giving a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem presented in thorem \ref{theorem: Moore-Aronszajn}.
+Theorem \ref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown to afford a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem presented in thorem \ref{theorem: Moore-Aronszajn}.
 
 \begin{thm}[Moore-Aronszajn] \label{theorem: Moore-Aronszajn}
     Suppose $k$ is a symmertic positive definite kernel on a set $X$. Then there is a unique Hilbert space of functions for which $k$ is the reproducing kernel \cite{BerlinetAlain2003RKHS}.
