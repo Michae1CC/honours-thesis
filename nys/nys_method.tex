@@ -1,0 +1,31 @@
+\subsection{The Nystrom Method}\label{Section2.1}
+
+Attempting to compute an entire kernel matrix can prove to be quite a computational headache, prompting us to seek estimative alternatives. The approximation techniques studied in this chapter have been spurred on by the John-Lindenstrauss lemma stated in lemma \ref{lem: John-Lindenstrauss}.
+
+\begin{lem}[John-Lindenstrauss] \label{lem: John-Lindenstrauss}
+    Given $0 < \varepsilon < 0$, any set of n points, $X$, in a high dimensional Euclidean space can be embedded into a $\ell-$dimensional Euclidean space where $\ell = \calO \left( \ln (n) \right)$ via some linear map $\bm{\Omega} \in \RR^{n \times \ell}$ which satisfies
+    \[
+        (1 - \varepsilon) \norm{\bm{u} - \bm{v}}^2 \leq \norm{\bm{\Omega} \bm{u} - \bm{\Omega} \bm{v}}^2 \leq \varepsilon \norm{\bm{u} - \bm{v}}^2
+    \]
+    for any $\bm{u}, \bm{v} \in X$ \cite{DBLP:journals/corr/abs-1104-5557}*{page 15}.
+\end{lem}
+
+The John-Lindenstrauss lemma tells us that $\bm{Q} \bm{Q}^{\ast} \bm{A}$ will serve as a good approximation to some matrix $\bm{A}$ where $\bm{Q} \bm{Q}^{\ast}$, in some sense, projects onto some rank-$k$ subspace of $\bm{A}$'s column space. This is because if $\bm{Q} \bm{Q}^{\ast}$ closesly matches the behavior of $\bm{\Omega}$ from the lemma then the pair-wise distances between points before and after applying $\bm{Q} \bm{Q}^{\ast}$ should remain fairly similar. To state this a little more explicitly, for a matrix $\bm{A}$ and a positive error tolerance $\varepsilon$ we seek a matrix $\bm{Q} \in \RR^{n \times k_{\varepsilon}}$ with orthonormal columns such that
+\begin{equation*}
+    \norm{\bm{A} - \bm{Q} \bm{Q}^{\ast} \bm{A}}_{F} \leq \varepsilon
+\end{equation*}
+which can be expressed a more short hand notation as
+\begin{equation} \label{eq: nys-Q-cond}
+    \bm{A} \simeq \bm{Q} \bm{Q}^{\ast} \bm{A}.
+\end{equation}
+This is commonly called the {\it fixed precision approximation problem}. Although, to simplify algorithmic development, a value of $k$ is specified in advanced (instead of $\varepsilon$, thus removing $k$'s dependence on $\varepsilon$) which is instead given the name {\it fixed rank problem}. Within the fixed rank problem framework, when $\bm{A}$ is hermitian, the matrix $\bm{Q} \bm{Q}^{\ast}$ acts as a good projection for both the columns and row space of $\bm{A}$ so that we have both $\bm{A} \simeq \bm{Q} \bm{Q}^{\ast} \bm{A}$ and $\bm{A} \simeq \bm{A} \bm{Q} \bm{Q}^{\ast}$ so that
+\begin{equation} \label{eq: hermitian-apprx}
+    \bm{A} \simeq \bm{Q} \bm{Q}^{\ast} \left( \bm{A} \right) \simeq \bm{Q} \bm{Q}^{\ast} \bm{A} \bm{Q} \bm{Q}^{\ast}.
+\end{equation}
+Furthermore, if $\bm{A}$ is positive semi-definite we can improve the quality of our approximation of our approximation at almost no additional cost \cite{halko2011finding}*{page 32}. Using the approximation from \ref{eq: hermitian-apprx}
+\begin{align} \label{eq: nys-apprx}
+    \bm{A} & \simeq \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber                                                                                            \\
+           & = \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber \\
+           & \simeq \left( \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \right).
+\end{align}
+This is known as the Nystrom method. A general Nystrom framework is presented in Algorithm TODO.
