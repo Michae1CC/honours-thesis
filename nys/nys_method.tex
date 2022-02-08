@@ -174,5 +174,80 @@ We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mu
     \end{algorithm}
 \end{minipage}
 \par}
+As we can tell from the algorithms inputs, this requires some sort of probability to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution we use will provide an unbiased estimate, although some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability. However, this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or possibly entirely missing small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
+\begin{figure}[h]
+    \centering
+    \subfloat[]{
+        \begin{adjustbox}{width=0.4\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=5.0,xmax=18,
+                        ymin=5.0,ymax=18,
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                        axis y line =left,
+                        axis x line =bottom,
+                        axis line style = thick,
+                    ]
 
-As we can tell from the algorithms inputs, this requires some sort of probability to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution we use will provide an unbiased estimate, although some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability. However, this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or possibly entirely missing small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure TODO. To combat this issue, alternative probabilites density can be constructed to take into account a measure of importance in landmark selection. Indeed there has been a plethora of research that has shown the importance of using data-dependent non-uniform probability distributions to obtain proveably good error bounds on Nystrom approximations \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849,musco2017recursive,DBLP:journals/corr/abs-1109-3843,DBLP:journals/corr/CohenMM15,kumar2009sampling}. A few of the more common distributions will be discussed in the coming sections.
+                    \addplot [
+                        only marks,
+                        mark=*,
+                        blue!70,
+                        fill opacity=0.5,
+                        draw opacity=0,
+                        mark size = 3,
+                    ] table {./data/nys_samp_fig.csv};
+
+                    \addplot [
+                        only marks,
+                        mark=*,
+                        red,
+                        fill opacity=1,
+                        draw opacity=0,
+                        mark size = 3,
+                    ] table {./data/nys_samp_fig_r1.csv};
+                \end{axis}
+            \end{tikzpicture}
+        \end{adjustbox}
+    } \qquad
+    \subfloat[]{
+        \begin{adjustbox}{width=0.4\textwidth}
+            \begin{tikzpicture}[>=latex]
+                \begin{axis}[
+                        xmin=5.0,xmax=18,
+                        ymin=5.0,ymax=18,
+                        tick style={draw=none},
+                        yticklabels=\empty,
+                        xticklabels=\empty,
+                        axis y line =left,
+                        axis x line =bottom,
+                        axis line style = thick,
+                    ]
+
+                    \addplot [
+                        only marks,
+                        mark=*,
+                        blue!70,
+                        fill opacity=0.5,
+                        draw opacity=0,
+                        mark size = 3,
+                    ] table {./data/nys_samp_fig.csv};
+
+                    \addplot [
+                        only marks,
+                        mark=*,
+                        red,
+                        fill opacity=1,
+                        draw opacity=0,
+                        mark size = 3,
+                    ] table {./data/nys_samp_fig_r2.csv};
+                \end{axis}
+            \end{tikzpicture}
+        \end{adjustbox}
+    }
+    \caption{Employing uniform sampling in the column sampling Nystrom estimate can lead to oversampling from denser parts of the data set. Instead data dependent probability densities are commonly used to better cover the relevant data. Example taken from \cite{musco2017recursive}*{page 4}.}
+    \label{fig: uni-samp-v-nonuni-samp}
+\end{figure}
+To combat this issue, alternative probabilites density can be constructed to take into account a measure of importance in landmark selection. Indeed there has been a plethora of research that has shown the importance of using data-dependent non-uniform probability distributions to obtain proveably good error bounds on Nystrom approximations \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849,musco2017recursive,DBLP:journals/corr/abs-1109-3843,DBLP:journals/corr/CohenMM15,kumar2009sampling}. A few of the more common distributions will be discussed in the coming sections.
