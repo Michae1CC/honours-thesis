@@ -28,4 +28,151 @@ Furthermore, if $\bm{A}$ is positive semi-definite we can improve the quality of
            & = \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber \\
            & \simeq \left( \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \right).
 \end{align}
-This is known as the Nystrom method. A general Nystrom framework is presented in Algorithm TODO.
+This is known as the Nystrom method. Since any Gram matrix is positive semi-definite, we can always applied the Nystrom method to find an approximation to it. A general Nystrom framework is presented in Algorithm \ref{alg: nys-gen}.
+
+{\centering
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{General Nystrom Framework}
+        \label{alg: nys-gen}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{A positive semi-definite matrix $\bm{A}$, a matrix $\bm{Q}$ that satisfies \ref{eq: nys-Q-cond}.}
+        \Output{A rank $k$ approximation $\bm{\overline{A}} \simeq \bm{A}$.}
+        \BlankLine
+        $\bm{C} = \bm{A} \bm{Q}$\;
+        $\bm{W} = \bm{Q}^{\ast} \bm{C}$\;
+        \Return{$\bm{C} \bm{W}^{\dagger} \bm{C}^{\ast}$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par}
+
+However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how do we do about efficiently constructing a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by Theorem
+
+\begin{thm} \label{lem: best-col-sel}
+    Every $\bm{A} \in \RR^{n \times m}$ matrix contains a $k-$column submatrix $\bm{C}$ for which
+    \[
+        \norm{\bm{A} - \bm{C} \bm{C}^{\dagger} \bm{A}}_{F} \leq \sqrt{1 + k(n-k)} \cdot \norm{\bm{A} - \bm{A}_{k}}
+    \]
+    where $\bm{A}_k$ is the best rank$-k$ approximation of $\bm{A}$ \cite{halko2011finding}*{page 11}.
+\end{thm}
+Before we delve anymore into this column sampling Nystrom technique, we will first need to cover the random matrix multiplication algorithm which serves as a backbone for this technique. Let $\bm{A} \in \RR^{n \times m}$ be a target matrix we would like to approximate and suppose that $\bm{A}$ can be represented as the sum of 'simpler' (for example, sparse or low-rank) matrices, $\bm{A}_i$, so that
+\begin{equation} \label{eq: A-as-summands}
+    \bm{A} = \sum_{i=1}^{I} \bm{A}_i .
+\end{equation}
+The basic idea is to consider a Monte-Carlo approximation of equation \ref{eq: A-as-summands} that randomly selects $\bm{A}_i$ according to the distribution $\left\{ p_i \right\}_{i=1}^{I}$ to give an estimate
+\begin{equation}
+    \bm{A} \simeq \frac{1}{c} \sum_{t=1}^{c} p_{t_i}^{-1} \bm{A}_{t_i}
+\end{equation}
+where $c$ is the number of samples and each summand is rescaled by a factor of $p_{t_i}^{-1}$ to ensure our estimate is unbiased \cite{martinsson2021randomized}*{pages 24-27}. The random matrix multiplication algorithm works by attempting to find a Monte-Carlo estimate for $\bm{A}\bm{B}$, where $\bm{A} \in \RR^{n \times I}$ and $\bm{A} \in \RR^{I \times m}$. Recall that any matrix multiplication can be written in its outter product form
+\begin{equation*}
+    \bm{A} \bm{B} = \sum_{i=1}^{I} \bm{A}_{(:,i)} \bm{B}_{(i,:)}
+\end{equation*}
+\cite{Roosta2020, doi:10.1137/S0097539704442684}. A straight forward way to approximate this using the Monte-Carlo estimate is to simply set each $\bm{A}_i$ in \ref{eq: A-as-summands} to the corresponding rank$-1$ outter-product summand $\bm{A}_{(:,i)} \bm{B}_{(i,:)}$. This justifies the random matrix multiplication algorithm seen in Algorithm \ref{alg: rand-mat-mult} \cite{drineas2017lectures}*{page 16}.
+{\centering
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{Random Matrix Multiplication}
+        \label{alg: rand-mat-mult}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{$\bm{A} \in \RR^{n \times I}$ and $\bm{A} \in \RR^{I \times m}$, the number of samples $1 \leq c \leq n$ and a probability distribution over $I$, $\left\{ p_i \right\}_{i=1}^{I}$ .}
+        \Output{Matricies $\bm{C} \in \RR^{n \times c}$ and $\bm{R} \in \RR^{c \times m}$.}
+        \BlankLine
+        \For{$t = 1 , \ldots , c$}{
+            Pick $i_t \in \left\{ 1, \ldots , n \right\}$ with $\PP \left[ i_t = k \right] = p_k$, independently and with replacement.\;
+            $\bm{C}_{(:,t)} = \frac{1}{\sqrt{cp_{i_t}}} \bm{A}_{(:,i_t)}$\;
+            $\bm{R}_{(:,t)} = \frac{1}{\sqrt{cp_{i_t}}} \bm{B}_{(i_t,:)}$\;
+        }
+        \Return{$\bm{C} \bm{R} = \sum_{t=1}^{c} \frac{1}{cp_{i_t}} \bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par}
+This algorithm makes this idea a little more precise, taking in the two matrices to multiply together as well as a probability distribution over $I$ to provide an estimate for $\bm{A}\bm{B}$ of the form
+\begin{equation*}
+    \bm{A}\bm{B} \simeq \sum_{t=1}^{c} \frac{1}{cp_{i_t}} \bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}.
+\end{equation*}
+Equivalently, the above can be restated as the product of two matrices $\bm{C} \bm{R}$ formed by Algorithm \ref{alg: rand-mat-mult}, where $\bm{C}$ consists of $c$ randomly selected rescaled columns of $\bm{A}$ and $\bm{R}$ is $c$ randomly selected rescaled rows of $\bm{B}$. Notice that
+\begin{equation*}
+    \bm{C} \bm{R} = \sum_{t=1}^{c} \bm{C}_{(:,i_t)} \bm{R}_{(i_t,:)} = \sum_{t=1}^{c} \left( \frac{1}{\sqrt{cp_{i_t}}} \bm{A}_{(:,i_t)} \right) \left( \frac{1}{\sqrt{cp_{i_t}}} \bm{B}_{(i_t,:)} \right) = \frac{1}{c} \sum_{t=1}^{c} \frac{1}{p_{i_t}} \bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}.
+\end{equation*}
+To make development easier, let us define a sampling and rescaling matrix, usually referred to as a sketching matrix, $\bm{S} \in \RR^{n \times c}$ to be the the matrix with elements $\bm{S}_{i_t , t} = 1 \sqrt{c p_{i_t}}$ if the $i_t$ column of $\bm{A}$ is chosen during the $t^{th}$ trial and all other entries of $\bm{S}$ are set to $0$. Then we have
+\begin{equation*}
+    \bm{C} = \bm{A} \bm{S} \quad \text{and} \quad \bm{R} = \bm{S}^{\intercal} \bm{B}
+\end{equation*}
+so that
+\begin{equation} \label{eq: nys-sketch-apprx}
+    \bm{C} \bm{R} = \bm{A} \bm{S} \bm{S}^{\intercal} \bm{B} \simeq \bm{A} \bm{B}.
+\end{equation}
+Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generally to constructed explicitly where the matrix products $\bm{A} \bm{S}$ and $\bm{S}^{\intercal} \bm{B}$ are done through row and column rescaling of matrices $\bm{A}$ and $\bm{B}$ respectively \cite{drineas2017lectures}*{page 17}. Lemma \ref{lem: rmm-exp-var-bds} provides some bounds on $\bm{C} \bm{R}$ as an estimate for $\bm{A}\bm{B}$.
+
+\begin{lem} \label{lem: rmm-exp-var-bds}
+    Let $\bm{C}$ and $\bm{R}$ be constructed as described in Algorithm \ref{alg: rand-mat-mult}, then
+    \[
+        \EE \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] = \left( \bm{A}\bm{B} \right)_{ij}.
+    \]
+    That is, $\bm{C} \bm{R}$ is an unbiased estimate of $\bm{A}\bm{B}$. Furthermore
+    \[
+        \VV \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] \leq \frac{1}{c} \sum_{k=1}^{n} \frac{\bm{A}_{ik}^2 \bm{B}_{kj}^2}{p_k}.
+    \]
+\end{lem}
+
+\begin{proof}
+    For some fixed pair $i,j$ for each $t = 1 , \ldots , c$ define $\bm{X}_t = \left( \frac{\bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}}{c p_{i_t}} \right)_{ij} = \frac{\bm{A}_{(i,i_t)} \bm{B}_{(i_t,j)}}{c p_{i_t}}$. Thus, for any $t$,
+    \begin{align*}
+        \EE \left[ \bm{X}_t \right] = \sum_{k=1}^{n} p_k \frac{\bm{A}_{ik} \bm{B}_{kj}}{cp_k} = \frac{1}{c} \sum_{k=1}^{n} \bm{A}_{ik} \bm{B}_{kj} = \frac{1}{c} \left( \bm{A} \bm{B} \right)_{ij}.
+    \end{align*}
+    Since we have $\left( \bm{C} \bm{R} \right)_{ij} = \sum_{t=1}^{c} \bm{X}_t$, it follows that
+    \begin{align*}
+        \EE \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] = \EE \left[ \sum_{t=1}^{c} \bm{X}_t \right] = \sum_{t=1}^{c} \left[ \EE \bm{X}_t \right] = \left( \bm{A} \bm{B} \right)_{ij}.
+    \end{align*}
+    Hence, $\bm{C} \bm{R}$ is an unbiased estimator of $\bm{A}\bm{B}$, regardless of the choice of the sampling probabilities. Using the fact that $\left( \bm{C} \bm{R} \right)_{ij}$ is the sum of $c$ independent random variables, we get
+    \begin{equation*}
+        \VV \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] = \VV \left[ \sum_{t=1}^{c} \bm{X}_t \right] = \sum_{t=1}^{c} \VV \left[ \bm{X}_t \right].
+    \end{equation*}
+    Using the fact $\VV \left[ \bm{X}_t \right] \leq \EE \left[ \bm{X}_t^2 \right] = \sum_{k=1}^n \frac{\bm{A}_{ik}^2 \bm{B}_{kj}^2}{c^2 p_k}$, we get
+    \begin{equation*}
+        \VV \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] = \sum_{t=1}^{c} \VV \left[ \bm{X}_t \right] \leq c \sum_{k=1}^n \frac{\bm{A}_{ik}^2 \bm{B}_{kj}^2}{c^2 p_k} = \frac{1}{c} \frac{\bm{A}_{ik}^2 \bm{B}_{kj}^2}{p_k}.
+    \end{equation*}
+\end{proof}
+
+So how does this help us with the Nystrom method? Consider using the random matrix multiplication algorithm to approximate the matrix multiplication of a Gram matrix $\bm{K} \in \RR^{n \times n}$ and $\Id^{n \times n}$. Equation \ref{eq: nys-sketch-apprx} gives
+\begin{equation*}
+    \bm{K} \bm{S} \bm{S}^{\intercal} \Id^{n \times n} = \bm{K} \bm{S} \bm{S}^{\intercal} \simeq \bm{K}.
+\end{equation*}
+We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in Algorithm TODO that uses the column sampling technique from Algorithm \ref{alg: rand-mat-mult} together with the general Nystrom framework (Algorithm \ref{alg: nys-gen}) to provide a new column sampling Nystrom method \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
+{\centering
+\begin{minipage}{.85\linewidth}
+    \begin{algorithm}[H]
+        \caption{Nystrom Method via Column Sampling}
+        \label{alg: rand-mat-mult}
+        \SetAlgoLined
+        \DontPrintSemicolon
+        \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+
+        \Input{Data matrix $\bm{X} = \left[ \bm{x}_1 , \ldots , \bm{x}_n \right]^{\intercal} \in \RR^{n \times d}$, the number of samples $1 \leq c \leq n$ and a probability distribution over $n$, $\left\{ p_i \right\}_{i=1}^{n}$ .}
+        \Output{An approximation of the Gram matrix corresponding to $\bm{X}$, that is $\overline{\bm{K}} \simeq \bm{K}$ where $\bm{K}_{ij} = k \left( \bm{x}_i , \bm{x}_j \right)$.}
+        \BlankLine
+        Initialize $\bm{C}$ as an empty $n \times c$ matrix.\;
+        Pick $c$ columns with the probability of choosing the $k^{th}$ column ($1 \leq k \leq n$) as $\PP \left[ k = i \right] = p_i$, independently and with replacement and let $I$ a list of indices of the sampled columns.\;
+        \For{$i \in I$}{
+            Pick $i \in \left\{ 1, \ldots , n \right\}$ with $\PP \left[ i = k \right] = p_k$, independently and with replacement.\;
+            $\bm{K}_{(:,i)} = \left[ k \left( \bm{x}_1 , \bm{x}_i \right) , \ldots , k \left( \bm{x}_n , \bm{x}_i \right) \right]^{\intercal}$\;
+            $\bm{C}_{(:,i)} = \bm{K}_{(:,i)} / \sqrt{c p_{i}}$\;
+        }
+        $\bm{W} = \bm{K}_{(I,I)} \in \RR^{c \times c}$\;
+        Rescale each entry of $\bm{W}$, $\bm{W}_{ij}$, by $1 / c \sqrt{p_i p_j}$.\;
+        Compute $\bm{W}^{\dagger}$\;
+        \Return{$\bm{C} \bm{W}^{\dagger} \bm{C}^{\ast}$}
+        \BlankLine
+    \end{algorithm}
+\end{minipage}
+\par}
+
+As we can tell from the algorithms inputs, this requires some sort of probability to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution we use will provide an unbiased estimate, although some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability. However, this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or possibly entirely missing small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure TODO. To combat this issue, alternative probabilites density can be constructed to take into account a measure of importance in landmark selection. Indeed there has been a plethora of research that has shown the importance of using data-dependent non-uniform probability distributions to obtain proveably good error bounds on Nystrom approximations \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849,musco2017recursive,DBLP:journals/corr/abs-1109-3843,DBLP:journals/corr/CohenMM15,kumar2009sampling}. A few of the more common distributions will be discussed in the coming sections.
