@@ -1,0 +1,20 @@
+\subsection{Column Probabilities}\label{Section2.2}
+
+Recall that the Nystrom method from Algorithm \ref{alg: nys-col-samp} is largely dependent on the random matrix multiplication algorithm (Algorithm \ref{alg: rand-mat-mult}) to produce a suitable sketching matrix. Moreover, improvements in the sketching matrix produced by the random matrix multiplication algorithmare reflected as smaller errors in the Nystrom approximation. Now, consider using the random matrix multiplication algorithm to approximate $\bm{A} \bm{A}^{\intercal}$ by setting $\bm{B} = \bm{A}$. The output is an approximation of the form
+\begin{equation*}
+    \bm{A} \bm{A}^{\intercal} \simeq \bm{C} \bm{C}^{\intercal} = \bm{C} \bm{R}.
+\end{equation*}
+The probability distribution
+\begin{equation*} \label{eq: col-probs}
+    p_i = \frac{\norm{\bm{A}_{(:,i)}}_2^2}{\norm{\bm{A}}_F}.
+\end{equation*}
+aims to minimize the error between $\bm{A} \bm{A}^{\intercal}$ and the approximation $\bm{C} \bm{C}^{\intercal}$. As a result, we should expect that $\bm{C}$ becomes a better estimate for $\bm{A} \bm{S}$, implying that the sketching matrix, $\bm{S}$, is using a better sampling and landmark selection criteria. Drineas and Mahoney give a precise bound on this error presented in theorem \ref{thm: col-pro-bounds} \cite{JMLR:v6:drineas05a}*{page 2158}.
+
+\begin{thm} \label{thm: col-pro-bounds}
+    Given $\bm{A} \in \RR^{m \times n}$, $1 \leq c \leq n$ and the probability distribution $\left\{ p_i \right\}_{i=1}^{n}$ described in equation \ref{eq: col-probs}. Construct $\bm{C}$ using algorithm \ref{alg: rand-mat-mult}, then
+    \[
+        \EE \left[ \norm{\bm{A} \bm{A}^{\intercal} - \bm{C} \bm{C}^{\intercal}}_{F} \right] \leq \frac{1}{\sqrt{c}} \norm{\bm{A}}^2_{F}.
+    \]
+\end{thm}
+
+To show theorem \ref{thm: col-pro-bounds}, we can actually show something a little more general.
