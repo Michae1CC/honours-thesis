@@ -1,0 +1,58 @@
+\subsection{Leverage Scores}\label{Section2.3}
+
+\subsubsection{Statistical Leverage Scores}
+Our next distribution originates from the least-squares problem. Breifly, in an over constrained least-squares problem, where $\bm{A} \in \RR^{n \times m}$, $\bm{b} \in \RR^{n}$, for $m \ll n$ there usually is not any $\bm{x} \in \RR^{m}$ for which $\bm{A} \bm{x} = \bm{b}$. Instead, alternative criteria are used to seek a $\bm{x}$ which in some way comes closest to satisfying this equality. Perhaps one of the more popular criterion is to minimize the $\ell^2-$norm, that is
+\[
+    \bm{x}_{opt} = \argmin_{x} \norm{\bm{A} \bm{x} - \bm{b}}
+\]
+\cite{DBLP:journals/corr/abs-1104-5557}*{page 19-21}. This is what the least-squares problem is. The optimal value for $\bm{x}$ can be solved as $\bm{x}_{opt} = \left( \bm{A}^{\ast} \bm{A} \right)^{-1} \bm{A}^{\ast} \bm{b}$. The least-squares solution is commonly used to find the best weight vector (in this case $\bm{x}$) for a linear model, given a dataset. Fitted or predicted values are usually obtained from $\hat{\bm{b}} = \bm{H} \bm{b}$ where the projector onto the column space of $\bm{A}$
+\[
+    \bm{H} = \bm{A} \left( \bm{A}^{\intercal} \bm{A} \right)^{-1} \bm{A}^{\intercal}
+\]
+is sometimes referred to as the {\it hat matrix}. The element $\bm{H}_{ij}$ has the direct interpretation as the influence or statistical leverage exerted on $\hat{\bm{b}}_i$. Thus, examining the hat matrix can reveal to us columns of $\bm{A}$ which bear a significant impact on $\hat{\bm{b}}$ \cite{HoaglinDavidC1978THMi}*{page 17}. Relatedly, if the element $\bm{H}_{ii}$ is particularly large this is indicative of the $i^{th}$ column of $\bm{A}$ having great influence in determining values of $\hat{\bm{b}}$, justifying the interpretation of $\bm{H}_{ii}$ as statistical leverage scores.
+
+The statistical leverage scores are maximised when $\bm{A}_{(:,i)}$ is linearly independent from $\bm{A}$'s other columns and decreases when it aligns with many other columns or when the value of $\norm{\bm{A}_{(:,i)}}$ is small \cite{DBLP:journals/corr/CohenMM15}*{page 5}. To compute the statistical leverage scores, if $\bm{A} = \bm{U} \bm{\Sigma} \bm{V}^{\intercal}$ is the SVD of $\bm{A}$, then
+\begin{align*}
+    \bm{H}_{ii} & = \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} \right)^{-1} \bm{A}^{\intercal} \right)_{ii} \\
+                & = \left( \bm{U} \bm{\Sigma}^{2} \left( \bm{\Sigma}^{2} \right)^{-1} \bm{U} \right)_{ii}       \\
+                & = \norm{\bm{U}_{(i,:)}}_2^2.
+\end{align*}
+Note that $\bm{H}_{ii}$ may not constitute as a probability distribution, as may the other leverage scores which we will soon discuss. This is easily enough fixed by normalisation. The idea behind using statistical leverage scores as a probability distribution in the Nystrom method is that statistical leverage scores help us priorities selecting columns that are more linearly independent from other columns so that the range of our approximate more closely aligns with the range of our original $\bm{A}$.
+
+\subsubsection{Rank$-k$ Statistical Leverage Scores}
+
+We can generalize this notion of statistical leverage scores to include lower rank approximations. As before let $\bm{A} = \bm{U} \bm{\Sigma} \bm{V}^{\intercal}$ be the SVD of $\bm{A}$. The SVD can be partitioned as
+\begin{equation*}
+    \bm{U} = \left[ \bm{U}_1 , \bm{U}_2 \right] \qquad \bm{\Sigma} =
+    \begin{bmatrix}
+        \bm{\Sigma}_1 &               \\
+                      & \bm{\Sigma}_2
+    \end{bmatrix}
+    \qquad
+    \bm{V} = \left[ \bm{V}_1 , \bm{V}_2 \right].
+\end{equation*}
+Here $\bm{U}_1$ contains the first $k$ columns of $\bm{U}$, $\bm{V}_1$ the first $k$ rows of $\bm{V}$ and $\bm{\Sigma}_1$ is a $k \times k$ matrix containing the top $k$ singular values across its diagonal. The matrix $\bm{A}_k = \bm{U}_1 \bm{\Sigma}_1 \bm{V}_1$ then forms the best rank$-k$ approximation to $\bm{A}$. The statistical leverage scores relative to the best rank$-k$ approximation are again $\bm{H}_{ii}$, but this time $\bm{H}$ is computed only using the best rank$-k$ approximation of $\bm{A}$, that is $\bm{A}_k$. These low rank scores can be evaluated as
+\begin{equation*} \label{eq: lev-scrs-1}
+    \ell_i^k \triangleq \left( \bm{A}_{k} \left( \bm{A}_{k}^{\intercal} \bm{A}_{k} \right)^{-1} \bm{A}_{k}^{\intercal} \right)_{ii} = \norm{\left( \bm{U}_1 \right)_{(i,:)}}_2^2.
+\end{equation*}
+What makes low-rank statistical leverage scores particularly appealing is that they can be approximated quickly with a truncated SVD \cite{DBLP:journals/corr/abs-1303-1849}*{pages 3-4}.
+
+\subsubsection{Ridge Leverage Scores}
+
+The low rank leverage scores we saw in equation \ref{eq: lev-scrs-1} will not always be unique and can be sensitive to perturbations \cite{DBLP:journals/corr/CohenMM15}*{page 6}. As you could guess, the prediction results can very drastically when $\bm{A}$ is modified slightly or when we only have access to partial information on the matrix. This largely undermines the the possibility of computing good quality low rank approximations of statistical leverage scores. This motivates the next class of leverage score, ridge leverage scores. Ridge leverage scores are similar to statistical leverage scores although a ridge regression term (hence the name) is within the hat matrix for a given regularization parameter $\lambda$. The $\lambda-$ridge leverage score is defined as
+\begin{equation*}
+    r_{i}^{\lambda} \triangleq \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} + \lambda \Id_{n \times n} \right)^{-1} \bm{A}^{\intercal} \right)_{ii}.
+\end{equation*}
+A regularization parameter of
+\begin{equation*} \label{eq: rid-lev-reg-param}
+    \lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}
+\end{equation*}
+is typically used since this choice of $\lambda$ will guarantee that the sum of the ridge leverage scores (keep in mind that the raw ridge leverage do not necessarily form a probability distribution) is bounded by $2k$, stated more formally in lemma \ref{lem: rid-lev-reg-param-bound}.
+\begin{lem} \label{lem: rid-lev-reg-param-bound}
+    When using a regularization parameter of $\lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}$ we have $\sum_{i=1}^{n} r_{i}^{\lambda} \leq 2k$ \cite{DBLP:journals/corr/CohenMM15}*{pages 6-7}.
+\end{lem}
+From now on (unless otherwise stated) the regularization parameter seen in \ref{eq: rid-lev-reg-param} will always be used for ridge leverage scores where the notation
+\begin{equation*}
+    r_{i}^{k} \triangleq \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} + \left( \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k} \right) \Id_{n \times n} \right)^{-1} \bm{A}^{\intercal} \right)_{ii}
+\end{equation*}
+will be used to show that the best rank$-k$ matrix is used in the regularization parameter. Adding regularization to the hat matrix offers a smoother alternative which 'washes out' small singular directions meaning they are sampled with proportionally lower probability \cite{DBLP:journals/corr/CohenMM15}*{page 6}.

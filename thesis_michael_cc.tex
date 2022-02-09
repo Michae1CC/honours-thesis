@@ -143,9 +143,13 @@
 % Add smallcaps to \subsection titles in ToC and remove . after numbers
 \renewcommand{\tocsubsection}[3]{%
   \indentlabel{\@ifnotempty{#2}{\scshape\ignorespaces#1 #2.\quad}}\scshape#3\dotfill}
+
+\renewcommand{\tocsubsubsection}[3]{%
+  \indentlabel{\@ifnotempty{#2}{\scshape\ignorespaces#1 #2.\quad}}\scshape#3\dotfill}
 %\let\tocsubsubsection\tocsubsection% Update for \subsubsection
 %...
 \def\l@subsection{\@tocline{2}{0pt}{2.5pc}{5pc}{}}
+\def\l@subsubsection{\@tocline{3}{0pt}{4pc}{7pc}{}}
 \makeatother
 
 \makeatletter
@@ -216,20 +220,20 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % thesis start
 \pagenumbering{arabic}
 
-% \input{introduction.tex}
-% \clearpage
-
-% \input{gps/gps.tex}
-% \clearpage
+\input{introduction.tex}
+\clearpage
+% 
+\input{gps/gps.tex}
+\clearpage
 
 \input{nys/nys.tex}
 \clearpage
 
-% \input{rff/rff.tex}
-% \clearpage
+\input{rff/rff.tex}
+\clearpage
 
-% \input{lin_alg/lin_alg.tex}
-% \clearpage
+\input{lin_alg/lin_alg.tex}
+\clearpage
 
 \clearpage
 \linespread{1.58}
@@ -507,7 +511,10 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
         }
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Nystrom
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         % Randomized algorithms for matrices and data
         % Michael W. Mahoney
@@ -646,7 +653,26 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             organization={PMLR}
         }
 
+        %  The Hat Matrix in Regression and ANOVA
+        % Hoaglin, David C ; Welsch, Roy E
+        \bib{HoaglinDavidC1978THMi}{article}{
+            issn = {0003-1305},
+            journal = {The American statistician},
+            pages = {17--22},
+            volume = {32},
+            publisher = {Taylor & Francis Group},
+            number = {1},
+            year = {1978},
+            title = {The Hat Matrix in Regression and ANOVA},
+            language = {eng},
+            address = {Washington},
+            author = {Hoaglin, David C and Welsch, Roy E},
+        }
 
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
