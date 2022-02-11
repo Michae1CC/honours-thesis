@@ -51,6 +51,32 @@ is typically used since this choice of $\lambda$ will guarantee that the sum of 
 \begin{lem} \label{lem: rid-lev-reg-param-bound}
     When using a regularization parameter of $\lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}$ we have $\sum_{i=1}^{n} r_{i}^{\lambda} \leq 2k$ \cite{DBLP:journals/corr/CohenMM15}*{pages 6-7}.
 \end{lem}
+\begin{proof}
+    Writing $r_{i}^{\lambda}$ using the SVD of $\bm{A}$ where $\lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}$ gives
+    \begin{align*}
+        r_{i}^{\lambda} & = \bm{A}_{(i,:)} \left( \bm{U} \bm{\Sigma} \bm{U}^{\intercal} + \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k} \bm{U} \bm{U}^{\intercal} \right)^{-1} \bm{A}_{(i,:)}^{\intercal} \\
+                        & = \bm{A}_{(i,:)} \left( \bm{U} \overline{\bm{\Sigma}}^2 \bm{U}^{\intercal} \right)^{-1} \bm{A}_{(i,:)}^{\intercal}                                                         \\
+                        & = \bm{A}_{(i,:)} \left( \bm{U} \overline{\bm{\Sigma}}^{-2} \bm{U}^{\intercal} \right) \bm{A}_{(i,:)}^{\intercal}
+    \end{align*}
+    where $\overline{\bm{\Sigma}}^{2}_{ii} = \sigma_{i}^{2} \left( \bm{A} \right) + \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}$. We then have
+    \begin{align*}
+        \sum_{i=1}^{n} r_{i}^{\lambda} & = \operatorname{tr} \left( \bm{A}^{\intercal} \bm{U} \overline{\bm{\Sigma}}^{-2} \bm{U}^{\intercal} \bm{A} \right) \\
+                                       & = \operatorname{tr} \left( \bm{V} \bm{\Sigma} \overline{\bm{\Sigma}}^{-2} \bm{\Sigma} \bm{V}^{\intercal} \right)   \\
+                                       & = \operatorname{tr} \left( \bm{\Sigma}^{2} \overline{\bm{\Sigma}}^{-2} \right).
+    \end{align*}
+    Here we have
+    \[
+        \left( \bm{\Sigma}^{2} \overline{\bm{\Sigma}}^{-2} \right)_{ii} = \frac{\sigma_{i}^{2} \left( \bm{A} \right)}{\sigma_{i}^{2} \left( \bm{A} \right) + \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}}.
+    \]
+    For $i \leq k$ we simply upper bound this by $1$, yielding
+    \begin{equation*}
+        \operatorname{tr} \left( \bm{\Sigma}^{2} \overline{\bm{\Sigma}}^{-2} \right) =
+        k + \sum_{i=k+1}^{n} \frac{\sigma_{i}^{2} \left( \bm{A} \right)}{\sigma_{i}^{2} \left( \bm{A} \right) + \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}}
+        \leq k + \sum_{i=k+1}^{n} \frac{\sigma_{i}^{2} \left( \bm{A} \right)}{\frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}}
+        = k + \frac{\sum_{i=k+1}^{n} \sigma_{i}^{2} \left( \bm{A} \right)}{\frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}}
+        \leq k + k.
+    \end{equation*}
+\end{proof}
 From now on (unless otherwise stated) the regularization parameter seen in \ref{eq: rid-lev-reg-param} will always be used for ridge leverage scores where the notation
 \begin{equation*}
     r_{i}^{k} \triangleq \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} + \left( \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k} \right) \Id_{n \times n} \right)^{-1} \bm{A}^{\intercal} \right)_{ii}
