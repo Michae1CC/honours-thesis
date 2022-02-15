@@ -304,7 +304,7 @@ Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star}
 \end{equation}
 where
 \begin{align}
-    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{X_{\star}}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                               \\
+    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{X_{\star} X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                               \\
     \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal} \label{eq: GP_train_distr2_var}
 \end{align}
 Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}_{\star}$

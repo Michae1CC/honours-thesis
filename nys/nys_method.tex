@@ -10,7 +10,7 @@ Attempting to compute an entire kernel matrix can prove to be quite a computatio
     for any $\bm{u}, \bm{v} \in X$ \cite{DBLP:journals/corr/abs-1104-5557}*{page 15}.
 \end{lem}
 
-The John-Lindenstrauss lemma tells us that $\bm{Q} \bm{Q}^{\ast} \bm{A}$ will serve as a good approximation to some matrix $\bm{A}$ where $\bm{Q} \bm{Q}^{\ast}$, in some sense, projects onto some rank-$k$ subspace of $\bm{A}$'s column space. This is because if $\bm{Q} \bm{Q}^{\ast}$ closesly matches the behavior of $\bm{\Omega}$ from the lemma then the pair-wise distances between points before and after applying $\bm{Q} \bm{Q}^{\ast}$ should remain fairly similar. To state this a little more explicitly, for a matrix $\bm{A}$ and a positive error tolerance $\varepsilon$ we seek a matrix $\bm{Q} \in \RR^{n \times k_{\varepsilon}}$ with orthonormal columns such that
+The John-Lindenstrauss lemma tells us that $\bm{Q} \bm{Q}^{\ast} \bm{A}$ will serve as a good approximation to some matrix $\bm{A} \in \RR^{n \times m}$ where $\bm{Q} \bm{Q}^{\ast}$, in some sense, projects onto a rank-$k$ subspace of $\bm{A}$'s column space. This is because if $\bm{Q} \bm{Q}^{\ast}$ closesly matches the behavior of $\bm{\Omega}$ from the lemma then the pair-wise distances between points before and after applying $\bm{Q} \bm{Q}^{\ast}$ should remain fairly similar. To state this a little more explicitly, for a matrix $\bm{A}$ and a positive error tolerance $\varepsilon$ we seek a matrix $\bm{Q} \in \RR^{n \times k_{\varepsilon}}$ with orthonormal columns such that
 \begin{equation*}
     \norm{\bm{A} - \bm{Q} \bm{Q}^{\ast} \bm{A}}_{F} \leq \varepsilon
 \end{equation*}
@@ -39,7 +39,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
         \DontPrintSemicolon
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-        \Input{A positive semi-definite matrix $\bm{A}$, a matrix $\bm{Q}$ that satisfies \ref{eq: nys-Q-cond}.}
+        \Input{A positive semi-definite matrix $\bm{A} \in \RR^{n \times m}$, a matrix $\bm{Q} \in {n \times k}$ that satisfies \ref{eq: nys-Q-cond}.}
         \Output{A rank $k$ approximation $\bm{\overline{A}} \simeq \bm{A}$.}
         \BlankLine
         $\bm{C} = \bm{A} \bm{Q}$\;
@@ -50,7 +50,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
 \end{minipage}
 \par}
 
-However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how do we do about efficiently constructing a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by Theorem
+However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how do we do about efficiently constructing a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by theorem \ref{lem: best-col-sel}.
 
 \begin{thm} \label{lem: best-col-sel}
     Every $\bm{A} \in \RR^{n \times m}$ matrix contains a $k-$column submatrix $\bm{C}$ for which
@@ -59,7 +59,7 @@ However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been com
     \]
     where $\bm{A}_k$ is the best rank$-k$ approximation of $\bm{A}$ \cite{halko2011finding}*{page 11}.
 \end{thm}
-Before we delve anymore into this column sampling Nystrom technique, we will first need to cover the random matrix multiplication algorithm which serves as a backbone for this technique. Let $\bm{A} \in \RR^{n \times m}$ be a target matrix we would like to approximate and suppose that $\bm{A}$ can be represented as the sum of 'simpler' (for example, sparse or low-rank) matrices, $\bm{A}_i$, so that
+Before we delve anymore into this column sampling Nystrom method, we will first need to cover the random matrix multiplication algorithm which serves as a backbone for this technique. Let $\bm{A} \in \RR^{n \times m}$ be a target matrix we would like to approximate and suppose that $\bm{A}$ can be represented as the sum of 'simpler' (for example, sparse or low-rank) matrices, $\bm{A}_i$, so that
 \begin{equation} \label{eq: A-as-summands}
     \bm{A} = \sum_{i=1}^{I} \bm{A}_i .
 \end{equation}
@@ -81,8 +81,8 @@ where $c$ is the number of samples and each summand is rescaled by a factor of $
         \DontPrintSemicolon
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-        \Input{$\bm{A} \in \RR^{n \times I}$ and $\bm{A} \in \RR^{I \times m}$, the number of samples $1 \leq c \leq n$ and a probability distribution over $I$, $\left\{ p_i \right\}_{i=1}^{I}$ .}
-        \Output{Matricies $\bm{C} \in \RR^{n \times c}$ and $\bm{R} \in \RR^{c \times m}$.}
+        \Input{$\bm{A} \in \RR^{n \times I}$ and $\bm{B} \in \RR^{I \times m}$, the number of samples $1 \leq c \leq I$ and a probability distribution over $I$, $\left\{ p_i \right\}_{i=1}^{I}$ .}
+        \Output{Matricies $\bm{C} \in \RR^{n \times c}$ and $\bm{R} \in \RR^{c \times m}$ such that $\bm{CR} \simeq \bm{AB}$.}
         \BlankLine
         \For{$t = 1 , \ldots , c$}{
             Pick $i_t \in \left\{ 1, \ldots , n \right\}$ with $\PP \left[ i_t = k \right] = p_k$, independently and with replacement.\;
@@ -142,11 +142,11 @@ Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generall
     \end{equation*}
 \end{proof}
 
-So how does this help us with the Nystrom method? Consider using the random matrix multiplication algorithm to approximate the matrix multiplication of a Gram matrix $\bm{K} \in \RR^{n \times n}$ and $\Id^{n \times n}$. Equation \ref{eq: nys-sketch-apprx} gives
+So how does this help us with the Nystrom method? Consider using the random matrix multiplication algorithm to approximate the matrix multiplication of a Gram matrix $\bm{K} \in \RR^{n \times n}$ and $\Id_{n \times n}$. Equation \ref{eq: nys-sketch-apprx} gives
 \begin{equation*}
-    \bm{K} \bm{S} \bm{S}^{\intercal} \Id^{n \times n} = \bm{K} \bm{S} \bm{S}^{\intercal} \simeq \bm{K}.
+    \bm{K} \bm{S} \bm{S}^{\intercal} \Id_{n \times n} = \bm{K} \bm{S} \bm{S}^{\intercal} \simeq \bm{K}.
 \end{equation*}
-We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in Algorithm TODO that uses the column sampling technique from Algorithm \ref{alg: rand-mat-mult} together with the general Nystrom framework (Algorithm \ref{alg: nys-gen}) to provide a new column sampling Nystrom method \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
+We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in Algorithm \ref{alg: nys-col-samp} that uses the column sampling technique from Algorithm \ref{alg: rand-mat-mult} together with the general Nystrom framework (Algorithm \ref{alg: nys-gen}) to provide a new column sampling Nystrom method to approximate a Gram matrix for a provided dataset and probability distribution \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
 {\centering
 \begin{minipage}{.85\linewidth}
     \begin{algorithm}[H]
@@ -174,7 +174,7 @@ We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mu
     \end{algorithm}
 \end{minipage}
 \par}
-As we can tell from the algorithms inputs, this requires some sort of probability to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution we use will provide an unbiased estimate, although some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability. However, this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or possibly entirely missing small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
+As we can tell from the algorithms inputs, this requires some sort of probability to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or possibly entirely missing small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
 \begin{figure}[h]
     \centering
     \subfloat[]{
@@ -247,7 +247,7 @@ As we can tell from the algorithms inputs, this requires some sort of probabilit
             \end{tikzpicture}
         \end{adjustbox}
     }
-    \caption{Employing uniform sampling in the column sampling Nystrom estimate can lead to oversampling from denser parts of the data set. Instead data dependent probability densities are commonly used to better cover the relevant data. Example taken from \cite{musco2017recursive}*{page 4}.}
+    \caption{Employing uniform sampling in the column sampling Nystrom estimate can lead to oversampling from denser parts of the data set (Panel (A)). Instead data dependent probability densities are commonly used to better cover the relevant data (Panel (B)). Example taken from \cite{musco2017recursive}*{page 4}.}
     \label{fig: uni-samp-v-nonuni-samp}
 \end{figure}
-To combat this issue, alternative probabilites density can be constructed to take into account a measure of importance in landmark selection. Indeed there has been a plethora of research that has shown the importance of using data-dependent non-uniform probability distributions to obtain proveably good error bounds on Nystrom approximations \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849,musco2017recursive,DBLP:journals/corr/abs-1109-3843,DBLP:journals/corr/CohenMM15,kumar2009sampling}. A few of the more common distributions will be discussed in the coming sections.
+To combat this issue, alternative probabilites density can be constructed to take into account a measure of importance in landmark selection. Indeed there has been a plethora of research that has shown the importance of using data-dependent non-uniform probability distributions to obtain proveably better error bounds within the Nystrom framework \cite{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849,musco2017recursive,DBLP:journals/corr/abs-1109-3843,DBLP:journals/corr/CohenMM15,kumar2009sampling}. A few of the more common distributions will be discussed in the coming sections.
