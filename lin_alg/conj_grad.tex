@@ -1,14 +1,14 @@
 \subsection{Conjugate Gradient Algorithm}\label{Section4.5}
 
-From section \ref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{Q}_k = \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{Q}_k$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{Q}_k \right)$ where $\bm{Q}_k$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{Q}_k \bm{y}$ for a unique $\bm{y} \in \KK^k$ so that
+From section \ref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
 \begin{equation} \label{eq: x_eq_Qky}
-    \bm{x}_k = \bm{x}_0 + \bm{Q}_k \bm{y}.
+    \bm{x}_k = \bm{x}_0 + \bm{V}_{k} \bm{y}.
 \end{equation}
 Coupling this with the Petrov-Galerkin conditions means
 \begin{align} \label{eq: Tky_eq_normr0e1}
-    \bm{Q}_k^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{Q}_k \bm{y} \right) & = \bm{0}                        \nonumber \\
-    \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \bm{y}                           & = \bm{Q}_k^{\intercal} \bm{r}_0 \nonumber \\
-    \bm{T}_k \bm{y}                                                       & = \| \bm{r}_0 \| \bm{e}_1.
+    \bm{V}_{k}^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{V}_{k} \bm{y} \right) & = \bm{0}                        \nonumber   \\
+    \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} \bm{y}                           & = \bm{V}_{k}^{\intercal} \bm{r}_0 \nonumber \\
+    \bm{T}_k \bm{y}                                                           & = \| \bm{r}_0 \| \bm{e}_1.
 \end{align}
 In the CG algorithm $\bm{x}_{k+1}$ is computed as the recurrance of the following three sets of vectors
 \begin{enumerate}
@@ -16,9 +16,9 @@ In the CG algorithm $\bm{x}_{k+1}$ is computed as the recurrance of the followin
     \item The residual vectors $\bm{r}_{k}$
     \item The conjugate gradient vectors $\bm{p}_k$
 \end{enumerate}
-The conjugate gradient vectors are given the name gradient since the attempt to find the direction of steepest descent that minimizes $\| \bm{r}_{k} \|_{\bm{A}^{-1}}$. The are also given the name conjugate since $\langle \bm{p}_k, \bm{A} \bm{p}_j \rangle = 0$ for $i \neq j$, that is, vectors $\bm{p}_i$ and $\bm{p}_j$ are mutally $A$-conjugate.
+The conjugate gradient vectors include the word 'gradient' since the attempt to find the direction of steepest descent that minimizes $\| \bm{r}_{k} \|_{\bm{A}^{-1}}$. It also includes the word 'conjugate' since $\langle \bm{p}_k, \bm{A} \bm{p}_j \rangle = 0$ for $i \neq j$, that is, vectors $\bm{p}_i$ and $\bm{p}_j$ are mutally $A$-conjugate (shown in lemma \ref{lemma: Pk_cols_A_conj}).
 
-Since $\bm{A}$ is symmetric positive definite then so is $\bm{T}_k  = \bm{Q}_k \bm{A} \bm{Q}_k$. We can take the Cholesky decomposition of $\bm{T}_k$ to get
+Since $\bm{A}$ is symmetric positive definite then so is $\bm{T}_k  = \bm{V}_{k} \bm{A} \bm{V}_{k}$. We can take the Cholesky decomposition of $\bm{T}_k$ to get
 \begin{equation} \label{eq: Tk_Cholesky}
     \bm{T}_k = \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal}
 \end{equation}
@@ -41,13 +41,13 @@ where $\bm{L}_k$ is a unit lower bidiagonal matrix and $\bm{D}_k$ is diagonal wr
 \]
 Combining equations \ref{eq: x_eq_Qky}, \ref{eq: Tky_eq_normr0e1} and \ref{eq: Tk_Cholesky}
 \begin{align*}
-    \bm{x}_k & = \bm{x}_0 + \bm{Q}_k \bm{y}                                                                                                  \\
-    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{Q}_k \bm{T}_k^{-1} \bm{e}_1                                                                   \\
-    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{Q}_k \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right)^{-1} \bm{e}_1                      \\
-    \bm{x}_k & = \bm{x}_0 + \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right) \left( \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1 \right) \\
+    \bm{x}_k & = \bm{x}_0 + \bm{V}_{k} \bm{y}                                                                                                  \\
+    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{V}_{k} \bm{T}_k^{-1} \bm{e}_1                                                                   \\
+    \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{V}_{k} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right)^{-1} \bm{e}_1                      \\
+    \bm{x}_k & = \bm{x}_0 + \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right) \left( \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1 \right) \\
     \bm{x}_k & \triangleq \bm{x}_0 + \tilde{\bm{P}}_k \tilde{\bm{y}}_k
 \end{align*}
-where $\tilde{\bm{P}}_k = \bm{Q}_k \bm{L}_k^{-\intercal}$ and $\tilde{\bm{y}}_k = \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1$. The matrix $\tilde{\bm{P}}_k$ can be written as
+where $\tilde{\bm{P}}_k = \bm{V}_{k} \bm{L}_k^{-\intercal}$ and $\tilde{\bm{y}}_k = \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1$. The matrix $\tilde{\bm{P}}_k$ can be written as
 $\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$. Lemma \ref{lemma: Pk_cols_A_conj} shows that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate.
 
 \begin{lem} \label{lemma: Pk_cols_A_conj}
@@ -58,8 +58,8 @@ $\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde
     We compute
     \begin{align*}
         \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k
-         & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)                 \\
-         & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                        \\
+         & = \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)             \\
+         & = \bm{L}_k^{-1} \left( \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} \right) \bm{L}_k^{-\intercal}                                    \\
          & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
          & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
          & = \bm{D}_k
@@ -81,10 +81,10 @@ meaning
     \begin{bmatrix}
         \bm{L}_{k-1}^{-1} & \bm{0} \\
         \star             & 1
-    \end{bmatrix}.
+    \end{bmatrix}
 \]
 
-With this a recurrance for the columns of $\tilde{\bm{P}}_k$ can now be derived in terms of $\bm{y}_k$. To start we can show that the first $k-1$ entries of $\tilde{\bm{y}}_{k}$ shares the first $k-1$ entires with $\tilde{\bm{y}}_{k-1}$ and that $\tilde{\bm{P}}_k$ and $\tilde{\bm{P}}_{k-1}$ share the same first $k-1$ columns. To start we can compute a recurrance for $\tilde{\bm{y}}_{k}$ as follows
+where the elements of $\star$ are of no importance. With this a recurrance for the columns of $\tilde{\bm{P}}_k$ can now be derived in terms of $\bm{y}_k$. To start we can show that the first $k-1$ entries of $\tilde{\bm{y}}_{k}$ shares the first $k-1$ entires with $\tilde{\bm{y}}_{k-1}$ and that $\tilde{\bm{P}}_k$ and $\tilde{\bm{P}}_{k-1}$ share the same first $k-1$ columns. We can begin by computing a recurrance for $\tilde{\bm{y}}_{k}$ as follows
 \begin{align*}
     \tilde{\bm{y}}_{k} & = \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1^k \\
                        & = \| \bm{r}_0 \|
@@ -112,19 +112,21 @@ With this a recurrance for the columns of $\tilde{\bm{P}}_k$ can now be derived 
         \eta_k
     \end{bmatrix}
 \end{align*}
-To get a recurrance for the columns of $\tilde{\bm{P}}_{k-1} = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$ since $\bm{L}_{k-1}^{\intercal}$ is upper triangular then so is $\bm{L}_{k-1}^{-\intercal}$, thus forming the leading $(k-1)-\text{by}-(k-1)$ submatrix of $\bm{L}_{k}^{-\intercal}$. This means that $\tilde{\bm{P}}_{k-1}$ is identical to the leading $k-1$ columns of
+
+where $\bm{e}_i^k$ is the $i^{th}$ unit vector with $k$ dimensions. To get a recurrance for the columns of $\tilde{\bm{P}}_{k-1} = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$ since $\bm{L}_{k-1}^{\intercal}$ is upper triangular then so is $\bm{L}_{k-1}^{-\intercal}$, thus forming the leading $(k-1) \times (k-1)$ submatrix of $\bm{L}_{k}^{-\intercal}$. This means that $\tilde{\bm{P}}_{k-1}$ is identical to the leading $k-1$ columns of
+
 \[
-    \tilde{\bm{P}}_{k} = \bm{Q}_k \bm{L}_k^{-\intercal} = \left[ \bm{Q}_{k-1} , \bm{q}_k \right]
+    \tilde{\bm{P}}_{k} = \bm{V}_{k} \bm{L}_k^{-\intercal} = \left[ \bm{V}_{k-1} , \bm{v}_k \right]
     \begin{bmatrix}
         \bm{L}_{k-1}^{-1} & \bm{0} \\
         \star             & 1
     \end{bmatrix}
-    = \left[ \bm{Q}_{k-1} \bm{L}_{k-1}^{-1} , \tilde{\bm{p}}_{k} \right]
+    = \left[ \bm{V}_{k-1} \bm{L}_{k-1}^{-1} , \tilde{\bm{p}}_{k} \right]
     = \left[ \tilde{\bm{P}}_{k-1} , \tilde{\bm{p}}_{k} \right].
 \]
-Moreover rearranging $\tilde{\bm{P}}_{k} = \bm{Q}_k \bm{L}_k^{-\intercal}$ we get $\tilde{\bm{P}}_{k} \bm{L}_k^{\intercal} = \bm{Q}_k$. Equating the $k^{th}$ column yields
+Moreover rearranging $\tilde{\bm{P}}_{k} = \bm{V}_{k} \bm{L}_k^{-\intercal}$ we get $\tilde{\bm{P}}_{k} \bm{L}_k^{\intercal} = \bm{V}_{k}$. Equating the $k^{th}$ column yields
 \begin{equation} \label{eq: pk_rec}
-    \tilde{\bm{p}}_{k} = \bm{q}_k - l_{k-1} \tilde{\bm{p}}_{k-1}.
+    \tilde{\bm{p}}_{k} = \bm{v}_k - l_{k-1} \tilde{\bm{p}}_{k-1}.
 \end{equation}
 Finally we can use
 \begin{equation} \label{eq: xk_rec}
@@ -141,17 +143,17 @@ as a recurrance for $\bm{x}_k$. A recurrance for $\bm{r}_k$ is easily computed a
 \begin{equation} \label{eq: rk_rec}
     \bm{r}_{k} = b - \bm{A} \bm{x}_k = b - \bm{A} \left( \bm{x}_{k-1} + \eta_k \tilde{\bm{p}}_{k} \right) = \left( b - \bm{A} \bm{x}_{k-1} \right) - \eta_k \bm{A} \tilde{\bm{p}}_{k} = \bm{r}_{k-1} - \eta_k \bm{A} \tilde{\bm{p}}_{k}
 \end{equation}
-Altogether we are left with recurrences for $\bm{q}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplification can be made for a more efficient algorithm. Recall from section \ref{Section4.3} that $\bm{A} \bm{Q}_k =  \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ meaning
+Altogether we are left with recurrences for $\bm{v}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplifications can be made to bring about a more efficient algorithm. Recall from section \ref{Section4.3} that $\bm{A} \bm{V}_{k} =  \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \RR^k$ meaning
 \[
-    \bm{r}_k = \bm{r}_0 - \bm{A} \bm{Q}_k \bm{y}_k = \bm{r}_0 - \bm{Q}_k \bm{T}_k \bm{y}_k - \langle \bm{t}_k , \bm{y} \rangle \bm{q}_{k+1} = - \beta_k y_k \bm{q}_{k+1}.
+    \bm{r}_k = \bm{r}_0 - \bm{A} \bm{V}_{k} \bm{y}_k = \bm{r}_0 - \bm{V}_{k} \bm{T}_k \bm{y}_k - \langle \bm{t}_k , \bm{y} \rangle \bm{v}_{k+1} = - \beta_k y_k \bm{v}_{k+1}.
 \]
-This tells us that $\bm{r}_k$ is parallel to $\bm{q}_{k+1}$ and orthogonal to all $\bm{q}_{i}, \; 1 \leq i \leq k$. This further implies that $\bm{r}_k$ is orthogonal to all $\bm{r}_i, \; 1 \leq i \leq k-1$ since they are just $\bm{q}_{i}$ scaled by some constant factor. So replacing $\bm{r}_{k-1}$ with $\bm{q}_k / \eta_k$ and defining $\bm{p}_k \triangleq \tilde{\bm{p}}_k / \gamma_k$ gives us a new set of recurrences
+This tells us that $\bm{r}_k$ is parallel to $\bm{v}_{k+1}$ and orthogonal to all $\bm{v}_{i}, \; 1 \leq i \leq k$. This further implies that $\bm{r}_k$ is orthogonal to all $\bm{r}_i, \; 1 \leq i \leq k-1$ since they are just $\bm{v}_{i}$ scaled by some constant factor. So replacing $\bm{r}_{k-1}$ with $\bm{v}_k / \eta_k$ and defining $\bm{p}_k \triangleq \tilde{\bm{p}}_k / \gamma_k$ gives us a new set of recurrences
 \begin{align*}
     \bm{x}_k & = \bm{x}_{k-1} + \alpha_k \bm{p}_k        \\
     \bm{r}_k & = \bm{r}_{k-1} - \alpha_k \bm{A} \bm{p}_k \\
     \bm{p}_k & = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}
 \end{align*}
-where $\alpha_k = \eta_k / \gamma_k$. From theorem \ref{lemma: Pk_cols_A_conj} we have shown that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate (that is $\langle \tilde{\bm{p}}_i , \bm{A} \tilde{\bm{p}}_j \rangle = 0, \; i \neq j$) and that $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k = \bm{D}_k$. This also means that $\langle \bm{r}_i , \bm{r}_j \rangle = 0, \; i \neq j$. Now note that from our recurrence for $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ that
+where $\alpha_k = \eta_k / \gamma_k$. From theorem \ref{lemma: Pk_cols_A_conj} we have shown that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate (that is $\langle \tilde{\bm{p}}_i , \bm{A} \tilde{\bm{p}}_j \rangle = 0, \; i \neq j$) and that $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k = \bm{D}_k$. This also means that $\langle \bm{r}_i , \bm{r}_j \rangle = 0, \; i \neq j$. Note that from our recurrence for $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ we have
 \[
     \langle \bm{A} \bm{p}_k ,\bm{p}_k \rangle = \langle \bm{A} \bm{p}_k , \bm{r}_{k-1} + \beta_k \bm{p}_{k-1} \rangle = \langle \bm{A} \bm{p}_k , \bm{r}_{k-1} \rangle.
 \]
@@ -173,7 +175,7 @@ This formula requires an additional dot product which was not present before. Fo
     \langle \bm{r}_k , \bm{r}_k \rangle & = \langle \bm{r}_k , \bm{r}_{k-1} \rangle - \alpha_k \langle \bm{r}_k , \bm{A} \bm{p}_k \rangle \\
     \alpha_k                            & = - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}.
 \end{align*}
-Equating the two expressions for $\bm{a}_k$ yields
+Equating the two expressions for $\alpha_k$ yields
 \begin{align*}
     - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}  & = \frac{\langle \bm{r}_{k-1} , \bm{r}_{k-1} \rangle}{\langle \bm{p}_k, \bm{A} \bm{p}_k \rangle} \\
     - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_{k-1} , \bm{r}_{k-1} \rangle} & = \frac{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}{\langle \bm{p}_k, \bm{A} \bm{p}_k \rangle}.

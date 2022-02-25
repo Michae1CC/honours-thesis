@@ -1,9 +1,10 @@
 \subsection{Minimum Residual}\label{Section4.6}
-In contrast to CG, MINRES is able applicable to a wider range of linear systems and is used for solving symmertic indefinite systems. From section \ref{Section4.4} we saw that MINRES minimizes the residual $\bm{r}_k$ with respect to the Euclidean norm at each iteration (hence the name), that is $\bm{x}_k$ is chosen so that
+In contrast to CG, MINRES is able applicable to a wider range of linear systems, namely symmertic indefinite systems. From section \ref{Section4.4} we saw that MINRES minimizes the residual $\bm{r}_k$ with respect to the Euclidean norm at each iteration (hence the name), that is $\bm{x}_k$ is chosen so that
 \begin{equation} \label{eq: minres_opt_cond_1}
     \bm{x}_k = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2.
 \end{equation}
 It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the Petrov-Galerkin conditions where $\det \left( \bm{A} \right) \neq 0$, in other words MINRES is an oblique projection method. We can also show that when $\det \left( \bm{A} \right) \neq 0$ and $\calW = \bm{A} \calK_k$ the matrix $\bm{W}^{\intercal} \bm{A} \bm{K}$ is non-singular. So under the conditions of MINRES, using a similar argument used for CG, $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{V}_k \bm{y}_k$. Using equation \ref{eq: AVk_eq_VkTk1k} produced by the Lanczos algorithm in \ref{Section4.3} we can manipulate our optimality condition \ref{eq: minres_opt_cond_1} as follows
+
 \begin{align*}
     \bm{x}_k      & = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2                                 \\
     \iff \bm{y}_k & = \argmin_{\bm{y} \in \RR^k} \norm{\bm{A} \left( \bm{x}_0 + \bm{V}_k \bm{y} \right) - \bm{b}}_2            \\
@@ -12,7 +13,9 @@ It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the 
                   & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \bm{V}_{k}^{\intercal} \bm{r}_0 }_2            \\
                   & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2
 \end{align*}
+
 \cite{GreenbaumAnne1997Imfs}*{page 43}. Using the general project method procedure \ref{alg: General_Projection} as a guide, this gives the following high-level description of the MINRES algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}.
+
 {\centering
 \begin{minipage}{.85\linewidth}
     \begin{algorithm}[H]
@@ -35,7 +38,8 @@ It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the 
 \end{minipage}
 \par
 }
-At each step solving $\bm{y}$ is a matter of solving a $(n+1) \times n$ least squares problem with Hessenberg structure. This can be done by performing a QR-factorisation on the successive $\bm{T}_{k+1,k}$ matrices, whats more using a clever bit of thinking, we can actually compute the QR-factorisation of $\bm{T}_{k+1,k}$ from the QR-factorisation of $\bm{T}_{k,k-1}$ using a inexpensive $\calO \left( n \right)$ Householder reflection \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}. Computing the QR-factorisation of $\bm{T}_{k,k-1}$ yields
+
+At each step solving $\bm{y}$ is a matter of solving a $(n+1) \times n$ least squares problem with Hessenberg structure. This can be done by performing a QR-factorisation on the successive $\bm{T}_{k+1,k}$ matrices. Whats more using a clever bit of thinking, we can actually compute the QR-factorisation of $\bm{T}_{k+1,k}$ from the QR-factorisation of $\bm{T}_{k,k-1}$ using a inexpensive $\calO \left( n \right)$ Householder reflection \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}. Computing the QR-factorisation of $\bm{T}_{k,k-1}$ yields
 \begin{equation}
     \bm{Q}_k \bm{T}_{k,k+1}
     =
@@ -57,12 +61,13 @@ where $\bm{Q}_k = \prod_{i=1}^{k} \bm{Q}_{i,i+1}$ is the product of Householder 
 \begin{equation*}
     \bm{Q}_{i,i+1} \triangleq
     \begin{bmatrix}
-        \Id_{(i-1) \times (i-1)} &       &         &                          \\
-                                 & c_{i} & s_{i-1} &                          \\
-                                 &       &         & \Id_{(k-i) \times (k-i)}
+        \Id_{(i-1) \times (i-1)} &       &        &                          \\
+                                 & c_{i} & s_{i}  &                          \\
+                                 & s_{i} & -c_{i} &                          \\
+                                 &       &        & \Id_{(k-i) \times (k-i)}
     \end{bmatrix}
 \end{equation*}
-\cite{ChoiSou-ChengTerrya2007Imfs}*{page 22}. As mentioned for each $i$, $\bm{Q}_{i,i+1}$ is orthogonal, symmetric and constructed to annihilate $\beta_{k+1}$ that is the bottom right element of $\bm{T}_{k,k+1}$. To see this better we can alternatively write $\bm{Q}_k \bm{T}_{k,k+1}$ as $\bm{Q}_{k,k+1} \cdot \bm{Q}_{2,3}\bm{Q}_{1,2} \bm{T}_{k,k+1}$. Notice however that $\bm{Q}_{k,k+1}$ is the only rotation matrix that will involve $\beta_{k+1}$ in its matrix multiplication with $\bm{T}_{k,k+1}$. To study the influence of $\bm{Q}_{k,k+1}$ in a more compact way we only need to consider the matrix vector product
+\cite{ChoiSou-ChengTerrya2007Imfs}*{page 22}. As mentioned for each $i$, $\bm{Q}_{i,i+1}$ is orthogonal, symmetric and constructed to annihilate $\beta_{k+1}$ that is the bottom right element of $\bm{T}_{k,k+1}$. To see this better an alternative way of writing $\bm{Q}_k \bm{T}_{k,k+1}$ is $\bm{Q}_{k,k+1} \cdot \bm{Q}_{2,3}\bm{Q}_{1,2} \bm{T}_{k,k+1}$. Notice however that $\bm{Q}_{k,k+1}$ is the only rotation matrix that will involve $\beta_{k+1}$ in its matrix multiplication with $\bm{T}_{k,k+1}$. To study the influence of $\bm{Q}_{k,k+1}$ in a more compact way we only need to consider the matrix product
 \begin{equation} \label{eq: iso_Qkk1_mat_vec_prod_1}
     \begin{bmatrix}
         c_k & s_k  \\
@@ -132,7 +137,7 @@ where $\bm{t}_k = \left[ \tau_1 , \tau_2 , \cdots , \tau_k \right]^{\intercal}$ 
         \end{bmatrix}
     }_2
 \end{equation*}
-which can be used to formulate subproblems \cite{ChoiSou-ChengTerrya2007Imfs}*{page 25}. From the new optimality condition it it obvious that the optimal solution will satisfy $\bm{R}_k \bm{y}_k = \bm{t}_k$. However, instead of solving for $\bm{y}_k$ directly, MINRES solves
+which can be used to formulate subproblems \cite{ChoiSou-ChengTerrya2007Imfs}*{page 25}. From the new optimality condition it obvious that the optimal solution will satisfy $\bm{R}_k \bm{y}_k = \bm{t}_k$. However, instead of solving for $\bm{y}_k$ directly, MINRES solves
 \begin{equation}\label{eq: MINRES_xk_recurr_1}
     \bm{R}_{k}^{\intercal} \bm{D}_{k}^{\intercal} = \bm{V}_{k}^{\intercal}
 \end{equation}

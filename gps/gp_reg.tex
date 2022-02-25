@@ -252,11 +252,11 @@ While the above does give us some information that $\bm{f}_{\star}$ is related t
     \begin{align*}
         \bm{x}_2 \mid \bm{x}_1 & \sim \calN \left( \bm{x}_2 \mid \bm{\mu}_{2 \mid 1}, \bm{\Sigma}_{2 \mid 1} \right)          \\
         \bm{\mu}_{2 \mid 1}    & = \bm{\mu}_2 + \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \left( \bm{x}_1 - \bm{\mu}_1 \right) \\
-        \bm{\Sigma}_{2 \mid 1} & = \bm{\Sigma}_{2,2} - \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \bm{\Sigma}_{1,2}
+        \bm{\Sigma}_{2 \mid 1} & = \bm{\Sigma}_{2,2} - \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \bm{\Sigma}_{1,2}.
     \end{align*}
 \end{thm}
 
-Thus, finding a mean and covariance for $\bm{f}_{\star}$ involves a direct application of theorem \ref{theorem: cond_of_MVN} which gives
+Thus, once data has been observed, finding a mean and covariance for $\bm{f}_{\star}$ involves a direct application of theorem \ref{theorem: cond_of_MVN} which gives
 \begin{align*}
     \bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}_{\star}, \bm{\Sigma}_{\star} \right)
 \end{align*}
@@ -271,16 +271,16 @@ and
 \end{align*}
 meaning we can write a distribution for $\bm{f}_{\star}$ as
 \begin{equation}\label{prop:GP_train_distr1}
-    \bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{K_{X_{\star}X}}^{\intercal}  \right)
+    \bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{K_{X_{\star}X}}^{\intercal}  \right).
 \end{equation}
 Function values from the unobserved inputs $\bm{X_{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. Figure \ref{fig: GP_func_samples} (B) shows these computations given a data set $\calD = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we now know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Clearly, specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
 
 \subsubsection{Prediction with Noisy observations}\label{Section1.5.2}
 When attempting to model our value function we usually do not have access to the value function itself but a noisy version thereof, $y = f(\bm{x}) + \varepsilon$ where $\varepsilon \sim \calN (0, \sigma_n^2)$ meaning the prior on the noisy values becomes
 \[
-    \operatorname{cov} (\bm{y}) = \bm{K_{XX}} + \sigma_n^2 \bm{I}
+    \operatorname{cov} (\bm{y}) = \bm{K_{XX}} + \sigma_n^2 \bm{I}.
 \]
-The reason why noise is only added along the diagonal follows from the assumption of independence in our data.
+The reason why noise is only added along the diagonal follows from the assumption of independence of noise in our data.
 We can write out the new distribution of the observed noisy values along the points at which we wish to test the underlying function as
 \[
     \begin{bmatrix}
@@ -304,7 +304,7 @@ Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star}
 \end{equation}
 where
 \begin{align}
-    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{X_{\star} X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                               \\
+    \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{X_{\star} X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                             \\
     \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal} \label{eq: GP_train_distr2_var}
 \end{align}
 Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}_{\star}$

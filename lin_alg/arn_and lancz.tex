@@ -1,6 +1,6 @@
 \subsection{Arnoldi and Lanczos Algorithm}\label{Section4.3}
 
-As a quick reminder, we are in search of an iterative process to solve the linear system $\bm{A} \bm{x}^{\star} = \bm{b}$ where no explicit form of $\bm{A}$ is available and we may only rely on a routine that computes $\bm{A} \bm{v}$ for any $\bm{v}$ to extract information on $\bm{A}$. In section \ref{Section4.1} it wa discovered that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$. With many iterative methods, computing an exact value for $\bm{x}^{\star}$ is out the question with the view that $t_{\bm{r}_0, \bm{A}}$ is impractically large. We must instead resort to approximating $\bm{x}^{\star}$ by $\bm{x}_k$ for which $\bm{x}^{k} \in \calK_{k} \left( \bm{A}, \bm{r}_0 \right)$ where $k \ll t_{\bm{r}_0}$. To find an appropriate value for $\bm{x}_k$, a good start would be to find a basis $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. Definition \ref{defe: krylov_subspace} showed us that $\left\{ \bm{A}^{i-1} \bm{r}_0 \right\}_{i=1}^{k}$ serves as a basis for $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. However, for numerical reasons this is a poor choice of basis since this each consecutive term becomes closer and closer to being linearly dependent. From now on, for more convenient notation we shall set $n = t_{\bm{r}_0, \bm{A}}$ so that $\bm{x}^{\star} \in \calK_{n} \left( \bm{A}, \bm{r}_0 \right)$. To search for a more appriporate basis let $\bm{K} \in \KK^{n \times n}$ be the invertible matrix
+As a quick reminder, we are in search of an iterative process to solve the linear system $\bm{A} \bm{x}^{\star} = \bm{b}$ where no explicit form of $\bm{A}$ is available and we may only rely on a routine that computes $\bm{A} \bm{v}$ for any $\bm{v}$ to extract information on $\bm{A}$. In section \ref{Section4.1} it was discovered that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$. With many iterative methods, computing an exact value for $\bm{x}^{\star}$ is out the question with the view that $t_{\bm{r}_0, \bm{A}}$ is impractically large. We must instead resort to approximating $\bm{x}^{\star}$ by $\bm{x}_k$ for which $\bm{x}^{k} \in \calK_{k} \left( \bm{A}, \bm{r}_0 \right)$ where $k \ll t_{\bm{r}_0}$. To find an appropriate value for $\bm{x}_k$, a good start would be to find a basis $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. Definition \ref{defe: krylov_subspace} showed us that $\left\{ \bm{A}^{i-1} \bm{r}_0 \right\}_{i=1}^{k}$ serves as a basis for $\calK_{k} \left( \bm{A}, \bm{r}_0 \right)$. However, for numerical reasons this is a poor choice of basis since this each consecutive term becomes closer and closer to being linearly dependent. From now on, for more convenient notation we shall set $n = t_{\bm{r}_0, \bm{A}}$ so that $\bm{x}^{\star} \in \calK_{n} \left( \bm{A}, \bm{r}_0 \right)$. To search for a more appropriate basis let $\bm{K} \in \KK^{n \times n}$ be the invertible matrix
 \[
     \bm{K} = \left[ \bm{r}_0 , \bm{A} \bm{r}_0, \ldots , \bm{A}^{n-1} \bm{r}_0 \right].
 \]
@@ -9,7 +9,7 @@ Since $\bm{K}$ is invertible we can compute $\bm{c} = - \bm{K}^{-1} \bm{A}^{n} \
     \bm{A} \bm{K} & = \left[ \bm{A} \bm{r}_0, \bm{A}^{2} \bm{r}_0, \ldots , \bm{A}^{n} \bm{r}_0 \right]                     \\
     \bm{A} \bm{K} & = \bm{K} \cdot \left[ \bm{e}_2, \bm{e}_3, \ldots , \bm{e}_n, - \bm{c}  \right] \triangleq \bm{K} \bm{C}
 \end{align*}
-or, in a more verbose form
+or, in other terms
 \[
     \bm{K}^{-1} \bm{A} \bm{K} = \bm{C} =
     \begin{bmatrix}
@@ -20,29 +20,29 @@ or, in a more verbose form
         0      & 0      & \cdots & 1      & -c_n
     \end{bmatrix}.
 \]
-Note here that $\bm{C}$ is upper Hessenberg. While this form is simple, it is of little practical use since the matrix $\bm{K}$ is very likely to be ill-conditioned. To remedy this we can replace $\bm{K}$ with an orthogonal matrix which spans the same space. These are exactly the properties that the $\bm{Q}$ matrix offers in the $QR$-factorisation of $\bm{K}$. With this in mind let $\bm{K} = \bm{Q} \bm{R}$ be the full $QR$-factorisation of $\bm{K}$. Then
+Note here that $\bm{C}$ is upper Hessenberg. While this form is simple, it is of little practical use since the matrix $\bm{K}$ is very likely to be ill-conditioned. To remedy this we can replace $\bm{K}$ with an orthogonal matrix which spans the same space. These are exactly the properties that the $\bm{V}$ matrix offers in the $QR$-factorisation of $\bm{K}$. With this in mind let $\bm{K} = \bm{V} \bm{R}$ be the full $QR$-factorisation of $\bm{K}$. Then
 \begin{align*}
-    \bm{A} \bm{Q} \bm{R} & = \bm{A} \bm{K}                    \\
-    \bm{A} \bm{Q}        & = \bm{A} \bm{K} \bm{R}^{-1}        \\
-    \bm{A} \bm{Q}        & = \bm{K} \bm{C} \bm{R}^{-1}        \\
-    \bm{A} \bm{Q}        & = \bm{Q} \bm{R} \bm{C} \bm{R}^{-1} \\
-    \bm{A} \bm{Q}        & \triangleq \bm{Q} \bm{H}.
+    \bm{A} \bm{V} \bm{R} & = \bm{A} \bm{K}                    \\
+    \bm{A} \bm{V}        & = \bm{A} \bm{K} \bm{R}^{-1}        \\
+    \bm{A} \bm{V}        & = \bm{K} \bm{C} \bm{R}^{-1}        \\
+    \bm{A} \bm{V}        & = \bm{V} \bm{R} \bm{C} \bm{R}^{-1} \\
+    \bm{A} \bm{V}        & \triangleq \bm{V} \bm{H}.
 \end{align*}
-Since $\bm{R}$ and $\bm{R}^{-1}$ and both upper triangular and $\bm{C}$ is upper Hessenberg, $\bm{H}$ is also upper Hessenberg. This form provides us with a $\bm{Q}$ such that the range of $\bm{Q}$ is $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$ and
+Since $\bm{R}$ and $\bm{R}^{-1}$ and both upper triangular and $\bm{C}$ is upper Hessenberg, $\bm{H}$ is also upper Hessenberg. This form provides us with a $\bm{V}$ such that the range of $\bm{V}$ is $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$ and
 \begin{equation}\label{eq: QTAQ_eq_H}
-    \bm{Q}^{\intercal} \bm{A} \bm{Q} = \bm{H}.
+    \bm{V}^{\intercal} \bm{A} \bm{V} = \bm{H}.
 \end{equation}
-Again, in practice, it may be very difficult to compute this entire expression forcing us to search for approximative alternatives. Consider equation \ref{eq: QTAQ_eq_H} for which the only first $k$ columns of $\bm{Q}$ have been computed. Let $\bm{Q}_k = \left[ \bm{q}_1 , \bm{q}_2 , \ldots , \bm{q}_k \right]$ and $\bm{Q}_u = \left[ \bm{q}_{k+1} , \bm{q}_{k+2} , \ldots , \bm{q}_{n} \right]$. Then
+Again, in practice, it may be very difficult to compute this entire expression forcing us to search for approximative alternatives. Consider equation \ref{eq: QTAQ_eq_H} for which the only first $k$ columns of $\bm{V}$ have been computed. Let $\bm{V}_k = \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right]$ and $\bm{V}_u = \left[ \bm{v}_{k+1} , \bm{v}_{k+2} , \ldots , \bm{v}_{n} \right]$. Then
 \begin{align*}
-    \bm{Q}^{\intercal} \bm{A} \bm{Q}                                                         & = \bm{H} \\
-    \left[ \bm{Q}_k , \bm{Q}_u \right]^{\intercal} \bm{A} \left[ \bm{Q}_k , \bm{Q}_u \right] & =
+    \bm{V}^{\intercal} \bm{A} \bm{V}                                                         & = \bm{H} \\
+    \left[ \bm{V}_k , \bm{V}_u \right]^{\intercal} \bm{A} \left[ \bm{V}_k , \bm{V}_u \right] & =
     \begin{bmatrix}
         \bm{H}_k     & \bm{H}_{u,k} \\
         \bm{H}_{k,u} & \bm{H}_{u}
     \end{bmatrix}                                                                           \\
     \begin{bmatrix}
-        \bm{Q}_{k}^{\intercal} \bm{A} \bm{Q}_{k} & \bm{Q}_{k}^{\intercal} \bm{A} \bm{Q}_{u} \\
-        \bm{Q}_{u}^{\intercal} \bm{A} \bm{Q}_{k} & \bm{Q}_{u}^{\intercal} \bm{A} \bm{Q}_{u}
+        \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} & \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{u} \\
+        \bm{V}_{u}^{\intercal} \bm{A} \bm{V}_{k} & \bm{V}_{u}^{\intercal} \bm{A} \bm{V}_{u}
     \end{bmatrix}
                                                                                              & =
     \begin{bmatrix}
@@ -52,28 +52,28 @@ Again, in practice, it may be very difficult to compute this entire expression f
 \end{align*}
 where $\bm{H}_k , \bm{H}_{u,k}, \bm{H}_{k,u}$ and $\bm{H}_u$ are the relevant sub matrices. This provides us with the equality
 \begin{equation}\label{eq: QTkAQk_eq_Hk}
-    \bm{Q}_{k}^{\intercal} \bm{A} \bm{Q}_{k} = \bm{H}_k
+    \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} = \bm{H}_k
 \end{equation}
-noting that $\bm{H}_{k}$ is upper Hessenberg for the same reason that $\bm{H}$ is. We know that when $n = t_{\bm{r}_0, \bm{A}}$ we can find a $\bm{Q} \in \KK^{n \times n}$ and $\bm{H} \in \KK^{n \times n}$ that satisfies $\bm{A} \bm{Q} = \bm{Q} \bm{H}$. However, in general, we may not be so fortunate in finding a $\bm{Q}_{k} \in \KK^{n \times k}$ and $\bm{H}_{k} \in \KK^{n \times k}$ so satisfy $\bm{A} \bm{Q}_{k} = \bm{Q}_{k} \bm{H}_k$ for any $k < n$. Instead we can adjust this equality by adding an error $\bm{E}_k \in \KK^{n \times k}$ so that we do get equality. Our expression now becomes
+noting that $\bm{H}_{k}$ is upper Hessenberg for the same reason that $\bm{H}$ is. We know that when $n = t_{\bm{r}_0, \bm{A}}$ we can find a $\bm{V} \in \KK^{n \times n}$ and $\bm{H} \in \KK^{n \times n}$ that satisfies $\bm{A} \bm{V} = \bm{V} \bm{H}$. However, in general, we may not be so fortunate in finding a $\bm{V}_{k} \in \KK^{n \times k}$ and $\bm{H}_{k} \in \KK^{n \times k}$ to satisfy $\bm{A} \bm{V}_{k} = \bm{V}_{k} \bm{H}_k$ for any $k < n$. Instead we can adjust this equality by adding an error $\bm{E}_k \in \KK^{n \times k}$ to force an equality. Our expression now becomes
 \begin{equation}\label{eq: QTkAQk_eq_HkEk}
-    \bm{Q}_{k}^{\intercal} \bm{A} \bm{Q}_{k} = \bm{H}_k + \bm{E}_k.
+    \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} = \bm{H}_k + \bm{E}_k.
 \end{equation}
-A careful choice of $\bm{E}_k$ must be made to also retain equality in equation \ref{eq: QTkAQk_eq_Hk}, meaning $\bm{Q}_{k}^{\intercal} \bm{E}_k = \bm{0}$. Since $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ forms an orthornormal basis for $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$, consider the following choice of $\bm{E}_k$,
+A careful choice of $\bm{E}_k$ must be made to also retain equality in equation \ref{eq: QTkAQk_eq_Hk}, meaning $\bm{V}_{k}^{\intercal} \bm{E}_k = \bm{0}$. Since $\left\{ \bm{v}_i \right\}_{i=1}^{k}$ forms an orthornormal basis for $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$, consider the following choice of $\bm{E}_k$,
 \[
-    \bm{E}_k = \bm{q}_{k+1} \bm{h}_{k}^{\intercal}
+    \bm{E}_k = \bm{v}_{k+1} \bm{h}_{k}^{\intercal}
 \]
 where $\bm{h}_k$ is any vector in $\KK^{k}$. Notice that
 \[
-    \bm{Q}_{k}^{\intercal} \bm{E} = \bm{Q}^{\intercal} \left( \bm{q}_{k+1} \bm{h}_k \right) = \left( \bm{Q}^{\intercal} \bm{q}_{k+1} \right) \bm{h}_{k}^{\intercal} = \bm{0}.
+    \bm{V}_{k}^{\intercal} \bm{E} = \bm{V}^{\intercal} \left( \bm{v}_{k+1} \bm{h}_k \right) = \left( \bm{V}^{\intercal} \bm{v}_{k+1} \right) \bm{h}_{k}^{\intercal} = \bm{0}.
 \]
-Since this holds for any $\bm{h}_k \in \KK^{k}$, to preserve sparsity and to keep this form as simple as possible we can set $\bm{h}_k = \left[ 0,0, \ldots , h_{k+1,k} \right]^{\intercal}$. This means $\bm{A} \bm{Q}_k$ can be written as
+Since this holds for any $\bm{h}_k \in \KK^{k}$, to preserve sparsity and to keep this form as simple as possible we can set $\bm{h}_k = \left[ 0,0, \ldots , h_{k+1,k} \right]^{\intercal}$. This means $\bm{A} \bm{V}_k$ can be written as
 \begin{equation}\label{eq: QTkAQk_eq_Hk_p_qkhk}
-    \bm{A} \bm{Q}_k =  \bm{Q}_k \bm{H}_k + \bm{q}_{k+1} \bm{h}_{k}^{\intercal}
+    \bm{A} \bm{V}_k =  \bm{V}_k \bm{H}_k + \bm{v}_{k+1} \bm{h}_{k}^{\intercal}
 \end{equation}
 where
 \[
-    \bm{Q}_k \bm{H}_k =
-    \left[ \bm{q}_1 , \bm{q}_2 , \ldots , \bm{q}_k \right]
+    \bm{V}_k \bm{H}_k =
+    \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right]
     \begin{bmatrix}
         h_{1,1} & \cdots & \cdots & \cdots    & h_{1,k} \\
         h_{2,1} & \cdots & \cdots & \cdots    & \vdots  \\
@@ -85,17 +85,17 @@ where
 \]
 Equating the $j^{th}$ columns of equation \ref{eq: QTkAQk_eq_Hk_p_qkhk} yields
 \[
-    \bm{A} \bm{q}_j = \sum_{i=1}^{j+1} h_{i,j} \bm{q}_{i}.
+    \bm{A} \bm{v}_j = \sum_{i=1}^{j+1} h_{i,j} \bm{v}_{i}.
 \]
-Again since $\left\{ \bm{q}_i \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides by $\bm{q}_m$ for $1 \leq m \leq j$ gives
+Again since $\left\{ \bm{v}_i \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides by $\bm{v}_m$ for $1 \leq m \leq j$ gives
 \[
-    \bm{q}_m^{\intercal} \bm{A} \bm{q}_j = \sum_{i=1}^{j+1} h_{i,j} \bm{q}_m^{\intercal} \bm{q}_{i} = h_{m,j}
+    \bm{v}_m^{\intercal} \bm{A} \bm{v}_j = \sum_{i=1}^{j+1} h_{i,j} \bm{v}_m^{\intercal} \bm{v}_{i} = h_{m,j}
 \]
 and so
 \begin{equation}\label{eq: arn_eq_1}
-    h_{j+1,j} \bm{q}_{j+1} = \bm{A} \bm{q}_j - \sum_{i=1}^{j} h_{i,j} \bm{q}_{i}.
+    h_{j+1,j} \bm{v}_{j+1} = \bm{A} \bm{v}_j - \sum_{i=1}^{j} h_{i,j} \bm{v}_{i}.
 \end{equation}
-From equation \ref{eq: arn_eq_1} we find that $\bm{q}_{j+1}$ can be computed using a recurrance involving its previous Krylov factors. Notice this bears a striking resemblance to equation \ref{eq: comp_orth_basis} having a virtually an identical setup to computing an orthornormal basis using the modified Gram-Schmidt process (algorithm \ref{alg: Modified_Gram-Schmidt}). As such, values for $\bm{q}_{j+1}$ and $h_{j+1,j}$ can be evaluted using a procedure very similar to the modified Gram-Schmidt process better known as the Arnoldi algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla}, presented in algorithm \ref{alg: Arnoldi_Algorithm}.
+From equation \ref{eq: arn_eq_1} we find that $\bm{v}_{j+1}$ can be computed using a recurrance involving its previous Krylov factors. Notice this bears a striking resemblance to equation \ref{eq: comp_orth_basis} having a virtually an identical setup to computing an orthornormal basis using the modified Gram-Schmidt process (algorithm \ref{alg: Modified_Gram-Schmidt}). As such, values for $\bm{v}_{j+1}$ and $h_{j+1,j}$ can be evaluted using a procedure very similar to the modified Gram-Schmidt process better known as the Arnoldi algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla}, presented in algorithm \ref{alg: Arnoldi_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -106,23 +106,23 @@ From equation \ref{eq: arn_eq_1} we find that $\bm{q}_{j+1}$ can be computed usi
         \DontPrintSemicolon
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-        \Input{$\bm{A}, \bm{r}_0$ and $k$, the number of columns of $\bm{Q}$ to compute.}
-        \Output{$\bm{Q}_k , \bm{H}_k$.}
+        \Input{$\bm{A}, \bm{r}_0$ and $k$, the number of columns of $\bm{V}$ to compute.}
+        \Output{$\bm{V}_k , \bm{H}_k$.}
         \BlankLine
-        $\bm{q}_1 = \bm{r}_0 / \| \bm{r}_0 \|$\;
+        $\bm{v}_1 = \bm{r}_0 / \| \bm{r}_0 \|$\;
         \For{$j = 1$ \KwTo $k$}{
-            $\bm{z} = \bm{A} \bm{q}_j$\;
+            $\bm{z} = \bm{A} \bm{v}_j$\;
             \For{$i = 1$ \KwTo $j$}{
-                $h_{i,j} = \langle \bm{q}_{i} , \bm{z} \rangle$\;
-                $\bm{z} = \bm{z} - h_{i,j} \bm{q}_{i}$\;
+                $h_{i,j} = \langle \bm{v}_{i} , \bm{z} \rangle$\;
+                $\bm{z} = \bm{z} - h_{i,j} \bm{v}_{i}$\;
             }
             $h_{j+1,j} = \| \bm{z} \|$\;
             \If{$h_{j+1,j} = 0$}{
-                \Return{$\bm{Q}_k , \bm{H}_k$}
+                \Return{$\bm{V}_k , \bm{H}_k$}
             }
-            $\bm{q}_{j+1} = \bm{z} / h_{j+1,j}$\;
+            $\bm{v}_{j+1} = \bm{z} / h_{j+1,j}$\;
         }
-        \Return{$\bm{Q}_k , \bm{H}_k$}
+        \Return{$\bm{V}_k , \bm{H}_k$}
         \BlankLine
     \end{algorithm}
 \end{minipage}
@@ -140,11 +140,11 @@ When $\bm{A}$ is symmertic then $\bm{H} = \bm{T}$ becomes a tridiagonal matrix, 
                  &         &        & \beta_{n-1} & \alpha_{n}
     \end{bmatrix}.
 \]
-As before, equating the $j^{th}$ columns of $\bm{A} \bm{Q} = \bm{Q} \bm{T}$ yields
+As before, equating the $j^{th}$ columns of $\bm{A} \bm{V} = \bm{V} \bm{T}$ yields
 \begin{equation}\label{eq: lancz_orth_basis}
-    \bm{A} \bm{q}_{j} = \beta_{j-1} \bm{q}_{j-1} + \alpha_{j} \bm{q}_j + \beta_j \bm{q}_{j+1}.
+    \bm{A} \bm{v}_{j} = \beta_{j-1} \bm{v}_{j-1} + \alpha_{j} \bm{v}_j + \beta_j \bm{v}_{j+1}.
 \end{equation}
-Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of equation \ref{eq: lancz_orth_basis} by $\bm{q}_j$ gives $\bm{q}_j \bm{A} \bm{q}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in algorithm \ref{alg: Lanczos_Algorithm}.
+Again since $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of equation \ref{eq: lancz_orth_basis} by $\bm{v}_j$ gives $\bm{v}_j \bm{A} \bm{v}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in algorithm \ref{alg: Lanczos_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -155,21 +155,21 @@ Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, 
         \DontPrintSemicolon
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-        \Input{$\bm{A}, \bm{r}_0$ and $k$, the number of columns of $\bm{Q}$ to compute.}
-        \Output{$\bm{Q}_k , \bm{T}_k$.}
+        \Input{$\bm{A}, \bm{r}_0$ and $k$, the number of columns of $\bm{V}$ to compute.}
+        \Output{$\bm{V}_k , \bm{T}_k$.}
         \BlankLine
-        $\bm{q}_1 = \bm{r}_0 / \| \bm{r}_0 \|$, $\beta_0 = 0$, $\bm{q}_0 = 0$\;
+        $\bm{v}_1 = \bm{r}_0 / \| \bm{r}_0 \|$, $\beta_0 = 0$, $\bm{v}_0 = 0$\;
         \For{$j = 1$ \KwTo $k$}{
-            $\bm{z} = \bm{A} \bm{q}_j$\;
-            $\alpha_j = \langle \bm{q}_{j}, \bm{z} \rangle$\;
-            $\bm{z} = \bm{z} - \alpha_j \bm{q}_{j} - \beta_{j-1} \bm{q}_{j-1}$\;
+            $\bm{z} = \bm{A} \bm{v}_j$\;
+            $\alpha_j = \langle \bm{v}_{j}, \bm{z} \rangle$\;
+            $\bm{z} = \bm{z} - \alpha_j \bm{v}_{j} - \beta_{j-1} \bm{v}_{j-1}$\;
             $\beta_j = \| z \|$\;
             \If{$\beta_{j} = 0$}{
-                \Return{$\bm{Q}_k , \bm{T}_k$}
+                \Return{$\bm{V}_k , \bm{T}_k$}
             }
-            $\bm{q}_{j+1} = \bm{z} / \beta_{j}$\;
+            $\bm{v}_{j+1} = \bm{z} / \beta_{j}$\;
         }
-        \Return{$\bm{Q}_k , \bm{T}_k$}
+        \Return{$\bm{V}_k , \bm{T}_k$}
         \BlankLine
     \end{algorithm}
 \end{minipage}
@@ -178,6 +178,6 @@ Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, 
 
 For the Lanczos algorithm, equation \ref{eq: QTkAQk_eq_Hk_p_qkhk} can be re-written in the a more compact form as
 \begin{equation}\label{eq: AVk_eq_VkTk1k}
-    \bm{A} \bm{V}_{k} = \bm{V}_{k} \bm{T}_{k+1,k}
+    \bm{A} \bm{V}_{k} \triangleq \bm{V}_{k} \bm{T}_{k+1,k}
 \end{equation}
 where $\bm{T}_{k+1,k} = \bm{T}_{k} + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$.
