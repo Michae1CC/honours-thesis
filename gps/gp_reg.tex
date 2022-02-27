@@ -29,7 +29,7 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 \[
     \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} \triangleq k \left( \bm{w}_i , \bm{w}_j' \right)
 \]
-where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation in the Gaussian RBF kernel, definition \ref{defe: grbfk}.
+where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation is the Gaussian RBF kernel, definition \ref{defe: grbfk}.
 
 \begin{filecontents*}{./data/gp_intro_dat1.csv}
     x,y0,y1,y2
@@ -212,7 +212,7 @@ Let us suppose there is some obsevered data $\calD = \left\{ (\bm{x}_i, \bm{f}_i
 \[
     \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right).
 \]
-We would then like to make a prediction for unobserved values say $X_{\star} = \left[ {\bm{x}_1}_{\star}, {\bm{x}_2}_{\star}, \ldots , {\bm{x}_{n}}_{\star} \right]$ with value $f_{\star}$ as has a distribution of
+We would then like to make a prediction for unobserved values say $\bm{X}_{\star} = \left[ {\bm{x}_1}_{\star}, {\bm{x}_2}_{\star}, \ldots , {\bm{x}_{n}}_{\star} \right]$ with value $f_{\star}$ as has a distribution of
 \[
     \bm{f}_{\star} \sim \calN \left( \bm{0}, \bm{K_{X_{\star}X_{\star}}} \right).
 \]
@@ -296,7 +296,7 @@ We can write out the new distribution of the observed noisy values along the poi
                     \bm{K_{X_{\star}X}}                       & \bm{K_{X_{\star}X_{\star}}}
                 \end{bmatrix}
             }
-    \end{pmatrix}
+    \end{pmatrix}.
 \]
 Using a similar we arrive at a similar condition distribution of $\bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f}$ we arrive at one of the most fundamental equations for GP regression tasks
 \begin{equation}\label{prop:GP_train_distr2}
