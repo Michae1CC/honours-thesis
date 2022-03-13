@@ -316,29 +316,29 @@ where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-
 Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X_{\star}X_{\star}}}$, and positive term $\bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal}$ which represents knowledge given by the observations about the underlying function.
 
 Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
+\setcounter{GPRcount}{\value{algocf}}
+{\centering
+    \begin{minipage}{.85\linewidth}
+        \begin{algorithm}[H]
+            \caption{Unoptimized GPR}
+            \label{alg: Unoptimized_GPR}
+            \SetAlgoLined
+            \DontPrintSemicolon
+            \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-    {\centering
-        \begin{minipage}{.85\linewidth}
-            \begin{algorithm}[H]
-                \caption{Unoptimized GPR}
-                \label{alg: Unoptimized_GPR}
-                \SetAlgoLined
-                \DontPrintSemicolon
-                \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
-
-                \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}_{\star}$.}
-                \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
-                \BlankLine
-                $\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$\;
-                $\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$\;
-                $\overline{f_{\star}} = \bm{K_{x_{\star} X}} \bm{\alpha}$\;
-                $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x_{\star} X}} \right)$\;
-                $\VV \left[ f_{\star} \right] = \bm{K_{x_{\star} x_{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
-                \Return{$\overline{f_{\star}} , \VV \left[ f_{\star} \right]$}
-                \BlankLine
-            \end{algorithm}
-        \end{minipage}
-        \par
-    }
+            \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}_{\star}$.}
+            \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
+            \BlankLine
+            $\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$\;
+            $\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$\;
+            $\overline{f_{\star}} = \bm{K_{x_{\star} X}} \bm{\alpha}$\;
+            $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x_{\star} X}} \right)$\;
+            $\VV \left[ f_{\star} \right] = \bm{K_{x_{\star} x_{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
+            \Return{$\overline{f_{\star}} , \VV \left[ f_{\star} \right]$}
+            \BlankLine
+        \end{algorithm}
+    \end{minipage}
+    \par
+}
 
 A Cholesky decomposition is typically used since $\bm{L}$ can be used twice to assist in solving both the linear systems in the mean and covariance. Unfortunately, a Cholesky decomposition incurres a runtime of $\calO \left( n^3 \right)$ where $n$ is the number of samples making it impractical for large data sets. In the later chapters we shall consider other methods for solving these linear systems.

@@ -21,13 +21,19 @@
 \usepackage[nobysame]{amsrefs}
 \usepackage{tgpagella}
 \usepackage{pdiag}
+\usepackage{cleveref}
+\crefname{algocf}{Algorithm}{Algorithms}
+\Crefname{algocf}{Algorithm}{Algorithms}
+
+\newcounter{GPRcount}
+\newcounter{savecounter}
 
 \tdplotsetmaincoords{60}{115}
 \pgfplotsset{compat=newest}
 
 % Algorithm package
 % \usepackage[linesnumbered,lined,boxed,vlined,ruled]{algorithm2e}
-\usepackage[lined,boxed,vlined,ruled]{algorithm2e}
+\usepackage[lined,boxed,vlined,ruled,linesnumbered]{algorithm2e}
 \SetKw{Continue}{continue}
 \SetKw{Or}{or}
 \SetKw{Until}{until}
@@ -226,14 +232,17 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 \input{gps/gps.tex}
 \clearpage
 
-\input{nys/nys.tex}
-\clearpage
+% \input{nys/nys.tex}
+% \clearpage
 
 % \input{rff/rff.tex}
 % \clearpage
 
 % \input{lin_alg/lin_alg.tex}
 % \clearpage
+
+\input{aar/aar.tex}
+\clearpage
 
 \clearpage
 \linespread{1.58}
@@ -516,6 +525,24 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             pages={579--605},
             year={1990},
             publisher={Wiley Online Library}
+        }
+
+        % When are Iterative Gaussian Processes Reliably Accurate?
+        % Wesley J. Maddox and Sanyam Kapoor and Andrew Gordon Wilson
+        \bib{DBLP:journals/corr/abs-2112-15246}{article}{
+            author    = {Wesley J. Maddox and
+                    Sanyam Kapoor and
+                    Andrew Gordon Wilson},
+            title     = {When are Iterative Gaussian Processes Reliably Accurate?},
+            journal   = {CoRR},
+            volume    = {abs/2112.15246},
+            year      = {2021},
+            url       = {https://arxiv.org/abs/2112.15246},
+            eprinttype = {arXiv},
+            eprint    = {2112.15246},
+            timestamp = {Wed, 05 Jan 2022 17:44:28 +0100},
+            biburl    = {https://dblp.org/rec/journals/corr/abs-2112-15246.bib},
+            bibsource = {dblp computer science bibliography, https://dblp.org}
         }
 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -903,11 +930,10 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             language = {eng},
             author = {Bojarski, Mariusz and Choromanska, Anna and Choromanski, Krzysztof and Fagan, Francois and Gouy-Pailler, Cedric and Morvan, Anne and Sakr, Nourhan and Sarlos, Tamas and Atif, Jamal},
         }
-
     \end{biblist}
 \end{bibdiv}
 \clearpage
 
-% \input{appendix.tex}
+\input{appendix.tex}
 
 \end{document}
