@@ -1,3 +1,20 @@
 \subsection{Experimental Setup}\label{Section5.2}
 
-Each method was implemented in python3 and run using the python3.8.5 interrupter distributed by the official python website.
+Each method was implemented in python3 and run using the python3.8.5 interpreter distributed by the official python website. Various scientific computing python libraries, such as numpy, pandas and scipy, were used to help implement methods to enhance runtime performance. A just-in-time compiler was also used to improve the performance of the FWHT and Krylov-Subspace methods as fast runtime is critically important for the success of both these methods. Experiments we carried out on a variety of different datasets listed in \Cref{table: datasets}.
+
+\begin{longtable}{lp{.50\textwidth}ccc}
+    \caption{My data}
+    \label{table: datasets}
+    \\\bottomrule
+    \hline
+    \emph{Name}                                                              & \emph{Description}                                                                                                                                                                   & $n$     & $d$                                                                       & \emph{Source}                                                    \\\midrule
+    3DSN                                                                     & The 3D Spatial Network (3DSN) dataset was constructed by adding elevation information to a 2D road network in North Jutland, Denmark (covering a region of $185 \times 135 {km}^2$). & $2$     & $2000$                                                                    & \href{https://archive.ics.uci.edu/ml/datasets/3D+Road+Network+   %28North+Jutland%2C+Denmark%29}{UCI}            \\
+    Abalone                                                                  & Physical measurements of abalones.                                                                                                                                                   & $7$     & $4177$                                                                    & \href{https://archive.ics.uci.edu/ml/datasets/abalone}{UCI}      \\
+    magic04                                                                  & Simulated registration of high energy
+    gamma particles in a ground-based atmospheric Cherenkov gamma telescope. & $10$                                                                                                                                                                                 & $19020$ & \href{https://archive.ics.uci.edu/ml/datasets/magic+gamma+telescope}{UCI}                                                                    \\
+    Wine                                                                     & Chemical measurements of wine                                                                                                                                                        & $11$    & $4898$                                                                    & \href{https://archive.ics.uci.edu/ml/datasets/Wine+Quality}{UCI} \\
+    temperature                                                              & Weather station data from rural Queensland.                                                                                                                                          & $1$     & $11324$                                                                   & \href{https://www.longpaddock.qld.gov.au/}{Qld Gov}              \\
+    TN                                                                       & TD                                                                                                                                                                                   & $1$     & $0$                                                                       & TS                                                               \\
+    \\\bottomrule
+    \hline
+\end{longtable}
