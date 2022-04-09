@@ -38,7 +38,7 @@ Matrices are capitalized bold face letters while vectors are lowercase bold face
     \\\\
     $C$                                                                                                        & The classes in a classification problem.
     \\\\
-    $\operatorname{cholesky} \left( \bm{A} \right)$                                                            & A function to compute the Cholesky decomposition of the matrix $\bm{A}$, where $\bm{L} \bm{L}^{\intercal} = \bm{A}$.
+    $\operatorname{cholesky} \left( \bm{A} \right)$                                                            & A function to compute the Cholesky decomposition, $\bm{L}$, of the matrix $\bm{A}$, where $\bm{L} \bm{L}^{\intercal} = \bm{A}$.
     \\\\
     $\operatorname{cov} \left( \bm{f} \right)$                                                                 & Gaussian process posterior covariance.
     \\\\
@@ -57,6 +57,8 @@ Matrices are capitalized bold face letters while vectors are lowercase bold face
     $\calG \calP$                                                                                              & Gaussian process $f \sim \calG \calP \left( m (\bm{x}), k \left( \bm{x}, \bm{x}' \right) \right)$, the function $f$ is distributed as a Guassian process with mean function $m \left( \bm{x} \right)$ and covariance function $k \left( \bm{x}, \bm{x}' \right)$.
     \\\\
     $k \left( \cdot , \cdot \right)$                                                                           & A covariance or kernel matrix.
+    \\\\
+    $\operatorname{l.s} \left\{ \bm{x}_i  \right\}_{i=1}^{n}$                                                  & The linear-spane of $\left\{ \bm{x}_i  \right\}_{i=1}^{n}$, that is, $\left\{ \sum_{k=1}^{n} \lambda_k \bm{x}_k \mid \lambda_k \in \RR \right\}$.
     \\\\
     $\bm{K}_{\bm{W} \bm{W}'}$                                                                                  & For two data sets $\bm{W} = \left[ \bm{w}_1 ,\bm{w}_2 , \ldots , \bm{w}_n \right]^{\intercal} \in \RR^{n \times d}$ and $\bm{W}' = \left[ \bm{w}_1' ,\bm{w}_2' , \ldots , \bm{w}_m' \right]^{\intercal} \in \RR^{n' \times d}$ the matrix \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \) has elements $\left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} = k \left( \bm{w}_i , \bm{w}_j' \right)$.
     \\\\

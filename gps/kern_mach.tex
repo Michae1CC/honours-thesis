@@ -213,12 +213,31 @@ in equation \ref{eq: comput_f_ast_1} can be replaced with
 \]
 To find a more suitable expression for the covariance matrix, we will need the assistance of the matrix inversion lemma stated without proof in lemma \ref{lemma: mat_inv_lem}.
 \begin{lem}[Matrix Inversion Lemma] \label{lemma: mat_inv_lem}
-    For $\bm{Z} \in \KK^{n \times m}, \bm{W} \in \KK^{m \times m}$ and $\bm{U},\bm{V} \in \KK^{n \times m}$ then
+    For $\bm{Z} \in \KK^{n \times m}, \bm{W} \in \KK^{m \times m}$ and $\bm{U},\bm{V}^{\intercal} \in \KK^{n \times m}$ then
     \[
-        \left( \bm{Z} + \bm{U} \bm{W} \bm{V}^{\intercal} \right)^{-1} = \bm{Z}^{-1} - \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V}^{\intercal} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V}^{\intercal} \bm{Z}^{-1}
+        \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} = \bm{Z}^{-1} - \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V} \bm{Z}^{-1}
     \]
     assuming the relevant inverses exist \cite{PressWilliamH.WilliamHenry1992NriC}*{page 75}.
 \end{lem}
+
+\begin{proof}
+    First note that
+    \[
+        \bm{U} + \bm{U} \bm{W} \bm{V} \bm{Z}^{-1} = \bm{U} \bm{W} \left( \bm{W}^{-1} + \bm{V} \bm{Z} \bm{U} \right) = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right) \bm{Z}^{-1} \bm{U}
+    \]
+    and
+    \[
+        \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \bm{U} \bm{W} = \bm{Z} \bm{U} \left( \bm{W}^{-1} + \bm{V} \bm{Z}^{-1} \bm{U} \right)^{-1}.
+    \]
+    Now
+    \begin{align*}
+        \bm{Z}^{-1} & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right) \bm{Z}^{-1}                                            \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \Id_{n \times n} + \bm{U} \bm{W} \bm{V} \bm{Z}^{-1} \right)                                  \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \bm{U} \bm{W} \bm{V} \bm{Z}^{-1}                \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V} \bm{Z}^{-1} \\
+    \end{align*}
+\end{proof}
+
 Consider
 \begin{equation} \label{eq: GP_weight_A_inv}
     \bm{A} = \bm{\Sigma}_p^{-1} +  {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{-2} \Id_{n \times n} \right) \Phi \left( \bm{X} \right)

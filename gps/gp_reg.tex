@@ -235,7 +235,7 @@ Here $\bm{f}$ and $\bm{f}_{\star}$ are independent but we would like to give the
 \]
 While the above does give us some information that $\bm{f}_{\star}$ is related to the observed data and the test inputs, it does not provide any method to evalute $\bm{f}_{\star}$. To do this we shall need the assistance of the following theorem.
 \begin{thm}\label{theorem: cond_of_MVN}
-    (Marginals and conditionals of an MVN \cite{MurphyKevinP2012Ml}) Suppose $\bm{x} = (\bm{x}_1, \bm{x}_2)$ is jointly Gaussian with parameters
+    (Marginals and conditionals of an MVN \cite{MurphyKevinP2012Ml}*{page 142}) Suppose $\bm{x} = [ \bm{x}_1, \bm{x}_2 ]$ is jointly Gaussian with parameters
     \[
         \bm{\mu} =
         \begin{bmatrix}
@@ -244,17 +244,56 @@ While the above does give us some information that $\bm{f}_{\star}$ is related t
         \end{bmatrix}, \quad
         \bm{\Sigma} =
         \begin{bmatrix}
-            \bm{\Sigma}_{1,1} & \bm{\Sigma}_{1,2} \\
-            \bm{\Sigma}_{2,1} & \bm{\Sigma}_{2,2}
+            \bm{\Sigma}_{11} & \bm{\Sigma}_{12} \\
+            \bm{\Sigma}_{21} & \bm{\Sigma}_{22}
         \end{bmatrix}
     \]
     then the posterior conditional is given by
     \begin{align*}
-        \bm{x}_2 \mid \bm{x}_1 & \sim \calN \left( \bm{x}_2 \mid \bm{\mu}_{2 \mid 1}, \bm{\Sigma}_{2 \mid 1} \right)          \\
-        \bm{\mu}_{2 \mid 1}    & = \bm{\mu}_2 + \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \left( \bm{x}_1 - \bm{\mu}_1 \right) \\
-        \bm{\Sigma}_{2 \mid 1} & = \bm{\Sigma}_{2,2} - \bm{\Sigma}_{2,1} \bm{\Sigma}_{1,1}^{-1} \bm{\Sigma}_{1,2}.
+        \bm{x}_2 \mid \bm{x}_1 & \sim \calN \left( \bm{x}_2 \mid \bm{\mu}_{2 \mid 1}, \bm{\Sigma}_{2 \mid 1} \right)        \\
+        \bm{\mu}_{2 \mid 1}    & = \bm{\mu}_2 + \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-1} \left( \bm{x}_1 - \bm{\mu}_1 \right) \\
+        \bm{\Sigma}_{2 \mid 1} & = \bm{\Sigma}_{22} - \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-1} \bm{\Sigma}_{12}.
     \end{align*}
 \end{thm}
+
+\begin{proof}
+    First define $\bm{z} = \bm{x}_2 - \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \bm{x}_{1} \triangleq \bm{x}_2 + \bm{A} \bm{x}_{1}$, so that
+    \begin{align*}
+        \operatorname{cov} \left( \bm{z} , \bm{x}_{1} \right) \
+         & = \operatorname{cov} \left( \bm{x}_2 , \bm{x}_1 \right) + \operatorname{cov} \left( \bm{A} \bm{x}_1 , \bm{x}_1 \right) \\
+         & = \bm{\Sigma}_{21} + \bm{A} \VV \left[ \bm{x}_1 \right]                                                                \\
+         & = \bm{\Sigma}_{21} - \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \bm{\Sigma}_{11}                                           \\
+         & = 0.
+    \end{align*}
+    This shows that $\bm{z}$ and $\bm{x}_1$ are uncorrelated and, since they are also jointly normal, also independent. Now, since $\EE \left[ \bm{z} \right] = \bm{\mu}_2 + \bm{A} \bm{\mu}_1$, it follows that
+    \begin{align*}
+        \bm{\mu}_{2 \mid 1} \
+         & = \EE \left[ \bm{x}_2 \mid \bm{x}_1 \right]                                                     \\
+         & = \EE \left[ \bm{z} - \bm{A} \bm{x}_1 \mid \bm{x}_1 \right]                                     \\
+         & = \EE \left[ \bm{z} \mid \bm{x}_1 \right] - \bm{E} \left[ \bm{A} \bm{x}_1 \mid \bm{x}_1 \right] \\
+         & = \mu_2 + \bm{A} \left( \bm{\mu}_1 - \bm{x} \right)                                             \\
+         & = \mu_2 + \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \left( \bm{x}_1 -\bm{\mu}_{1} \right)
+    \end{align*}
+    Which shows the first part. Next
+    \begin{align*}
+        \bm{\Sigma}_{2 \mid 1} \
+         & = \VV \left[ \bm{x}_{2} \mid \bm{x}_{1} \right]                                                                                                                                                                                            \\
+         & = \VV \left[ \bm{z} - \bm{A} \bm{x}_1 \mid \bm{x}_1 \right]                                                                                                                                                                                \\
+         & = \VV \left[ \bm{z} \mid \bm{x}_1 \right] + \VV \left[ \bm{A} \bm{x}_1 \mid \bm{x}_1 \right] - \bm{A} \operatorname{cov} \left( \bm{z} , - \bm{x}_{1} \right) - \operatorname{cov} \left( \bm{z} , - \bm{x}_{1} \right) \bm{A}^{\intercal} \\
+         & = \VV \left[ \bm{z} \mid \bm{x}_1 \right]                                                                                                                                                                                                  \\
+         & = \VV \left[ \bm{z} \right].
+    \end{align*}
+    Finally
+    \begin{align*}
+        \bm{\Sigma}_{2 \mid 1} \
+         & = \VV \left[ \bm{z} \right]                                                                                                                                                                                                     \\
+         & = \VV \left[ \bm{x}_2 + \bm{A} \bm{x}_{1} \right]                                                                                                                                                                               \\
+         & = \VV \left[ \bm{x}_2 \right] + \bm{A} \VV \left[ \bm{x}_1 \right] \bm{A}^{\intercal} + \bm{A} \operatorname{cov} \left( \bm{x}_2 , \bm{x}_1 \right) + \operatorname{cov} \left( \bm{x}_1 , \bm{x}_2 \right) \bm{A}^{\intercal} \\
+         & = \bm{\Sigma}_{22} + \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \bm{\Sigma}_{11} \bm{\Sigma}_{11}^{-2} \bm{\Sigma}_{12} - 2 \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \bm{\Sigma}_{12}                                                 \\
+         & = \bm{\Sigma}_{22} - \bm{\Sigma}_{21} \bm{\Sigma}_{11}^{-2} \bm{\Sigma}_{12}
+    \end{align*}
+    as wanted.
+\end{proof}
 
 Thus, once data has been observed, finding a mean and covariance for $\bm{f}_{\star}$ involves a direct application of theorem \ref{theorem: cond_of_MVN} which gives
 \begin{align*}
@@ -316,6 +355,7 @@ where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-
 Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X_{\star}X_{\star}}}$, and positive term $\bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal}$ which represents knowledge given by the observations about the underlying function.
 
 Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
+
 \setcounter{GPRcount}{\value{algocf}}
 {\centering
     \begin{minipage}{.85\linewidth}

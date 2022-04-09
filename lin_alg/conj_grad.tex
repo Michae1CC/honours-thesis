@@ -212,3 +212,67 @@ These recurrences are computed iteratively to form the basis of the CG algorithm
 \end{minipage}
 \par
 }
+
+The next few theorems pertain to the rate of convergence of the CG algorithm.
+
+\begin{thm} \label{theorem: equiv-CG-spaces}
+    Let the CG iteration (\Cref{alg: CG}) be applied to a symmetric positive definite matrix problem $\bm{A} \bm{x} = \bm{b}$. As long as the iteration has not yet converged (that is, $\bm{r}_{n-1} \neq 0$), the algorithm proceeds without divisions by zero, and we have the following identities of subspaces:
+    \begin{equation} \label{eq: equiv-CG-spaces}
+        \calK_n                                                  = \operatorname{l.s} \left\{ \bm{x}_i \right\}_{i=1}^{n} = \operatorname{l.s} \left\{ \bm{p}_i \right\}_{i=0}^{n-1} = \operatorname{l.s} \left\{ \bm{r}_i \right\}_{i=0}^{n-1} = \operatorname{l.s} \left\{ \bm{A}^{i} \bm{b} \right\}_{i=0}^{n-1}.
+    \end{equation}
+    Moreover the residuals are orthogonal,
+    \begin{equation*}
+        \langle \bm{r}_{n} , \bm{r}_{j} \rangle = 0 \quad (j<n)
+    \end{equation*}
+    and the search directions are $\bm{A}-$conjugate \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 295}.
+\end{thm}
+
+\begin{proof}
+    The orthogonality of the residuals has already been shown within the derivation of the CG algorithm. Seeing that the search directions are $\bm{A}-$conjugate is a very straight forward application of \Cref{lemma: Pk_cols_A_conj}. To show \Cref{eq: equiv-CG-spaces} we can induct on $k$. From the initial guess $\bm{x}_0$ and the expression $\bm{x}_k = \bm{x}_{k-1} + \alpha_k \bm{p}_k$, using an induction argument it follows that $\bm{x}_k$ belongs to $\operatorname{l.s} \left\{ \bm{p}_i \right\}_{i=0}^{k-1}$. Similarly, from $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ it follows that this belongs to $\operatorname{l.s} \left\{ \bm{r}_i \right\}_{i=0}^{n-1}$. Finally, from $\bm{r}_k = \bm{r}_{k-1} - \alpha_k \bm{A} \bm{p}_k$ that this belongs to $\operatorname{l.s} \left\{ \bm{A}^{i} \bm{b} \right\}_{i=0}^{n-1}$.
+\end{proof}
+
+With this, it is fairly straight forward to confirm that CG minimizes error at each step.
+
+\begin{thm} \label{theorem: CG-error-min}
+    Let the CG iteration be applied to a symmertic positive definite matrix $\bm{A} \bm{x} = \bm{b}$. If the iteration has not already converged (that is, $\| \bm{r}_{k-1} \| > 0 $), then $\bm{x}_{k}$ is the unique point in $\calK_{k}$ that minimizes $\| \bm{x}^{\star} - \bm{x}_{k} \|_{\bm{A}}$. The convergence is the monotonic,
+    \[
+        \| \bm{x}^{\star} - \bm{x}_{k} \|_{\bm{A}} \leq \| \bm{x}^{\star} - \bm{x}_{k-1} \|_{\bm{A}}
+    \]
+    and $\| \bm{x}^{\star} - \bm{x}_{k} \|_{\bm{A}} = 0$ is achieved for some $k \leq n$ \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 296}.
+\end{thm}
+
+\begin{proof}
+    From \Cref{theorem: equiv-CG-spaces} we know that $\bm{x}_{k}$ belongs to $\calK_{k}$. To show that it is the unique point in $\calK_{k}$ that minimizes the error, consider an arbitrary point $\bm{z} = \bm{x}_k - \Delta \bm{z} \in \calK_{k}$, with error $\bm{e} = \bm{x}_{\star} - \bm{z} = \bm{e}_{k} + \Delta \bm{x}$. Note in this context $\bm{e}_{k} = \bm{x}_{\star} - \bm{x}_{k}$, and does {\it not} represent standard basis vectors. We calculate
+    \begin{align*}
+        \| \bm{e} \|_{\bm{A}}^2 \
+         & = \left( \bm{e}_{k} + \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \bm{e}_{k} + \Delta \bm{x} \right)                                                                                  \\
+         & = \bm{e}_{k}^{\intercal} \bm{A} \bm{e}_{k} + \left( \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \Delta \bm{x} \right) + 2 \bm{e}_{k}^{\intercal} \bm{A} \left( \Delta \bm{x} \right).
+    \end{align*}
+    The final term of this expression is $2 \bm{r}_{k}^{\intercal} \left( \Delta \bm{x} \right)$, an inner product of $\bm{r}_{k}$ with a vector in $\calK_k$, and by \Cref*{theorem: CG-error-min}, any such inner product is zero. This means we have
+    \[
+        \| \bm{e} \|_{\bm{A}}^{2} = \bm{e}_{k}^{\intercal} \bm{A} \bm{e}_{k} + \left( \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \Delta \bm{x} \right).
+    \]
+    Only the second of these terms depends on $\Delta \bm{x}$, since $\bm{A}$ is positive definite, that term is greater than or equal to $0$, attaining the value of $0$ if and only if $\Delta \bm{x} = \bm{0}$, that is, $\bm{x}_k = \bm{x}$. Thus $\| \bm{e} \|_{\bm{A}}$ is minimal if and only if $\bm{x}_{k} = \bm{x}$, as claimed.
+\end{proof}
+
+As seen in \Cref{eq: x_ast_via_cayley} Krylov subspace methods, in some sense, aim to find a polynomial $p_n \in P_n$ which minimizes $\| p_n \left( \bm{A} \right) \| = \| \sum_{k=0}^{n-1} \alpha_{k + 1} \bm{A}^{k} \bm{r}_{0} \|$, where $P_n$ is the set of polynomials with degree less than or equal to $n$ with $p(\bm{0}) = \Id$. In the context of the CG algorithm, this is equivalent to finding a polynomial $p_n \in P_n$ which instead minimizes
+\begin{equation} \label{eq: CG-poly-min}
+    \| p_n \left( \bm{A} \right) \bm{e}_{0} \|_{\bm{A}}.
+\end{equation}
+From \Cref{theorem: equiv-CG-spaces}, we can derive the following convergence theorem.
+
+\begin{thm} \label{theorem: CG-convg}
+    If the CG iteration has not already converged before step $k$ (that is, $\| \bm{r}_{k-1} \| > 0 $), then \Cref{eq: CG-poly-min} has a unique solution $p_n \in P_n$, and the iterate $\bm{x}_{k}$ has error $\bm{e}_k = p_n \left( \bm{A} \right) \bm{e}_{0}$ for this same polynomial $p_n$. Consequently we have
+    \begin{equation} \label{eq: CG-err-bounds}
+        \frac{\| \bm{e}_k \|_{\bm{A}}}{\| \bm{e}_{0} \|_{\bm{A}}} = \inf_{p \in P_n} \frac{\| p \left( \bm{A} \right) \bm{e}_{0} \|_{\bm{A}}}{\| \bm{e}_{0} \|_{\bm{A}}} \leq \inf_{p \in P_n} \max_{\lambda \in \Lambda \left( \bm{A} \right)} \left| p (\lambda) \right|
+    \end{equation}
+    \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 298}.
+\end{thm}
+
+\begin{proof}
+    From \Cref{theorem: equiv-CG-spaces} it follows that $\bm{e}_{k} = p \left( \bm{A} \right) \bm{e}_{0}$ for some $p \in P_n$. The equality in \ref{eq: CG-err-bounds} is a consequence of this and \Cref{theorem: CG-error-min}. As for the inequality in \ref{eq: CG-err-bounds}, if $\bm{e}_{0} = \sum_{j=1}^{m} a_j \bm{v}_j$ is an expansion of $\bm{e}_{0}$ in orthonormal eigenvectors of $\bm{A}$, then we have $p \left( \bm{A} \right) \bm{e}_{0} = \sum_{j=1}^{m} a_j p \left( \lambda_j \right) \bm{v}_{j}$ and thus
+    \[
+        \| \bm{e}_{0} \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j, \qquad \| p \left( \bm{A} \right) \bm{e}_0 \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j \left( p \left( \lambda_j \right) \right)^{2}.
+    \]
+\end{proof}
+These identities imply $\| p \left( \bm{A} \right) \bm{e}_{0} \|_{\bm{A}}^{2} / \| \bm{e}_{0} \|_{\bm{A}}^{2} \leq \max_{\lambda \in \Lambda \left( \bm{A} \right)} \left| p (\lambda) \right|^{2}$, which implies the inequality in question.

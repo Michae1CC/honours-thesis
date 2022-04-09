@@ -8,7 +8,7 @@ So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left
 
     \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{r}_k \|_2$ (recall this is the residual of $\bm{x}_k$, that is, $\bm{r}_k = \bm{b} - \bm{A} \bm{x}_k$). This method is possible to implement. Two well known algorithms stem from this class of methods, namely MINRES (minimum residual) and GMRES (general minimum residual) which solve linear systems for symmetric and non-symmertic $\bm{A}$ respectively.
 
-    \item When $\bm{A}$ is a positive definite matrix it defines a norm $\| \bm{r} \|_{\bm{A}} = \left( \bm{r}^{\intercal} \bm{A} \bm{r} \right)^{\frac{1}{2}}$, called the energy norm. Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| r \|_{\bm{A}^{-1}}$ which is equivalent to minimizing $\| \bm{x}_k - \bm{x} \|_{A}$. This technique is known as the CG (conjugate gradient) algorithm.
+    \item When $\bm{A}$ is a positive definite matrix it defines a norm $\| \bm{r} \|_{\bm{A}} = \left( \bm{r}^{\intercal} \bm{A} \bm{r} \right)^{\frac{1}{2}}$, called the energy norm. Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ which minimizes $\| \bm{r} \|_{\bm{A}^{-1}}$ which is equivalent to minimizing $\| \bm{x}_k - \bm{x} \|_{A}$. This technique is known as the CG (conjugate gradient) algorithm.
 
     \item Select an $\bm{x}_k \in \bm{x}_0 + \calK_k$ for which $\bm{r}_{k} \perp \calW_k$ where $\calW_k$ is some $k$-dimensional subspace. Two well known algorithms that belong to this family of methods are SYMMLQ (Symmetric LQ Method) and a variant of GMRES used for solving symmetric and non-symmetric methods respectively.
 

@@ -265,7 +265,7 @@ While this is a sound model, computing predictions is not so straight forward si
 
 \subsubsection{Lapace Approximation for Posterior}\label{Section1.6.2}
 
-We saw that the integral in \ref{eq: GP-pred-1} could not be used to make predictions for $\overline{\pi_{\star}}$ analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be numerically approximated to provide a numerically tractable succedaneum. Using Baye's theorem
+We saw that the integral in \ref{eq: GP-pred-1} could not be used to make predictions for $\overline{\pi_{\star}}$ analytically. In this section we shall address how the distribution for the latent process, $p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)$, can be approximated to provide a numerically tractable succedaneum. Using Baye's theorem
 \begin{align*}
     p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right)
      & = \int p \left( f_{\star} , \bm{f} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d \bm{f}                                                                                                                                                       \\
