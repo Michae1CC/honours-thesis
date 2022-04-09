@@ -1,0 +1,460 @@
+\subsection{Nystrom Errors}\label{ChapterA1.4}
+\hfill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3D_spatial_network
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=40$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/rel_error/nys-sigma=1.0-k=40.png}
+        \end{adjustbox}
+    }\\
+    \caption{Nystrom Frobenius errors for the 3DSN data set.}
+    \label{fig: nys-3dsn-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=40$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=0.1-k=40.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=40$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/3D_spatial_network/abs_error/nys-sigma=1.0-k=40.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the 3DSN data set.}
+    \label{fig: nys-3dsn-abserr}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% abalone
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/rel_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }\\
+    \caption{Nystrom Frobenius errors for the Abalone data set.}
+    \label{fig: nys-aba-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/abalone/abs_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the Magic data set.}
+    \label{fig: nys-aba-abserr}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% magic04
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/rel_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }\\
+    \caption{Nystrom Frobenius errors for the Magic data set.}
+    \label{fig: nys-magic-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/magic04/abs_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the Magic data set.}
+    \label{fig: nys-magic-abserr}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stock_market
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/rel_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }\\
+    \caption{Nystrom Frobenius errors for the Stocks data set.}
+    \label{fig: nys-sm-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=0.1, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=0.1-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=0.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=0.1, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=0.1-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/stock_market/abs_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the Stocks data set.}
+    \label{fig: nys-sm-abserr}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% temperature_data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=10.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=10.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=10.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/rel_error/nys-sigma=10.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom Frobenius errors for the Temp data set.}
+    \label{fig: nys-tmp-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=1.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=1.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=1.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=1.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=1.0-k=80.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=10.0, \; k=10$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=10.0-k=10.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=10.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/temperature_data/abs_error/nys-sigma=10.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the Temp data set.}
+    \label{fig: nys-tmp-abserr}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wine_data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=2.1, \; k=5$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=2.1-k=5.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=2.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=2.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=2.1, \; k=40$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=2.1-k=40.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=10.0, \; k=5$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=10.0-k=5.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=10.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/rel_error/nys-sigma=10.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom Frobenius errors for the wine data set.}
+    \label{fig: nys-wine-froberr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfloat[$\sigma=2.1, \; k=5$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=2.1-k=5.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=2.1, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=2.1-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=2.1, \; k=40$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=2.1-k=40.png}
+        \end{adjustbox}
+    }\\
+    \subfloat[$\sigma=10.0, \; k=5$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=10.0-k=5.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=20$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=10.0-k=20.png}
+        \end{adjustbox}
+    }
+    \subfloat[$\sigma=10.0, \; k=80$]{
+        \begin{adjustbox}{width=0.31\textwidth}
+            \includegraphics[scale=1]{img/nystrom/Wine_data/abs_error/nys-sigma=10.0-k=80.png}
+        \end{adjustbox}
+    }
+    \caption{Nystrom infinity errors for the wine data set.}
+    \label{fig: nys-wine-abserr}
+\end{figure}
+
+\clearpage
