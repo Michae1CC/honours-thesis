@@ -1,5 +1,5 @@
 \subsection{Minimum Residual}\label{Section4.6}
-In contrast to CG, MINRES is able applicable to a wider range of linear systems, namely symmertic indefinite systems. From section \ref{Section4.4} we saw that MINRES minimizes the residual $\bm{r}_k$ with respect to the Euclidean norm at each iteration (hence the name), that is $\bm{x}_k$ is chosen so that
+In contrast to CG, MINRES is able applicable to a wider range of linear systems, namely symmertic indefinite systems. From \Cref{Section4.4} we saw that MINRES minimizes the residual $\bm{r}_k$ with respect to the Euclidean norm at each iteration (hence the name), that is $\bm{x}_k$ is chosen so that
 \begin{equation} \label{eq: minres_opt_cond_1}
     \bm{x}_k = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2.
 \end{equation}

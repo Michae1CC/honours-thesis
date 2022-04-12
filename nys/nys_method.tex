@@ -1,6 +1,6 @@
 \subsection{The Nystrom Method}\label{Section2.1}
 
-Attempting to compute an entire kernel matrix can be a computational headache prompting an investigation of estimative alternatives. The approximation techniques studied in this chapter have been spurred on by the John-Lindenstrauss lemma stated in lemma \ref{lem: John-Lindenstrauss}.
+Attempting to compute an entire kernel matrix can be a computational headache prompting an investigation of estimative alternatives. The approximation techniques studied in this chapter have been spurred on by the John-Lindenstrauss lemma stated in \Cref{lem: John-Lindenstrauss}.
 
 \begin{lem}[John-Lindenstrauss] \label{lem: John-Lindenstrauss}
     Given $0 < \varepsilon < 0$, any set of n points, $X$, in a high dimensional Euclidean space can be embedded into a $\ell-$dimensional Euclidean space where $\ell = \calO \left( \ln (n) \right)$ via some linear map $\bm{\Omega} \in \RR^{n \times \ell}$ which satisfies
@@ -50,7 +50,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
 \end{minipage}
 \par}
 
-However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by theorem \ref{lem: best-col-sel}.
+However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by \Cref{lem: best-col-sel}.
 
 \begin{thm} \label{lem: best-col-sel}
     Every $\bm{A} \in \RR^{n \times m}$ matrix contains a $k-$column submatrix $\bm{C}$ for which
@@ -112,7 +112,7 @@ so that
 \begin{equation} \label{eq: nys-sketch-apprx}
     \bm{C} \bm{R} = \bm{A} \bm{S} \bm{S}^{\intercal} \bm{B} \simeq \bm{A} \bm{B}.
 \end{equation}
-Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generally not constructed explicitly and instead the matrix products $\bm{A} \bm{S}$ and $\bm{S}^{\intercal} \bm{B}$ are done through row and column rescaling \cite{drineas2017lectures}*{page 17}. Lemma \ref{lem: rmm-exp-var-bds} provides some bounds on $\bm{C} \bm{R}$ as an estimate for $\bm{A}\bm{B}$.
+Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generally not constructed explicitly and instead the matrix products $\bm{A} \bm{S}$ and $\bm{S}^{\intercal} \bm{B}$ are done through row and column rescaling \cite{drineas2017lectures}*{page 17}. \Cref{lem: rmm-exp-var-bds} provides some bounds on $\bm{C} \bm{R}$ as an estimate for $\bm{A}\bm{B}$.
 
 \begin{lem} \label{lem: rmm-exp-var-bds}
     Let $\bm{C}$ and $\bm{R}$ be constructed as described in Algorithm \ref{alg: rand-mat-mult}, then
@@ -179,7 +179,7 @@ We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mu
 \end{minipage}
 \par}
 
-As we can tell from the algorithms inputs, this requires some sort of probability distribution to select the columns. As seen in lemma \ref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or even missing entire small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
+As we can tell from the algorithms inputs, this requires some sort of probability distribution to select the columns. As seen in \Cref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or even missing entire small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
 
 \begin{figure}[h]
     \centering

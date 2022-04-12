@@ -8,11 +8,11 @@ On the other hand, the discriminative method focuses on modelling $p \left( y \m
 
 \subsubsection{Linear Models for Classification}\label{Section1.6.1}
 
-We can start by reviewing linear models for the simplist form of classification, that is binary classification. Adopting the notation from SVM (see section \ref{Section1.4.1}) literature, the binary classification problem involves assigning an input $\bm{x}$ to a class of either $-1$ or $+1$. For a linear model likelihood can be formulated as
+We can start by reviewing linear models for the simplist form of classification, that is binary classification. Adopting the notation from SVM (see \Cref{Section1.4.1}) literature, the binary classification problem involves assigning an input $\bm{x}$ to a class of either $-1$ or $+1$. For a linear model likelihood can be formulated as
 \begin{equation} \label{eq: GPC-lin-model-1}
     p \left( y=+1 \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)
 \end{equation}
-given a weight vector $\bm{w}$ and where $\sigma (\bm{z})$ is chosen to be any sigmoid function, see definition \ref{defe: sigmoid-function}.
+given a weight vector $\bm{w}$ and where $\sigma (\bm{z})$ is chosen to be any sigmoid function, see \Cref{defe: sigmoid-function}.
 \begin{defe}[Sigmoid Function] \label{defe: sigmoid-function}
     A sigmoid function is a monotonically increasing function mapping from $\RR$ to $\left[ 0,1 \right]$ \cite{RasmussenCarlEdward2006Gpfm}*{page 35}.
 \end{defe}

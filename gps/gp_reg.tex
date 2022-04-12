@@ -1,6 +1,6 @@
 \subsection{Gaussian Processes for Regression}\label{Section1.5}
 
-We saw in section \ref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid \calD \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid \calD \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead, a suitable $f$ is selected by first assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in definition \ref{defe: GP}.
+We saw in \Cref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid \calD \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid \calD \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead, a suitable $f$ is selected by first assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in \Cref{defe: GP}.
 
 \begin{defe}[Gaussian Process] \label{defe: GP}
     A Gaussian Process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
@@ -29,7 +29,7 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 \[
     \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{i,j} \triangleq k \left( \bm{w}_i , \bm{w}_j' \right)
 \]
-where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation is the Gaussian RBF kernel, definition \ref{defe: grbfk}.
+where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance function completely characterized by its kernel. Unless otherwise stated, the kernel or covariance function used in examples and experimentation is the Gaussian RBF kernel, \Cref{defe: grbfk}.
 
 \begin{filecontents*}{./data/gp_intro_dat1.csv}
     x,y0,y1,y2
@@ -295,7 +295,7 @@ While the above does give us some information that $\bm{f}_{\star}$ is related t
     as wanted.
 \end{proof}
 
-Thus, once data has been observed, finding a mean and covariance for $\bm{f}_{\star}$ involves a direct application of theorem \ref{theorem: cond_of_MVN} which gives
+Thus, once data has been observed, finding a mean and covariance for $\bm{f}_{\star}$ involves a direct application of \Cref{theorem: cond_of_MVN} which gives
 \begin{align*}
     \bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}_{\star}, \bm{\Sigma}_{\star} \right)
 \end{align*}

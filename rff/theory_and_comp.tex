@@ -1,8 +1,8 @@
 \subsection{Theory and Computation}\label{Section3.1}
-Contrary to the kernel trick, the Random Fourier Features (RFF) technique approximates $\langle \Phi \left( \cdot \right) , \Phi \left( \cdot \right) \rangle_{\RR^N}$ through an explicit feature mapping $\varphi$. The RFF technique hinges on Bochners theorem, stated without proof in theorem \ref{theorem: bochner}, which characterises positive definite functions.
+Contrary to the kernel trick, the Random Fourier Features (RFF) technique approximates $\langle \Phi \left( \cdot \right) , \Phi \left( \cdot \right) \rangle_{\RR^N}$ through an explicit feature mapping $\varphi$. The RFF technique hinges on Bochners theorem, stated without proof in \Cref{theorem: bochner}, which characterises positive definite functions.
 
 \begin{thm}[Bochner's] \label{theorem: bochner}
-    A continuous and shift-invariant function $k \left( \bm{x} , \bm{y} \right) = k \left( \bm{x} - \bm{y} \right) = k \left( \Delta \right)$ is positive definite (see definition \ref{defe: PD}) if and only if it can be represented as
+    A continuous and shift-invariant function $k \left( \bm{x} , \bm{y} \right) = k \left( \bm{x} - \bm{y} \right) = k \left( \Delta \right)$ is positive definite (see \Cref{defe: PD}) if and only if it can be represented as
     \[
         k \left( \bm{x} - \bm{y} \right) = \int_{\CC^d} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) \mu_k \left( d \bm{\omega} \right)
     \]
@@ -13,7 +13,7 @@ The spectral distribution $\mu_k$ can be represented as finite measure induced b
 \begin{equation} \label{eq: rbf-spec-pdf}
     p \left( \bm{w}\right) = \frac{1}{\sqrt{\left( 2 \pi\right)^{D} \left| \frac{\sigma^2}{2} \Id_{D \times D} \right|}} \exp \left( -\frac{1}{2} \bm{w}^\intercal \left( \frac{\sigma^2}{2} \Id_{D \times D} \right)^{-1} \bm{w} \right)
 \end{equation}
-\cite{NIPS2007_013a006f}*{page 3}. One caveat in Bochner's theorem is that it requires our kernel to be shift-invariant (sometimes also referred to as stationary) as stated in definition \ref{defe: shift-invar}.
+\cite{NIPS2007_013a006f}*{page 3}. One caveat in Bochner's theorem is that it requires our kernel to be shift-invariant (sometimes also referred to as stationary) as stated in \Cref{defe: shift-invar}.
 
 \begin{defe}[Shift-Invariant] \label{defe: shift-invar}
     A kernel $k : \RR^N \times \RR^N \to \CC$ is called shift-invariant if $k \left( \bm{x}, \bm{y} \right) = g \left( \bm{x} - \bm{y} \right)$ for some positive definite function $g : \RR^N \to \CC$ \cite{JMLR:v17:14-538}*{page 3}.
@@ -130,7 +130,7 @@ These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorith
 \par
 }
 
-Algorithm \ref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in algorithm \ref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in lemma \ref{lem: rff-unbiased}.
+Algorithm \ref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in algorithm \ref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in \Cref{lem: rff-unbiased}.
 
 \begin{lem} \label{lem: rff-unbiased}
     $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, that is

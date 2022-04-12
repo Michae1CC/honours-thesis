@@ -57,14 +57,14 @@ For the purposes of solving equation \ref{eq: lin_sys_1} it is of much interest 
         \right.
     \]
 \end{thm}
-Theorem \ref{theorem: grade_of_v} essentially tells us that for $k \leq t_{\bm{v}, \bm{A}}$ that $\bm{A}^k \bm{v}$ is linearly independent to $\bm{A}^i \bm{v}$ for $0 \leq i \leq k-1$ meaning $\left\{ \bm{v}, \bm{A} \bm{v}, \bm{A}^2 \bm{v}, \ldots , \bm{A}^{n-1} \bm{v} \right\}$ serves as a basis for $\calK_{k} \left( \bm{A},\bm{v} \right)$ and that $\calK_{k-1} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k} \left( \bm{A},\bm{v} \right)$. Conversely, any new vectors formed beyond $t_{\bm{v}, \bm{A}}$ will be linearly independent meaning $\calK_{k} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k+1} \left( \bm{A},\bm{v} \right)$ for $k \geq t_{\bm{v}, \bm{A}}$. While $t_{\bm{v}, \bm{A}}$ clearly plays a role in determining a suitable basis for which $\bm{A}^{-1} \bm{b}$ lies in its importance is made abundantly clear in the following corollary.
+\Cref{theorem: grade_of_v} essentially tells us that for $k \leq t_{\bm{v}, \bm{A}}$ that $\bm{A}^k \bm{v}$ is linearly independent to $\bm{A}^i \bm{v}$ for $0 \leq i \leq k-1$ meaning $\left\{ \bm{v}, \bm{A} \bm{v}, \bm{A}^2 \bm{v}, \ldots , \bm{A}^{n-1} \bm{v} \right\}$ serves as a basis for $\calK_{k} \left( \bm{A},\bm{v} \right)$ and that $\calK_{k-1} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k} \left( \bm{A},\bm{v} \right)$. Conversely, any new vectors formed beyond $t_{\bm{v}, \bm{A}}$ will be linearly independent meaning $\calK_{k} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k+1} \left( \bm{A},\bm{v} \right)$ for $k \geq t_{\bm{v}, \bm{A}}$. While $t_{\bm{v}, \bm{A}}$ clearly plays a role in determining a suitable basis for which $\bm{A}^{-1} \bm{b}$ lies in its importance is made abundantly clear in the following corollary.
 \begin{cor} \label{theorem: grade_as_min}
     \[
         t_{\bm{v}, \bm{A}} = \min \left\{k \mid \bm{A}^{-1} \bm{v} \in \calK_{k} \left( \bm{A},\bm{v} \right) \right\}
     \]
 \end{cor}
 \begin{proof}
-    Recall from Cayley-Hamilton (theorem \ref{theorem: cayley_amilton}) that
+    Recall from Cayley-Hamilton (\Cref{theorem: cayley_amilton}) that
     \[
         \bm{A}^{-1} \bm{v} = \sum_{i=0}^{n-1} \alpha_{i} \bm{A}^{i} \bm{v}
     \]

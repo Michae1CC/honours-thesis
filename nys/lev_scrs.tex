@@ -48,7 +48,7 @@ A regularization parameter of
 \begin{equation*} \label{eq: rid-lev-reg-param}
     \lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}
 \end{equation*}
-is typically used since this choice of $\lambda$ will guarantee that the sum of the ridge leverage scores (keep in mind that the raw ridge leverage scores do not necessarily form a probability distribution) is bounded by $2k$, stated more formally in lemma \ref{lem: rid-lev-reg-param-bound}.
+is typically used since this choice of $\lambda$ will guarantee that the sum of the ridge leverage scores (keep in mind that the raw ridge leverage scores do not necessarily form a probability distribution) is bounded by $2k$, stated more formally in \Cref{lem: rid-lev-reg-param-bound}.
 \begin{lem} \label{lem: rid-lev-reg-param-bound}
     When using a regularization parameter of $\lambda = \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k}$ we have $\sum_{i=1}^{n} r_{i}^{\lambda} \leq 2k$ \cite{DBLP:journals/corr/CohenMM15}*{pages 6-7}.
 \end{lem}

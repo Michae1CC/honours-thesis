@@ -88,7 +88,7 @@ While the above does give us some information on $\bm{f}_{\ast}$ is related to t
     \end{align*}
 \end{thm}
 
-Thus finding a mean an covariance for $\bm{f}_{\ast}$ requires a direct application of Theorem \ref{theorem: cond_of_MVN} which gives
+Thus finding a mean an covariance for $\bm{f}_{\ast}$ requires a direct application of \Cref{theorem: cond_of_MVN} which gives
 \begin{align*}
     \bm{f}_{\ast} \mid \bm{K_{XX^{\ast}}} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{\mu}^{\ast}, \bm{\Sigma}^{\ast} \right)
 \end{align*}
@@ -171,7 +171,7 @@ Explicitly, this space is defined by
     \calH(G,K) := \{f\colon G\to \CC\ |\ f(k_1gk_2) = f(g),\ \forall g\in G,\ \forall k_1,k_2\in K\} \subseteq \Fun(G).
 \]
 This is the \emph{Hecke algebra} associated to $G$ and $K$ and we will write $\calH$ to mean $\calH(G,K)$ when there is no ambiguity.
-The proof of Lemma \ref{lemma: W_left_ideal} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
+The proof of \Cref{lemma: W_left_ideal} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
 Notice that the identity of $(\Fun(G),\star)$ does not lie in $\calH$.
 Nevertheless, $\calH$ does have an identity of its own.
 It is easy to verify that the identity is $\iota_K$, which we define below.
@@ -311,7 +311,7 @@ Now set $V$ to be $W$, the induced representation of the trivial character from 
 \[
     \Psi\colon \calH\to\End(W),\quad \alpha\mapsto(w\mapsto w\star\alpha).
 \]
-Lemma \ref{lemma: W_left_ideal} tells us that $w \star\alpha$ is indeed an element of $W$ so the image of $\Psi$ is indeed $\End(W)$.
+\Cref{lemma: W_left_ideal} tells us that $w \star\alpha$ is indeed an element of $W$ so the image of $\Psi$ is indeed $\End(W)$.
 The following proposition highlights the significance of this map.
 \begin{prop}\label{prop: H_iso_End_G(W)}
     The map $\Psi$ defines an algebra isomorphism $\calH \cong \End_G(W)$.
@@ -449,7 +449,7 @@ The key idea of this theorem is the following lemma.
     \]
     Then basis elements of $B$ commute as desired.
 \end{proof}
-We employ Lemma \ref{lemma: subalgebra_commutative} by applying it to the case where $A=\Fun(G)$ and $B=\calH(G,K)$. Recall from Section \ref{Section1.3} that the characteristic functions $\{\chi_x\}_{x\in G}$ form a basis of $\calH(G,K)$.
+We employ \Cref{lemma: subalgebra_commutative} by applying it to the case where $A=\Fun(G)$ and $B=\calH(G,K)$. Recall from \Cref{Section1.3} that the characteristic functions $\{\chi_x\}_{x\in G}$ form a basis of $\calH(G,K)$.
 \begin{cor}\label{cor: comm}
     Suppose $F\colon \Fun(G) \to \Fun(G)$ is an anti-homomorphism such that $F(\chi_x) = \chi_x$ for all $x\in X$.
     Then $\calH(G,K)$ is commutative.
@@ -545,9 +545,9 @@ This assumption implies that $K\varphi(x)K=KxK$ for all $x\in K$, which in turn 
         \end{cases} = \chi_x(g).\qedhere
     \]
 \end{proof}
-We are now ready to prove Theorem \ref{theorem: Gelfand's_Trick}.
-\begin{proof}[Proof of Theorem \ref{theorem: Gelfand's_Trick}]
-    Lemma \ref{lem: id_on_basis} tells us that $\varphi^\ast$ is the identity on the characteristic functions $\chi_x$.
+We are now ready to prove \Cref{theorem: Gelfand's_Trick}.
+\begin{proof}[Proof of \Cref{theorem: Gelfand's_Trick}]
+    \Cref{lem: id_on_basis} tells us that $\varphi^\ast$ is the identity on the characteristic functions $\chi_x$.
     These are the basis elements of $\calH(G,K)$.
     Since $\varphi$ is an anti-automorphism, $\varphi^\ast$ will be too.
     We apply Corollary \ref{cor: comm} with $F=\varphi^\ast$ to see that the basis elements commute.
@@ -560,7 +560,7 @@ It is easy to see that they are both involutive anti-automorphisms, so the condi
 
 \subsection{Gelfand pairs}\label{Section1.8}
 We say that a pair of groups $(G,K)$ with $K\leq G$ is a \emph{Gelfand pair} if $\Ind_K^G \1$ is multiplicity-free.
-To be a Gelfand pair, it is sufficient to find an anti-automorphism satisfying the conditions of Theorem \ref{theorem: Gelfand's_Trick}.
+To be a Gelfand pair, it is sufficient to find an anti-automorphism satisfying the conditions of \Cref{theorem: Gelfand's_Trick}.
 We present some examples of applications of this technique.
 
 \subsubsection{Example: $(G,K)$ with $G$ abelian}

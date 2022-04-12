@@ -2,14 +2,14 @@
 We have now completed our investigation of the Hecke algebra $\calH(G,K)$.
 The aim of this section is to generalise the results of Chapter \ref{Chapter1} to the case of a non-trivial character $\sigma\colon K\to\CC^\times$.
 Here the Hecke algebra $\calH=\calH(G,K,\sigma)$ is the convolution algebra of $(K,\sigma)$-bi-invariant functions on $G$.
-In Section \ref{Section2.1}, we discuss the theory of the induced representation $\Ind_K^G \sigma$.
-In Section \ref{Section2.2}, we revisit the Hecke algebra, identify its identity and describe its basis.
-Notice that the results of Section \ref{Section1.4} and Section \ref{Section1.5} were independent of the choice $\sigma=\1$, so they still apply now that we are considering a non-trivial character.
+In \Cref{Section2.1}, we discuss the theory of the induced representation $\Ind_K^G \sigma$.
+In \Cref{Section2.2}, we revisit the Hecke algebra, identify its identity and describe its basis.
+Notice that the results of \Cref{Section1.4} and \Cref{Section1.5} were independent of the choice $\sigma=\1$, so they still apply now that we are considering a non-trivial character.
 
-In Section \ref{Section2.3}, we generalise Gelfand's Trick from Section \ref{Section1.7} to the case of a non-trivial character $\sigma$.
+In \Cref{Section2.3}, we generalise Gelfand's Trick from \Cref{Section1.7} to the case of a non-trivial character $\sigma$.
 Naturally, we will need to reconsider the conditions that the anti-automorphism $\varphi\colon G\to G$ must satisfy.
-As in Section \ref{Section1.7}, we will investigate these conditions and conclude with a natural statement and proof of Gelfand's Trick in the twisted case.
-We conclude with Section \ref{Section2.4}, in which we investigate the Gelfand--Graev representation and use the results of this chapter to prove that it is multiplicity-free.
+As in \Cref{Section1.7}, we will investigate these conditions and conclude with a natural statement and proof of Gelfand's Trick in the twisted case.
+We conclude with \Cref{Section2.4}, in which we investigate the Gelfand--Graev representation and use the results of this chapter to prove that it is multiplicity-free.
 
 
 \subsection{The induced representation $\Ind_K^G \sigma$}\label{Section2.1}
@@ -19,7 +19,7 @@ Consider the space
     W := \{f\colon G\to \CC\ |\ f(gk) = f(g)\sigma(k),\ \forall g\in G, \forall k \in K\} \subseteq \Fun(G).
 \]
 As in the previous section, $W$ is called the induced representation and denoted $\Ind_K^G \sigma$.
-We state and prove a lemma analogous to Lemma \ref{lemma: W_left_ideal}.
+We state and prove a lemma analogous to \Cref{lemma: W_left_ideal}.
 \begin{lem}\label{lemma: W_left_ideal_two}
     $W$ is a left ideal of $(\Fun(G),\star)$.
 \end{lem}
@@ -40,7 +40,7 @@ The Hecke algebra $\calH = \calH(G,K,\sigma)$ is the space
 \[
     \calH := \{f\colon G\to \CC\ |\ f(k_1gk_2) = \sigma(k_1)f(g)\sigma(k_2),\ \forall g\in G,\ \forall k_1,k_2\in K\} \subseteq \Fun(G).
 \]
-The proof of Lemma \ref{lemma: W_left_ideal_two} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
+The proof of \Cref{lemma: W_left_ideal_two} can be adapted to show that $\calH$ is a two-sided ideal in $(\Fun(G),\star)$.
 As before, the identity of $(\Fun(G),\star)$ does not lie in $\calH$.
 Nevertheless, $\calH$ does have an identity of its own.
 It is easy to verify that the identity is $\iota_K^\sigma$, which we define below.
@@ -106,13 +106,13 @@ Define the family of functions $\{\chi_x\}_{x\in X_\rel}$ by
 \]
 One easily checks that $\chi_x$ is well-defined.
 We call $\chi_x$ a \emph{twisted characteristic function} associated to the relevant orbit $KxK$.
-When $\sigma=\1$, every orbit is relevant and $\sigma(k)\sigma(k')=1$, so we obtain the original characteristic functions described in Section \ref{Section1.3}.
+When $\sigma=\1$, every orbit is relevant and $\sigma(k)\sigma(k')=1$, so we obtain the original characteristic functions described in \Cref{Section1.3}.
 Define the map
 \[
     \sigma\boxtimes\sigma\colon K\times K\to\CC^\times\times\CC^\times,\quad (\sigma\boxtimes\sigma)(k_1,k_2) := (\sigma(k_1),\sigma(k_2)).
 \]
-As a result of Lemma \ref{lemma: relevant_orbit}, we see that an orbit under the left action of $K\times K^\op$ is relevant if and only if $(\sigma\boxtimes\sigma)(\stab_{K\times K}(x)) = \{1\}$.
-As in Section \ref{Section1.3}, it is not difficult to see that the twisted characteristic functions of relevant orbits form a basis of $\calH(G,K,\sigma)$.
+As a result of \Cref{lemma: relevant_orbit}, we see that an orbit under the left action of $K\times K^\op$ is relevant if and only if $(\sigma\boxtimes\sigma)(\stab_{K\times K}(x)) = \{1\}$.
+As in \Cref{Section1.3}, it is not difficult to see that the twisted characteristic functions of relevant orbits form a basis of $\calH(G,K,\sigma)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -129,14 +129,14 @@ Our goal in this section is to prove the twisted analogue of Gelfand's Trick.
     \end{enumerate}
     Then $\calH(G,K,\sigma)$ is commutative.
 \end{thm}
-This is a true generalisation of Theorem \ref{theorem: Gelfand's_Trick}.
-Indeed, if we consider the trivial representation $\sigma=\1$, condition {\itshape(iii)} is trivially satisfied, condition {\itshape(iv)} corresponds to the requirement that $K\varphi(x)K=KxK$ in Theorem \ref{theorem: Gelfand's_Trick}, and condition {\itshape(ii)} is contained in the requirement that $K\varphi(x)K=KxK$.
+This is a true generalisation of \Cref{theorem: Gelfand's_Trick}.
+Indeed, if we consider the trivial representation $\sigma=\1$, condition {\itshape(iii)} is trivially satisfied, condition {\itshape(iv)} corresponds to the requirement that $K\varphi(x)K=KxK$ in \Cref{theorem: Gelfand's_Trick}, and condition {\itshape(ii)} is contained in the requirement that $K\varphi(x)K=KxK$.
 
-As in Section \ref{Section2.1}, the proof of Theorem \ref{twisted_trick} relies on the observation that an anti-homomorphism of an algebra that acts as the identity on basis elements of the subalgebra is sufficient to conclude that the subalgebra is commutative (c.f.\ Lemma \ref{lemma: subalgebra_commutative} and Corollary \ref{cor: H_commutative}).
+As in \Cref{Section2.1}, the proof of \Cref{twisted_trick} relies on the observation that an anti-homomorphism of an algebra that acts as the identity on basis elements of the subalgebra is sufficient to conclude that the subalgebra is commutative (c.f.\ \Cref{lemma: subalgebra_commutative} and Corollary \ref{cor: H_commutative}).
 This leaves us with a question: can we rewrite the condition $\varphi^\ast \chi_x = \chi_x$?
 
 Recall that $X_\mathrm{rel}$ denotes a family of representatives for the relevant double cosets.
-Recall the twisted characteristic functions $\{\chi_x\}_{x\in X_\rel}$ defined in Section \ref{Section2.2} given by
+Recall the twisted characteristic functions $\{\chi_x\}_{x\in X_\rel}$ defined in \Cref{Section2.2} given by
 \[
     \chi_x(y) = \begin{cases}
         \sigma(k)\sigma(k'),\  & \text{if}\ y\in KxK\ \text{with}\ y=kxk', \\
@@ -167,8 +167,8 @@ In fact, this multiple is $1$, since
 \[
     (\varphi^\ast\chi_x)(x) = \chi_x(\varphi(x)) = \chi_x(x) = 1.
 \]
-We are now ready to prove Theorem \ref{twisted_trick}.
-\begin{proof}[Proof of Theorem \ref{twisted_trick}]
+We are now ready to prove \Cref{twisted_trick}.
+\begin{proof}[Proof of \Cref{twisted_trick}]
     Suppose that $\varphi\colon G\to G$ is an anti-automorphism.
     Also suppose that $\varphi^2=1$, $\varphi(K)=K$, $\sigma(\varphi(k))=\sigma(k)$ for all $k\in K$, and $\varphi(x)=x$ for all $x\in X_\rel$.
     The above discussion tells us that $\varphi^\ast \chi_x = \chi_x$.
@@ -228,7 +228,7 @@ We begin with a lemma.
               A monomial matrix is a matrix with exactly one non-zero element in each row and column.
     \end{enumerate}
 \end{lem}
-Before we prove Lemma \ref{lemma: bruhat}, we recall a simple fact about matrices.
+Before we prove \Cref{lemma: bruhat}, we recall a simple fact about matrices.
 Define $x_{ij}(t) := I_{n\times n} + tE_{ij}$, where $1\leq i\leq j\leq n$ and $E_{ij}$ is the matrix of $0$'s except for a $1$ in the $i^\text{th}$ row and $j^\text{th}$ column.
 Notice that $x_{ij}(t)\in B$ since $i\leq j$.
 We can achieve the usual row and column operations on a matrix $A$ by multiplying on the left or the right by some $x_{ij}(t)$.
@@ -240,7 +240,7 @@ Right-multiplying $A$ by $x_{ii}(\lambda-1)$ corresponds to the column operation
 Similarly, left-multiplying $A$ by $x_{ii}(\lambda-1)$ corresponds to the row operation $R_i\mapsto\lambda R_i$.
 We see that we can perform the usual row and column operations by right- and left-multiplying by elements of $B$.
 
-\begin{proof}[Proof of Lemma \ref{lemma: bruhat}]
+\begin{proof}[Proof of \Cref{lemma: bruhat}]
     We begin by proving that $\GL_n(\FF_q) = \bigcup_{w\in W} BwB$ and will prove disjointness of the union later.
     We proceed by induction.
     The $n=1$ case is clearly true since all matrices in $\GL_1(\FF_q)$ are upper-triangular.
@@ -272,7 +272,7 @@ We see that we can perform the usual row and column operations by right- and lef
     Notice that $B=TU=UT$ and $M=TW=WT$ so the result follows from the regular Bruhat decomposition.
     Disjointness is proven as before.
 \end{proof}
-\begin{proof}[Proof of Theorem \ref{thm: gelf_graev}]
+\begin{proof}[Proof of \Cref{thm: gelf_graev}]
     Consider the involutive anti-automorphism $\varphi\colon G \to G$ defined by
     \[
         \varphi(g) := w_0 g^t w_0,\quad\text{where}\ w_0 =
@@ -285,7 +285,7 @@ We see that we can perform the usual row and column operations by right- and lef
     We verify that $U\varphi(g)U=UgU$ for all $g\in G$.
     For each double coset $UgU$, we will show that $UgU$ has a certain coset representative $g'$ with $\varphi(g')=g'$, or $f(g)=0$ for all $f\in\calH$.
 
-    The modification of the Bruhat decomposition in Lemma \ref{lemma: bruhat} tells us that $UgU=UmU$ for some monomial matrix $m$.
+    The modification of the Bruhat decomposition in \Cref{lemma: bruhat} tells us that $UgU=UmU$ for some monomial matrix $m$.
     Let $f\in\calH$ be non-vanishing on $UmU$.
     That is, $f(m)\neq 0$.
     We show that $m$ has the form

@@ -5,7 +5,7 @@ We will motivate the Krylov subspaces by observing their usefullness in solving 
 \begin{equation}\label{eq: lin_sys_1}
     \bm{A} \bm{x^{\star}} = \bm{b}
 \end{equation}
-where no explicit form of $\bm{A}$ is available and instead one must draw information from $\bm{A}$ solely through a routine that can evaluate $\bm{A} \bm{v}$ for any $\bm{v}$. How could this routine be utilized in such a manner to provide with a solution to equation \ref{eq: lin_sys_1}? Before answering this, consider the following theorem
+where no explicit form of $\bm{A}$ is available and instead one must draw information from $\bm{A}$ solely through a routine that can evaluate $\bm{A} \bm{v}$ for any $\bm{v}$. How could this routine be utilized in such a manner to provide with a solution to equation \ref{eq: lin_sys_1}? Before answering this, consider the following theorem.
 
 \begin{thm} \label{theorem: invert_mat_norm}
     For $\bm{A} \in \CC^{n \times n}$ if $\| \bm{A} \| = q < 1$ then $\Id - \bm{A}$ is invertible and its inverse admits the following representation
@@ -41,7 +41,7 @@ where $\bm{r_0} = \bm{A} \bm{x^{\star}} - \bm{A} \bm{x_0}$. A natural question t
 \begin{thm}[Cayley-Hamilton] \label{theorem: cayley_amilton}
     Let $p_n \left( \lambda \right) = \sum_{i=0}^{n} c_i \lambda^{i}$ be the characteristic polynomial of the matrix $\bm{A} \in \CC^{n \times n}$, then $p_n \left( \bm{A} \right) = \bm{0}$. {\color{red} \textbf{THIS NEEDS A CITATION}}
 \end{thm}
-The Cayley-Hamilton theorem implies that
+The Cayley-Hamilton Theorem implies that
 \begin{align*}
     \bm{0}      & = c_0 + c_1 \bm{A} + \ldots + c_{n-1} \bm{A}^{n-1} + c_{n} \bm{A}^{n}                      \\
     \bm{0}      & = \bm{A}^{-1} c_0 + c_1 + \ldots + c_{n-1} \bm{A}^{n-2} + c_{n} \bm{A}^{n-1}               \\
@@ -71,14 +71,14 @@ For the purposes of solving equation \ref{eq: lin_sys_1} it is of much interest 
         \right.
     \]
 \end{thm}
-Theorem \ref{theorem: grade_of_v} essentially tells us for $k \leq t_{\bm{v}, \bm{A}}$ that $\bm{A}^k \bm{v}$ is linearly independent to $\bm{A}^i \bm{v}$ for $0 \leq i \leq k-1$ meaning $\left\{ \bm{v}, \bm{A} \bm{v}, \bm{A}^2 \bm{v}, \ldots , \bm{A}^{k-1} \bm{v} \right\}$ serves as a basis for $\calK_{k} \left( \bm{A},\bm{v} \right)$ and $\calK_{k-1} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k} \left( \bm{A},\bm{v} \right)$. Conversely, any new vectors formed beyond $t_{\bm{v}, \bm{A}}$ will be linearly independent meaning $\calK_{k} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k+1} \left( \bm{A},\bm{v} \right)$ for $k \geq t_{\bm{v}, \bm{A}}$. While $t_{\bm{v}, \bm{A}}$ obviously plays a central role in determining a suitable basis whose span contains $\bm{A}^{-1} \bm{b}$, its importance is made abundantly clear in the following corollary.
+\Cref{theorem: grade_of_v} essentially tells us for $k \leq t_{\bm{v}, \bm{A}}$ that $\bm{A}^k \bm{v}$ is linearly independent to $\bm{A}^i \bm{v}$ for $0 \leq i \leq k-1$ meaning $\left\{ \bm{v}, \bm{A} \bm{v}, \bm{A}^2 \bm{v}, \ldots , \bm{A}^{k-1} \bm{v} \right\}$ serves as a basis for $\calK_{k} \left( \bm{A},\bm{v} \right)$ and $\calK_{k-1} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k} \left( \bm{A},\bm{v} \right)$. Conversely, any new vectors formed beyond $t_{\bm{v}, \bm{A}}$ will be linearly independent meaning $\calK_{k} \left( \bm{A},\bm{v} \right) \subsetneq \calK_{k+1} \left( \bm{A},\bm{v} \right)$ for $k \geq t_{\bm{v}, \bm{A}}$. While $t_{\bm{v}, \bm{A}}$ obviously plays a central role in determining a suitable basis whose span contains $\bm{A}^{-1} \bm{b}$, its importance is made abundantly clear in the following corollary.
 \begin{cor} \label{theorem: grade_as_min}
     \[
         t_{\bm{v}, \bm{A}} = \min \left\{k \mid \bm{A}^{-1} \bm{v} \in \calK_{k} \left( \bm{A},\bm{v} \right) \right\}
     \]
 \end{cor}
 \begin{proof}
-    Recall from Cayley-Hamilton (theorem \ref{theorem: cayley_amilton}) that
+    Recall from Cayley-Hamilton (\Cref{theorem: cayley_amilton}) that
     \[
         \bm{A}^{-1} \bm{v} = \sum_{i=0}^{n-1} \alpha_{i} \bm{A}^{i} \bm{v}
     \]

@@ -1,6 +1,6 @@
 \subsection{Conjugate Gradient Algorithm}\label{Section4.5}
 
-From section \ref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
+From \Cref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
 \begin{equation} \label{eq: x_eq_Qky}
     \bm{x}_k = \bm{x}_0 + \bm{V}_{k} \bm{y}.
 \end{equation}
@@ -16,7 +16,7 @@ In the CG algorithm $\bm{x}_{k+1}$ is computed as the recurrance of the followin
     \item The residual vectors $\bm{r}_{k}$
     \item The conjugate gradient vectors $\bm{p}_k$
 \end{enumerate}
-The conjugate gradient vectors include the word 'gradient' since the attempt to find the direction of steepest descent that minimizes $\| \bm{r}_{k} \|_{\bm{A}^{-1}}$. It also includes the word 'conjugate' since $\langle \bm{p}_k, \bm{A} \bm{p}_j \rangle = 0$ for $i \neq j$, that is, vectors $\bm{p}_i$ and $\bm{p}_j$ are mutally $A$-conjugate (shown in lemma \ref{lemma: Pk_cols_A_conj}).
+The conjugate gradient vectors include the word 'gradient' since the attempt to find the direction of steepest descent that minimizes $\| \bm{r}_{k} \|_{\bm{A}^{-1}}$. It also includes the word 'conjugate' since $\langle \bm{p}_k, \bm{A} \bm{p}_j \rangle = 0$ for $i \neq j$, that is, vectors $\bm{p}_i$ and $\bm{p}_j$ are mutally $A$-conjugate (shown in \Cref{lemma: Pk_cols_A_conj}).
 
 Since $\bm{A}$ is symmetric positive definite then so is $\bm{T}_k  = \bm{V}_{k} \bm{A} \bm{V}_{k}$. We can take the Cholesky decomposition of $\bm{T}_k$ to get
 \begin{equation} \label{eq: Tk_Cholesky}
@@ -48,7 +48,7 @@ Combining equations \ref{eq: x_eq_Qky}, \ref{eq: Tky_eq_normr0e1} and \ref{eq: T
     \bm{x}_k & \triangleq \bm{x}_0 + \tilde{\bm{P}}_k \tilde{\bm{y}}_k
 \end{align*}
 where $\tilde{\bm{P}}_k = \bm{V}_{k} \bm{L}_k^{-\intercal}$ and $\tilde{\bm{y}}_k = \| \bm{r}_0 \| \bm{D}_k^{-1} \bm{L}_k^{-1} \bm{e}_1$. The matrix $\tilde{\bm{P}}_k$ can be written as
-$\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$. Lemma \ref{lemma: Pk_cols_A_conj} shows that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate.
+$\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$. \Cref{lemma: Pk_cols_A_conj} shows that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate.
 
 \begin{lem} \label{lemma: Pk_cols_A_conj}
     The columns of $\tilde{\bm{P}}_k$ are $A$-conjugate, in otherwords $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k$ is diagonal.
@@ -143,7 +143,7 @@ as a recurrance for $\bm{x}_k$. A recurrance for $\bm{r}_k$ is easily computed a
 \begin{equation} \label{eq: rk_rec}
     \bm{r}_{k} = b - \bm{A} \bm{x}_k = b - \bm{A} \left( \bm{x}_{k-1} + \eta_k \tilde{\bm{p}}_{k} \right) = \left( b - \bm{A} \bm{x}_{k-1} \right) - \eta_k \bm{A} \tilde{\bm{p}}_{k} = \bm{r}_{k-1} - \eta_k \bm{A} \tilde{\bm{p}}_{k}
 \end{equation}
-Altogether we are left with recurrences for $\bm{v}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplifications can be made to bring about a more efficient algorithm. Recall from section \ref{Section4.3} that $\bm{A} \bm{V}_{k} =  \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \RR^k$ meaning
+Altogether we are left with recurrences for $\bm{v}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplifications can be made to bring about a more efficient algorithm. Recall from \Cref{Section4.3} that $\bm{A} \bm{V}_{k} =  \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \RR^k$ meaning
 \[
     \bm{r}_k = \bm{r}_0 - \bm{A} \bm{V}_{k} \bm{y}_k = \bm{r}_0 - \bm{V}_{k} \bm{T}_k \bm{y}_k - \langle \bm{t}_k , \bm{y} \rangle \bm{v}_{k+1} = - \beta_k y_k \bm{v}_{k+1}.
 \]
@@ -153,7 +153,7 @@ This tells us that $\bm{r}_k$ is parallel to $\bm{v}_{k+1}$ and orthogonal to al
     \bm{r}_k & = \bm{r}_{k-1} - \alpha_k \bm{A} \bm{p}_k \\
     \bm{p}_k & = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}
 \end{align*}
-where $\alpha_k = \eta_k / \gamma_k$. From theorem \ref{lemma: Pk_cols_A_conj} we have shown that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate (that is $\langle \tilde{\bm{p}}_i , \bm{A} \tilde{\bm{p}}_j \rangle = 0, \; i \neq j$) and that $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k = \bm{D}_k$. This also means that $\langle \bm{r}_i , \bm{r}_j \rangle = 0, \; i \neq j$. Note that from our recurrence for $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ we have
+where $\alpha_k = \eta_k / \gamma_k$. From \Cref{lemma: Pk_cols_A_conj} we have shown that the columns of $\tilde{\bm{P}}_k$ are $A$-conjugate (that is $\langle \tilde{\bm{p}}_i , \bm{A} \tilde{\bm{p}}_j \rangle = 0, \; i \neq j$) and that $\tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k = \bm{D}_k$. This also means that $\langle \bm{r}_i , \bm{r}_j \rangle = 0, \; i \neq j$. Note that from our recurrence for $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ we have
 \[
     \langle \bm{A} \bm{p}_k ,\bm{p}_k \rangle = \langle \bm{A} \bm{p}_k , \bm{r}_{k-1} + \beta_k \bm{p}_{k-1} \rangle = \langle \bm{A} \bm{p}_k , \bm{r}_{k-1} \rangle.
 \]

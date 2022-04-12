@@ -37,7 +37,7 @@ where $f_{\left( \bm{w} , b \right)} : X \to \RR$ is defined as
      & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j \langle \Phi \left( \bm{x}_i \right), \Phi \left( \bm{x}_j \right) \rangle \nonumber \\
      & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0
 \end{align}
-Notice that in the dual problem, we find that inner products are only taken with vectors that have the feature map applied to them allowing us to employ the kernel trick described in section \ref{Section1.1} so that equation \ref{eq: SVM_dual_1} becomes
+Notice that in the dual problem, we find that inner products are only taken with vectors that have the feature map applied to them allowing us to employ the kernel trick described in \Cref{Section1.1} so that equation \ref{eq: SVM_dual_1} becomes
 \begin{align*}
      & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j k \left( \bm{x}_i, \bm{x}_j \right) \\
      & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0.
@@ -211,7 +211,7 @@ in equation \ref{eq: comput_f_ast_1} can be replaced with
 \[
     \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y}.
 \]
-To find a more suitable expression for the covariance matrix, we will need the assistance of the matrix inversion lemma stated without proof in lemma \ref{lemma: mat_inv_lem}.
+To find a more suitable expression for the covariance matrix, we will need the assistance of the matrix inversion lemma stated without proof in \Cref{lemma: mat_inv_lem}.
 \begin{lem}[Matrix Inversion Lemma] \label{lemma: mat_inv_lem}
     For $\bm{Z} \in \KK^{n \times m}, \bm{W} \in \KK^{m \times m}$ and $\bm{U},\bm{V}^{\intercal} \in \KK^{n \times m}$ then
     \[
