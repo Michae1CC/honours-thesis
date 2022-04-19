@@ -1,10 +1,10 @@
 \subsection{Conjugate Gradient Algorithm}\label{Section4.5}
 
-From \Cref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
+From \Cref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. Thus the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
 \begin{equation} \label{eq: x_eq_Qky}
     \bm{x}_k = \bm{x}_0 + \bm{V}_{k} \bm{y}.
 \end{equation}
-Coupling this with the Petrov-Galerkin conditions means
+Coupling this with the Petrov-Galerkin conditions ensures
 \begin{align} \label{eq: Tky_eq_normr0e1}
     \bm{V}_{k}^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{V}_{k} \bm{y} \right) & = \bm{0}                        \nonumber   \\
     \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} \bm{y}                           & = \bm{V}_{k}^{\intercal} \bm{r}_0 \nonumber \\
@@ -113,7 +113,7 @@ where the elements of $\star$ are of no importance. With this a recurrance for t
     \end{bmatrix}
 \end{align*}
 
-where $\bm{e}_i^k$ is the $i^{th}$ unit vector with $k$ dimensions. To get a recurrance for the columns of $\tilde{\bm{P}}_{k-1} = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$ since $\bm{L}_{k-1}^{\intercal}$ is upper triangular then so is $\bm{L}_{k-1}^{-\intercal}$, thus forming the leading $(k-1) \times (k-1)$ submatrix of $\bm{L}_{k}^{-\intercal}$. This means that $\tilde{\bm{P}}_{k-1}$ is identical to the leading $k-1$ columns of
+where $\bm{e}_i^k$ is the $i^{th}$ unit vector with $k$ dimensions. To get a recurrance for the columns of $\tilde{\bm{P}}_{k-1} = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde{\bm{p}}_k \right]$ since $\bm{L}_{k-1}^{\intercal}$ is upper triangular then so is $\bm{L}_{k-1}^{-\intercal}$, thus forming the leading $(k-1) \times (k-1)$ submatrix of $\bm{L}_{k}^{-\intercal}$. In effect, $\tilde{\bm{P}}_{k-1}$ is identical to the leading $k-1$ columns of
 
 \[
     \tilde{\bm{P}}_{k} = \bm{V}_{k} \bm{L}_k^{-\intercal} = \left[ \bm{V}_{k-1} , \bm{v}_k \right]
@@ -175,7 +175,7 @@ This formula requires an additional dot product which was not present before. Fo
     \langle \bm{r}_k , \bm{r}_k \rangle & = \langle \bm{r}_k , \bm{r}_{k-1} \rangle - \alpha_k \langle \bm{r}_k , \bm{A} \bm{p}_k \rangle \\
     \alpha_k                            & = - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}.
 \end{align*}
-Equating the two expressions for $\alpha_k$ yields
+Equating the two expressions for $\alpha_k$ affords
 \begin{align*}
     - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}  & = \frac{\langle \bm{r}_{k-1} , \bm{r}_{k-1} \rangle}{\langle \bm{p}_k, \bm{A} \bm{p}_k \rangle} \\
     - \frac{\langle \bm{r}_k , \bm{r}_k \rangle}{\langle \bm{r}_{k-1} , \bm{r}_{k-1} \rangle} & = \frac{\langle \bm{r}_k , \bm{A} \bm{p}_k \rangle}{\langle \bm{p}_k, \bm{A} \bm{p}_k \rangle}.
@@ -231,7 +231,7 @@ The next few theorems pertain to the rate of convergence of the CG algorithm.
     The orthogonality of the residuals has already been shown within the derivation of the CG algorithm. Seeing that the search directions are $\bm{A}-$conjugate is a very straight forward application of \Cref{lemma: Pk_cols_A_conj}. To show \Cref{eq: equiv-CG-spaces} we can induct on $k$. From the initial guess $\bm{x}_0$ and the expression $\bm{x}_k = \bm{x}_{k-1} + \alpha_k \bm{p}_k$, using an induction argument it follows that $\bm{x}_k$ belongs to $\operatorname{l.s} \left\{ \bm{p}_i \right\}_{i=0}^{k-1}$. Similarly, from $\bm{p}_k = \bm{r}_{k-1} + \beta_k \bm{p}_{k-1}$ it follows that this belongs to $\operatorname{l.s} \left\{ \bm{r}_i \right\}_{i=0}^{n-1}$. Finally, from $\bm{r}_k = \bm{r}_{k-1} - \alpha_k \bm{A} \bm{p}_k$ that this belongs to $\operatorname{l.s} \left\{ \bm{A}^{i} \bm{b} \right\}_{i=0}^{n-1}$.
 \end{proof}
 
-With this, it is fairly straight forward to confirm that CG minimizes error at each step.
+It is fairly straight forward to confirm that CG minimizes error at each step.
 
 \begin{thm} \label{theorem: CG-error-min}
     Let the CG iteration be applied to a symmertic positive definite matrix $\bm{A} \bm{x} = \bm{b}$. If the iteration has not already converged (that is, $\| \bm{r}_{k-1} \| > 0 $), then $\bm{x}_{k}$ is the unique point in $\calK_{k}$ that minimizes $\| \bm{x}^{\star} - \bm{x}_{k} \|_{\bm{A}}$. The convergence is the monotonic,
@@ -248,7 +248,7 @@ With this, it is fairly straight forward to confirm that CG minimizes error at e
          & = \left( \bm{e}_{k} + \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \bm{e}_{k} + \Delta \bm{x} \right)                                                                                  \\
          & = \bm{e}_{k}^{\intercal} \bm{A} \bm{e}_{k} + \left( \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \Delta \bm{x} \right) + 2 \bm{e}_{k}^{\intercal} \bm{A} \left( \Delta \bm{x} \right).
     \end{align*}
-    The final term of this expression is $2 \bm{r}_{k}^{\intercal} \left( \Delta \bm{x} \right)$, an inner product of $\bm{r}_{k}$ with a vector in $\calK_k$, and by \Cref*{theorem: CG-error-min}, any such inner product is zero. This means we have
+    The final term of this expression is $2 \bm{r}_{k}^{\intercal} \left( \Delta \bm{x} \right)$, an inner product of $\bm{r}_{k}$ with a vector in $\calK_k$, and by \Cref{theorem: CG-error-min}, any such inner product is zero. Effectively, this means
     \[
         \| \bm{e} \|_{\bm{A}}^{2} = \bm{e}_{k}^{\intercal} \bm{A} \bm{e}_{k} + \left( \Delta \bm{x} \right)^{\intercal} \bm{A} \left( \Delta \bm{x} \right).
     \]
@@ -274,5 +274,5 @@ From \Cref{theorem: equiv-CG-spaces}, we can derive the following convergence th
     \[
         \| \bm{e}_{0} \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j, \qquad \| p \left( \bm{A} \right) \bm{e}_0 \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j \left( p \left( \lambda_j \right) \right)^{2}.
     \]
+    These identities indicate $\| p \left( \bm{A} \right) \bm{e}_{0} \|_{\bm{A}}^{2} / \| \bm{e}_{0} \|_{\bm{A}}^{2} \leq \max_{\lambda \in \Lambda \left( \bm{A} \right)} \left| p (\lambda) \right|^{2}$, which implies the inequality in question.
 \end{proof}
-These identities imply $\| p \left( \bm{A} \right) \bm{e}_{0} \|_{\bm{A}}^{2} / \| \bm{e}_{0} \|_{\bm{A}}^{2} \leq \max_{\lambda \in \Lambda \left( \bm{A} \right)} \left| p (\lambda) \right|^{2}$, which implies the inequality in question.

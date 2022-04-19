@@ -354,7 +354,7 @@ where $\bm{\alpha} = \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-
 
 Also notice that the covariance does not depend on observations but scales quadratically to the norm of the testing inputs. This is a key feature of GPs. The variance is comprised of the difference between the prior covariance, $\bm{K_{X_{\star}X_{\star}}}$, and positive term $\bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal}$ which represents knowledge given by the observations about the underlying function.
 
-Algorithm \ref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
+\Cref{alg: Unoptimized_GPR} shows one possible implementation for computing the mean and covariance of a single test input.
 
 \setcounter{GPRcount}{\value{algocf}}
 {\centering

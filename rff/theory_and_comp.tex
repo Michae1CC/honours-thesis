@@ -106,7 +106,7 @@ Another important result Rahimi and Recht show provides a bound on the sup-norm 
 
 Rahimi and Recht prove proposition \ref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$.
 
-These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorithm}, which was used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
+These results justify the RFF procedure seen in \Cref{alg: RFF-algorithm}, which was used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -130,7 +130,7 @@ These results justify the RFF procedure seen in algorithm \ref{alg: RFF-algorith
 \par
 }
 
-Algorithm \ref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in algorithm \ref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in \Cref{lem: rff-unbiased}.
+\Cref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in \Cref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in \Cref{lem: rff-unbiased}.
 
 \begin{lem} \label{lem: rff-unbiased}
     $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, that is

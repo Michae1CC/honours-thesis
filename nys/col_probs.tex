@@ -1,6 +1,6 @@
 \subsection{Column Probabilities}\label{Section2.2}
 
-Recall that the Nystrom method from Algorithm \ref{alg: nys-col-samp} is largely dependent on the random matrix multiplication algorithm (Algorithm \ref{alg: rand-mat-mult}) to produce a suitable sketching matrix. Moreover, improvements in the sketching matrix produced by the random matrix multiplication algorithm are reflected as smaller errors in the Nystrom approximation. Now, consider using the random matrix multiplication algorithm to approximate $\bm{A} \bm{A}^{\intercal}$ by setting $\bm{B} = \bm{A}$. The output is an approximation of the form
+Recall that the Nystrom method from \Cref{alg: nys-col-samp} is largely dependent on the random matrix multiplication algorithm (\Cref{alg: rand-mat-mult}) to produce a suitable sketching matrix. Moreover, improvements in the sketching matrix produced by the random matrix multiplication algorithm are reflected as smaller errors in the Nystrom approximation. Now, consider using the random matrix multiplication algorithm to approximate $\bm{A} \bm{A}^{\intercal}$ by setting $\bm{B} = \bm{A}$. The output is an approximation of the form
 \begin{equation*}
     \bm{A} \bm{A}^{\intercal} \simeq \bm{C} \bm{C}^{\intercal} = \bm{C} \bm{R}.
 \end{equation*}
@@ -11,7 +11,7 @@ The probability distribution
 aims to minimize the error between $\bm{A} \bm{A}^{\intercal}$ and the approximation $\bm{C} \bm{C}^{\intercal}$. As a result, we should expect that $\bm{C}$ becomes a better estimate for $\bm{A} \bm{S}$, implying that the sketching matrix, $\bm{S}$, is using a better sampling and landmark selection criteria. Drineas and Mahoney give a precise bound on this error presented in \Cref{thm: col-pro-bounds} \cite{JMLR:v6:drineas05a}*{page 2158}.
 
 \begin{thm} \label{thm: col-pro-bounds}
-    Given $\bm{A} \in \RR^{n \times I}$, $1 \leq c \leq I$ and the probability distribution $\left\{ p_i \right\}_{i=1}^{I}$ described in equation \ref{eq: col-probs}. Construct $\bm{C}$ using algorithm \ref{alg: rand-mat-mult}, then
+    Given $\bm{A} \in \RR^{n \times I}$, $1 \leq c \leq I$ and the probability distribution $\left\{ p_i \right\}_{i=1}^{I}$ described in equation \ref{eq: col-probs}. Construct $\bm{C}$ using \Cref{alg: rand-mat-mult}, then
     \[
         \EE \left[ \norm{\bm{A} \bm{A}^{\intercal} - \bm{C} \bm{C}^{\intercal}}_{F} \right] \leq \frac{1}{\sqrt{c}} \norm{\bm{A}}^2_{F}
     \]
@@ -25,7 +25,7 @@ To show \Cref{thm: col-pro-bounds}, we can actually prove something a little mor
     \[
         p_i = \frac{\norm{\bm{A}_{(:,i)}}_2 \norm{\bm{B}_{(i,:)}}_2}{\sum_{j=1}^{I} \norm{\bm{A}_{(:,j)}}_2 \norm{\bm{B}_{(j,:)}}}.
     \]
-    Construct $\bm{C}$ using algorithm \ref{alg: rand-mat-mult}, using the probability distribution described above, then
+    Construct $\bm{C}$ using \Cref{alg: rand-mat-mult}, using the probability distribution described above, then
     \[
         \EE \left[ \norm{\bm{A} \bm{B} - \bm{C} \bm{R}}_{F} \right] \leq \frac{1}{\sqrt{c}} \norm{\bm{A}}^2_{F} \norm{\bm{B}}^2_{F}.
     \]

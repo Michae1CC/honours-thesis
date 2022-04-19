@@ -1,7 +1,7 @@
 
 \subsection{Krylov Subspaces}\label{Section4.1}
 
-We will motivate the Krylov subspaces by observing their usefullness in solving linear systems. To this end, consider the problem of solving the linear system
+The main usefulness of Krylov subspaces come from their ability in assisting us to solving linear systems. To this end, consider the problem of solving the linear system
 \begin{equation}\label{eq: lin_sys_1}
     \bm{A} \bm{x^{\star}} = \bm{b}
 \end{equation}
@@ -31,13 +31,13 @@ where no explicit form of $\bm{A}$ is available and instead one must draw inform
     that is, $\| \left( \Id_{n \times n} - \bm{A} \right) \bm{S}_{n} - \Id_{n \times n} \| = \| \bm{A}^{n+1} \| \leq q^{n+1}$, which vanishes as $n \to \infty$. Thus $\bm{S} = \left( \Id_{n \times n} - \bm{A} \right)^{-1}$.
 \end{proof}
 
-Consider a matrix for which $\| \bm{A} \| < 2$, it follows that $\| \Id_{n \times n} - \bm{A} \| < 1$ meaning $\Id_{n \times n} - \left( \Id_{n \times n} - \bm{A} \right)$ is invertible and $\bm{A}^{-1} = \left( \Id_{n \times n} - \left( \Id_{n \times n} - \bm{A} \right) \right)^{-1} = \sum_{k=0}^{\infty} \left( \Id_{n \times n} - \bm{A} \right)^{k}$. Thinking back to equation \ref{eq: lin_sys_1} for any $\bm{x}_0 \in \RR^{n}$ we have
+Consider a matrix for which $\| \bm{A} \| < 2$, it follows that $\| \Id_{n \times n} - \bm{A} \| < 1$ meaning $\Id_{n \times n} - \left( \Id_{n \times n} - \bm{A} \right)$ is invertible and $\bm{A}^{-1} = \left( \Id_{n \times n} - \left( \Id_{n \times n} - \bm{A} \right) \right)^{-1} = \sum_{k=0}^{\infty} \left( \Id_{n \times n} - \bm{A} \right)^{k}$. Returning to equation \ref{eq: lin_sys_1} for any $\bm{x}_0 \in \RR^{n}$ we have
 \begin{align*}
     \bm{x^{\star}} & = \bm{A}^{-1} \bm{b} = \bm{A}^{-1} \left( \bm{A} \bm{x^{\star}} - \bm{A} \bm{x_0} + \bm{A} \bm{x_0} \right) \\
                    & = \bm{x_0} + \bm{A}^{-1} \bm{r_0}                                                                           \\
                    & = \bm{x_0} + \sum_{k=0}^{\infty} \left( \Id_{n \times n} - \bm{A} \right)^k \bm{r_0}
 \end{align*}
-where $\bm{r_0} = \bm{A} \bm{x^{\star}} - \bm{A} \bm{x_0}$. A natural question that arises is that can we find a closed form solution of the above equation? To answer this question we need to enlist the help of the Cayley-Hamilton theorem.
+where $\bm{r_0} = \bm{A} \bm{x^{\star}} - \bm{A} \bm{x_0}$. An obvious question that arises is whether a closed form solution of the above equation can be found. To answer this, we need to enlist the help of the Cayley-Hamilton theorem.
 \begin{thm}[Cayley-Hamilton] \label{theorem: cayley_amilton}
     Let $p_n \left( \lambda \right) = \sum_{i=0}^{n} c_i \lambda^{i}$ be the characteristic polynomial of the matrix $\bm{A} \in \CC^{n \times n}$, then $p_n \left( \bm{A} \right) = \bm{0}$. {\color{red} \textbf{THIS NEEDS A CITATION}}
 \end{thm}
@@ -59,7 +59,7 @@ This also shows that $\bm{x^{\star}} \in \bm{x}_0 + \operatorname{l.s} \left\{ \
     \]
     for $k \geq 1$ and $\calK_{0} \left( \bm{A},\bm{v} \right) = \left\{ \bm{0} \right\}$ \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 245}.
 \end{defe}
-For the purposes of solving equation \ref{eq: lin_sys_1} it is of much interest to understand how $\calK_{k} \left( \bm{A},\bm{v} \right)$ grows for larger and larger $k$ since a solution for equation \ref{eq: lin_sys_1} will be present in a Krylov Subspace that cannot be grown any larger, according to equation \ref{eq: x_ast_via_cayley}. In other words, an exact solution can be constructed once we have extracted all the information from $\bm{A}$ through multiplication of $\bm{r_0}$. The following theorem provides information on how exactly the Krylov Subspace grows as $k$ increases.
+For the purposes of solving equation \ref{eq: lin_sys_1} it is important to understand how $\calK_{k} \left( \bm{A},\bm{v} \right)$ grows for larger and larger $k$ since a solution for equation \ref{eq: lin_sys_1} will be present in a Krylov Subspace that cannot be grown any larger, according to equation \ref{eq: x_ast_via_cayley}. In other words, an exact solution can be constructed once we have extracted all the information from $\bm{A}$ through multiplication of $\bm{r_0}$. The following theorem provides information on how exactly the Krylov Subspace grows as $k$ increases.
 \begin{thm} \label{theorem: grade_of_v}
     There is a positive called the grade of $\bm{v}$ with respect to $\bm{A}$, denoted $t_{\bm{v}, \bm{A}}$, where
     \[

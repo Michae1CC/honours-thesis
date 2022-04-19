@@ -1,6 +1,6 @@
 \subsection{Gram-Schmidt Process and QR factorisations}\label{Section4.2}
 
-Many areas of linear algebra involving studing the column space of matrices. The $QR$ factorisation both provides a powerful tool to better understand the column space of a matrix and serves as an important factorisation mechanism for many numerical methods. Suppose that a matrix $\bm{A} = \left[ \bm{a}_1 , \bm{a}_2 , \ldots , \bm{a}_n \right] \in \KK^{n \times n}$ has full rank. The idea of a $QR$ factorisation is to find an alternative orthornormal basis for $\left\{ \bm{a}_i \right\}_{i=1}^{n}$, say $\left\{ \bm{q}_i \right\}_{i=1}^{n}$, and to somehow relate the original matrix $\bm{A}$ to a new matrix whose columns are $\left\{ \bm{q}_i \right\}_{i=1}^{n}$. Consider the following procedure that allows us to find an orthornormal basis $\left\{ \bm{q}_i \right\}_{i=1}^{n}$ for which $\operatorname{l.s} \left\{ \bm{a}_i \right\}_{i=1}^{n} = \operatorname{l.s} \left\{ \bm{q}_i \right\}_{i=1}^{n} $. First set $\bm{q}_1 = \frac{\bm{a}_1}{\| \bm{a}_i \|}$, clearly $\operatorname{l.s} \left\{ \bm{a}_1 \right\} = \operatorname{l.s} \left\{ \bm{q}_1 \right\}$. Next, construct a vector $\bm{q}_2' = \bm{a}_2 - r_{1,2} \cdot \bm{q}_1$ so that $\bm{q}_2' \perp \bm{q}_1$. This means
+Many areas of linear algebra involving studying the column space of matrices. The $QR$ factorisation both provides a powerful tool to better understand the column space of a matrix and serves as an important factorisation mechanism for many numerical methods. Suppose that a matrix $\bm{A} = \left[ \bm{a}_1 , \bm{a}_2 , \ldots , \bm{a}_n \right] \in \RR^{n \times n}$ has full rank. The idea of a $QR$ factorisation is to find an alternative orthornormal basis for $\left\{ \bm{a}_i \right\}_{i=1}^{n}$, say $\left\{ \bm{q}_i \right\}_{i=1}^{n}$, and to somehow relate the original matrix $\bm{A}$ to a new matrix whose columns are $\left\{ \bm{q}_i \right\}_{i=1}^{n}$. Consider the following procedure that allows us to find an orthornormal basis $\left\{ \bm{q}_i \right\}_{i=1}^{n}$ for which $\operatorname{l.s} \left\{ \bm{a}_i \right\}_{i=1}^{n} = \operatorname{l.s} \left\{ \bm{q}_i \right\}_{i=1}^{n} $. First set $\bm{q}_1 = \frac{\bm{a}_1}{\| \bm{a}_i \|}$, clearly $\operatorname{l.s} \left\{ \bm{a}_1 \right\} = \operatorname{l.s} \left\{ \bm{q}_1 \right\}$. Next, construct a vector $\bm{q}_2' = \bm{a}_2 - r_{1,2} \cdot \bm{q}_1$ so that $\bm{q}_2' \perp \bm{q}_1$. This means
 \begin{align*}
     0       & = \langle \bm{q}_1, \bm{q}_2' \rangle                                                   \\
     0       & = \langle \bm{q}_1, \bm{a}_2 - r_{1,2} \cdot \bm{q}_1 \rangle                           \\
@@ -15,7 +15,7 @@ is orthogonal to both $\bm{q}_2$ and $\bm{q}_1$. This amounts to setting $r_{1,3
 \begin{equation}\label{eq: comp_orth_basis}
     \bm{q}_k = \frac{\bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i}{r_{k,k}}
 \end{equation}
-where $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} = \operatorname{l.s} \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\}$. This procedure is famiously known as the Gram-Schmidt process \cites{BerezanskyMakarovich1996FaV1,TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla} and is summarized in the following algorithm.
+where $r_{i,k} = \langle \bm{q}_i, \bm{a}_k \rangle$, $r_{k,k} = \| \bm{a}_k - \sum_{i=1}^{k-1} r_{i,k} \cdot \bm{q}_i \|$ and $\operatorname{l.s} \left\{ \bm{a}_1, \bm{a}_2, \ldots , \bm{a}_k \right\} = \operatorname{l.s} \left\{ \bm{q}_1, \bm{q}_2, \ldots , \bm{q}_k \right\}$. This procedure is known as the Gram-Schmidt process \cites{BerezanskyMakarovich1996FaV1,TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla} and is summarized in the following algorithm.
 
     % https://tex.stackexchange.com/questions/463359/algorithm-inside-a-tcolorbox-how-to-put-a-label-to-the-algorithm-but-the-captio
     % http://cfrgtkky.blogspot.com/2018/12/algorithm-inside-tcolorbox-how-to-put.html
@@ -110,7 +110,7 @@ where $\bm{Q} = \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_n \right]$ and $\bm{R
     \end{bmatrix}
     = \hat{\bm{Q}} \hat{\bm{R}}.
 \]
-This alternate decomposition is called the reduced (or somtimes the thin) QR-factorization. The following two theorems on the QR-factorization are stated without proof.
+This alternate decomposition is called the reduced (or sometimes the thin) QR-factorization. The following two theorems on the $QR$ factorization are stated without proof.
 
 \begin{thm} \label{theorem: QR_general_existence}
     Every $\bm{A} \in \KK^{m \times n}, \; (m \geq n)$ has a full $QR$ factorisation, hence also a reduced $QR$ factorisation.
@@ -122,11 +122,11 @@ This alternate decomposition is called the reduced (or somtimes the thin) QR-fac
     \cite{TrefethenLloydN.LloydNicholas1997Nla/}
 \end{thm}
 
-In practice the classical Gram-Schmidt process described in algorithm \ref{alg: Classical_Gram-Schmidt} is rarely used as the procedure becomes numerically unstable if $\left\{ \bm{a}_i \right\}_{i=1}^{n}$ are almost linearly dependent. Before looking for ways to resolve these numerical instabilities a quick recap of projectors has been devised. A square matrix $\bm{P}_{G}$ acting on a Hilbert space $H$ that sends $\bm{x} \in H$ to its projection onto a subspace $G$ is called the projector onto $G$. If $\left\{ \bm{q}_k \right\}_{k=1}^{m}$ is an orthornormal basis in $G$ then
+In practice the classical Gram-Schmidt process described in \Cref{alg: Classical_Gram-Schmidt} is rarely used as the procedure becomes numerically unstable if $\left\{ \bm{a}_i \right\}_{i=1}^{n}$ are almost linearly dependent. Before looking at ways to resolve these numerical instabilities, a quick recap of projectors is useful. A square matrix $\bm{P}_{G}$ acting on a Hilbert space $H$ that sends $\bm{x} \in H$ to its projection onto a subspace $G$ is called the projector onto $G$. If $\left\{ \bm{q}_k \right\}_{k=1}^{m}$ is an orthornormal basis in $G$ then
 \[
     \bm{P}_{G} = \bm{Q} \bm{Q}^{\ast}
 \]
-where $\bm{Q} = \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_m, 0 , \ldots , 0 \right] \in \KK^{n \times n}$. A special class of projectors which isolates the components of a given vector onto a one dimensional subspace spanned by a single unit vector $\bm{q}$ called a rank one orthogonal projector, denoted as $\bm{P}_{q}$. Each $k$ in the classical Gram-Schmidt process creates $\bm{q}_k'$ using the following orthogonal projection
+where $\bm{Q} = \left[ \bm{q}_1 , \bm{q}_2 , \ldots \bm{q}_m, \bm{0} , \ldots , \bm{0} \right] \in \RR^{n \times n}$. A special class of projectors which isolates the components of a given vector onto a one dimensional subspace spanned by a single unit vector $\bm{q}$ called a rank one orthogonal projector, denoted as $\bm{P}_{q}$. Each $k$ in the classical Gram-Schmidt process creates $\bm{q}_k'$ using the following orthogonal projection
 \begin{equation}\label{eq: classical_GS_proj}
     \bm{q}_k' = \bm{P}_{A_{k}^{\perp}} \bm{a}_k
 \end{equation}

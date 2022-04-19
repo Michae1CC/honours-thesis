@@ -28,7 +28,7 @@ Furthermore, if $\bm{A}$ is positive semi-definite we can improve the quality of
            & = \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber \\
            & \simeq \left( \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \right).
 \end{align}
-This is known as the Nystrom method. Since any Gram matrix is positive semi-definite, we can always applied the Nystrom method to find an approximation to it. A general Nystrom framework is presented in Algorithm \ref{alg: nys-gen}.
+This is known as the Nystrom method. Since any Gram matrix is positive semi-definite, we can always applied the Nystrom method to find an approximation to it. A general Nystrom framework is presented in \Cref{alg: nys-gen}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -50,7 +50,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
 \end{minipage}
 \par}
 
-However, Algorithm \ref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by \Cref{lem: best-col-sel}.
+However, \Cref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by \Cref{lem: best-col-sel}.
 
 \begin{thm} \label{lem: best-col-sel}
     Every $\bm{A} \in \RR^{n \times m}$ matrix contains a $k-$column submatrix $\bm{C}$ for which
@@ -71,7 +71,7 @@ where $c$ is the number of samples and each summand is rescaled by a factor of $
 \begin{equation*}
     \bm{A} \bm{B} = \sum_{i=1}^{I} \bm{A}_{(:,i)} \bm{B}_{(i,:)}
 \end{equation*}
-\cites{Roosta2020, doi:10.1137/S0097539704442684}. A straight forward way to approximate this using the Monte-Carlo estimate is to simply set each $\bm{A}_i$ in \ref{eq: A-as-summands} to the corresponding rank$-1$ outter product summand $\bm{A}_{(:,i)} \bm{B}_{(i,:)}$. This justifies the random matrix multiplication algorithm seen in Algorithm \ref{alg: rand-mat-mult} \cite{drineas2017lectures}*{page 16}.
+\cites{Roosta2020, doi:10.1137/S0097539704442684}. A straight forward way to approximate this using the Monte-Carlo estimate is to simply set each $\bm{A}_i$ in \ref{eq: A-as-summands} to the corresponding rank$-1$ outter product summand $\bm{A}_{(:,i)} \bm{B}_{(i,:)}$. This justifies the random matrix multiplication algorithm seen in \Cref{alg: rand-mat-mult} \cite{drineas2017lectures}*{page 16}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -100,7 +100,7 @@ This algorithm makes this idea a little more precise, taking in the two matrices
 \begin{equation*}
     \bm{A}\bm{B} \simeq \sum_{t=1}^{c} \frac{1}{cp_{i_t}} \bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}.
 \end{equation*}
-Equivalently, the above can be restated as the product of two matrices $\bm{C} \bm{R}$ formed by Algorithm \ref{alg: rand-mat-mult}, where $\bm{C}$ consists of $c$ randomly selected rescaled columns of $\bm{A}$ and $\bm{R}$ is $c$ randomly selected rescaled rows of $\bm{B}$. Notice that
+Equivalently, the above can be restated as the product of two matrices $\bm{C} \bm{R}$ formed by \Cref{alg: rand-mat-mult}, where $\bm{C}$ consists of $c$ randomly selected rescaled columns of $\bm{A}$ and $\bm{R}$ is $c$ randomly selected rescaled rows of $\bm{B}$. Notice that
 \begin{equation*}
     \bm{C} \bm{R} = \sum_{t=1}^{c} \bm{C}_{(:,i_t)} \bm{R}_{(i_t,:)} = \sum_{t=1}^{c} \left( \frac{1}{\sqrt{cp_{i_t}}} \bm{A}_{(:,i_t)} \right) \left( \frac{1}{\sqrt{cp_{i_t}}} \bm{B}_{(i_t,:)} \right) = \frac{1}{c} \sum_{t=1}^{c} \frac{1}{p_{i_t}} \bm{A}_{(:,i_t)} \bm{B}_{(i_t,:)}.
 \end{equation*}
@@ -115,7 +115,7 @@ so that
 Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generally not constructed explicitly and instead the matrix products $\bm{A} \bm{S}$ and $\bm{S}^{\intercal} \bm{B}$ are done through row and column rescaling \cite{drineas2017lectures}*{page 17}. \Cref{lem: rmm-exp-var-bds} provides some bounds on $\bm{C} \bm{R}$ as an estimate for $\bm{A}\bm{B}$.
 
 \begin{lem} \label{lem: rmm-exp-var-bds}
-    Let $\bm{C}$ and $\bm{R}$ be constructed as described in Algorithm \ref{alg: rand-mat-mult}, then
+    Let $\bm{C}$ and $\bm{R}$ be constructed as described in \Cref{alg: rand-mat-mult}, then
     \[
         \EE \left[ \left( \bm{C} \bm{R} \right)_{ij} \right] = \left( \bm{A}\bm{B} \right)_{ij}.
     \]
@@ -150,7 +150,7 @@ So how does this help us with the Nystrom method? Consider using the random matr
     \bm{K} \bm{S} \bm{S}^{\intercal} \Id_{n \times n} = \bm{K} \bm{S} \bm{S}^{\intercal} \simeq \bm{K}.
 \end{equation*}
 
-We see now that the sketching matrix produced by Algorithm \ref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in Algorithm \ref{alg: nys-col-samp} that uses the column sampling technique from Algorithm \ref{alg: rand-mat-mult} together with the general Nystrom framework (Algorithm \ref{alg: nys-gen}) to provide a new column sampling Nystrom method to approximate a Gram matrix for a provided dataset and probability distribution \cites{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
+We see now that the sketching matrix produced by \Cref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in \Cref{alg: nys-col-samp} that uses the column sampling technique from \Cref{alg: rand-mat-mult} together with the general Nystrom framework (\Cref{alg: nys-gen}) to provide a new column sampling Nystrom method to approximate a Gram matrix for a provided dataset and probability distribution \cites{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
 
 {\centering
 \begin{minipage}{.85\linewidth}

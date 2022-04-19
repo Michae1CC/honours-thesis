@@ -1,0 +1,30 @@
+\subsection{Data Probabilities}\label{Section2.3}
+
+Here we present two novel Nystrom probability sampling distributions that make use of the data matrix, $\bm{X}$, directly without requiring any knowledge of the associated kernel matrix. The first of these two methods is the data-column sampling distribution defined simply as
+\begin{equation*}
+    p_{i} = \norm{\bm{X}_{(i,:)}}_2 / \norm{\bm{X}}_{F}^2.
+\end{equation*}
+This sampling distribution can be thought of as the data-column dual of the kernel column sampling probabilities seen in \Cref{Section2.2}. The second sampling method is the $Q$ matrix column sampling distribution defined as
+\begin{equation*}
+    p_{i} = \norm{\bm{Q}_{(i,:)}}_2 / \norm{\bm{Q}}_{F}^2.
+\end{equation*}
+where $\bm{X} = \bm{Q} \bm{R}$ is the $QR$ factorisation (see \Cref{theorem: QR_general_existence}) of $\bm{X}$. This sampling technique can be though of as the data matrix equivalent of leverage score sampling. There are numerous benefits computing the sampling probabilities using the data matrix directly without needing any knowledge about the corresponding matrix. To start, the obvious benefit is that no properties or elements (along with their corresponding calculations) of the kernel matrix are required saving large amounts of computation time. Second, if the parameters of the kernel function are changed, or an entirely different kernel function is used altogether, then the data-column sampling probabilities need not be re-evaluted.
+
+The main grounds for the theoretical justification for using the data matrix directly to produce a sampling distribution comes from a result shown in \cite{KarouiNoureddineEl2010TSOK}, presented below.
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\begin{thm}[Inner Product of Kernel Matrices] \label{thm: inner-prof-kern-mat}
+    Let us assume that we observe n i.i.d. random vectors, $X_i \in \RR^{p}$. let us consider the kernel matrix $\bm{M}$ with entries
+    \begin{equation*}
+        \bm{M}_{ij} = f \left( \frac{\bm{X}_{i}^{\intercal} \bm{X}_{i}}{p} \right).
+    \end{equation*}
+    We assume that
+    \begin{enumerate}
+        \item an apple
+        \item a banana
+        \item a carrot
+        \item a durian
+    \end{enumerate}
+    \cite{KarouiNoureddineEl2010TSOK}*{page 9}.
+\end{thm}
