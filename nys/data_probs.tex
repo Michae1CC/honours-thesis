@@ -21,10 +21,26 @@ The main grounds for the theoretical justification for using the data matrix dir
     \end{equation*}
     We assume that
     \begin{enumerate}
-        \item an apple
-        \item a banana
-        \item a carrot
-        \item a durian
+        \item We have $n/p$ and $p/n$ remain bounded as $n \to \infty$.
+        \item $\bm{\Sigma}_{p}$ is a positive semi-definite $p \times p$ matrix, and $\norm{\bm{\Sigma}_{p}}_2 = \sigma_1 \left( \bm{\Sigma}_{p} \right)$ remains bounded in $p$, that is, there exists $K > 0$, such that $\sigma_1 \left( \bm{\Sigma}_{p} \right) \leq K$, for all p.
+        \item $\bm{\Sigma}_{p} / p$ has a finite limit, that is, there exists $l \in \RR$ such that $\lim_{p \to \infty} \operatorname{tr} \left( \bm{\Sigma}_{p} \right) / p = l$.
+        \item $\bm{X}_{i} = \bm{\Sigma}_{p}^{1/2} \bm{Y}_{i}$.
+        \item The entries of $\bm{Y}_{i}$, a $p-$dimensional random vector, are i.i.d. Also, denoting by $\bm{Y}_{i} (k)$ the $k^{th}$ entry of $\bm{Y}_{i}$, we assume that $\EE \left( \bm{Y}_{i} (k) \right) = 0, \; \VV \left( \bm{Y}_{i} (k) \right) = 1$ and $\EE \left( \left| \bm{Y}_{i} (k) \right|^{4 + \varepsilon} \right) < \infty$ for some $\varepsilon > 0$.
+        \item $f$ is a $C^{1}$ function is a neighborhood of $l = \lim_{p \to \infty} \operatorname{tr} \left( \bm{\Sigma}_{p} \right) / p$ and a $C^3$ function in a neighborhood of $0$.
     \end{enumerate}
-    \cite{KarouiNoureddineEl2010TSOK}*{page 9}.
+    Under these assumptions, the kernel matrix $\bm{M}$ can (in probability) be approximated consistently in the operator norm, when $p$ and $n$ tend to $\infty$, by the matrix $\bm{K}$, where
+    \begin{equation*}
+        \bm{K} = \left( f(0) + f''(0) \frac{\operatorname{tr} \left( \bm{\Sigma}_{p}^{2} \right)}{2p^2} \right) 11' + f'(0) \frac{\bm{X} \bm{X}^{\intercal}}{p} + v_{p} \Id,
+    \end{equation*}
+    and where
+    \begin{equation*}
+        v_{p} = f \left( \frac{\operatorname{tr} \left( \bm{\Sigma}_{p} \right)}{p} \right) - f(0) - f'(0) \frac{\operatorname{tr} \left( \bm{\Sigma}_{p} \right)}{p}.
+    \end{equation*}
+    In other words,
+    \begin{equation*}
+        \norm{\bm{M} - \bm{K}}_2 \to 0
+    \end{equation*}
+    in probability, when $p \to \infty$ \cite{KarouiNoureddineEl2010TSOK}*{page 9}.
 \end{thm}
+
+When using the RBF kernel these assumptions typically hold. This theorem shows that as the size of the kernel matrix becomes large, it begins to behave like the underpinning data matrix, up to a factor of a constant.
