@@ -6,9 +6,9 @@ Here we present two novel Nystrom probability sampling distributions that make u
 \end{equation*}
 This sampling distribution can be thought of as the data-column dual of the kernel column sampling probabilities seen in \Cref{Section2.2}. The second sampling method is the $Q$ matrix column sampling distribution defined as
 \begin{equation*}
-    p_{i} = \norm{\bm{Q}_{(i,:)}}_2 / \norm{\bm{Q}}_{F}^2.
+    p_{i} = \norm{\bm{Q}_{(i,:)}}_2.
 \end{equation*}
-where $\bm{X} = \bm{Q} \bm{R}$ is the $QR$ factorisation (see \Cref{theorem: QR_general_existence}) of $\bm{X}$. This sampling technique can be though of as the data matrix equivalent of leverage score sampling. There are numerous benefits computing the sampling probabilities using the data matrix directly without needing any knowledge about the corresponding matrix. To start, the obvious benefit is that no properties or elements (along with their corresponding calculations) of the kernel matrix are required saving large amounts of computation time. Second, if the parameters of the kernel function are changed, or an entirely different kernel function is used altogether, then the data-column sampling probabilities need not be re-evaluted.
+where $\bm{X} = \bm{Q} \bm{R}$ is the $QR$ factorisation (see \Cref{theorem: QR_general_existence}) of $\bm{X}$. This sampling technique can be thought of as the data matrix equivalent of leverage score sampling. There are numerous benefits computing the sampling probabilities using the data matrix directly without needing any knowledge about the corresponding matrix. To start, the obvious benefit is that no properties or elements (along with their corresponding calculations) of the kernel matrix are required saving large amounts of computation time. Second, if the parameters of the kernel function are changed, or an entirely different kernel function is used altogether, then the data-column sampling probabilities need not be re-evaluted.
 
 The main grounds for the theoretical justification for using the data matrix directly to produce a sampling distribution comes from a result shown in \cite{KarouiNoureddineEl2010TSOK}, presented below.
 

@@ -40,7 +40,7 @@ What makes low-rank statistical leverage scores particularly appealing is that t
 
 \subsubsection{Ridge Leverage Scores}
 
-The low rank leverage scores we saw in equation \ref{eq: lev-scrs-1} will not always be unique and can be sensitive to perturbations \cite{DBLP:journals/corr/CohenMM15}*{page 6}. Consequently these scores can vary drastically when $\bm{A}$ is modified slightly or when we only have access to partial information on the matrix. This undermines the the possibility of computing good quality low rank approximations from statistical leverage scores. This shortcoming is addressed in the next class of leverage score, that is, ridge leverage scores. Ridge leverage scores are similar to statistical leverage scores although a ridge regression term (hence the name) is added to the hat matrix with a regularization parameter $\lambda$. The $\lambda-$ridge leverage score is defined as
+The low rank leverage scores we saw in \Cref{eq: lev-scrs-1} will not always be unique and can be sensitive to perturbations \cite{DBLP:journals/corr/CohenMM15}*{page 6}. Consequently these scores can vary drastically when $\bm{A}$ is modified slightly or when we only have access to partial information on the matrix. This undermines the the possibility of computing good quality low rank approximations from statistical leverage scores. This shortcoming is addressed in the next class of leverage score, that is, ridge leverage scores. Ridge leverage scores are similar to statistical leverage scores although a ridge regression term (hence the name) is added to the hat matrix with a regularization parameter $\lambda$. The $\lambda-$ridge leverage score is defined as
 \begin{equation*}
     r_{i}^{\lambda} \triangleq \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} + \lambda \Id_{n \times n} \right)^{-1} \bm{A}^{\intercal} \right)_{ii}.
 \end{equation*}
@@ -78,7 +78,7 @@ is typically used since this choice of $\lambda$ will guarantee that the sum of 
         \leq k + k.
     \end{equation*}
 \end{proof}
-From now on (unless otherwise stated) the regularization parameter seen in \ref{eq: rid-lev-reg-param} will always be used for ridge leverage scores where the notation
+From now on (unless otherwise stated) the regularization parameter seen in \Cref{eq: rid-lev-reg-param} will always be used for ridge leverage scores where the notation
 \begin{equation*}
     r_{i}^{k} \triangleq \left( \bm{A} \left( \bm{A}^{\intercal} \bm{A} + \left( \frac{\norm{\bm{A} - \bm{A}_k}_F^{2}}{k} \right) \Id_{n \times n} \right)^{-1} \bm{A}^{\intercal} \right)_{ii}
 \end{equation*}

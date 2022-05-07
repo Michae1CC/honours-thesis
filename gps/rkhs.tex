@@ -10,12 +10,12 @@ We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS
                   f(\bm{x}) = \langle f , k \left( \cdot, \bm{x} \right) \rangle
               \]
               holds for all $f \in H$ and $x \in X$.
-        \item The space $H$ is called a reproducing kernel Hilbert space over $X$ if for all $\bm{x} \in X$ the Dirac functional $\delta_{\bm{x}} : H \to \RR$ defined by $\delta_{\bm{x}} (f) \triangleq f(x), \; f \in H$ is continuous.
+        \item The space $H$ is called a reproducing kernel Hilbert space over $X$ if for all $\bm{x} \in X$ the Dirac functional $\delta_{\bm{x}} : H \to \RR$ defined by $\delta_{\bm{x}} (f) \triangleq f(\bm{x}), \; f \in H$ is continuous.
     \end{enumerate}
     \cite{SteinwartIngo2008SVMb}
 \end{defe}
 
-An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically, in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (x) - f (x)} \to 0$. Note that because the evaluation function is both linear and continuous, then it is also bounded in the sense that there is a $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
+An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically, in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (\bm{x}) - f (\bm{x})} \to 0$. Note that because the evaluation function is both linear and continuous, then it is also bounded in the sense that there is a $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
 
 \begin{lem}[] \label{lem: RKHS_rk_k}
     Let $H$ be a Hilbert function space over $X$ that has a reproducing kernel $k$. Then $H$ is a RKHS and $H$ is also a feature space of $k$ where the feature map $\Phi : X \to H$ is given by
@@ -39,8 +39,24 @@ An important property of the RKHS is that the convergence in the norm implies po
 This tells us that every Hilbert space with a reproducing kernel is a RKHS. We can also show the converse, that is, every RKHS has a unique reproducing kernel seen in \Cref{theorem: unique_kernel}.
 
 \begin{thm} \label{theorem: unique_kernel}
-    Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}.
+    Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}*{page 120}.
 \end{thm}
+
+\begin{proof}
+    We first show that $k$ is a reproducing kernel. To this end, we know from the Frechet-Riesz Representation theorem (see \cite{SteinwartIngo2008SVMb}*{page 504})that there exists a anti-linear isomorphism, $I : H' \to H$ that assigns to every functional in $H'$ the representing element in $H$, that is, $g'(f) = \langle f , I g' \rangle$ for all $f \in H, \; g' \in H'$. Then, for all $\bm{x} , \bm{x}' \in X$, we have
+    \begin{equation*}
+        k \left( \bm{x} , \bm{x}' \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_{H'} = \langle I \delta_{\bm{x}} , I \delta_{\bm{x}'} \rangle_{H} = \delta_{\bm{x}} \left( I \delta_{\bm{x}'} \right) = I \delta_{\bm{x}'} (\bm{x}),
+    \end{equation*}
+    which shows $k \left( \cdot , \bm{x}' \right) = I \delta_{\bm{x}'}$ for all $\bm{x}' \in X$. From this we immediately obtain
+    \begin{equation*}
+        f(\bm{x}') = \delta_{\bm{x}'} (f) = \langle f , I \delta_{\bm{x}'} \rangle = \langle f , k \left( \cdot , \bm{x}' \right) \rangle,
+    \end{equation*}
+    that is, $k$ has the reproducing property. Now let $\tilde{k}$ be an arbitrary reproducing kernel of $H$. For $\bm{x}' \in X$, the basis representation of $\tilde{k} \left( \cdot , \bm{x}' \right)$ then yields
+    \begin{equation*}
+        \tilde{k} \left( \cdot , \bm{x}' \right) = \sum_{i \in I} \langle \tilde{k} (\cdot , \bm{x}'), \bm{e}_{i} \rangle \bm{e}_{i} = \sum_{i \in I} \overline{\bm{e}_{i} (\bm{x}')} \bm{e}_{i},
+    \end{equation*}
+    where the convergence is with respect to $\norm{\cdot}_H$. Since convergence in the norm implies pointwise convergence, we obtain $\tilde{k} \left( \bm{x} , \bm{x}' \right) = \sum_{i \in I} \bm{e}_{i} (\bm{x}) \overline{\bm{e}_{i} (\bm{x}')}$. Finally, since $\tilde{k}$ and $\left\{ \bm{e}_{i} \right\}_{i\in I}$ we arbitrarily chosen, we find that $\tilde{k} = k$, that is, $k$ is the only reproducing kernel of $H$.
+\end{proof}
 
 \Cref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown to afford a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem presented in thorem \Cref{theorem: Moore-Aronszajn}.
 

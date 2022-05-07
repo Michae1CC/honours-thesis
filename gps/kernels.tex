@@ -1,6 +1,6 @@
 \subsection*{Kernels}\label{Section1.1}
 
-Often in machine learning we are often met with the challenge of how to best represent data instances as fixed size feature vectors $\bm{x}_i \in X$. For certain objects it might not be obvious at all how to represent the data as a fixed length vector. Good examples of variable length data include textual documents and genomic data. For these data types we can define a method of measuring similarity between objects which requires them to first be converted to a fixed length feature vector first \cite{MurphyKevinP2012Ml}. To do this we begin by mapping the feature vectors into a Hilbert space $H$ which enriches the vector space with an inner product $\langle \cdot , \cdot \rangle_H : H \times H \to \RR$ and a norm $\| \cdot \|_H : H \to \RR$. Input data is transformed into feature space vectors via a non-linear feature mapping $\Phi : X \to H$. The benefit of using feature maps in this way is that a non-linear descision boundary can be constructed using linear models. In some instances a similarity measure can be computed directly using a function $k : X \times X \to \RR$, instead of needing to construct a $\Phi$ and then computing the inner product of the transformed instances. Functions that act directly on our data instances are known as kernel functions and using them to avoid computation associated with the underlying feature space is known as the kernel trick \cite{SteinwartIngo2008SVMb}. These ideas are stated more formally in \cref{defe: kernel}.
+Often in machine learning we are often met with the challenge of how to best represent data instances as fixed size feature vectors $\bm{x}_i \in X$. For certain objects it might not be obvious at all how to represent the data as a fixed length vector. Good examples of variable length data include textual documents and genomic data. For these data types we can define a method of measuring similarity between objects which requires them to first be converted to a fixed length feature vector first \cite{MurphyKevinP2012Ml}. To do this we begin by mapping the feature vectors into a Hilbert space $H$ which enriches the vector space with an inner product $\langle \cdot , \cdot \rangle_H : H \times H \to \RR$ and a norm $\| \cdot \|_H : H \to \RR$. Input data is transformed into feature space vectors via a non-linear feature mapping $\Phi : X \to H$. The benefit of using feature maps in this way is that a non-linear descision boundary can be constructed using linear models. In some instances a similarity measure can be computed directly using a function $k : X \times X \to \RR$, instead of needing to construct a $\Phi$ and then computing the inner product of the transformed instances. Functions that act directly on our data instances are known as kernel functions and using them to avoid computation associated with the underlying feature space is known as the kernel trick \cite{SteinwartIngo2008SVMb}. These ideas are stated more formally in \Cref{defe: kernel}.
 
 \begin{defe}[Kernel] \label{defe: kernel}
     Let $X$ be a non-empty set. Then a function $k : X \times X \to \RR$ is called a kernel on $X$ if there exists a Hilbert space and a map $\Phi : X \to H$ such that for all $\bm{x} , \bm{x}' \in X$ we have $k \left( \bm{x} , \bm{x}' \right) = \langle \Phi \left( \bm{x} \right), \Phi \left( \bm{x}' \right) \rangle_H$. We call the $\Phi$ the feature map and $H$ the feature space of $k$.
@@ -13,15 +13,15 @@ It is worth noting that almost no conditions are placed on the set $X$, allowing
 for $x,x' \in X$. While their might be numerous functions that provide some notion of similarity between data entries, these functions might not be valid kernels. Instead of needing to construct a feature map and feature space to verify that a chosen function is a valid kernel using \Cref{defe: kernel}, we can make use of a much simpler set of criteria. Before embarking on this train of thought, we need to define the following.
 
 \begin{defe}[Positive Definite and Positive Semidefinite] \label{defe: PD}
-    A function $k : K \times K \to \RR$ is positive semidefinite if for all $n \in \NN$ and $\alpha_1 , \ldots , \alpha_n \in \RR$ and all $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ we have
+    A function $k : X \times X \to \RR$ is positive semidefinite if for all $n \in \NN$ and $\alpha_1 , \ldots , \alpha_n \in \RR$ and all $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ we have
     \begin{equation}\label{eq: PSD}
         \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_i \alpha_j k \left( \bm{x}_j , \bm{x}_i \right) \geq 0.
     \end{equation}
-    Furthermore, $k$ is said to be positive definite if for mutually distinct $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ equality \ref{eq: PSD} only holds for $\alpha_1 = \ldots = \alpha_n = 0$ \cite{SteinwartIngo2008SVMb}.
+    Furthermore, $k$ is said to be positive definite if for mutually distinct $\bm{x}_1 ,\ldots , \bm{x}_n \in X$ equality \Cref{eq: PSD} only holds for $\alpha_1 = \ldots = \alpha_n = 0$ \cite{SteinwartIngo2008SVMb}.
 \end{defe}
 
 \begin{defe}[Symmetric] \label{defe: Symmetric_function}
-    A function $k : K \times K \to \RR$ is called symmetric if $k \left( \bm{x} , \bm{x}' \right) = k \left( \bm{x}' , \bm{x} \right)$ for any inputs $\bm{x}' , \bm{x} \in X$ \cite{SteinwartIngo2008SVMb}.
+    A function $k : X \times X \to \RR$ is called symmetric if $k \left( \bm{x} , \bm{x}' \right) = k \left( \bm{x}' , \bm{x} \right)$ for any inputs $\bm{x}' , \bm{x} \in X$ \cite{SteinwartIngo2008SVMb}.
 \end{defe}
 
 \begin{defe}[Gram Matrix] \label{defe: Gram_Matrix}
@@ -39,5 +39,29 @@ Note that checking if a function is positive (semi) definite is equivalent to ch
 The following theorems tell us that it is not only necessary for a kernel to be positive semi definite but it is also a sufficient condition.
 
 \begin{thm} \label{theorem: nec_and_suf_kernel_1}
-    A function $k : K \times K \to \RR$ is a kernel if and only if it is symmertic and positive semidefinite \cite{SteinwartIngo2008SVMb}.
+    A function $k : X \times X \to \RR$ is a kernel if and only if it is symmertic and positive semidefinite \cite{SteinwartIngo2008SVMb}*{page 118}.
 \end{thm}
+
+\begin{proof}
+    In view of the above discussion, it suffices to show that a symmetric and positive definite function is a kernel. To this end, we write
+    \begin{equation*}
+        H_{\text{pre}} \triangleq \left\{ \sum_{i=1}^{n} \alpha_{i} k (\cdot , \bm{x}_{i}) \mid n \in \NN , \; \alpha_1 , \ldots , \alpha_n \in \RR , \; \bm{x}_{1} , \ldots , \bm{x}_{n} \in X \right\}
+    \end{equation*}
+    and for $f \triangleq \sum_{i=1}^{n} \alpha_{i} k (\cdot , \bm{x}_{i}) \in H_{\text{pre}}$ and $g \triangleq \sum_{j=1}^{m} \beta_{j} k (\cdot , \bm{x}_{j}') \in H_{\text{pre}}$, we define
+    \begin{equation*}
+        \langle f,g \rangle \triangleq \sum_{i=1}^{n} \sum_{j=1}^{m} \alpha_{i} \beta_{j} k (\bm{x}_{j}' , \bm{x}_{i}).
+    \end{equation*}
+    Note that this definition is independent of the representation of $f$ since we have $\langle f,g \rangle = \sum_{j=1}^{m} \beta_{i}  f (\bm{x}_{j}')$. Furthermore, by the symmetry of $k$, we find $\langle f,g \rangle = \sum_{i=1}^{m} \alpha_{i}  g (\bm{x}_{i})$, that is, the definition is also independent of the representation of $g$. Moreover, the definition immediately shows that $\langle \cdot , \cdot \rangle$ is bilinear and symmeteric, and since $k$ is positive definite, $\langle \cdot , \cdot \rangle$ is also positive, that is, $\langle f , f \rangle \geq 0$ for all $f \in H_{\text{pre}}$. Consequently, $\langle \cdot , \cdot \rangle$ satisfies the Cauchy-Schwarz inequality, that is,
+    \begin{equation*}
+        \left| \langle f,g \rangle \right|^2 \leq \langle f , f \rangle \cdot \langle g , g \rangle, \quad f,g \in H_{\text{pre}}.
+    \end{equation*}
+    Now let $f \triangleq \sum_{i=1}^{n} \alpha_{i} k (\cdot , \bm{x}_{i})$ with $\langle f , f \rangle = 0$. Then for all $\bm{x} \in X$, we have
+    \begin{equation*}
+        \left| f(\bm{x}) \right|^2 = \left| \sum_{i=1}^{n} \alpha_i k (\bm{x} , \bm{x}_i) \right|^2 = \left| \langle f , k (\cdot , \bm{x}) \rangle \right|^2 \leq  \langle k (\cdot , \bm{x}) , k (\cdot , \bm{x}) \rangle \cdot \langle f , f \rangle
+    \end{equation*}
+    and hence we find that $f = \bm{0}$. Therefore we have shown that $\langle \cdot , \cdot \rangle$ is an inner product on $H_{\text{pre}}$. Let $H$ be a completion of $H_{\text{pre}}$ and $I : H_{\text{pre}} \to H$ be the corresponding isometeric embedding. Then $H$ is a Hilbert space and we have
+    \begin{equation*}
+        \langle I k (\cdot , \bm{x}') , I k (\cdot , \bm{x}) \rangle_{H} = \langle k (\cdot , \bm{x}') , k (\cdot , \bm{x}) \rangle_{H_{\text{pre}}} = k (\bm{x} , \bm{x}')
+    \end{equation*}
+    for all $\bm{x} , \bm{x}'$, that is, $\bm{x} \mapsto I k (\cdot , \bm{x}), \; \bm{x} \in X$, defines a feature map of $k$.
+\end{proof}

@@ -1,6 +1,6 @@
 \subsection{Optimality Conditions}\label{Section4.4}
 
-So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ where $n = t_{\bm{r}_0}$ is the grade of $\bm{r}_0$ with respect to $\bm{A}$. Moreover from \Cref{Section4.3} we found ways to construct a basis for $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ allowing us to generate vectors with these affine spaces, namely the Arnoldi algorithm (\Cref{alg: Arnoldi_Algorithm}) and Lanczos algorithm (\Cref{alg: Lanczos_Algorithm}) for non-symmertic and symmertic systems, respectively. From now on $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ will be abbreviated to $\calK_{t_{\bm{r}_0}, \bm{A}}$ when the context is clear. The question still remains however, how should one choose an $\bm{x}_k$ that best approximates $\bm{x}^{\ast}$ satisfying equation \ref{eq: lin_sys_1}? The following are some of the most well known methods for selecting a suitable $\bm{x}_k$.
+So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ where $n = t_{\bm{r}_0}$ is the grade of $\bm{r}_0$ with respect to $\bm{A}$. Moreover from \Cref{Section4.3} we found ways to construct a basis for $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ allowing us to generate vectors with these affine spaces, namely the Arnoldi algorithm (\Cref{alg: Arnoldi_Algorithm}) and Lanczos algorithm (\Cref{alg: Lanczos_Algorithm}) for non-symmertic and symmertic systems, respectively. From now on $\calK_{t_{\bm{r}_0}, \bm{A}} \left( \bm{A}, \bm{r}_0 \right)$ will be abbreviated to $\calK_{t_{\bm{r}_0}, \bm{A}}$ when the context is clear. The question still remains however, how should one choose an $\bm{x}_k$ that best approximates $\bm{x}^{\ast}$ satisfying \Cref{eq: lin_sys_1}? The following are some of the most well known methods for selecting a suitable $\bm{x}_k$.
 
 \begin{enumerate}
 
@@ -14,20 +14,28 @@ So far we have shown that $\bm{x}^{\star} \in \calK_{t_{\bm{r}_0}, \bm{A}} \left
 
 \end{enumerate}
 
-Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK_k$ the last two selection methods are equivalent. This is stated more precisely in \Cref{theorem: 3_4_method_eq} without proof.
+Interestingly, when $\bm{A}$ is symmetric positive definite and $\calW_k = \calK_k$ the last two selection methods are equivalent. This is stated more precisely in \Cref{theorem: 3_4_method_eq}.
 
 \begin{thm} \label{theorem: 3_4_method_eq}
     In the context of the above selection method, if $\bm{A} \succ \bm{0}$ and $\calW_k = \calK_k$ in method (4) then it produces the same $\bm{x}_k$ in method (3) \cite{DemmelJamesW1997Anla}.
 \end{thm}
 
+\begin{proof}
+    Since $\calW_k = \calK_k$, any basis for $\calW_k$ is a basis for $\calK_k$. In fact, we can write $\bm{W}_k = \bm{K}_k \bm{B}$ for some non-singular $\bm{B} \in \RR^{k \times k}$. This means
+    \begin{equation*}
+        \bm{W}_k^{\intercal} \bm{A} \bm{K}_k = \bm{B}^{\intercal} \bm{K}_k^{\intercal} \bm{A} \bm{K}_k
+    \end{equation*}
+    and since $\bm{A}$ is symmetric positive definite then $\bm{K}_k^{\intercal} \bm{A} \bm{K}_k$ is also symmetric positive definite, and hence the entire product is non-singular.
+\end{proof}
+
 In fact the last method can be used to bring together a number of different analytical aspects and unify them in a general framework known as projection methods. Selecting an $\bm{x}_k$ from our Krylov subspace allows $k$ degrees of freedom meaning $k$ constraints must be used to determine a unique $\bm{x}_k$ for selection. As seen in method (4) already, typically orthogonality constraints are imposed on the residual $\bm{r}_k$. Specifically we would like to find a $\bm{x}_k \in \bm{x}_0 + \calK_k$ where $\bm{r}_k \perp \calW_k$. This is sometimes referred to as the Petrov-Galerkin (or just Galerkin) conditions. Projection methods for which $\calW_k = \calK_k$ are known as orthogonal projections while methods for which $\calW_k = \bm{A} \calK_k$ are known as oblique projections. If we set $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ for some $\bm{z}_k \in \calK_k$ then the Petrov-Galerkin conditions imply $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$, or alternatively $\langle \bm{r}_0 - \bm{A} \bm{z}_k , \bm{w} \rangle = 0$ for every $\bm{w} \in \calW_k$. To impose these conditions it will help to have an appropriate basis for $\calK$ and $\calW$. Suppose we have access to such a basis where $\left\{ \bm{v}_i \right\}_{i=1}^{k}$ and $\left\{ \bm{w}_i \right\}_{i=1}^{k}$ are basis elements for $\calK$ and $\calW$ respectively. Let
 \begin{align*}
-    \bm{K}_k & \triangleq \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right] \in \KK^{n \times k} \\
-    \bm{W}_k & \triangleq \left[ \bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_k \right] \in \KK^{n \times k}
+    \bm{K}_k & \triangleq \left[ \bm{v}_1 , \bm{v}_2 , \ldots , \bm{v}_k \right] \in \RR^{n \times k} \\
+    \bm{W}_k & \triangleq \left[ \bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_k \right] \in \RR^{n \times k}
 \end{align*}
 then the Petrov-Galerkin conditions can be imposed as follows
 \begin{align*}
-    \bm{K}_k \bm{y}_k                                                       & = \bm{z}_k , \quad \text{for some} \; \bm{y}_k \in \KK^k \\
+    \bm{K}_k \bm{y}_k                                                       & = \bm{z}_k , \quad \text{for some} \; \bm{y}_k \in \RR^k \\
     \bm{W}_k^{\intercal} \left( \bm{r}_0 - \bm{A} \bm{K}_k \bm{y}_k \right) & = \bm{0}.
 \end{align*}
 Moreover if $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible then $\bm{x}_k$ can be expressed as

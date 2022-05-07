@@ -23,7 +23,7 @@ Clearly, the Gaussian RBF kernel is shift-invariant since it only relies on the 
 \begin{equation} \label{eq: rff_boch_int}
     k \left( \bm{x} - \bm{y} \right) = \int_{\CC^d} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) \; d \bm{\omega} .
 \end{equation}
-The main idea of RFF is to approximate the integral in \ref{eq: rff_boch_int} using the following Monte-Carlo estimate
+The main idea of RFF is to approximate the integral in  \Cref{eq: rff_boch_int} using the following Monte-Carlo estimate
 \begin{align*}
     k \left( \bm{x} - \bm{y} \right)
      & = \int_{\CC^d} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) \; d \bm{\omega}                                                                                                            \\
@@ -36,11 +36,11 @@ where $\bm{\omega}_i \stackrel{\text{iid}}{\sim} p(\cdot)$ using the feature map
 \begin{equation}
     \varphi (\bm{x}) = \frac{1}{\sqrt{D}} \left[ z \left( \bm{\omega}_1, \bm{x} \right), z \left( \bm{\omega}_2, \bm{x} \right), \ldots , z \left( \bm{\omega}_D, \bm{x} \right) \right]^{\intercal}
 \end{equation}
-where for convenience of notation $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows the Gram matrix to be estimated as $\bm{K} \simeq \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \CC^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. The vast majority of literature uses the embeddings Rahimi and Recht provide for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ where $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation \ref{eq: rff_boch_int}. The first embedding takes the form
+where for convenience of notation $z \left( \bm{\omega}, \bm{x} \right) = \exp \left( i \langle \bm{\omega} , \bm{x} \rangle \right)$. This allows the Gram matrix to be estimated as $\bm{K} \simeq \bm{\widetilde{K}} = \bm{Z} \bm{Z}^{\intercal}$ where $\bm{Z} = \left[ \varphi (\bm{x}_1), \varphi (\bm{x}_2), \ldots \varphi (\bm{x}_D) \right] \in \CC^{n \times D}$ \cite{NIPS2007_013a006f,LiuFanghui2021RFfK,JMLR:v17:14-538}. To simplify computation in most settings both $p(\cdot)$ and $k(\Delta)$ are real valued functions meaning $\exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ can replaced with its real component $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$. The vast majority of literature uses the embeddings Rahimi and Recht provide for $\cos \left( \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right)$ where $z \left( \bm{\omega}, \bm{x} \right)$ satisfies equation  \Cref{eq: rff_boch_int}. The first embedding takes the form
 \begin{equation} \label{eq: rff_emb}
     z \left( \bm{\omega}, \bm{x} \right) = \left[ \cos \left( \langle \bm{\omega} , \bm{x} \rangle \right) , \sin \left( \langle \bm{\omega} , \bm{x} \rangle \right) \right]^{\intercal}
 \end{equation}
-which satisfies \ref{eq: rff_boch_int} since
+which satisfies  \Cref{eq: rff_boch_int} since
 \begin{align*}
      & z \left( \bm{\omega}, \bm{x} \right)^{\intercal} z \left( \bm{\omega}, \bm{y} \right)                                                                                                                                                      \\
      & =
@@ -57,7 +57,7 @@ The other embedding Rahimi and Recht give is
 \begin{equation} \label{eq: rff_emb_alt}
     z \left( \bm{\omega}, \bm{x} \right) = \sqrt{2} \cos \left(  \langle \bm{\omega} , \bm{x} \rangle + b \right)
 \end{equation}
-where $b \sim U \left[ 0,2 \pi \right]$. Using a similar argument we can show that this embedding also satisfies \ref{eq: rff_boch_int}. However, Sutherland and Schneider \cite{sutherland2015error} argue that the Gaussian RBF kernel is better suited for the embedding given in \ref{eq: rff_emb}. To summarise their argument we denote
+where $b \sim U \left[ 0,2 \pi \right]$. Using a similar argument we can show that this embedding also satisfies  \Cref{eq: rff_boch_int}. However, Sutherland and Schneider \cite{sutherland2015error} argue that the Gaussian RBF kernel is better suited for the embedding given in  \Cref{eq: rff_emb}. To summarise their argument we denote
 \begin{equation} \label{eq: rff_feat_map_1}
     \varphi_1 (\bm{x}) = \sqrt{\frac{2}{D}}
     \begin{bmatrix}
@@ -70,7 +70,8 @@ where $b \sim U \left[ 0,2 \pi \right]$. Using a similar argument we can show th
         \sin \left( \langle \bm{\omega}_{D/2} , \bm{x} \rangle \right)
     \end{bmatrix}
 \end{equation}
-to be the feature map corresponding to embedding in equation \ref{eq: rff_emb} and
+% TODO: fix equation!!!
+to be the feature map corresponding to embedding in equation  \Cref{eq: rff_emb} and
 \begin{equation} \label{eq: rff_feat_map_2}
     \varphi_2 (\bm{x}) = \sqrt{\frac{2}{D}}
     \begin{bmatrix}
@@ -79,7 +80,7 @@ to be the feature map corresponding to embedding in equation \ref{eq: rff_emb} a
         \cos \left( \langle \bm{\omega}_{D} , \bm{x} \rangle + b_D \right)
     \end{bmatrix}
 \end{equation}
-to be the feature map corresponding to equation \ref{eq: rff_emb_alt}. They then show that
+to be the feature map corresponding to equation  \Cref{eq: rff_emb_alt}. They then show that
 \begin{align*}
     \VV \left[ \varphi_1 (\Delta) \right] & = \frac{1}{D} \left( 1 + k (2 \Delta) - 2 {k( \Delta)}^2 \right)           \\
     \VV \left[ \varphi_2 (\Delta) \right] & = \frac{1}{D} \left( 1 + \frac{1}{2} k (2 \Delta) - {k( \Delta)}^2 \right)
@@ -97,7 +98,7 @@ so that $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$.
 Another important result Rahimi and Recht show provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation stated in \Cref{prop: rff_sup-norm_bound_1}.
 
 \begin{prop} \label{prop: rff_sup-norm_bound_1}
-    Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $\ell$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation \ref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{>0}, \; \varepsilon \leq \sigma_p \ell$ we have
+    Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $\ell$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation  \Cref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{>0}, \; \varepsilon \leq \sigma_p \ell$ we have
     \[
         \PP \left[ \sup_{\bm{x},\bm{y} \in \calM} \left| \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\RR^D} - k (\bm{x},\bm{y}) \right| \geq \varepsilon \right] \leq \alpha \left( \frac{\sigma_p \ell}{\varepsilon} \right)^2 \exp \left( - \frac{D \varepsilon^2}{8(d+2)} \right)
     \]
@@ -106,7 +107,7 @@ Another important result Rahimi and Recht show provides a bound on the sup-norm 
 
 Rahimi and Recht prove \Cref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$.
 
-These results justify the RFF procedure seen in \Cref{alg: RFF-algorithm}, which was used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from \ref{eq: rff_feat_map_1}.
+These results justify the RFF procedure seen in \Cref{alg: RFF-algorithm}, which was used to approximate a Gram matrix for the data set $\bm{X}$ using the feature map from  \Cref{eq: rff_feat_map_1}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -130,7 +131,7 @@ These results justify the RFF procedure seen in \Cref{alg: RFF-algorithm}, which
 \par
 }
 
-\Cref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation \ref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in \Cref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in \Cref{lem: rff-unbiased}.
+\Cref{alg: RFF-algorithm} of course assumes an appropriate construction of $\bm{W}$, commonly called the transformation matrix, and thus has access to a routine which allows one to sample from $p(\cdot)$. When using the RBF Gaussian kernel, the spectral distribution given in equation  \Cref{eq: rbf-spec-pdf} corresponds to a multivariate Gaussian distribution with mean $\bm{0}$ and covariance matrix $\left( \frac{\sigma}{\sqrt{2}} \right)^{-2} \Id_{D \times D}$. This means $\bm{W}$ can simply be constructed as $\bm{W} = \left( \frac{\sigma}{\sqrt{2}} \right)^{-1} \left[ \bm{\omega}_1 ,\ldots , \bm{\omega}_D \right]^{\intercal}$ where $\; \bm{\omega}_i \stackrel{\text{iid}}{\sim} \calN \left( \bm{0} , \Id_{D \times D} \right)$. Tranformations matrices constructed in this manner are given the notation $\bm{W}_{\text{RFF}}$. It can be shown that if $\bm{W}_{\text{RFF}}$ is used as the transformation matrix in \Cref{alg: RFF-algorithm} then it produces an unbiased estimate, $\bm{\widetilde{K}}_{\text{RFF}}$, for the Gram matrix. This stated more precisely in \Cref{lem: rff-unbiased}.
 
 \begin{lem} \label{lem: rff-unbiased}
     $\bm{\widetilde{K}}_{\text{RFF}}$ is an unbiased estimate of $\bm{K}$, that is

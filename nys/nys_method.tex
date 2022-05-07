@@ -22,7 +22,7 @@ This is commonly called the {\it fixed precision approximation problem}. To simp
 \begin{equation} \label{eq: hermitian-apprx}
     \bm{A} \simeq \bm{Q} \bm{Q}^{\ast} \left( \bm{A} \right) \simeq \bm{Q} \bm{Q}^{\ast} \bm{A} \bm{Q} \bm{Q}^{\ast}.
 \end{equation}
-Furthermore, if $\bm{A}$ is positive semi-definite we can improve the quality of our approximation of our approximation at almost no additional cost \cite{halko2011finding}*{page 32}. Using the approximation from \ref{eq: hermitian-apprx}
+Furthermore, if $\bm{A}$ is positive semi-definite we can improve the quality of our approximation of our approximation at almost no additional cost \cite{halko2011finding}*{page 32}. Using the approximation from  \Cref{eq: hermitian-apprx}
 \begin{align} \label{eq: nys-apprx}
     \bm{A} & \simeq \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber                                                                                            \\
            & = \bm{Q} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right)^{\dagger} \left( \bm{Q}^{\ast} \bm{A} \bm{Q} \right) \bm{Q}^{\ast} \nonumber \\
@@ -39,7 +39,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
         \DontPrintSemicolon
         \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 
-        \Input{A positive semi-definite matrix $\bm{A} \in \RR^{n \times m}$, a matrix $\bm{Q} \in {n \times k}$ that satisfies \ref{eq: nys-Q-cond}.}
+        \Input{A positive semi-definite matrix $\bm{A} \in \RR^{n \times m}$, a matrix $\bm{Q} \in {n \times k}$ that satisfies  \Cref{eq: nys-Q-cond}.}
         \Output{A rank $k$ approximation $\bm{\overline{A}} \simeq \bm{A}$.}
         \BlankLine
         $\bm{C} = \bm{A} \bm{Q}$\;
@@ -50,7 +50,7 @@ This is known as the Nystrom method. Since any Gram matrix is positive semi-defi
 \end{minipage}
 \par}
 
-However, \Cref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies equation \ref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by \Cref{lem: best-col-sel}.
+However, \Cref{alg: nys-gen} assumes that $\bm{Q}$ has already been computed. Naturally, the next question is then how to efficiently construct a suitable matrix $\bm{Q}$ that satisfies \Cref{eq: nys-Q-cond}? We can do this through a very popular column sampling technique ubiquitous in numerical linear algebra literature. This technique has been driven by \Cref{lem: best-col-sel}.
 
 \begin{thm} \label{lem: best-col-sel}
     Every $\bm{A} \in \RR^{n \times m}$ matrix contains a $k-$column submatrix $\bm{C}$ for which
@@ -63,7 +63,7 @@ Before we delve further into this column sampling Nystrom method, we must first 
 \begin{equation} \label{eq: A-as-summands}
     \bm{A} = \sum_{i=1}^{I} \bm{A}_i .
 \end{equation}
-The basic idea is to consider a Monte-Carlo approximation of equation \ref{eq: A-as-summands} that randomly selects $\bm{A}_i$ according to the distribution $\left\{ p_i \right\}_{i=1}^{I}$ to give an estimate
+The basic idea is to consider a Monte-Carlo approximation of \Cref{eq: A-as-summands} that randomly selects $\bm{A}_i$ according to the distribution $\left\{ p_i \right\}_{i=1}^{I}$ to give an estimate
 \begin{equation}
     \bm{A} \simeq \frac{1}{c} \sum_{t=1}^{c} p_{t_i}^{-1} \bm{A}_{t_i}
 \end{equation}
@@ -71,7 +71,7 @@ where $c$ is the number of samples and each summand is rescaled by a factor of $
 \begin{equation*}
     \bm{A} \bm{B} = \sum_{i=1}^{I} \bm{A}_{(:,i)} \bm{B}_{(i,:)}
 \end{equation*}
-\cites{Roosta2020, doi:10.1137/S0097539704442684}. A straight forward way to approximate this using the Monte-Carlo estimate is to simply set each $\bm{A}_i$ in \ref{eq: A-as-summands} to the corresponding rank$-1$ outter product summand $\bm{A}_{(:,i)} \bm{B}_{(i,:)}$. This justifies the random matrix multiplication algorithm seen in \Cref{alg: rand-mat-mult} \cite{drineas2017lectures}*{page 16}.
+\cites{Roosta2020, doi:10.1137/S0097539704442684}. A straight forward way to approximate this using the Monte-Carlo estimate is to simply set each $\bm{A}_i$ in \Cref{eq: A-as-summands} to the corresponding rank$-1$ outter product summand $\bm{A}_{(:,i)} \bm{B}_{(i,:)}$. This justifies the random matrix multiplication algorithm seen in \Cref{alg: rand-mat-mult} \cite{drineas2017lectures}*{page 16}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -144,13 +144,13 @@ Notice that $\bm{S}$ is generally a very sparse matrix and therefore is generall
     \end{equation*}
 \end{proof}
 
-So how does this help us with the Nystrom method? Consider using the random matrix multiplication algorithm to approximate the matrix multiplication of a Gram matrix $\bm{K} \in \RR^{n \times n}$ and $\Id_{n \times n}$. Equation \ref{eq: nys-sketch-apprx} gives
+So how does this help us with the Nystrom method? Consider using the random matrix multiplication algorithm to approximate the matrix multiplication of a Gram matrix $\bm{K} \in \RR^{n \times n}$ and $\Id_{n \times n}$.  \Cref{eq: nys-sketch-apprx} gives
 
 \begin{equation*}
     \bm{K} \bm{S} \bm{S}^{\intercal} \Id_{n \times n} = \bm{K} \bm{S} \bm{S}^{\intercal} \simeq \bm{K}.
 \end{equation*}
 
-We see now that the sketching matrix produced by \Cref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from equation \ref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from equation \ref{eq: nys-apprx}. These ideas are used together in \Cref{alg: nys-col-samp} that uses the column sampling technique from \Cref{alg: rand-mat-mult} together with the general Nystrom framework (\Cref{alg: nys-gen}) to provide a new column sampling Nystrom method to approximate a Gram matrix for a provided dataset and probability distribution \cites{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
+We see now that the sketching matrix produced by \Cref{alg: rand-mat-mult} provides a sketching matrix $\bm{S}$ that satisfies the properties of $\bm{Q}$ from \Cref{eq: nys-Q-cond} meaning that $\bm{S}$ can be used in place of $\bm{Q}$ within the Nystrom estimate from \Cref{eq: nys-apprx}. These ideas are used together in \Cref{alg: nys-col-samp} that uses the column sampling technique from \Cref{alg: rand-mat-mult} together with the general Nystrom framework (\Cref{alg: nys-gen}) lends a new column sampling Nystrom method to approximate a Gram matrix for a provided dataset and probability distribution \cites{JMLR:v6:drineas05a,DBLP:journals/corr/abs-1303-1849}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -179,7 +179,7 @@ We see now that the sketching matrix produced by \Cref{alg: rand-mat-mult} provi
 \end{minipage}
 \par}
 
-As we can tell from the algorithms inputs, this requires some sort of probability distribution to select the columns. As seen in \Cref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tend to over sample landmarks from one large cluster while under sampling or even missing entire small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in Figure \ref{fig: uni-samp-v-nonuni-samp}.
+As we can tell from the algorithms inputs, this requires some sort of probability distribution to select the columns. As seen in \Cref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tends to over sample landmarks from one large cluster while under sampling or even missing entire small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in \Cref{fig: uni-samp-v-nonuni-samp}.
 
 \begin{figure}[h]
     \centering

@@ -204,7 +204,7 @@ where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance functi
     \label{fig: GP_func_samples}
 \end{figure}
 
-Figure \ref{fig: GP_func_samples} (A) shows three samples drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of Figure \ref{fig: GP_func_samples} (A) represents twice the standard deviation about the mean.
+\Cref{fig: GP_func_samples} (A) shows three samples drawn from the prior before any observations are made. GPs also allow us to compute the pointwise variance which can provide some measure of variability for predicted values. The blue shaded area of \Cref{fig: GP_func_samples} (A) represents twice the standard deviation about the mean.
 
 \subsubsection{Noise-free observations}\label{Section1.5.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
@@ -312,7 +312,7 @@ meaning we can write a distribution for $\bm{f}_{\star}$ as
 \begin{equation}\label{prop:GP_train_distr1}
     \bm{f}_{\star} \mid \bm{K_{X_{\star}X}}^{\intercal} , \bm{K_{XX}}, \bm{f} \sim \calN \left( \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{f},  \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \bm{K_{XX}}^{-1} \bm{K_{X_{\star}X}}^{\intercal}  \right).
 \end{equation}
-Function values from the unobserved inputs $\bm{X_{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. Figure \ref{fig: GP_func_samples} (B) shows these computations given a data set $\calD = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we now know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Clearly, specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
+Function values from the unobserved inputs $\bm{X_{\star}}$, that is $\bm{f}_{\star}$, can be estimated using the joint posterior distribution by evaulting the mean of \ref{prop:GP_train_distr1}. \Cref{fig: GP_func_samples} (B) shows these computations given a data set $\calD = \left\{ \left( x_1 , y_1 \right) , \left( x_2 , y_2 \right) , \left( x_3 , y_3 \right) , \left( x_4 , y_4 \right) \right\}$. Notice that the variance tightens around the observed values since (assuming no noise in our data is present) we now know for certain this is how our target function should behave at $x_1,x_2,x_3$ and $x_4$. Clearly, specifying the properties of the prior is important since it fixes the properties of the functions considered during inference.
 
 \subsubsection{Prediction with Noisy observations}\label{Section1.5.2}
 When attempting to model our value function we usually do not have access to the value function itself but a noisy version thereof, $y = f(\bm{x}) + \varepsilon$ where $\varepsilon \sim \calN (0, \sigma_n^2)$ meaning the prior on the noisy values becomes
@@ -346,7 +346,7 @@ where
     \overline{\bm{f}_{\star}}           & \triangleq \bm{K_{X_{\star} X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{y} \label{eq: GP_train_distr2_mean}                                             \\
     \operatorname{cov} (\bm{f}_{\star}) & = \bm{K_{X_{\star}X_{\star}}} - \bm{K_{X_{\star}X}} \left[ \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right]^{-1} \bm{K_{X_{\star}X}}^{\intercal} \label{eq: GP_train_distr2_var}
 \end{align}
-Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in equation \ref{eq: comput_f_ast_3}. Notice that the prediction of the mean in equation \ref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}_{\star}$
+Remarkably, this gives us the the exact same posterior distribution ascertained from the weight space derivation in \cref{eq: comput_f_ast_3}. Notice that the prediction of the mean in \cref{eq: GP_train_distr2_mean} is a linear combination of the observations, somtimes referred to as a {\it linear predictor}. Another way of looking at the prediction is seeing it as a linear combination of $n$ kernel evaluations centered at the input $\bm{x}_{\star}$
 \[
     \bm{f}_{\star} = \sum_{i=1}^{n} \alpha_i k \left( \bm{x}_i , \bm{x}_{\star} \right)
 \]

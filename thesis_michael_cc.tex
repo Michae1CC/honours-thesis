@@ -24,6 +24,8 @@
 \usepackage{cleveref}
 \crefname{algocf}{Algorithm}{Algorithms}
 \Crefname{algocf}{Algorithm}{Algorithms}
+\crefname{equation}{}{}
+\Crefname{equation}{}{}
 
 \newcounter{GPRcount}
 \newcounter{savecounter}
@@ -235,11 +237,11 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
 % \input{nys/nys.tex}
 % \clearpage
 
-\input{rff/rff.tex}
-\clearpage
-
-% \input{lin_alg/lin_alg.tex}
+% \input{rff/rff.tex}
 % \clearpage
+
+\input{lin_alg/lin_alg.tex}
+\clearpage
 
 \input{aar/aar.tex}
 \clearpage
@@ -821,6 +823,20 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
             year = {2008}
         }
 
+        % Matrix analysis
+        % https://web-p-ebscohost-com.ezproxy.library.uq.edu.au/ehost/ebookviewer/ebook/bmxlYmtfXzQ5MDUwM19fQU41?sid=31ce64fa-89fa-4f24-b7ba-de84e7a559aa@redis&vid=0&format=EB&rid=1
+        \bib{HornRogerA2013Ma/R}{book}{
+            publisher = {Cambridge University Press},
+            booktitle = {Matrix analysis},
+            isbn = {9780521839402},
+            year = {2013},
+            title = {Matrix analysis / Roger A. Horn, Charles R. Johnson.},
+            edition = {2nd ed.},
+            language = {eng},
+            address = {New York},
+            author = {Horn, Roger A and Johnson, Charles R},
+        }
+
         \bib{PotapczynskiAndres2021BSGP}{article}{
             year = {2021},
             title = {Bias-Free Scalable Gaussian Processes via Randomized Truncations},
@@ -949,8 +965,8 @@ I would like to deeply thank my supervisor Dr.\ Masoud Kamgarpour for his advice
         }
     \end{biblist}
 \end{bibdiv}
-\clearpage
+% \clearpage
 
-\input{appendix/appendix.tex}
+% \input{appendix/appendix.tex}
 
 \end{document}

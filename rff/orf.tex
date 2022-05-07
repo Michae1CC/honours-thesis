@@ -19,6 +19,17 @@ The main downside the the ORF method is that the QR-factorization brings a compu
         \EE \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right] = \exp \left( \frac{- \norm{\bm{x}_i - {\bm{x}_j}}_{2}^{2}}{\sigma^2} \right)
     \] \cite{YuFelixX2016ORF}*{page 3}.
 \end{thm}
+\begin{proof}
+    Again, we shall prove this for the Gaussian kernel, although proofs for other kernels are analogous. Let $\bm{z} = \bm{x} - \bm{y}$.
+    \begin{equation*}
+        \EE \left[ \left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij} \right] = \EE \left[ \frac{1}{D} \sum_{j=1}^{D} \cos \left( \langle \bm{\omega}_j , \bm{z} \rangle \right) \right] = \frac{1}{D} \sum_{j=1}^{D} \EE \left[ \cos \left( \langle \bm{\omega}_j , \bm{z} \rangle \right) \right].
+    \end{equation*}
+    Based on the definition of the ORF method, $\bm{w}_1 , \bm{w}_2 , \ldots , \bm{w}_D$ are $D$ random vectord given by $\bm{w}_i = s_i \bm{u}_i$, with $\bm{u}_1 , \bm{u}_2 , \ldots , \bm{u}_d$ a uniformly chosen random orthonormal basis for $\RR^d$, and $s_i$'s are independently $\chi-$distributed random variables with $d$ degrees of freedom. It is easy to show that for each $i$, $\bm{w}_i$ is distributed according to $\calN \left( \bm{0}, \Id_{d \times d} \right)$ and hence by Bochner's theorem
+    \[
+        \EE \left[ \cos \left( \langle \bm{\omega}_j , \bm{z} \rangle \right) \right] = \exp \left( - \norm{\bm{z}}^2_2 / 2 \sigma \right)
+    \]
+    meaning $\bm{\widetilde{K}}_{\text{ORF}}$ provides an unbiased estimate of $\bm{K}$.
+\end{proof}
 
 Furthermore, the variance of $\left( \bm{\widetilde{K}}_{\text{ORF}} \right)_{ij}$ is bounded by
 \[

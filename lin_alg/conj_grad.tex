@@ -1,6 +1,6 @@
 \subsection{Conjugate Gradient Algorithm}\label{Section4.5}
 
-From \Cref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. Thus the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
+From \Cref{Section4.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{V}_{k} = \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{V}_{k}$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (\Cref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. Thus the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{V}_{k} \right)$ where $\bm{V}_{k}$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{V}_{k} \bm{y}$ for a unique $\bm{y} \in \RR^k$ so that
 \begin{equation} \label{eq: x_eq_Qky}
     \bm{x}_k = \bm{x}_0 + \bm{V}_{k} \bm{y}.
 \end{equation}
@@ -39,7 +39,7 @@ where $\bm{L}_k$ is a unit lower bidiagonal matrix and $\bm{D}_k$ is diagonal wr
             &     &        & d_k
     \end{bmatrix}.
 \]
-Combining equations \ref{eq: x_eq_Qky}, \ref{eq: Tky_eq_normr0e1} and \ref{eq: Tk_Cholesky}
+Combining equations \Cref{eq: x_eq_Qky}, \Cref{eq: Tky_eq_normr0e1} and \Cref{eq: Tk_Cholesky}
 \begin{align*}
     \bm{x}_k & = \bm{x}_0 + \bm{V}_{k} \bm{y}                                                                                                  \\
     \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{V}_{k} \bm{T}_k^{-1} \bm{e}_1                                                                   \\
@@ -58,10 +58,10 @@ $\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde
     We compute
     \begin{align*}
         \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k
-         & = \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)             \\
-         & = \bm{L}_k^{-1} \left( \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} \right) \bm{L}_k^{-\intercal}                                    \\
-         & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
-         & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
+         & = \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{V}_{k} \bm{L}_k^{-\intercal} \right)      \\
+         & = \bm{L}_k^{-1} \left( \bm{V}_{k}^{\intercal} \bm{A} \bm{V}_{k} \right) \bm{L}_k^{-\intercal}                             \\
+         & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                             \\
+         & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag*{\Cref{eq: Tk_Cholesky}} \\
          & = \bm{D}_k
     \end{align*}
     as wanted.
@@ -143,7 +143,7 @@ as a recurrance for $\bm{x}_k$. A recurrance for $\bm{r}_k$ is easily computed a
 \begin{equation} \label{eq: rk_rec}
     \bm{r}_{k} = b - \bm{A} \bm{x}_k = b - \bm{A} \left( \bm{x}_{k-1} + \eta_k \tilde{\bm{p}}_{k} \right) = \left( b - \bm{A} \bm{x}_{k-1} \right) - \eta_k \bm{A} \tilde{\bm{p}}_{k} = \bm{r}_{k-1} - \eta_k \bm{A} \tilde{\bm{p}}_{k}
 \end{equation}
-Altogether we are left with recurrences for $\bm{v}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplifications can be made to bring about a more efficient algorithm. Recall from \Cref{Section4.3} that $\bm{A} \bm{V}_{k} =  \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \RR^k$ meaning
+Altogether we are left with recurrences for $\bm{v}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ \Cref{eq: pk_rec}, the residual $\bm{r}_k$ \Cref{eq: pk_rec},  and for the approximate solution $\bm{x}_k$ \Cref{eq: xk_rec}. However, futher simplifications can be made to bring about a more efficient algorithm. Recall from \Cref{Section4.3} that $\bm{A} \bm{V}_{k} =  \bm{V}_{k} \bm{T}_k + \bm{v}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \RR^k$ meaning
 \[
     \bm{r}_k = \bm{r}_0 - \bm{A} \bm{V}_{k} \bm{y}_k = \bm{r}_0 - \bm{V}_{k} \bm{T}_k \bm{y}_k - \langle \bm{t}_k , \bm{y} \rangle \bm{v}_{k+1} = - \beta_k y_k \bm{v}_{k+1}.
 \]
@@ -270,7 +270,7 @@ From \Cref{theorem: equiv-CG-spaces}, we can derive the following convergence th
 \end{thm}
 
 \begin{proof}
-    From \Cref{theorem: equiv-CG-spaces} it follows that $\bm{e}_{k} = p \left( \bm{A} \right) \bm{e}_{0}$ for some $p \in P_n$. The equality in \ref{eq: CG-err-bounds} is a consequence of this and \Cref{theorem: CG-error-min}. As for the inequality in \ref{eq: CG-err-bounds}, if $\bm{e}_{0} = \sum_{j=1}^{m} a_j \bm{v}_j$ is an expansion of $\bm{e}_{0}$ in orthonormal eigenvectors of $\bm{A}$, then we have $p \left( \bm{A} \right) \bm{e}_{0} = \sum_{j=1}^{m} a_j p \left( \lambda_j \right) \bm{v}_{j}$ and thus
+    From \Cref{theorem: equiv-CG-spaces} it follows that $\bm{e}_{k} = p \left( \bm{A} \right) \bm{e}_{0}$ for some $p \in P_n$. The equality in \Cref{eq: CG-err-bounds} is a consequence of this and \Cref{theorem: CG-error-min}. As for the inequality in \Cref{eq: CG-err-bounds}, if $\bm{e}_{0} = \sum_{j=1}^{m} a_j \bm{v}_j$ is an expansion of $\bm{e}_{0}$ in orthonormal eigenvectors of $\bm{A}$, then we have $p \left( \bm{A} \right) \bm{e}_{0} = \sum_{j=1}^{m} a_j p \left( \lambda_j \right) \bm{v}_{j}$ and thus
     \[
         \| \bm{e}_{0} \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j, \qquad \| p \left( \bm{A} \right) \bm{e}_0 \|_{\bm{A}}^{2} = \sum_{j=1}^{m} a_{j}^{2} \lambda_j \left( p \left( \lambda_j \right) \right)^{2}.
     \]

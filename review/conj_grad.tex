@@ -1,6 +1,6 @@
 \subsubsection{Conjugate Gradient Algorithm}\label{Section1.1.5}
 
-From \Cref{Section1.1.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{Q}_k = \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{Q}_k$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (equation \ref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{Q}_k \right)$ where $\bm{Q}_k$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{Q}_k \bm{y}$ for a unique $\bm{y} \in \KK^k$ so that
+From \Cref{Section1.1.4} that the Petrov-Galerkin conditions for the CG algorithm used an orthogonal projection and the matrix $\bm{A}$ was assumed to be positive definite. To derive the CG algorithm we can start be using some machinery that the Lanczos algorithm provides us with. Recall, the Lanczos algorithm produces the form $\bm{A}\bm{Q}_k = \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_{k} \triangleq \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ and the columns of $\bm{Q}_k$ span $\calK_k$. Recall that $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{K}_k \left( \bm{W}_k^{\intercal} \bm{A} \bm{K}_k \right)^{-1} \bm{W}_k \bm{r}_0$ (\Cref{eq: expr_x_Petrov_Galerkin_1}) when $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is invertible. For the CG algorithm $\calK = \calW$ and $\bm{A} \succ \bm{0}$. Under these conditions we can easily show that $\bm{W}_k^{\intercal} \bm{A} \bm{K}_k$ is indeed invertible. This means the approximate vector can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{z}_k$ where $\bm{z}_k \in \calK_k$. In terms of the Petrov-Galerkin conditions this means that $\bm{z}_k$ must satisfy $\bm{r}_0 - \bm{A} \bm{z}_k \perp \calW_k$. Furthermore since $\calK_k = \operatorname{Range} \left( \bm{Q}_k \right)$ where $\bm{Q}_k$ has full column rank then $\bm{z}_k$ can be represented as $\bm{z}_k = \bm{Q}_k \bm{y}$ for a unique $\bm{y} \in \KK^k$ so that
 \begin{equation} \label{eq: x_eq_Qky}
     \bm{x}_k = \bm{x}_0 + \bm{Q}_k \bm{y}.
 \end{equation}
@@ -39,7 +39,7 @@ where $\bm{L}_k$ is a unit lower bidiagonal matrix and $\bm{D}_k$ is diagonal wr
             &     &        & d_k
     \end{bmatrix}.
 \]
-Combining equations \ref{eq: x_eq_Qky}, \ref{eq: Tky_eq_normr0e1} and \ref{eq: Tk_Cholesky}
+Combining equations \Cref{eq: x_eq_Qky}, \Cref{eq: Tky_eq_normr0e1} and \Cref{eq: Tk_Cholesky}
 \begin{align*}
     \bm{x}_k & = \bm{x}_0 + \bm{Q}_k \bm{y}                                                                                                  \\
     \bm{x}_k & = \bm{x}_0 + \| \bm{r}_0 \| \bm{Q}_k \bm{T}_k^{-1} \bm{e}_1                                                                   \\
@@ -57,10 +57,10 @@ $\tilde{\bm{P}}_k = \left[ \tilde{\bm{p}}_1 , \tilde{\bm{p}}_2 , \ldots , \tilde
 \begin{proof}
     We compute
     \begin{align*}
-        \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)                 \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                        \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                                    \\
-                                                             & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{equation \ref{eq: Tk_Cholesky}} \\
+        \tilde{\bm{P}}_k^{\intercal} \bm{A} \tilde{\bm{P}}_k & = \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)^{\intercal} \bm{A} \left( \bm{Q}_k \bm{L}_k^{-\intercal} \right)         \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{Q}_k^{\intercal} \bm{A} \bm{Q}_k \right) \bm{L}_k^{-\intercal}                                \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{T}_k \right) \bm{L}_k^{-\intercal}                                                            \\
+                                                             & = \bm{L}_k^{-1} \left( \bm{L}_k \bm{D}_k \bm{L}_k^{\intercal} \right) \bm{L}_k^{-\intercal} \tag{\Cref{eq: Tk_Cholesky}} \\
                                                              & = \bm{D}_k
     \end{align*}
     as wanted.
@@ -140,7 +140,7 @@ as a recurrance for $\bm{x}_k$. A recurrance for $\bm{r}_k$ is easily computed a
 \begin{equation} \label{eq: rk_rec}
     \bm{r}_{k} = b - \bm{A} \bm{x}_k = b - \bm{A} \left( \bm{x}_{k-1} + \eta_k \tilde{\bm{p}}_{k} \right) = \left( b - \bm{A} \bm{x}_{k-1} \right) - \eta_k \bm{A} \tilde{\bm{p}}_{k} = \bm{r}_{k-1} - \eta_k \bm{A} \tilde{\bm{p}}_{k}
 \end{equation}
-Altogether we are left with recurrences for $\bm{q}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (equation \ref{eq: pk_rec}), the residual $\bm{r}_k$ (equation \ref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (equation \ref{eq: xk_rec}). However, futher simplification can be made for a more efficient algorithm. Recall from \Cref{Section1.1.3} that $\bm{A} \bm{Q}_k =  \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ meaning
+Altogether we are left with recurrences for $\bm{q}_k$ from Lanczos, $\tilde{\bm{p}}_{k}$ (\Cref{eq: pk_rec}), the residual $\bm{r}_k$ (\Cref{eq: pk_rec}),  and for the approximate solution $\bm{x}_k$ (\Cref{eq: xk_rec}). However, futher simplification can be made for a more efficient algorithm. Recall from \Cref{Section1.1.3} that $\bm{A} \bm{Q}_k =  \bm{Q}_k \bm{T}_k + \bm{q}_{k+1} \bm{t}_{k}^{\intercal}$ where $\bm{t}_k = \left[ 0,0, \ldots , 0, \beta_k \right]^{\intercal} \in \KK^k$ meaning
 \[
     \bm{r}_k = \bm{r}_0 - \bm{A} \bm{Q}_k \bm{y}_k = \bm{r}_0 - \bm{Q}_k \bm{T}_k \bm{y}_k - \langle \bm{t}_k , \bm{y} \rangle \bm{q}_{k+1} = - \beta_k y_k \bm{q}_{k+1}.
 \]

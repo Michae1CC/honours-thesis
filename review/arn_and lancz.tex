@@ -32,7 +32,7 @@ Since $\bm{R}$ and $\bm{R}^{-1}$ and both upper triangular and $\bm{C}$ is upper
 \begin{equation}\label{eq: QTAQ_eq_H}
     \bm{Q}^{\intercal} \bm{A} \bm{Q} = \bm{H}.
 \end{equation}
-Again, in practice, it may be very difficult to compute this entire expression forcing us to search for approximative alternatives. Consider equation \ref{eq: QTAQ_eq_H} for which the only first $k$ columns of $\bm{Q}$ have been computed. Let $\bm{Q}_k = \left[ \bm{q}_1 , \bm{q}_2 , \ldots , \bm{q}_k \right]$ and $\bm{Q}_u = \left[ \bm{q}_{k+1} , \bm{q}_{k+2} , \ldots , \bm{q}_{n} \right]$. Then
+Again, in practice, it may be very difficult to compute this entire expression forcing us to search for approximative alternatives. Consider \Cref{eq: QTAQ_eq_H} for which the only first $k$ columns of $\bm{Q}$ have been computed. Let $\bm{Q}_k = \left[ \bm{q}_1 , \bm{q}_2 , \ldots , \bm{q}_k \right]$ and $\bm{Q}_u = \left[ \bm{q}_{k+1} , \bm{q}_{k+2} , \ldots , \bm{q}_{n} \right]$. Then
 \begin{align*}
     \bm{Q}^{\intercal} \bm{A} \bm{Q}                                                         & = \bm{H} \\
     \left[ \bm{Q}_k , \bm{Q}_u \right]^{\intercal} \bm{A} \left[ \bm{Q}_k , \bm{Q}_u \right] & =
@@ -58,7 +58,7 @@ noting that $\bm{H}_{k}$ is upper Hessenberg for the same reason that $\bm{H}$ i
 \begin{equation}\label{eq: QTkAQk_eq_HkEk}
     \bm{Q}_{k}^{\intercal} \bm{A} \bm{Q}_{k} = \bm{H}_k + \bm{E}_k.
 \end{equation}
-A careful choice of $\bm{E}_k$ must be made to also retain equality in equation \ref{eq: QTkAQk_eq_Hk}, meaning $\bm{Q}_{k}^{\intercal} \bm{E}_k = \bm{0}$. Since $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ forms an orthornormal basis for $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$, consider the following choice of $\bm{E}_k$,
+A careful choice of $\bm{E}_k$ must be made to also retain equality in \Cref{eq: QTkAQk_eq_Hk}, meaning $\bm{Q}_{k}^{\intercal} \bm{E}_k = \bm{0}$. Since $\left\{ \bm{q}_i \right\}_{i=1}^{k}$ forms an orthornormal basis for $\calK_{n} \left( \bm{A}, \bm{r}_0 \right)$, consider the following choice of $\bm{E}_k$,
 \[
     \bm{E}_k = \bm{q}_{k+1} \bm{h}_{k}^{\intercal}
 \]
@@ -83,7 +83,7 @@ where
         0       & \cdots & 0      & 0         & h_{k+1,k}
     \end{bmatrix}.
 \]
-Equating the $j^{th}$ columns of equation \ref{eq: QTkAQk_eq_Hk_p_qkhk} yields
+Equating the $j^{th}$ columns of \Cref{eq: QTkAQk_eq_Hk_p_qkhk} yields
 \[
     \bm{A} \bm{q}_j = \sum_{i=1}^{j+1} h_{i,j} \bm{q}_{i}.
 \]
@@ -95,7 +95,7 @@ and so
 \begin{equation}\label{eq: arn_eq_1}
     h_{j+1,j} \bm{q}_{j+1} = \bm{A} \bm{q}_j - \sum_{i=1}^{j} h_{i,j} \bm{q}_{i}.
 \end{equation}
-From equation \ref{eq: arn_eq_1} we find that $\bm{q}_{j+1}$ can be computed using a recurrance involving its previous Krylov factors. Notice this bears a striking resemblance to equation \ref{eq: comp_orth_basis} having a virtually an identical setup to computing an orthornormal basis using the modified Gram-Schmidt process (algorithm \ref{alg: Modified_Gram-Schmidt}). As such, values for $\bm{q}_{j+1}$ and $h_{j+1,j}$ can be evaluted using a procedure very similar to the modified Gram-Schmidt process better known as the Arnoldi algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla}, presented in algorithm \ref{alg: Arnoldi_Algorithm}.
+From \Cref{eq: arn_eq_1} we find that $\bm{q}_{j+1}$ can be computed using a recurrance involving its previous Krylov factors. Notice this bears a striking resemblance to \Cref{eq: comp_orth_basis} having a virtually an identical setup to computing an orthornormal basis using the modified Gram-Schmidt process (\Cref{alg: Modified_Gram-Schmidt}). As such, values for $\bm{q}_{j+1}$ and $h_{j+1,j}$ can be evaluted using a procedure very similar to the modified Gram-Schmidt process better known as the Arnoldi algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/,DemmelJamesW1997Anla}, presented in \Cref{alg: Arnoldi_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -144,7 +144,7 @@ As before, equating the $j^{th}$ columns of $\bm{A} \bm{Q} = \bm{Q} \bm{T}$ yiel
 \begin{equation}\label{eq: lancz_orth_basis}
     \bm{A} \bm{q}_{j} = \beta_{j-1} \bm{q}_{j-1} + \alpha_{j} \bm{q}_j + \beta_j \bm{q}_{j+1}.
 \end{equation}
-Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of equation \ref{eq: lancz_orth_basis} by $\bm{q}_j$ gives $\bm{q}_j = \bm{A} \bm{q}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in algorithm \ref{alg: Lanczos_Algorithm}.
+Again since $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of \Cref{eq: lancz_orth_basis} by $\bm{q}_j$ gives $\bm{q}_j = \bm{A} \bm{q}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised can be used to compute $\left\{ \bm{q}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in \Cref{alg: Lanczos_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}

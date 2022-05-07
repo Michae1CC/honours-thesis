@@ -12,7 +12,7 @@ for some $\bm{w} \in \RR^d$ and $b \in \RR$ where $\norm{\bm{w}}_2 = 1$ \cite{St
 \[
     f_D \left( \bm{x} \right) \triangleq \operatorname{sign} \left( \langle \bm{w}_D , \bm{x} \rangle + b_D \right).
 \]
-There are, however, a number of shortcomings to this model. The most obvious is that our training data may not be linearly separable in $\RR^d$ meaning no such $\bm{w}_D$ and $b_D$ exist. Moreover, when noise is introduced to the data set this model will prioritize finding a hyperplane that perfectly separates the two classes, making no compromises in misclassifying points, and consequently subjecting it to overfitting. SVMs where introduced by Boser {\it et al.} \cite{BoserBernhard1992Ataf} to address the first issue of separability. Their approach was to lift the input vector into a more malleable Hilbert space $H_0$ using a feature map. The inputs are then classified within the new space. Unfortunately this method does nothing to address the second issue of over fitting and, if anything, actually worsens it. Cortes and Vapnik \cite{CortesCorinna1995SN} attempted to address this second issue by introducing slack variables to equation \ref{eq: linear_sep_hyp} so that now we need to satisfy $y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right) \geq 1 - \xi_i$ for some $\xi_i \in \RR_{>0}$. These constraints can be re-written as
+There are, however, a number of shortcomings to this model. The most obvious is that our training data may not be linearly separable in $\RR^d$ meaning no such $\bm{w}_D$ and $b_D$ exist. Moreover, when noise is introduced to the data set this model will prioritize finding a hyperplane that perfectly separates the two classes, making no compromises in misclassifying points,subjecting it to overfitting. SVMs where introduced by Boser {\it et al.} \cite{BoserBernhard1992Ataf} to address the first issue of separability. Their approach was to lift the input vector into a more malleable Hilbert space $H_0$ using a feature map. The inputs are then classified within the new space. Unfortunately this method does nothing to address the second issue of over fitting and, if anything, actually worsens it. Cortes and Vapnik \cite{CortesCorinna1995SN} attempted to address this second issue by introducing slack variables to \Cref{eq: linear_sep_hyp} so that now we need to satisfy $y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right) \geq 1 - \xi_i$ for some $\xi_i \in \RR_{>0}$. These constraints can be re-written as
 \[
     \xi_i \geq 1 - y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right)
 \]
@@ -37,14 +37,14 @@ where $f_{\left( \bm{w} , b \right)} : X \to \RR$ is defined as
      & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j \langle \Phi \left( \bm{x}_i \right), \Phi \left( \bm{x}_j \right) \rangle \nonumber \\
      & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0
 \end{align}
-Notice that in the dual problem, we find that inner products are only taken with vectors that have the feature map applied to them allowing us to employ the kernel trick described in \Cref{Section1.1} so that equation \ref{eq: SVM_dual_1} becomes
+Notice that in the dual problem, we find that inner products are only taken with vectors that have the feature map applied to them allowing us to employ the kernel trick described in \Cref{Section1.1} so that \Cref{eq: SVM_dual_1} becomes
 \begin{align*}
      & \max_{\alpha \in \left[ 0,C \right]^n} \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{n} y_i y_j \alpha_i \alpha_j k \left( \bm{x}_i, \bm{x}_j \right) \\
      & \text{subject to} \quad \sum_{i=1}^{n} y_i \alpha_i = 0.
 \end{align*}
 
 \subsubsection{Introduction to Gaussian Processes for Regression}\label{Section1.4.2}
-The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in Figure \ref{fig: motive_gp_1} (A).
+The next machine learning model of interest that uses kernels are gaussian processes. To motivate this model, consider the time series data in \Cref{fig: motive_gp_1} (A).
 
 \begin{figure}[h]
     \centering
@@ -130,7 +130,7 @@ The next machine learning model of interest that uses kernels are gaussian proce
     \label{fig: motive_gp_1}
 \end{figure}
 
-In this diagram there is a number of observed values $D = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x_{\star}$. This is a classic problem of time series prediction, that is what is a good prediction for the missing value at time $x_{\star}$? Perhaps something close to the red diamond seen in Figure \ref{fig: motive_gp_1} (B)? Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used to underpin GPs, that is, training inputs that are more similar to the input value should have greater influence over the prediction.
+In this diagram there is a number of observed values $D = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x_{\star}$. This is a classic problem of time series prediction, that is what is a good prediction for the missing value at time $x_{\star}$? Perhaps something close to the red diamond seen in \Cref{fig: motive_gp_1} (B)? Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used to underpin GPs, that is, training inputs that are more similar to the input value should have greater influence over the prediction.
 
 Like SVMs, we can motivate the mathematical model of a GP through a linear model. Since GPs are designed for regression tasks, we shall only focus on GP regression although we will see later that GPs can be extended to perform binary classification and even multi-class classification. To begin, consider the following linear regression model
 \begin{equation} \label{eq: gp_lin_reg_base}
@@ -157,7 +157,7 @@ where $\bm{\Sigma}_p$ is an appropriate covariance matrix. Ideally, we would lik
 \[
     p \left( \bm{w} \mid \bm{y} , \bm{X} \right) \propto p \left( \bm{y} \mid \bm{w} , \bm{X} \right) p \left( \bm{w} \right).
 \]
-Equation \ref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \bm{w} , \bm{X} \right)$ and since $\bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)$ then
+ \Cref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \bm{w} , \bm{X} \right)$ and since $\bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)$ then
 \begin{equation*}
     p \left( \bm{w} \right) = \frac{1}{\sqrt{\left( 2 \pi \right)^{d} \left| \bm{\Sigma} \right|}} \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right)
 \end{equation*}
@@ -177,7 +177,7 @@ To make a prediction of our target function for an input, $\bm{x}_{\star}$, outs
 \end{equation*}
 This gives another Gaussian distribution whose means is the mean of the posterior distribution of the weight vectors multiplied by the input vector, and whose covariance in the quadratic form of the covariance of the weight vectors again with the input vectors. This makes sense since it tells us that the uncertainty of the model grows quadratically with the magnitude of the input.
 
-We can now employ the kernel trick in the exact same manner in the derivation of the SVM model, that is, by using a feature mapping $\Phi$ to lift the inputs of our linear regression model from equation \ref{eq: gp_lin_reg_base} into a higher dimension and more workable Hilbert space so that our model now becomes
+We can now employ the kernel trick in the exact same manner in the derivation of the SVM model, that is, by using a feature mapping $\Phi$ to lift the inputs of our linear regression model from \Cref{eq: gp_lin_reg_base} into a higher dimension and more workable Hilbert space so that our model now becomes
 \begin{equation*} \label{eq: gp_lin_reg_feat_map}
     f \left( \bm{x} \right) \triangleq \langle \bm{w} , \Phi \left( \bm{x} \right) \rangle.
 \end{equation*}
@@ -185,7 +185,7 @@ The derivation for the new model is identical with the only difference being tha
 \begin{equation} \label{eq: comput_f_ast_1}
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN \left( \frac{1}{\sigma_n^2} \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \bm{y} , \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{A}^{-1} \Phi \left( \bm{x}_{\star} \right) \right)
 \end{equation}
-where $\bm{A}$ is now $\bm{A} \triangleq \frac{1}{\sigma_n^2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \in \RR^{N \times N}$. From this, it becomes evident that the inverse of $\bm{A}$ is required to compute both the mean and the covariance. This is not favourable since this would require knowledge of the feature space into which the feature map sends inputs. Moreover, computing $\bm{A}^{-1}$ may become impractical in the dimension of the feature space is incredibly large. Remember, the whole point of the kernel trick is to avoid any computation that involves direct knowledge of $H$ but rather to use a kernel $k$ to bypass these obstacles and indirectly produce inner products of the data applied to the feature map. With this in mind, let us try and find different expressions for the mean and the covariance of equation \ref{eq: comput_f_ast_1} that will enable us to apply the kernel trick. Before starting, we need to find a suitable expression for the mean. First define the notation
+where $\bm{A}$ is now $\bm{A} \triangleq \frac{1}{\sigma_n^2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \in \RR^{N \times N}$. From this, it becomes evident that the inverse of $\bm{A}$ is required to compute both the mean and the covariance. This is not favourable since this would require knowledge of the feature space into which the feature map sends inputs. Moreover, computing $\bm{A}^{-1}$ may become impractical if the dimension of the feature space is incredibly large. Remember, the whole point of the kernel trick is to avoid any computation that involves direct knowledge of $H$ but rather to use a kernel $k$ to bypass these obstacles and indirectly produce inner products of the data applied to the feature map. With this in mind, let us try and find different expressions for the mean and the covariance of \Cref{eq: comput_f_ast_1} that will enable us to apply the kernel trick. Before starting, we need to find a suitable expression for the mean. First define the notation
 \[
     \bm{K}_{\bm{W} \bm{W}'} \triangleq \Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal} \in \RR^{n \times n'}
 \]
@@ -207,7 +207,7 @@ so that the current mean of
 \[
     \frac{1}{\sigma_n^2} \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \bm{y}
 \]
-in equation \ref{eq: comput_f_ast_1} can be replaced with
+in \Cref{eq: comput_f_ast_1} can be replaced with
 \[
     \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y}.
 \]
@@ -231,10 +231,10 @@ To find a more suitable expression for the covariance matrix, we will need the a
     \]
     Now
     \begin{align*}
-        \bm{Z}^{-1} & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right) \bm{Z}^{-1}                                            \\
-                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \Id_{n \times n} + \bm{U} \bm{W} \bm{V} \bm{Z}^{-1} \right)                                  \\
-                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \bm{U} \bm{W} \bm{V} \bm{Z}^{-1}                \\
-                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V} \bm{Z}^{-1} \\
+        \bm{Z}^{-1} & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right) \bm{Z}^{-1}                                             \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \left( \Id_{n \times n} + \bm{U} \bm{W} \bm{V} \bm{Z}^{-1} \right)                                   \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} \bm{U} \bm{W} \bm{V} \bm{Z}^{-1}                 \\
+                    & = \left( \bm{Z} + \bm{U} \bm{W} \bm{V} \right)^{-1} + \bm{Z}^{-1} \bm{U} \left( \bm{W}^{-1} + \bm{V} \bm{Z}^{-1} \bm{U} \right)^{-1} \bm{V} \bm{Z}^{-1}.
     \end{align*}
 \end{proof}
 
@@ -242,16 +242,16 @@ Consider
 \begin{equation} \label{eq: GP_weight_A_inv}
     \bm{A} = \bm{\Sigma}_p^{-1} +  {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{-2} \Id_{n \times n} \right) \Phi \left( \bm{X} \right)
 \end{equation}
-then applying the matrix inversion lemma by setting $\bm{Z}^{-1} = \bm{\Sigma}_p, \bm{W}^{-1} = \sigma_n^{2} \Id_{n \times n}$ and $\bm{V} = \bm{U} = \Phi \left( \bm{X} \right)$ equation \ref{eq: GP_weight_A_inv} then becomes
+then applying the matrix inversion lemma by setting $\bm{Z}^{-1} = \bm{\Sigma}_p, \bm{W}^{-1} = \sigma_n^{2} \Id_{n \times n}$ and $\bm{V} = \bm{U} = \Phi \left( \bm{X} \right)$ \Cref{eq: GP_weight_A_inv} then becomes
 \begin{equation*}
     \bm{\Sigma}_p - \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{2} \Id_{n \times n} + \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \right)^{-1} \Phi \left( \bm{X} \right) \bm{\Sigma}_p.
 \end{equation*}
-Thus equation \ref{eq: comput_f_ast_1} can be equivalently formulated as
+Thus \Cref{eq: comput_f_ast_1} can be equivalently formulated as
 \begin{multline} \label{eq: comput_f_ast_2}
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN ( \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , \\
     \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p \Phi \left( \bm{x}_{\star} \right) - \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{2} \Id_{n \times n} + \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \right)^{-1} \Phi \left( \bm{X} \right) \bm{\Sigma}_p \Phi \left( \bm{x}_{\star} \right) ).
 \end{multline}
-The astute reader may have noticed the very suggestive notation of labelling matrices of the form $\Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal}$ as $\bm{K}_{\bm{W} \bm{W}'}$ as though it may have some sort of connection to a kernel. To make this even more obvious, notice that each occurance of the feature map in both expressions for the mean and covariance in equation \ref{eq: comput_f_ast_2} can be replaced with a $\bm{K}_{\bm{W} \bm{W}'}$ for some appropriate choice of $\bm{W}$ and $\bm{W}'$ giving a more notationally cleaner expression
+The astute reader may have noticed the very suggestive notation of labelling matrices of the form $\Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal}$ as $\bm{K}_{\bm{W} \bm{W}'}$ as though it may have some sort of connection to a kernel. To make this even more obvious, notice that each occurance of the feature map in both expressions for the mean and covariance in \Cref{eq: comput_f_ast_2} can be replaced with a $\bm{K}_{\bm{W} \bm{W}'}$ for some appropriate choice of $\bm{W}$ and $\bm{W}'$ giving a more notationally cleaner expression
 \begin{equation} \label{eq: comput_f_ast_3}
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN ( \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , k (\bm{x}_{\star}, \bm{x}_{\star}) - \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \sigma_n^{2} \Id_{n \times n} + \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal}).
 \end{equation}
@@ -263,4 +263,4 @@ To get a better idea of the connection to kernels, since $\bm{\Sigma}_p$ is a sy
 \begin{equation} \label{eq: K_notate_as_gram}
     \left( \bm{K}_{\bm{W} \bm{W}'} \right)_{ij} = \langle \Phi \left( \bm{w}_i \right) ,\Phi \left( \bm{w}_j \right) \rangle_{\bm{\Sigma}_p} = k \left( \bm{w}_i , \bm{w}_j \right)
 \end{equation}
-where $k$ is the kernel with feature map $\Phi$ and inner product $\langle \cdot , \cdot \rangle_{\bm{\Sigma}_p}$. In fact when $\bm{W} = \bm{W}'$ equation \ref{eq: K_notate_as_gram} is exactly the Gram matrix with said kernel. Thus GPs are another great example of models that take advantage of the kernel trick. We shall see in the coming chapters on how exactly we can compute predictions at novel points.
+where $k$ is the kernel with feature map $\Phi$ and inner product $\langle \cdot , \cdot \rangle_{\bm{\Sigma}_p}$. In fact, when $\bm{W} = \bm{W}'$, \Cref{eq: K_notate_as_gram} is exactly the Gram matrix with said kernel. Thus GPs are another great example of models that take advantage of the kernel trick. We shall see in the coming chapters on how exactly we can compute predictions at novel points.

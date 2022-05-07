@@ -3,7 +3,7 @@ In contrast to CG, MINRES is applicable to a wider range of linear systems, name
 \begin{equation} \label{eq: minres_opt_cond_1}
     \bm{x}_k = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2.
 \end{equation}
-It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the Petrov-Galerkin conditions where $\det \left( \bm{A} \right) \neq 0$, in other words MINRES is an oblique projection method. We can also show that when $\det \left( \bm{A} \right) \neq 0$ and $\calW = \bm{A} \calK_k$ the matrix $\bm{W}^{\intercal} \bm{A} \bm{K}$ is non-singular. So under the conditions of MINRES, using a similar argument for CG, $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{V}_k \bm{y}_k$. Employing equation \ref{eq: AVk_eq_VkTk1k} produced by the Lanczos algorithm in \ref{Section4.3} we can manipulate our optimality condition \ref{eq: minres_opt_cond_1} as follows
+It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the Petrov-Galerkin conditions where $\det \left( \bm{A} \right) \neq 0$, in other words MINRES is an oblique projection method. We can also show that when $\det \left( \bm{A} \right) \neq 0$ and $\calW = \bm{A} \calK_k$ the matrix $\bm{W}^{\intercal} \bm{A} \bm{K}$ is non-singular, similar to \Cref{theorem: 3_4_method_eq}. So under the conditions of MINRES, using a similar argument for CG, $\bm{x}_k$ can be expressed as $\bm{x}_k = \bm{x}_0 + \bm{V}_k \bm{y}_k$. Employing \Cref{eq: AVk_eq_VkTk1k} produced by the Lanczos algorithm in \ref{Section4.3} we can manipulate our optimality condition \Cref{eq: minres_opt_cond_1} as follows
 \begin{align*}
     \bm{x}_k      & = \argmin_{\bm{x} \in \bm{x}_0 + \calK_k} \norm{\bm{A} \bm {x} - \bm{b}}_2                                 \\
     \iff \bm{y}_k & = \argmin_{\bm{y} \in \RR^k} \norm{\bm{A} \left( \bm{x}_0 + \bm{V}_k \bm{y} \right) - \bm{b}}_2            \\
@@ -13,7 +13,7 @@ It can be shown that this is equivalent setting $\calW = \bm{A} \calK_k$ in the 
                   & = \argmin_{\bm{y} \in \RR^k} \norm{ \bm{T}_{k+1,k} \bm{y} - \beta_0 \bm{e}_1 }_2
 \end{align*}
 
-\cite{GreenbaumAnne1997Imfs}*{page 43}. Under the general project method procedure \ref{alg: General_Projection}, this affords the following high-level description of the MINRES algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}.
+\cite{GreenbaumAnne1997Imfs}*{page 43}. Under the general project method \Cref{alg: General_Projection}, this affords the following high-level description of the MINRES algorithm \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 268}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
@@ -81,7 +81,7 @@ To annihilate $\beta_{k+1}$, we find the appropriate choice of $c_k$ and $s_k$ a
 \begin{equation*}
     \rho_k = \sqrt{{\gamma_k^{(1)}}^{2} + \beta_{k+1}^{2}}, \quad c_k \triangleq \frac{\gamma_{k}^{(1)}}{\rho_k}, \quad s_k \triangleq \frac{\beta_{k+1}}{\rho_{k}}
 \end{equation*}
-so that \ref{eq: iso_Qkk1_mat_vec_prod_1} becomes
+so that \Cref{eq: iso_Qkk1_mat_vec_prod_1} becomes
 \begin{equation*}
     \begin{bmatrix}
         c_k & s_k  \\
@@ -150,7 +150,7 @@ where $\bm{D}_{k} =
     \end{bmatrix} \nonumber                                                      \\
              & = \bm{x}_{k-1} + \tau_{k} \bm{d}_{k}.
 \end{align}
-The $d_j$ in equation \ref{eq: MINRES_xk_recurr_2} can be found as
+The $d_j$ in \Cref{eq: MINRES_xk_recurr_2} can be found as
 \begin{equation*}
     \left\{
     \begin{array}{l}
@@ -160,7 +160,7 @@ The $d_j$ in equation \ref{eq: MINRES_xk_recurr_2} can be found as
     \end{array}
     \right.
 \end{equation*}
-from equation \ref{eq: MINRES_xk_recurr_1}  \cite{CHOISou-ChengT2011MAKS}*{page 4}. The final form of the MINRES in presented in algorithm \ref{alg: MINRES}.
+from \Cref{eq: MINRES_xk_recurr_1}  \cite{CHOISou-ChengT2011MAKS}*{page 4}. The final form of the MINRES in presented in \Cref{alg: MINRES}.
 
 {\centering
 \begin{minipage}{.85\linewidth}
