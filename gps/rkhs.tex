@@ -58,10 +58,79 @@ This tells us that every Hilbert space with a reproducing kernel is a RKHS. We c
     where the convergence is with respect to $\norm{\cdot}_H$. Since convergence in the norm implies pointwise convergence, we obtain $\tilde{k} \left( \bm{x} , \bm{x}' \right) = \sum_{i \in I} \bm{e}_{i} (\bm{x}) \overline{\bm{e}_{i} (\bm{x}')}$. Finally, since $\tilde{k}$ and $\left\{ \bm{e}_{i} \right\}_{i\in I}$ we arbitrarily chosen, we find that $\tilde{k} = k$, that is, $k$ is the only reproducing kernel of $H$.
 \end{proof}
 
-\Cref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown to afford a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem presented in thorem \Cref{theorem: Moore-Aronszajn}.
+\Cref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown to afford a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem. However, before we prove it, we shall need the following result from \cite{BerlinetAlain2003RKHS}*{page 15}.
+
+\begin{thm}\label{theorem: ground-Moore-Aronszajn}
+    Let $\calH_0$ be any subspace of $\CC^X$, the space of complex functions on $X$, on which an inner product $\langle \cdot , \cdot \rangle_{\calH_0}$; is defined, with associated norm $\norm{\cdot}_{\calH_0}$. In order that there exists a Hilbert space $\calH$ such that
+    \begin{enumerate}[a)]
+        \item $\calH_0 \subset \calH \subset \CC^X$ and the topology defined on $\calH_0$ by the inner product $\langle \cdot , \cdot \rangle_{\calH_0}$ coincides with the topology induced on $\calH_0$ by $\calH$
+        \item $\calH$ has a reproducing kernel $k$
+        \item it is necessary and sufficient that the evaluation functionals $\left( e_t \right)_{t \in X}$ are continuous on $\calH_0$
+        \item it is also necessary and sufficient any Cauchy sequence $(f_n)$ in $\calH_0$ converging pointwise to $0$ converges also to $\bm{0}$ in the norm sense.
+    \end{enumerate}
+    \cite{BerlinetAlain2003RKHS}*{page 15}.
+\end{thm}
 
 \begin{thm}[Moore-Aronszajn] \label{theorem: Moore-Aronszajn}
-    Suppose $k$ is a symmertic positive definite kernel on a set $X$. Then there is a unique Hilbert space of functions for which $k$ is the reproducing kernel \cite{BerlinetAlain2003RKHS}.
+    Suppose $k$ is a symmertic positive definite kernel on a set $X$. Then there is a unique Hilbert space $\calH$ of functions for which $k$ is the reproducing kernel. The subspace $\calH_0$ of $\calH$ spanned by the functions $(k(\cdot , \bm{x})_{x \in X})$ is dense in $\calH$ and $\calH$ is the set of functions on $X$ which are pointwise limits of Cauchy sequences in $\calH_0$ with the inner product
+    \begin{equation} \label{eq: inner-prod-Moore-Aronszajn}
+        \langle f,g \rangle_{\calH_0} = \sum_{i=1}^{n} \sum_{j=1}^{m} \alpha_i \overline{\beta_j} k \left( \bm{y}_j , \bm{x}_i \right)
+    \end{equation}
+    where $f = \sum_{i=1}^n \alpha_i k (\cdot , \bm{x}_i)$ and $g = \sum_{j=1}^m \beta_j k (\cdot , \bm{y}_j)$ \cite{BerlinetAlain2003RKHS}*{page 20}.
 \end{thm}
+
+\begin{proof}
+    First remark that the complex number $\langle f,g \rangle$ defined by (\ref{eq: inner-prod-Moore-Aronszajn}) does not depend on the representations not necessarily unique of $f$ and $g$:
+    \begin{equation*}
+        \langle f,g \rangle_{\calH_0} \sum_{i=1}^n \alpha_i \overline{g(\bm{x}_i)} = \sum_{j=1}^{m} \overline{\beta_j} f (\bm{y}_i),
+    \end{equation*}
+    this shows that $\langle f,g \rangle_{\calH_0}$ depends on $f$ and $g$ only through their values. Then, taking
+    \begin{equation*}
+        f = \sum_{i=1}^{n} k (\cdot , \bm{x}_i) \quad \text{and} \quad g = k (\cdot , \bm{x})
+    \end{equation*}
+    we get
+    \begin{equation*}
+        \langle f , k (\cdot , \bm{x}) \rangle = \sum_{i=1}^{n} \alpha_i \overline{g(\bm{x}_i)} = \sum_{i=1}^{n} \alpha_i k (\bm{x} , \bm{x}_i) = f(\bm{x}).
+    \end{equation*}
+    Thus the inner product with $k (\cdot , \bm{x})$ "reproduces" the values of functions in $\calH_0$. In particular
+    \begin{equation*}
+        \norm{k (\cdot , \bm{x})}_{\calH_0}^2 = \langle k (\cdot , \bm{x}) , k(\cdot , \bm{x}) \rangle = k (\bm{x} , \bm{x}).
+    \end{equation*}
+    As $k$ is a positive type function, $\langle \cdot  , \cdot \rangle_{\calH_0}$ is a semi-positive hermitian form on $\calH_0 \times \calH_0$. Now, suppose that $\langle f,f \rangle_{\calH_0} = 0$. From the Cauchy-Schwarz inequality we have
+    \begin{align*}
+        \forall \bm{x} \in \bm{X} \quad \left| f(\bm{x}) \right| = \left| \langle f , k (\cdot , \bm{x}) \rangle_{\calH_0} \right| \leq \langle f,f \rangle_{\calH_0}^{\frac{1}{2}} \left[ k (\bm{x} , \bm{x}) \right]^{\frac{1}{2}} = 0
+    \end{align*}
+    and $f \equiv 0$. Let us consider $\calH_0$ endowed with the topology associated with the inner product $\langle \cdot , \cdot \rangle_{\calH_0}$ and check conditions c) and d) in \Cref{theorem: ground-Moore-Aronszajn}. Let $f$ and $g$ in $\calH_0$
+    \begin{align*}
+        \forall \bm{x} \in X \quad \left| e_{\bm{x}} (f) - e_{\bm{x}} (g) \right| \
+         & = \left| \langle f-g, k(\cdot , \bm{x}) \rangle_{\calH_0} \right|         \\
+         & \geq \norm{f-g}_{\calH_0} \left[ k (\bm{x},\bm{x}) \right]^{\frac{1}{2}}.
+    \end{align*}
+    Therefore the evaluation functionals are continuous on $\calH_0$ and c) is satisfied.
+
+    Let us now check d). Let $(f_n)$ be a Cauchy sequence (hence bounded) in $\calH_0$ convergeing pointwise to $\bm{0}$ and let $A>0$ be an upper bound for $(\norm{f_n}_{\calH_0})$. Let $\varepsilon > 0$ and $N (\varepsilon)$ such that
+    \begin{equation*}
+        n > N (\varepsilon) \Rightarrow \norm{f_{N(\varepsilon)} - f_n}_{\calH_0} < \frac{\varepsilon}{A}.
+    \end{equation*}
+    Fix $k,\alpha_1 , \ldots , \alpha_k$ and $\bm{x}_1 , \ldots , \bm{x}_k$ such that
+    \begin{equation*}
+        f_{N(\varepsilon)} = \sum_{i=1}^{k} \alpha_i k (\cdot , \bm{x}_i).
+    \end{equation*}
+    As
+    \begin{equation*}
+        \norm{f_n}_{\calH_0}^2 = \langle f_n - f_{N(\varepsilon)}, f_n \rangle_{\calH_0} + \langle f_{N(\varepsilon)} , f_n \rangle_{\calH_0},
+    \end{equation*}
+    we have, for $n > N(\varepsilon)$,
+    \begin{equation*}
+        \norm{f_n}_{\calH_0}^2 < \varepsilon + \sum_{i=1}^k \alpha_i f_n (\bm{x}_i),
+    \end{equation*}
+    hence $\limsup_{n \to \infty} \norm{f_n}^2 \leq \varepsilon$. As $\varepsilon$ is arbitrary this entails that $(f_n)$ converges to $0$ in the norm sense. We are now in a position to apply \Cref{theorem: ground-Moore-Aronszajn} to $\calH_0$: there exists a Hilbert space $\calH$ of functions on $X$ satisfying a) and b). $\calH$ is the set of functions $f$ for which there exists a Cauchy sequence $(f_n)$ in $\calH_0$ converging pointwise to $f$. Such a sequence $(f_n)$ is also converging to $f$ in the norm sense: $\calH_0$ is dense in $\calH$. Therefore $\calH$ is unique and
+    \begin{align*}
+        \forall \bm{x} \in X \quad f(\bm{x}) = \lim_{n \to \infty} f_n (\bm{x}) \
+         & = \lim_{n \to \infty} \langle f_n , k (\cdot , \bm{x}) \rangle_{\calH_0} \\
+         & = \langle f , k(\cdot , \bm{x}) \rangle_{\calH}
+    \end{align*}
+    thus $k$ is the reproducing kernel of $\calH$.
+\end{proof}
 
 The elements of a RKHS will often inherit the analytical properties of its corresponding kernel. This means that kernels provide a mechanism for generating spaces of functions with useful analytical properties.

@@ -61,7 +61,7 @@ This also shows that $\bm{x^{\star}} \in \bm{x}_0 + \operatorname{l.s} \left\{ \
 \end{defe}
 For the purposes of solving \Cref{eq: lin_sys_1} it is important to understand how $\calK_{k} \left( \bm{A},\bm{v} \right)$ grows for larger and larger $k$ since a solution for \Cref{eq: lin_sys_1} will be present in a Krylov Subspace that cannot be grown any larger, according to \Cref{eq: x_ast_via_cayley}. In other words, an exact solution can be constructed once we have extracted all the information from $\bm{A}$ through multiplication of $\bm{r_0}$. The following theorem provides information on how exactly the Krylov Subspace grows as $k$ increases.
 \begin{thm} \label{theorem: grade_of_v}
-    There is a positive called the grade of $\bm{v}$ with respect to $\bm{A}$, denoted $t_{\bm{v}, \bm{A}}$, where
+    There is a positive integer called the grade of $\bm{v}$ with respect to $\bm{A}$, denoted $t_{\bm{v}, \bm{A}}$, where
     \[
         \operatorname{dim} \left( \calK_{k} \left( \bm{A} , \bm{v} \right) \right) = \left\{
         \begin{matrix}

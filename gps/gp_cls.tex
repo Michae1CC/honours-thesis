@@ -261,7 +261,7 @@ Subsequently, predictions for $\pi_{\star} = \pi \left( \bm{x}_{\star} \right)$ 
 \begin{equation} \label{eq: GP-pred-1}
     \overline{\pi_{\star}} \triangleq p \left( y_{\star} = +1 \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) = \int \sigma \left( f_{\star} \right) p \left( f_{\star} \mid \bm{X} , \bm{y} , \bm{x}_{\star} \right) \; d f_{\star}
 \end{equation}
-While this is a sound model, computing predictions is not so straight forward since the integral in  \Cref{eq: GP-pred-1} is not analytically tractable for the same reason as the linear binary classifier. Later on we will see how we can make use of our numerical toolbox to derive a good approximation for $\overline{\pi_{\star}}$.
+While this is a sound model, computing predictions is not so straight forward since the integral in  \Cref{eq: GP-pred-1} is not analytically tractable as applying $\sigma$ to $f_{\star}$ no longer produces a Gaussian distribution. Later on we will see how we can make use of our numerical toolbox to derive a good approximation for $\overline{\pi_{\star}}$.
 
 \subsubsection{Lapace Approximation for Posterior}\label{Section1.6.2}
 

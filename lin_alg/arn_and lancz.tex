@@ -144,7 +144,7 @@ As before, equating the $j^{th}$ columns of $\bm{A} \bm{V} = \bm{V} \bm{T}$ yiel
 \begin{equation}\label{eq: lancz_orth_basis}
     \bm{A} \bm{v}_{j} = \beta_{j-1} \bm{v}_{j-1} + \alpha_{j} \bm{v}_j + \beta_j \bm{v}_{j+1}.
 \end{equation}
-Again since $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of \Cref{eq: lancz_orth_basis} by $\bm{v}_j$ gives $\bm{v}_j \bm{A} \bm{v}_j = \alpha_j$. A simplified version of the Arnoldi algorithm can be devised to compute $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}. The Lanczos algorithm is presented in \Cref{alg: Lanczos_Algorithm}.
+Again since $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ form an orthornormal basis, multiplying both sides of \Cref{eq: lancz_orth_basis} by $\bm{v}_j$ gives $\bm{v}_j \bm{A} \bm{v}_j = \alpha_j$. This simplified version of the Arnoldi algorithm used for computing $\left\{ \bm{v}_{i} \right\}_{i=1}^{n}$ and $\bm{T}$ for symmetric matrices is better known as the Lanczos algorithm \cite{DemmelJamesW1997Anla}, presented more explicitly in \Cref{alg: Lanczos_Algorithm}.
 
 {\centering
 \begin{minipage}{.85\linewidth}

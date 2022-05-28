@@ -1,6 +1,6 @@
 \subsection{Gaussian Processes Prediction Reviewed}\label{Section5.1}
 
-In Chapter \ref{Chapter1}, a naive implementation for Gaussian Process prediction was presented in \cref{alg: Unoptimized_GPR}. While this does provide a simple and convenient way to produce predictions for a regression task, it is not all smooth sailing after this. Unfortunately, there are a number of problems with this algorithm in terms of scalability. For convenience, this algorithm has been restated below but this time with the various bottlenecks highlighted in red.
+In Chapter \ref{Chapter1}, a naive implementation for Gaussian Process prediction was presented in \cref{alg: Unoptimized_GPR}. While this does provide a simple and convenient way to produce predictions for a regression task, it is not all smooth sailing after this. Unfortunately, there are a number of problems with this algorithm in terms of scalability. For convenience, this algorithm has been restated below but this time with the various bottlenecks highlighted seen in lines $1,2$ and $4$.
 
 \setcounter{savecounter}{\value{algocf}}
 \setcounter{algocf}{\value{GPRcount}}
@@ -17,10 +17,10 @@ In Chapter \ref{Chapter1}, a naive implementation for Gaussian Process predictio
             \Input{Observations $\bm{X}, \bm{y}$ and a test input $\bm{x}_{\star}$.}
             \Output{A prediction $\overline{f_{\star}} $ with its corresponding variance $ \VV \left[ f_{\star} \right]$.}
             \BlankLine
-            \textcolor{red}{$\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$}\;
-            \textcolor{red}{$\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$}\;
+            $\bm{L} = \operatorname{cholesky} \left( \bm{K_{XX}} + \sigma_n^2 \Id_{n \times n} \right)$\;
+            $\bm{\alpha} = \operatorname{lin-solve} \left( \bm{L}^{\intercal} , \operatorname{lin-solve} \left( \bm{L}, \bm{y} \right) \right)$\;
             $\overline{f_{\star}} = \bm{K_{x_{\star} X}} \bm{\alpha}$\;
-            \textcolor{red}{$\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x_{\star} X}} \right)$}\;
+            $\bm{v} = \operatorname{lin-solve} \left( \bm{L}, \bm{K_{x_{\star} X}} \right)$\;
             $\VV \left[ f_{\star} \right] = \bm{K_{x_{\star} x_{\star}}} - \bm{v}^{\intercal} \bm{v}$\;
             \Return{$\overline{f_{\star}} , \VV \left[ f_{\star} \right]$}
             \BlankLine

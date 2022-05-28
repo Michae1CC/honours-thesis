@@ -43,7 +43,7 @@ At each step solving $\bm{y}$ is a matter of solving a $(n+1) \times n$ least sq
     \bm{Q}_k \bm{T}_{k,k+1}
     =
     \begin{bmatrix}
-        \bm{R}_k \\ 0
+        \bm{R}_k \\ \bm{0}
     \end{bmatrix}
     =
     \begin{bmatrix}
@@ -51,8 +51,8 @@ At each step solving $\bm{y}$ is a matter of solving a $(n+1) \times n$ least sq
                          & \gamma_{1}^{(2)} & \delta_{3}^{(2)}      & \varepsilon_{4}^{(1)} &        &                       \\
                          &                  & \ddots                & \ddots                & \ddots &                       \\
                          &                  &                       & \ddots                & \ddots & \varepsilon_{k}^{(1)} \\
-                         &                  &                       &                       & \ddots & \gamma_{k}^{(2)}      \\
-                         &                  &                       &                       &        & \delta_{k}^{(2)}      \\
+                         &                  &                       &                       & \ddots & \delta_{k}^{(2)}      \\
+                         &                  &                       &                       &        & \gamma_{k}^{(2)}      \\
                          &                  &                       &                       &        & 0                     \\
     \end{bmatrix}
 \end{equation}
@@ -129,7 +129,7 @@ where $\bm{t}_k = \left[ \tau_1 , \tau_2 , \cdots , \tau_k \right]^{\intercal}$ 
 \begin{equation*}
     \bm{y}_k = \argmin_{\bm{y} \in \RR^k} \norm{
         \begin{bmatrix}
-            \bm{R}_k \\ 0
+            \bm{R}_k \\ \bm{0}
         \end{bmatrix} \bm{y} -
         \begin{bmatrix}
             \bm{t}_{k} \\ \phi_{k-1}
@@ -192,8 +192,8 @@ from \Cref{eq: MINRES_xk_recurr_1}  \cite{CHOISou-ChengT2011MAKS}*{page 4}. The 
                 \alpha_{k}       & \beta_{k+1}
             \end{bmatrix}
             \)\;
-            $\rho_k = \sqrt{{\gamma_k^{(1)}}^{2} + \beta_{k+1}^{2}}, \quad c_k = \frac{\gamma_{k}^{(1)}}{\rho_k}, \quad s_k = \frac{\beta_{k+1}}{\rho_{k}}$\;
-            $\gamma_k^{(2)} = c_k \gamma_k^{(1)}$\;
+            $\gamma_k^{(2)}  = \sqrt{{\gamma_k^{(1)}}^{2} + \beta_{k+1}^{2}}, \quad c_k = \frac{\gamma_{k}^{(1)}}{\rho_k}, \quad s_k = \frac{\beta_{k+1}}{\rho_{k}}$\;
+            % $\gamma_k^{(2)} = c_k \gamma_k^{(1)}$\;
             $\tau_k = c_k \phi_{k-1}, \quad \phi_k = s_k \phi_{k-1}$\;
             $\bm{d}_k = \left( \bm{v}_k - \delta_k^{(2)} \bm{d}_{k-1} -\varepsilon_{k} \bm{d}_{k-2} \right) / \gamma_{k}^{(2)}$\;
             $\bm{x}_k + \tau_{k} \bm{d}_{k}$\;

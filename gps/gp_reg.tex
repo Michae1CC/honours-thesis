@@ -235,7 +235,7 @@ Here $\bm{f}$ and $\bm{f}_{\star}$ are independent but we would like to give the
 \]
 While the above does give us some information that $\bm{f}_{\star}$ is related to the observed data and the test inputs, it does not provide any method to evalute $\bm{f}_{\star}$. To do this we shall need the assistance of the following theorem.
 \begin{thm}\label{theorem: cond_of_MVN}
-    (Marginals and conditionals of an MVN \cite{MurphyKevinP2012Ml}*{page 142}) Suppose $\bm{x} = [ \bm{x}_1, \bm{x}_2 ]$ is jointly Gaussian with parameters
+    (Marginals and conditionals of an multivariate normal distributions \cite{MurphyKevinP2012Ml}*{page 142}) Suppose $\bm{x} = [ \bm{x}_1, \bm{x}_2 ]$ is jointly Gaussian with parameters
     \[
         \bm{\mu} =
         \begin{bmatrix}
@@ -381,4 +381,4 @@ Also notice that the covariance does not depend on observations but scales quadr
     \par
 }
 
-A Cholesky decomposition is typically used since $\bm{L}$ can be used twice to assist in solving both the linear systems in the mean and covariance. Unfortunately, a Cholesky decomposition incurres a runtime of $\calO \left( n^3 \right)$ where $n$ is the number of samples making it impractical for large data sets. In the later chapters we shall consider other methods for solving these linear systems.
+A Cholesky decomposition is typically used since $\bm{L}$ can be used twice to assist in solving both the linear systems in the mean and covariance. Unfortunately, a Cholesky decomposition incurres a runtime of $\calO \left( n^3 \right)$ where $n$ is the number of samples \cite{TrefethenLloydN.LloydNicholas1997Nla/}*{page 176} making it impractical for large data sets. In the later chapters we shall consider other methods for solving these linear systems.
