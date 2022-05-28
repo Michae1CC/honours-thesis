@@ -64,7 +64,39 @@ Next, two methods from the Nystrom class and one method from the RFF class, that
 
 \subsubsection{Krylov Subspace Methods}\label{Section5.3.2}
 
-The CG and MINRES methods where also used within the Gaussian Process algorithm to see which one of the two would provide better predictions. Historically CG is preferred over MINRES for Gaussian process prediction since it is typically a superior linear system solver when dealing with PSD matrices. There are, however, a number of circumstances where MINRES can actually outperform CG. Take for example the work of Pleiss {\it et al.} \cite{arxiv200611267} which leverages a variant of MINRES to assist in the computation kernel matrix square roots. We were also wondering if MINRES is better suited as a linear solver within the context of Gaussian processes. In our experimentation, the number of iterations that each method used to form an approximation was graphed along side the corresponding prediction error produced. Differences in execution time per iteration between the two methods were nominal. Looking at the results in Figures \ref{fig: minres-cg-3dsn-ferr}-\ref{fig: minres-cg-Wine_data-ferr}, it appears that the MINRES method performs just as well and, occasionally, even better than CG. This was apparent with the prediction errors produced from the abalone and 3DSN datasets. These differences became more noticeable when each of these linear solvers where paired with the RFF method (instead of using an exact kernel matrix) to provide predictions, see Figures \ref{fig: 3dsn-dual-cmp}-\ref{fig: Wine_data-dual-cmp}. In particular, the MINRES method affords better results even on the quadratic dataset. The quadratic dataset is an artificial dataset constructed using a Gaussian process with a quadratic mean function $x^2 + y^2$ and some amount of variance. Its main purpose was to ascertain if the applied method was prone to overfitting. The fact that, overall, MINRES yielded lower errors indicates that it is also more robust against overfitting compared to CG. To understand why MINRES may produce smaller errors for regression tasks, recall that the mean square error of $\bm{\rho}$ is computed as
+The CG and MINRES methods where also used within the Gaussian Process algorithm to see which one of the two would provide better predictions. Historically CG is preferred over MINRES for Gaussian process prediction since it is typically a superior linear system solver when dealing with PSD matrices. There are, however, a number of circumstances where MINRES can actually outperform CG. Take for example the work of Pleiss {\it et al.} \cite{arxiv200611267} which leverages a variant of MINRES to assist in the computation kernel matrix square roots. We were also wondering if MINRES is better suited as a linear solver within the context of Gaussian processes. In our experimentation, the number of iterations that each method used to form an approximation was graphed along side the corresponding prediction error produced. Differences in execution time per iteration between the two methods were nominal. Looking at the results in Figures \ref{fig: minres-cg-3dsn-ferr}-\ref{fig: minres-cg-Wine_data-ferr}, it appears that the MINRES method performs just as well and, occasionally, even better than CG. This was apparent with the prediction errors produced from the abalone and 3DSN datasets, see \Cref{fig: minres-vs-cg-exact}.
+\begin{figure}[ht]
+    \centering
+    \subfloat[]{
+        \begin{adjustbox}{width=0.45\textwidth}
+            \includegraphics[scale=0.39]{img/pred/3D_spatial_network/pred_acc/lin_cmp-sigma=1.0.png}
+        \end{adjustbox}
+    }
+    \subfloat[]{
+        \begin{adjustbox}{width=0.45\textwidth}
+            \includegraphics[scale=0.39]{img/pred/abalone/pred_acc/lin_cmp-sigma=1.0.png}
+        \end{adjustbox}
+    }\\
+    \caption{Prediction errors for the 3DSN (left panel) and Abalone (right panel) datasets make it most apparent that MINRES is the superior solver for GPR.}
+    \label{fig: minres-vs-cg-exact}
+\end{figure}
+These differences became more noticeable when each of these linear solvers where paired with the RFF method (instead of using an exact kernel matrix) to provide predictions shown in \Cref{fig: minres-vs-cg-rff} (also see Figures \ref{fig: 3dsn-dual-cmp}-\ref{fig: Wine_data-dual-cmp}).
+\begin{figure}[ht]
+    \centering
+    \subfloat[]{
+        \begin{adjustbox}{width=0.45\textwidth}
+            \includegraphics[scale=1]{img/pred/3D_spatial_network/pred_acc/dual_cmp_both-sigma=1.0.png}
+        \end{adjustbox}
+    }
+    \subfloat[]{
+        \begin{adjustbox}{width=0.45\textwidth}
+            \includegraphics[scale=1]{img/pred/abalone/pred_acc/dual_cmp_both-sigma=1.0.png}
+        \end{adjustbox}
+    }\\
+    \caption{The difference in predictive performance between MINRES and CG is even more noticeable when the two methods are paired with a RFF kernel estimate. These difference are best seen when comparing prediction errors provided for the 3DSN (left panel) and Abalone (right panel) datasets.}
+    \label{fig: minres-vs-cg-rff}
+\end{figure}
+In particular, the MINRES method affords better results even on the quadratic dataset. The quadratic dataset is an artificial dataset constructed using a Gaussian process with a quadratic mean function $x^2 + y^2$ and some amount of variance. Its main purpose was to ascertain if the applied method was prone to overfitting. The fact that, overall, MINRES yielded lower errors indicates that it is also more robust against overfitting compared to CG. To understand why MINRES may produce smaller errors for regression tasks, recall that the mean square error of $\bm{\rho}$ is computed as
 \begin{align*}
     \norm{\bm{K_{X_{\star} X}} \bm{\rho} - \bm{y}_{\star}}_2^2
 \end{align*}
