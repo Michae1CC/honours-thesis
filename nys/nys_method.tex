@@ -181,7 +181,7 @@ We see now that the sketching matrix produced by \Cref{alg: rand-mat-mult} provi
 
 As we can tell from the algorithms inputs, this requires some sort of probability distribution to select the columns. As seen in \Cref{lem: rmm-exp-var-bds} any probability distribution will provide an unbiased estimate. However, some probability distributions can be used to lower the variance faster than others. Naively, we could just employ uniform sampling where each column in selected with equal probability although it should be cautioned that this is seldom a good idea since uniform sampling tends to over sample landmarks from one large cluster while under sampling or even missing entire small but important clusters. As a result, the approximation for $\bm{K}$ will decline \cite{musco2017recursive}*{page 3}. This is demonstarted in graphic form in \Cref{fig: uni-samp-v-nonuni-samp}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \subfloat[]{
         \begin{adjustbox}{width=0.4\textwidth}

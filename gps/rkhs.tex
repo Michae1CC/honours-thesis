@@ -3,22 +3,22 @@
 We shall now shift our attention towards reproducing kernel Hilbert spaces (RKHS) and describe their relation to kernels, and see that in some sense, the RKHS of a kernel $k$ is the smallest feature space for a kernel. The formal definition of a RKHS is stated in \Cref{defe: RKHS}.
 
 \begin{defe}[RKHS] \label{defe: RKHS}
-    Let $X \neq \emptyset$ and $H$ be a real Hilbert space over $X$
+    Let $X \neq \emptyset$ and $\calH$ be a real Hilbert space over $X$
     \begin{enumerate}
-        \item A function $k : X \times X \to \RR$ is called a reproducing kernel if we have $k \left( \cdot, \bm{x} \right) \in H$ for all $\bm{x} \in X$ and the reproducing property
+        \item A function $k : X \times X \to \RR$ is called a reproducing kernel if we have $k \left( \cdot, \bm{x} \right) \in \calH$ for all $\bm{x} \in X$ and the reproducing property
               \[
                   f(\bm{x}) = \langle f , k \left( \cdot, \bm{x} \right) \rangle
               \]
-              holds for all $f \in H$ and $x \in X$.
-        \item The space $H$ is called a reproducing kernel Hilbert space over $X$ if for all $\bm{x} \in X$ the Dirac functional $\delta_{\bm{x}} : H \to \RR$ defined by $\delta_{\bm{x}} (f) \triangleq f(\bm{x}), \; f \in H$ is continuous.
+              holds for all $f \in \calH$ and $x \in X$.
+        \item The space $\calH$ is called a reproducing kernel Hilbert space over $X$ if for all $\bm{x} \in X$ the Dirac functional $\delta_{\bm{x}} : \calH \to \RR$ defined by $\delta_{\bm{x}} (f) \triangleq f(\bm{x}), \; f \in \calH$ is continuous.
     \end{enumerate}
     \cite{SteinwartIngo2008SVMb}
 \end{defe}
 
-An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically, in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset H$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (\bm{x}) - f (\bm{x})} \to 0$. Note that because the evaluation function is both linear and continuous, then it is also bounded in the sense that there is a $c \in \RR, \; c > 0$ such that for every $f \in H$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_H$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in H$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
+An important property of the RKHS is that the convergence in the norm implies pointwise convergence. Specifically, in a RKHS for any sequence of functions $\left\{ f_n \right\} \subset \calH$ where $\norm{f_n - f} \to 0$ we have $\abs{\delta_{\bm{x}} (f_n) - \delta_{\bm{x}} (f)} = \abs{f_n (\bm{x}) - f (\bm{x})} \to 0$. Note that because the evaluation function is both linear and continuous, then it is also bounded in the sense that there is a $c \in \RR, \; c > 0$ such that for every $f \in \calH$ and a fixed $\bm{x} \in X$ we have $\abs{\delta_{\bm{x}} (f)} \leq c \norm{f}_{\calH}$ \cite{BerezanskyMakarovich1996FaV1}. This property of uniform convergence implying pointwise convergence is important since it tells us that if functions $f,g \in \calH$ are close in norm then their evaluation at any point is also similar. The following lemma ties together the definition of an RKHS, reproducing kernel and a kernel.
 
 \begin{lem}[] \label{lem: RKHS_rk_k}
-    Let $H$ be a Hilbert function space over $X$ that has a reproducing kernel $k$. Then $H$ is a RKHS and $H$ is also a feature space of $k$ where the feature map $\Phi : X \to H$ is given by
+    Let $\calH$ be a Hilbert function space over $X$ that has a reproducing kernel $k$. Then $\calH$ is a RKHS and $\calH$ is also a feature space of $k$ where the feature map $\Phi : X \to \calH$ is given by
     \[
         \Phi (\bm{x}) = k \left( \cdot , \bm{x}  \right)
     \]
@@ -28,9 +28,9 @@ An important property of the RKHS is that the convergence in the norm implies po
 \begin{proof}
     Since the reproducing property tells us that any Dirac functional can be represented by the reproducing kernel this means
     \[
-        \abs{\delta_{\bm{x}} (f)} = \abs{f(\bm{x})} = \abs{\langle f , k \left( \cdot, \bm{x} \right) \rangle} \leq \norm{k \left( \cdot, \bm{x} \right)}_H \cdot \norm{f}_H
+        \abs{\delta_{\bm{x}} (f)} = \abs{f(\bm{x})} = \abs{\langle f , k \left( \cdot, \bm{x} \right) \rangle} \leq \norm{k \left( \cdot, \bm{x} \right)}_{\calH} \cdot \norm{f}_{\calH}
     \]
-    for all $\bm{x} \in X, \; f \in H$. This shows continuity of $\delta_{\bm{x}}$ for $\bm{x} \in X$. In order to show that $\Phi$ is a feature map, fix an $\bm{x}' \in X$ and set $f = k \left( \cdot, \bm{x}' \right)$. Then for $\bm{x} \in X$, the reproducing property yields
+    for all $\bm{x} \in X, \; f \in \calH$. This shows continuity of $\delta_{\bm{x}}$ for $\bm{x} \in X$. In order to show that $\Phi$ is a feature map, fix an $\bm{x}' \in X$ and set $f = k \left( \cdot, \bm{x}' \right)$. Then for $\bm{x} \in X$, the reproducing property yields
     \[
         \langle \Phi (\bm{x}') , \Phi (\bm{x}) \rangle_H = \langle k \left( \cdot, \bm{x}' \right) , k \left( \cdot, \bm{x} \right) \rangle_H = \langle f , k \left( \cdot, \bm{x} \right) \rangle_H = f(\bm{x}) = k \left( \bm{x}', \bm{x} \right).
     \]
@@ -39,23 +39,23 @@ An important property of the RKHS is that the convergence in the norm implies po
 This tells us that every Hilbert space with a reproducing kernel is a RKHS. We can also show the converse, that is, every RKHS has a unique reproducing kernel seen in \Cref{theorem: unique_kernel}.
 
 \begin{thm} \label{theorem: unique_kernel}
-    Let $H$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $H$ \cite{SteinwartIngo2008SVMb}*{page 120}.
+    Let $\calH$ be a RKHS over $X$. Then $k: X \times X \to \RR$ defined by $k \left( \bm{x}', \bm{x} \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_H, \; \bm{x} , \bm{x}' \in X$ is the only reproducing kernel of $\calH$ \cite{SteinwartIngo2008SVMb}*{page 120}.
 \end{thm}
 
 \begin{proof}
-    We first show that $k$ is a reproducing kernel. To this end, we know from the Frechet-Riesz Representation theorem (see \cite{SteinwartIngo2008SVMb}*{page 504})that there exists a anti-linear isomorphism, $I : H' \to H$ that assigns to every functional in $H'$ the representing element in $H$, that is, $g'(f) = \langle f , I g' \rangle$ for all $f \in H, \; g' \in H'$. Then, for all $\bm{x} , \bm{x}' \in X$, we have
+    We first show that $k$ is a reproducing kernel. To this end, we know from the Frechet-Riesz Representation theorem (see \cite{SteinwartIngo2008SVMb}*{page 504})that there exists a anti-linear isomorphism, $I : \calH' \to \calH$ that assigns to every functional in $\calH'$ the representing element in $\calH$, that is, $g'(f) = \langle f , I g' \rangle$ for all $f \in \calH, \; g' \in \calH'$. Then, for all $\bm{x} , \bm{x}' \in X$, we have
     \begin{equation*}
-        k \left( \bm{x} , \bm{x}' \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_{H'} = \langle I \delta_{\bm{x}} , I \delta_{\bm{x}'} \rangle_{H} = \delta_{\bm{x}} \left( I \delta_{\bm{x}'} \right) = I \delta_{\bm{x}'} (\bm{x}),
+        k \left( \bm{x} , \bm{x}' \right) = \langle \delta_{\bm{x}} , \delta_{\bm{x}'} \rangle_{\calH'} = \langle I \delta_{\bm{x}} , I \delta_{\bm{x}'} \rangle_{\calH} = \delta_{\bm{x}} \left( I \delta_{\bm{x}'} \right) = I \delta_{\bm{x}'} (\bm{x}),
     \end{equation*}
     which shows $k \left( \cdot , \bm{x}' \right) = I \delta_{\bm{x}'}$ for all $\bm{x}' \in X$. From this we immediately obtain
     \begin{equation*}
         f(\bm{x}') = \delta_{\bm{x}'} (f) = \langle f , I \delta_{\bm{x}'} \rangle = \langle f , k \left( \cdot , \bm{x}' \right) \rangle,
     \end{equation*}
-    that is, $k$ has the reproducing property. Now let $\tilde{k}$ be an arbitrary reproducing kernel of $H$. For $\bm{x}' \in X$, the basis representation of $\tilde{k} \left( \cdot , \bm{x}' \right)$ then yields
+    that is, $k$ has the reproducing property. Now let $\tilde{k}$ be an arbitrary reproducing kernel of $\calH$. For $\bm{x}' \in X$, the basis representation of $\tilde{k} \left( \cdot , \bm{x}' \right)$ then yields
     \begin{equation*}
         \tilde{k} \left( \cdot , \bm{x}' \right) = \sum_{i \in I} \langle \tilde{k} (\cdot , \bm{x}'), \bm{e}_{i} \rangle \bm{e}_{i} = \sum_{i \in I} \overline{\bm{e}_{i} (\bm{x}')} \bm{e}_{i},
     \end{equation*}
-    where the convergence is with respect to $\norm{\cdot}_H$. Since convergence in the norm implies pointwise convergence, we obtain $\tilde{k} \left( \bm{x} , \bm{x}' \right) = \sum_{i \in I} \bm{e}_{i} (\bm{x}) \overline{\bm{e}_{i} (\bm{x}')}$. Finally, since $\tilde{k}$ and $\left\{ \bm{e}_{i} \right\}_{i\in I}$ we arbitrarily chosen, we find that $\tilde{k} = k$, that is, $k$ is the only reproducing kernel of $H$.
+    where the convergence is with respect to $\norm{\cdot}_{\calH}$. Since convergence in the norm implies pointwise convergence, we obtain $\tilde{k} \left( \bm{x} , \bm{x}' \right) = \sum_{i \in I} \bm{e}_{i} (\bm{x}) \overline{\bm{e}_{i} (\bm{x}')}$. Finally, since $\tilde{k}$ and $\left\{ \bm{e}_{i} \right\}_{i\in I}$ we arbitrarily chosen, we find that $\tilde{k} = k$, that is, $k$ is the only reproducing kernel of $\calH$.
 \end{proof}
 
 \Cref{theorem: unique_kernel} shows that a RKHS is uniquely determined by its kernel. In fact the other direction can also be shown to afford a one-to-one correspondence between kernels and RKHS. This is known as the Moore-Aronszajn theorem. However, before we prove it, we shall need the following result from \cite{BerlinetAlain2003RKHS}*{page 15}.

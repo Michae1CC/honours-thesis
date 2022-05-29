@@ -3,7 +3,7 @@
 \subsubsection{Introduction to Support Vector Machines for Binary Classification}\label{Section1.4.1}
 In this section, we will be investigating at two different machine learning models that make use of kernels to perform classification and regression. The first class of kernel machines to be evaluated are support vector machines (SVM). SVMs where originally designed for binary classification and as such only a model for binary classification is presented, although extensions exist that allow regression and multi-class classification.
 
-For the binary classification problem we are tasked with labelling new samples with either one of two classes, $-1$ or $1$. We shall assume our input space consists of vectors from $\RR^d$ and that we provided with a labelled training set $D = \left\{ \left( \bm{x}_1 , y_1 \right), \left( \bm{x}_1 , y_1 \right), \ldots , \left( \bm{x}_n , y_n \right) \right\}$. One simple method to classify samples is by creating an affine linear hyperplane satisfying
+For the binary classification problem we are tasked with labelling new samples with either one of two classes, $-1$ or $1$. We shall assume our input space consists of vectors from $\RR^d$ and that we provided with a labelled training set $\calD = \left\{ \left( \bm{x}_1 , y_1 \right), \left( \bm{x}_1 , y_1 \right), \ldots , \left( \bm{x}_n , y_n \right) \right\}$. One simple method to classify samples is by creating an affine linear hyperplane satisfying
 \begin{align} \label{eq: linear_sep_hyp}
     \langle \bm{w}, \bm{x}_i \rangle + b > 0, \quad y_i = +1 \nonumber \\
     \langle \bm{w}, \bm{x}_i \rangle + b < 0, \quad y_i = -1
@@ -12,7 +12,7 @@ for some $\bm{w} \in \RR^d$ and $b \in \RR$ where $\norm{\bm{w}}_2 = 1$ \cite{St
 \[
     f_D \left( \bm{x} \right) \triangleq \operatorname{sign} \left( \langle \bm{w}_D , \bm{x} \rangle + b_D \right).
 \]
-There are, however, a number of shortcomings to this model. The most obvious is that our training data may not be linearly separable in $\RR^d$ meaning no such $\bm{w}_D$ and $b_D$ exist. Moreover, when noise is introduced to the data set this model will prioritize finding a hyperplane that perfectly separates the two classes, making no compromises in misclassifying points,subjecting it to overfitting. SVMs where introduced by Boser {\it et al.} \cite{BoserBernhard1992Ataf} to address the first issue of separability. Their approach was to lift the input vector into a more malleable Hilbert space $H_0$ using a feature map. The inputs are then classified within the new space. Unfortunately this method does nothing to address the second issue of over fitting and, if anything, actually worsens it. Cortes and Vapnik \cite{CortesCorinna1995SN} attempted to address this second issue by introducing slack variables to \Cref{eq: linear_sep_hyp} so that now we need to satisfy $y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right) \geq 1 - \xi_i$ for some $\xi_i \in \RR_{>0}$. These constraints can be re-written as
+There are, however, a number of shortcomings to this model. The most obvious is that our training data may not be linearly separable in $\RR^d$ meaning no such $\bm{w}_D$ and $b_D$ exist. Moreover, when noise is introduced to the data set this model will prioritize finding a hyperplane that perfectly separates the two classes, making no compromises in misclassifying points, subjecting it to overfitting. SVMs where introduced by Boser {\it et al.} \cite{BoserBernhard1992Ataf} to address the first issue of separability. Their approach was to lift the input vector into a more malleable Hilbert space $H_0$ using a feature map. The inputs are then classified within the new space. Unfortunately this method does nothing to address the second issue of over fitting and, if anything, actually worsens it. Cortes and Vapnik \cite{CortesCorinna1995SN} attempted to address this second issue by introducing slack variables to \Cref{eq: linear_sep_hyp} so that now we need to satisfy $y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right) \geq 1 - \xi_i$ for some $\xi_i \in \RR_{++}$. These constraints can be re-written as
 \[
     \xi_i \geq 1 - y_i \left( \langle \bm{w} , \Phi \left( \bm{x}_i \right) \rangle + b \right)
 \]
@@ -130,13 +130,13 @@ The next machine learning model of interest that uses kernels are gaussian proce
     \label{fig: motive_gp_1}
 \end{figure}
 
-In this diagram there is a number of observed values $D = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x_{\star}$. This is a classic problem of time series prediction, that is what is a good prediction for the missing value at time $x_{\star}$? Perhaps something close to the red diamond seen in \Cref{fig: motive_gp_1} (B)? Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used to underpin GPs, that is, training inputs that are more similar to the input value should have greater influence over the prediction.
+In this diagram there is a number of observed values $\calD = \left\{ (x_1,y_1), (x_2,y_2), (x_3,y_3), (x_4,y_4) \right\}$ (blue labels) as well as a missing observation at time $x_{\star}$. This is a classic problem of time series prediction, that is what is a good prediction for the missing value at time $x_{\star}$? Perhaps something close to the red diamond seen in \Cref{fig: motive_gp_1} (B)? Why does this red diamond seem like a good choice? Because for known data for which the measurement of similarity is small, we expect the corresponding outputs should also be similar since most natural phenomena are continuous by nature. This reasoning is used to underpin GPs, that is, training inputs that are more similar to the input value should have greater influence over the prediction.
 
 Like SVMs, we can motivate the mathematical model of a GP through a linear model. Since GPs are designed for regression tasks, we shall only focus on GP regression although we will see later that GPs can be extended to perform binary classification and even multi-class classification. To begin, consider the following linear regression model
 \begin{equation} \label{eq: gp_lin_reg_base}
     f \left( \bm{x} \right) \triangleq \langle \bm{w} , \bm{x} \rangle
 \end{equation}
-where we again assuming that $\bm{x}$ belongs to $\RR^d$ and that $\bm{w} \in \RR^d$ is a weight vector. Notice the striking resemblances to the linear classifier used in our derivation for the SVM model, although this time we are using the value computed by the inner product directly to infer instead of fitting it over a sign function to force it into a binary class. Suppose we have independently sampled observations $D = \left\{ \left( \bm{x}_i , y_i \right) \right\}_{i=1}^{n}$ to a noisy version of $f$
+where we again assuming that $\bm{x}$ belongs to $\RR^d$ and that $\bm{w} \in \RR^d$ is a weight vector. Notice the striking resemblances to the linear classifier used in our derivation for the SVM model, although this time we are using the value computed by the inner product directly to infer instead of fitting it over a sign function to force it into a binary class. Suppose we have independently sampled observations $\calD = \left\{ \left( \bm{x}_i , y_i \right) \right\}_{i=1}^{n}$ to a noisy version of $f$
 \[
     y_i = f \left( \bm{x}_i \right) + \varepsilon_i
 \]
@@ -157,17 +157,17 @@ where $\bm{\Sigma}_p$ is an appropriate covariance matrix. Ideally, we would lik
 \[
     p \left( \bm{w} \mid \bm{y} , \bm{X} \right) \propto p \left( \bm{y} \mid \bm{w} , \bm{X} \right) p \left( \bm{w} \right).
 \]
- \Cref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \bm{w} , \bm{X} \right)$ and since $\bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)$ then
+\Cref{eq: y_cond_X_w} gives us a probability for $p \left( \bm{y} \mid \bm{w} , \bm{X} \right)$ and since $\bm{w} \sim \calN \left( \bm{0}, \bm{\Sigma}_p \right)$ then
 \begin{equation*}
     p \left( \bm{w} \right) = \frac{1}{\sqrt{\left( 2 \pi \right)^{d} \left| \bm{\Sigma} \right|}} \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right)
 \end{equation*}
 \cite{KroeseDirkP2014SMaC}. This means, up to proportionality
 \begin{align*}
-    p \left( \bm{w} \mid \bm{y} , \bm{X} \right)
+    p \left( \bm{w} \mid \bm{X}, \bm{y} \right)
      & \propto \exp \left( - \frac{1}{2 \sigma_n^2} \left( \bm{y} - \bm{X} \bm{w} \right)^{\intercal} \left( \bm{y} - \bm{X} \bm{w} \right) \right) \exp \left( -\frac{1}{2} \bm{w}^{\intercal} \bm{\Sigma}_p^{-1} \bm{w} \right) \\
      & \propto \exp \left( - \frac{1}{2} \left( \bm{w} - \bar{\bm{w}} \right)^{\intercal} \left( \frac{1}{\sigma^2_n} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right) \left( \bm{w} - \bar{\bm{w}} \right) \right)
 \end{align*}
-where $\bar{\bm{w}} \triangleq \sigma_{n}^{-2} \left( \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right)^{-1} \bm{X}^{\intercal} \bm{y}$. Notice that this again is a multivariate Gaussian distribution with mean $\bar{\bm{w}}$ and covariance $\bm{A}^{-1}$ where $\bm{A} \triangleq \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1}$ so that
+where $\bar{\bm{w}} \triangleq \sigma_{n}^{-2} \left( \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1} \right)^{-1} \bm{X}^{\intercal} \bm{y}$. Notice that this again is the kernel of a multivariate Gaussian distribution with mean $\bar{\bm{w}}$ and covariance $\bm{A}^{-1}$ where $\bm{A} \triangleq \sigma_{n}^{-2} \bm{X}^{\intercal} \bm{X} + \bm{\Sigma}_p^{-1}$ so that
 \begin{equation*}
     p \left( \bm{w} \mid \bm{X} , \bm{y} \right) \sim \calN \left( \bm{w} , \bm{A}^{-1} \right).
 \end{equation*}
@@ -185,7 +185,7 @@ The derivation for the new model is identical with the only difference being tha
 \begin{equation} \label{eq: comput_f_ast_1}
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN \left( \frac{1}{\sigma_n^2} \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{A}^{-1} {\Phi \left( \bm{X} \right)}^{\intercal} \bm{y} , \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{A}^{-1} \Phi \left( \bm{x}_{\star} \right) \right)
 \end{equation}
-where $\bm{A}$ is now $\bm{A} \triangleq \frac{1}{\sigma_n^2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \in \RR^{N \times N}$. From this, it becomes evident that the inverse of $\bm{A}$ is required to compute both the mean and the covariance. This is not favourable since this would require knowledge of the feature space into which the feature map sends inputs. Moreover, computing $\bm{A}^{-1}$ may become impractical if the dimension of the feature space is incredibly large. Remember, the whole point of the kernel trick is to avoid any computation that involves direct knowledge of $H$ but rather to use a kernel $k$ to bypass these obstacles and indirectly produce inner products of the data applied to the feature map. With this in mind, let us try and find different expressions for the mean and the covariance of \Cref{eq: comput_f_ast_1} that will enable us to apply the kernel trick. Before starting, we need to find a suitable expression for the mean. First define the notation
+where $\bm{A}$ is now $\bm{A} \triangleq \frac{1}{\sigma_n^2} {\Phi \left( \bm{X} \right)}^{\intercal} \Phi \left( \bm{X} \right) + \bm{\Sigma}_p^{-1} \in \RR^{N \times N}$. From this, it becomes evident that the inverse of $\bm{A}$ is required to compute both the mean and the covariance. This is not favourable since this would require knowledge of the feature space into which the feature map sends inputs. Moreover, computing $\bm{A}^{-1}$ may become impractical if the dimension of the feature space is incredibly large. Remember, the whole point of the kernel trick is to avoid any computation that involves direct knowledge of $\calH$ but rather to use a kernel $k$ to bypass these obstacles and indirectly produce inner products of the data applied to the feature map. With this in mind, let us try and find different expressions for the mean and the covariance of \Cref{eq: comput_f_ast_1} that will enable us to apply the kernel trick. Before starting, we need to find a suitable expression for the mean. First define the notation
 \[
     \bm{K}_{\bm{W} \bm{W}'} \triangleq \Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal} \in \RR^{n \times n'}
 \]
@@ -251,13 +251,13 @@ Thus \Cref{eq: comput_f_ast_1} can be equivalently formulated as
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN ( \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , \\
     \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p \Phi \left( \bm{x}_{\star} \right) - \Phi \left( \bm{x}_{\star} \right)^{\intercal} \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \left( \sigma_n^{2} \Id_{n \times n} + \Phi \left( \bm{X} \right) \bm{\Sigma}_p {\Phi \left( \bm{X} \right)}^{\intercal} \right)^{-1} \Phi \left( \bm{X} \right) \bm{\Sigma}_p \Phi \left( \bm{x}_{\star} \right) ).
 \end{multline}
-The astute reader may have noticed the very suggestive notation of labelling matrices of the form $\Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal}$ as $\bm{K}_{\bm{W} \bm{W}'}$ as though it may have some sort of connection to a kernel. To make this even more obvious, notice that each occurance of the feature map in both expressions for the mean and covariance in \Cref{eq: comput_f_ast_2} can be replaced with a $\bm{K}_{\bm{W} \bm{W}'}$ for some appropriate choice of $\bm{W}$ and $\bm{W}'$ giving a more notationally cleaner expression
+The astute reader may have noticed the very suggestive notation of labelling matrices of the form $\Phi \left( \bm{W} \right) \bm{\Sigma}_p {\Phi \left( \bm{W}' \right)}^{\intercal}$ as $\bm{K}_{\bm{W} \bm{W}'}$ as though it may have some sort of connection to a kernel. To make this even more obvious, notice that each occurance of the feature map in both expressions for the mean and covariance in \Cref{eq: comput_f_ast_2} can be replaced with a $\bm{K}_{\bm{W} \bm{W}'}$ for some appropriate choice of $\bm{W}$ and $\bm{W}'$ yielding the more notationally cleaner expression
 \begin{equation} \label{eq: comput_f_ast_3}
     f_{\star} \mid \bm{x}_{\star} , \bm{X} , \bm{y} \sim \calN ( \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \bm{K}_{\bm{X} \bm{X}} + \sigma_n^{2} \Id_{n \times n} \right)^{-1} \bm{y} , k (\bm{x}_{\star}, \bm{x}_{\star}) - \bm{K}_{\bm{x}_{\star} \bm{X}} \left( \sigma_n^{2} \Id_{n \times n} + \bm{K}_{\bm{X} \bm{X}} \right)^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal}).
 \end{equation}
 To get a better idea of the connection to kernels, since $\bm{\Sigma}_p$ is a symmetric positive semi definite matrix, it defines an inner product
 \[
-    \langle \bm{x} , \bm{y} \rangle_{\bm{\Sigma}_p} = \bm{y}^{\ast} \bm{\Sigma}_p \bm{x}, \quad \bm{x} , \bm{y} \in \KK^{N}
+    \langle \bm{x} , \bm{y} \rangle_{\bm{\Sigma}_p} = \bm{y}^{\intercal} \bm{\Sigma}_p \bm{x}, \quad \bm{x} , \bm{y} \in \KK^{N}
 \]
 \cite{WangGuorongGITa}*{page 34} so that
 \begin{equation} \label{eq: K_notate_as_gram}

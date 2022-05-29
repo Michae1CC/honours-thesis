@@ -19,7 +19,7 @@ The statistical leverage scores are maximised when $\bm{A}_{(:,i)}$ is linearly 
 \end{align*}
 Note that $\bm{H}_{ii}$ may not constitute as a probability distribution, as may the other leverage scores which we will soon discuss. This is easily remedied through normalisation, in this case dividing each statistical leverage score by $\operatorname{tr} \left( \bm{H} \right)$. The idea behind using statistical leverage scores as a probability distribution in the Nystrom method is that they help prioritize selection of columns that are more linearly independent from other columns so that the range of our approximate better aligns with the range of our original $\bm{A}$.
 
-\subsubsection{Rank$-k$ Statistical Leverage Scores}
+\subsubsection{Rank-k Statistical Leverage Scores}
 
 We can generalize this notion of statistical leverage scores to include lower rank approximations. Let $\bm{A} = \bm{U} \bm{\Sigma} \bm{V}^{\intercal}$ be the compact SVD of a $\bm{A}$ real $n \times m$ matrix. Setting $r = \min \left\{ n,m \right\}$, the compact SVD can be partitioned as
 \begin{equation*}

@@ -1,9 +1,9 @@
 \subsection{Gaussian Processes for Regression}\label{Section1.5}
 
-We saw in \Cref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid \calD \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid \calD \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead, a suitable $f$ is selected by first assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian Process more formally stated in \Cref{defe: GP}.
+We saw in \Cref{Section1.4} that, unlike most other machine learning models, GPs infer over a distribution of functions $p \left( f \mid \calD \right)$ instead of a vector of parameteric values $p \left( \bm{\theta} \mid \calD \right)$. Naively, one may attempt to find a suitable $f$ by fixing a class of functions $\calF$ and then search over this class to find a function that best represents the data. However, this may not work well if there is not enough richness in $\calF$ to represent the data. Instead, a suitable $f$ is selected by first assigning a prior probability to every possible function using the training data and then to select the function with the highest probability. To keep this computation tractable we only evalute our predicted function at a finite number of points. The prediction itself is found by taking the mean over all functions with respect to the posterior conditioned on the observed data which is assumed to be jointly Gaussian with the input value. This gives rise to Gaussian process more formally stated in \Cref{defe: GP}.
 
 \begin{defe}[Gaussian Process] \label{defe: GP}
-    A Gaussian Process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cite{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
+    A Gaussian process (GP) is a collection of random variables with index set $I$, such that every finite subset of random variables has a joint Gaussian distribution \cites{RasmussenCarlEdward2006Gpfm,MurphyKevinP2012Ml}.
 \end{defe}
 
 A GP is completely characterized by a mean function $m(\bm{x})$ and a kernel, which in the context of GPs is sometimes called a covariance function, $k (\bm{x}, \bm{x'})$ on a real process as
@@ -139,7 +139,7 @@ where \( \bm{K}_{\bm{W} \bm{W}'} \in \RR^{n \times n'} \). The covariance functi
     5.5,1.69860261545027,1.8531818596862015,2.488627885130089,2.8888780190386125,2.628636682030301,0.7685685488702394
 \end{filecontents*}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \subfloat[]{
         \begin{adjustbox}{width=0.48\textwidth}

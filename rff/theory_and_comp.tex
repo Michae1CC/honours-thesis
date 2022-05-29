@@ -19,7 +19,7 @@ The spectral distribution $\mu_k$ can be represented as finite measure induced b
     A kernel $k : \RR^N \times \RR^N \to \CC$ is called shift-invariant if $k \left( \bm{x}, \bm{y} \right) = g \left( \bm{x} - \bm{y} \right)$ for some positive definite function $g : \RR^N \to \CC$ \cite{JMLR:v17:14-538}*{page 3}.
 \end{defe}
 
-Clearly, the Gaussian RBF kernel is shift-invariant since it only relies on the bounding radius of $\bm{x}$ and $\bm{y}$. Thus, from Bochner's theorem, a positive definite shift-invariant kernel with $k(0) = 1$ can be computed as
+Clearly, the Gaussian RBF kernel is shift-invariant since it only relies on the bounding radius of $\bm{x}$ and $\bm{y}$. Thus, from Bochner's theorem, a positive definite shift-invariant kernel with $k(\bm{0}) = 1$ can be computed as
 \begin{equation} \label{eq: rff_boch_int}
     k \left( \bm{x} - \bm{y} \right) = \int_{\CC^d} \exp \left( i \langle \bm{\omega} , \bm{x} - \bm{y} \rangle \right) p (\bm{\omega}) \; d \bm{\omega} .
 \end{equation}
@@ -98,11 +98,11 @@ so that $\varphi_1 (\Delta) \leq \varphi_2 (\Delta)$ for any $\Delta \in \RR^d$.
 Another important result Rahimi and Recht show provides a bound on the sup-norm of the difference between a Gram matrix and its RFF approximation stated in \Cref{prop: rff_sup-norm_bound_1}.
 
 \begin{prop} \label{prop: rff_sup-norm_bound_1}
-    Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $\ell$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation  \Cref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{>0}, \; \varepsilon \leq \sigma_p \ell$ we have
+    Let $k(\bm{x} , \bm{y}) = k(\bm{x} - \bm{y}) = k( \Delta)$ be a continuous shift-invariant, positive definite function defined on compact subset $\calM \subset \RR^d$ having radius $\ell$ where $k(0) = 1$ such that $\nabla^2 k(0)$ exists. Then for the feature mapping defined in equation  \Cref{eq: rff_feat_map_1} let $\sigma_p^2 = \EE_{\bm{\omega} \sim p(\cdot)} \norm{\bm{\omega}}^2_2 = \operatorname{tr} \nabla^2 k(0)$ then for any $\varepsilon \in \RR_{++}, \; \varepsilon \leq \sigma_p \ell$ we have
     \[
         \PP \left[ \sup_{\bm{x},\bm{y} \in \calM} \left| \langle \varphi (\bm{x}) , \varphi (\bm{y}) \rangle_{\RR^D} - k (\bm{x},\bm{y}) \right| \geq \varepsilon \right] \leq \alpha \left( \frac{\sigma_p \ell}{\varepsilon} \right)^2 \exp \left( - \frac{D \varepsilon^2}{8(d+2)} \right)
     \]
-    where $\alpha \in \RR_{>0}, \; \alpha < \infty$ does not depend on anything \cite{NIPS2007_013a006f}*{page 3}.
+    where $\alpha \in \RR_{++}$ does not depend on anything \cite{NIPS2007_013a006f}*{page 3}.
 \end{prop}
 
 Rahimi and Recht prove \Cref{prop: rff_sup-norm_bound_1} for $\alpha = 2^8$ although Sutherland and Schneider improve this to $\alpha = 66$ \cite{sutherland2015error}*{page 3}. Observe that this bound is somewhat determined by the ratio $D/d$ which is why $D$ is often chosen as a multiple of $d$.

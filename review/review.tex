@@ -38,7 +38,7 @@ where $\bm{\Sigma_{1,1}}$ and $\bm{\Sigma_{2,2}}$ are the relevant sub matrices.
 
 \subsubsection{Noise-free observations}\label{Section1.4.1}
 Typically when using GP we would like to incorporate data from observations, or training data, into our predictions on unobserved values.
-Let us suppose there is some obsevered data $D = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
+Let us suppose there is some obsevered data $\calD = \left\{ (\bm{x}_i, \bm{f}_i) \mid i \in \left\{ 1,2, \ldots , n \right\} \right\}$ which is (unrealistically) noise-free that we would like to model as a GP. In other words, for any sample in our dataset we can be certain that the observed value is the true value of the underlying function we wish to model. Then for the observed data
 \[
     \bm{f} \sim \calN \left( \bm{0}, \bm{K_{XX}} \right).
 \]

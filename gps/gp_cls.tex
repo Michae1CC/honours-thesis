@@ -21,7 +21,7 @@ In this text, the commonly used logistic function
     \sigma (z) = \frac{1}{1 + \exp (-z)}
 \end{equation}
 will take the role of the sigmoid function in \Cref{eq: GPC-lin-model-1}, graphed in \Cref{fig: logistic-func-and-probit}. This type of model is aptly named the logistic regression.
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{tikzpicture}[>=latex, scale=1.1]
         \begin{axis}[
@@ -59,7 +59,7 @@ will take the role of the sigmoid function in \Cref{eq: GPC-lin-model-1}, graphe
 \end{figure}
 Unlike GPR, the likelihood is no longer a Gaussian distribution. Instead it follows the Bernoulli distribution
 \begin{equation*}
-    p \left( y \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)^{y} \left( 1 - \sigma \left( \langle \bm{x} , \bm{w} \rangle \right) \right)^{\frac{1 - y}{2}}
+    p \left( y \mid \bm{x} , \bm{w} \right) = \sigma \left( \langle \bm{x} , \bm{w} \rangle \right)^{\frac{1+y}{2}} \left( 1 - \sigma \left( \langle \bm{x} , \bm{w} \rangle \right) \right)^{\frac{1 - y}{2}}
 \end{equation*}
 which for symmeteric likelihood functions can be written more concisely as
 \begin{equation*}
@@ -190,7 +190,7 @@ This construction is illustrated in \Cref{fig: latent-func-and-sig-trans} and pr
     5.5,4.115652418864887,0.983946623009968
 \end{filecontents*}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \subfloat[]{
         \begin{adjustbox}{width=0.48\textwidth}
@@ -272,7 +272,7 @@ We saw that the integral in  \Cref{eq: GP-pred-1} could not be used to make pred
      & = \frac{1}{p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star} \right)} \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} \right) p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) \; d \bm{f} \\
      & = \int p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) p \left( \bm{f} \mid \bm{X} , \bm{y} \right) \; d \bm{f}
 \end{align*}
-using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cite{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
+using the fact that $p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f}, f_{\star} \right) = p \left( \bm{y} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ \cites{BishopChristopherM2006Pram, RasmussenCarlEdward2006Gpfm}. The conditional distribution $p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right)$ can be derived as
 \begin{equation*}
     p \left( f_{\star} \mid \bm{X} , \bm{x}_{\star}, \bm{f} \right) = \calN \left( f_{\star} \mid \bm{K}_{\bm{x}_{\star}\bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{y}, k \left( \bm{x}_{\star}, \bm{x}_{\star} \right) - \bm{K}_{\bm{x}_{\star}\bm{X}} \bm{K}_{\bm{X} \bm{X}}^{-1} \bm{K}_{\bm{x}_{\star} \bm{X}}^{\intercal} \right)
 \end{equation*}
